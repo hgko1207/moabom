@@ -12,6 +12,28 @@
     <link rel="icon" type="image/png" href="/icon-192.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <title>모아봄</title>
+    <script>
+      // KakaoTalk's in-app browser cannot install the app and handles video poorly: hand off to a real browser.
+      // Android opens Chrome directly; iOS uses KakaoTalk's external-open scheme (widely used, not officially documented).
+      (function () {
+        var ua = navigator.userAgent;
+        if (!/KAKAOTALK/i.test(ua)) return;
+        var url = location.origin + location.pathname + location.search; // the hash would break the intent URL
+        if (/Android/i.test(ua)) {
+          location.href = 'intent://' + url.replace(/^https?:\/\//, '') + '#Intent;scheme=https;package=com.android.chrome;end';
+        } else {
+          location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(url);
+        }
+        window.addEventListener('DOMContentLoaded', function () {
+          var note = document.createElement('p');
+          note.className = 'kakao-note';
+          note.textContent = /Android/i.test(ua)
+            ? 'Chrome으로 열리지 않으면 오른쪽 아래 ⋮ → 다른 브라우저로 열기를 눌러 주세요.'
+            : 'Safari로 열리지 않으면 오른쪽 아래 공유 → Safari로 열기를 눌러 주세요.';
+          document.body.prepend(note);
+        });
+      })();
+    </script>
   </head>
   <body>
     <div id="app"></div>

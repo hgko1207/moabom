@@ -783,3 +783,13 @@ body.night {
   border-radius: 50%;
   background: var(--night);
 }
+
+/* Shown only inside KakaoTalk's in-app browser if the hand-off to Chrome/Safari did not happen */
+.kakao-note {
+  margin: 0;
+  padding: var(--s2);
+  background: var(--ink);
+  color: var(--surface);
+  font-size: 16px;
+  text-align: center;
+}

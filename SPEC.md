@@ -150,6 +150,7 @@ src/icons.ts, src/styles.css   아이콘·디자인 토큰
 ## 11. 배포
 - `pages.yml` 하나: push → test → build → deploy. 주간 cron·수동 실행이면 앞에 fetch → 커밋(`pull --rebase`) 단계 추가. `concurrency: pages`. 수동 실행에 `force` 입력.
 - 홈 화면 추가용 `manifest.webmanifest`.
+- 설치 안내 (`#/p/{pid}/install`, 설정과 홈 화면 아래 닫을 수 있는 카드에서 진입, 앱으로 열렸으면 숨김). Android Chrome은 `beforeinstallprompt`를 index.html에서 미리 잡아 [앱 설치] 한 번 누르기, 그 밖에는 기기별 순서 안내. Chrome 150(2026-07)부터 메뉴 이름이 "홈 화면에 추가" → "설치 및 바로가기 만들기"로 바뀌어 두 이름을 모두 적는다.
 
 ## 12. 마일스톤
 1. **M1 구조 + 수집**: 저장소, 설정 스키마·검증, find-channel·fetch, 테스트.

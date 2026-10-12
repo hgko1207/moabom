@@ -908,3 +908,85 @@ body.night {
   border: 3px solid var(--line);
   font-weight: 600;
 }
+
+/* Home-screen install: hint card on the home screen and the guide screen */
+.primary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s1);
+  min-height: var(--target);
+  padding: 0 var(--s3);
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+}
+
+.install-hint {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  justify-items: start;
+  gap: 0 var(--s1);
+  margin-top: var(--s3);
+  padding: var(--s2) var(--s1) var(--s2) var(--s3);
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 2px solid var(--line);
+}
+
+.install-hint p {
+  margin: 0;
+  word-break: keep-all;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.install-hint .close {
+  width: var(--target);
+  height: var(--target);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--ink-2);
+}
+
+.install h2 {
+  margin-top: var(--s3);
+}
+
+.install h2:first-child {
+  margin-top: 0;
+}
+
+.install p,
+.steps {
+  word-break: keep-all;
+}
+
+.steps {
+  margin: var(--s2) 0;
+  padding-left: 1.4em;
+  font-size: 18px;
+  line-height: 1.55;
+}
+
+.steps li + li {
+  margin-top: var(--s1);
+}
+
+.url {
+  margin: var(--s1) 0 0;
+  font-weight: 700;
+  word-break: break-all;
+  user-select: all;
+}
+
+.installed {
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
+  margin: 0;
+  font-weight: 700;
+  color: var(--done);
+}

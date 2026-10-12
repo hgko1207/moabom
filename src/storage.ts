@@ -138,6 +138,12 @@ export function createStore(kv: KV) {
     savePinned(profileId: string): void {
       write('device:pinned', profileId);
     },
+    installHintDismissed(): boolean {
+      return read<boolean>('device:installHint') === false;
+    },
+    dismissInstallHint(): void {
+      write('device:installHint', false);
+    },
   };
 }
 

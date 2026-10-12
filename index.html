@@ -33,6 +33,12 @@
           document.body.prepend(note);
         });
       })();
+      // Android Chrome can fire this before the app module loads; keep it for the install guide's one-tap button.
+      window.addEventListener('beforeinstallprompt', function (e) {
+        e.preventDefault();
+        window.__installPrompt = e;
+        window.dispatchEvent(new Event('installprompt-ready'));
+      });
     </script>
   </head>
   <body>

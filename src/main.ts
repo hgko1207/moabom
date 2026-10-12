@@ -3,6 +3,7 @@ import './styles.css';
 import type { Profile, VideoRecord } from './config.ts';
 import { loadAppData, type Collection } from './data.ts';
 import { icon } from './icons.ts';
+import { canPromptInstall, currentPlatform, onInstallChange, promptInstall, STEPS } from './install.ts';
 import { createPlayer, type PlayerHandle } from './player.ts';
 import {
   canStart,
@@ -44,6 +45,7 @@ interface Route {
   video?: string;
   today?: boolean;
   settings?: boolean;
+  install?: boolean;
   group?: string;
 }
 
@@ -53,7 +55,7 @@ function parseHash(): Route {
   const route: Route = {};
   for (let i = 0; i < parts.length; i++) {
     const key = parts[i];
-    if (key === 'today' || key === 'settings') {
+    if (key === 'today' || key === 'settings' || key === 'install') {
       route[key] = true;
       continue;
     }
@@ -72,6 +74,7 @@ function href(r: Route): string {
   let h = '#/';
   if (r.profile) h += `p/${encodeURIComponent(r.profile)}`;
   if (r.profile && r.settings) return `${h}/settings`;
+  if (r.profile && r.install) return `${h}/install`;
   if (r.profile && r.collection) {
     h += `/c/${encodeURIComponent(r.collection)}`;
     if (r.video) h += `/v/${encodeURIComponent(r.video)}`;
@@ -110,6 +113,9 @@ window.addEventListener('online', () => {
   if (!activePlayer) render();
 });
 window.addEventListener('offline', () => {
+  if (!activePlayer) render();
+});
+onInstallChange(() => {
   if (!activePlayer) render();
 });
 
@@ -203,6 +209,7 @@ function render(): void {
 
   const home: Route = collections.length > 1 || showPicker ? { profile: profile.id } : { profile: profile.id, collection: collections[0]?.config.id };
   if (route.settings) return renderSettings(profile, home);
+  if (route.install) return renderInstall(home);
 
   if (!route.collection) {
     if (collections.length === 1) return replace({ profile: profile.id, collection: collections[0]!.config.id });
@@ -252,9 +259,10 @@ function renderCollections(profile: Profile, collections: Collection[], showBack
         return `<button class="tile" data-collection="${esc(c.config.id)}" aria-label="${esc(c.config.displayName)}">
           ${thumb(cover, c.config.displayName.slice(0, 1), '', true)}<span class="label">${esc(c.config.displayName)}</span></button>`;
       })
-      .join('')}</nav>${staleNote()}</main>`;
+      .join('')}</nav>${installHint()}${staleNote()}</main>`;
   bindBack();
   bindGear(profile.id);
+  bindInstallHint(profile.id);
   app.querySelectorAll<HTMLButtonElement>('.tile').forEach((b) =>
     b.addEventListener('click', () => go({ profile: profile.id, collection: b.dataset.collection! })),
   );
@@ -362,10 +370,13 @@ function renderCollection(profile: Profile, c: Collection, groupParam: string | 
       .join('')}</div>
     <section class="grid" id="grid" role="tabpanel" aria-labelledby="tab-${esc(selected)}">${(current?.videos ?? [])
       .map((v) => cardHtml(v, view))
-      .join('')}</section>${staleNote()}</main>`;
+      .join('')}</section>${parent ? '' : installHint()}${staleNote()}</main>`;
 
   bindBack();
-  if (!parent) bindGear(profile.id);
+  if (!parent) {
+    bindGear(profile.id);
+    bindInstallHint(profile.id);
+  }
   app.querySelectorAll<HTMLButtonElement>('[data-video]').forEach((b) =>
     b.addEventListener('click', () => go({ ...base, video: b.dataset.video! })),
   );
@@ -701,9 +712,18 @@ function renderSettings(profile: Profile, home: Route): void {
       <p>본 시간 ${Math.floor(today.seconds / 60)}분 · 시작한 영상 ${today.started.length}편</p>
       <button class="secondary" data-action="reset-today">오늘 기록 초기화 (한 번 더 보기)</button>
     </section>
+    <section class="panel" aria-labelledby="install-title">
+      <h2 id="install-title">홈 화면에 추가</h2>
+      ${
+        currentPlatform() === 'standalone'
+          ? `<p class="installed">${icon('check', 24)}앱으로 열려 있어요</p>`
+          : '<button class="secondary" data-action="install-guide">설치 방법 보기</button>'
+      }
+    </section>
     <p class="hint">설정은 이 기기에만 저장돼요.</p>
   </main>`;
   bindBack();
+  app.querySelector('[data-action="install-guide"]')?.addEventListener('click', () => go({ profile: profile.id, install: true }));
 
   const save = (next: DeviceSettings) => {
     store.saveSettings(next);
@@ -728,6 +748,88 @@ function renderSettings(profile: Profile, home: Route): void {
     if (!confirm('오늘 본 시간과 편 수를 0으로 되돌릴까요?')) return;
     store.saveToday(profile.id, { date: today.date, started: [], finished: [], playedToday: {}, seconds: 0, stopped: [] });
     renderSettings(profile, home);
+  });
+}
+
+// ---------- home-screen install ----------
+
+/** A small dismissible card on the home screen of a phone/tablet browser tab (not shown once installed). */
+function installHint(): string {
+  const p = currentPlatform();
+  if (p === 'standalone' || p === 'desktop' || store.installHintDismissed()) return '';
+  const action = canPromptInstall()
+    ? `<button class="primary" data-action="install-now">${icon('download', 24)}앱 설치</button>`
+    : '<button class="secondary" data-action="install-guide">방법 보기</button>';
+  return `<aside class="install-hint" aria-label="홈 화면에 추가">
+    <p>홈 화면에 추가하면 앱처럼 전체 화면으로 열려요</p>
+    <button class="close" data-action="install-dismiss" aria-label="닫기">${icon('close', 24)}</button>${action}</aside>`;
+}
+
+function bindInstallHint(profileId: string): void {
+  app.querySelector('[data-action="install-now"]')?.addEventListener('click', () => void promptInstall().then(render));
+  app.querySelector('[data-action="install-guide"]')?.addEventListener('click', () => go({ profile: profileId, install: true }));
+  app.querySelector('[data-action="install-dismiss"]')?.addEventListener('click', () => {
+    store.dismissInstallHint();
+    app.querySelector('.install-hint')?.remove();
+  });
+}
+
+function stepsHtml(steps: readonly string[]): string {
+  return `<ol class="steps">${steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>`;
+}
+
+function renderInstall(home: Route): void {
+  const platform = currentPlatform();
+  const appUrl = location.origin + location.pathname;
+  const installButton = canPromptInstall()
+    ? `<button class="primary" data-action="install-now">${icon('download', 24)}지금 바로 설치하기</button>
+       <p class="hint">버튼이 안 되면 아래 순서대로 해 주세요.</p>`
+    : '';
+  const already = '<p class="hint">"이미 설치되어 있다"고 나오면 홈 화면이나 앱 목록에서 "모아봄"을 찾아 주세요.</p>';
+  const android = `${installButton}${stepsHtml(STEPS.android)}${already}`;
+  const ios = stepsHtml(STEPS.ios);
+  const copy = `<button class="secondary" data-action="copy-url">주소 복사</button><p class="url">${esc(appUrl)}</p>`;
+
+  let body: string;
+  switch (platform) {
+    case 'standalone':
+      body = `<p class="installed">${icon('check', 24)}이미 앱으로 열려 있어요</p>`;
+      break;
+    case 'android':
+      body = `<h2>Android · Chrome</h2>${android}`;
+      break;
+    case 'samsung':
+      body = `<h2>삼성 인터넷</h2>${installButton}${stepsHtml(STEPS.samsung)}
+        <h2>Chrome에서 열었다면</h2>${stepsHtml(STEPS.android)}${already}`;
+      break;
+    case 'ios-safari':
+      body = `<h2>iPhone · iPad (Safari)</h2>${ios}`;
+      break;
+    case 'ios-other':
+      body = `<h2>Safari로 열어 주세요</h2>
+        <p>iPhone·iPad는 Safari에서 추가하는 게 가장 확실해요. 주소를 복사해 Safari에 붙여넣어 주세요.</p>${copy}
+        <h2>Safari에서 연 다음</h2>${ios}`;
+      break;
+    case 'desktop':
+      body = `<p>태블릿이나 휴대폰에서 아래 주소를 열고 이 안내를 따라 주세요.</p>${copy}
+        <h2>Android · Chrome</h2>${stepsHtml(STEPS.android)}
+        <h2>iPhone · iPad (Safari)</h2>${ios}`;
+      break;
+  }
+
+  onBack = () => backTo(home);
+  app.innerHTML = `<main class="screen settings install"><div class="bar">${backButton()}<h1>홈 화면에 추가</h1></div>
+    <section class="panel">${body}</section></main>`;
+  bindBack();
+  app.querySelector('[data-action="install-now"]')?.addEventListener('click', () => void promptInstall().then(render));
+  app.querySelector<HTMLButtonElement>('[data-action="copy-url"]')?.addEventListener('click', async (e) => {
+    const b = e.currentTarget as HTMLButtonElement;
+    try {
+      await navigator.clipboard.writeText(appUrl);
+      b.textContent = '복사했어요';
+    } catch {
+      b.textContent = '아래 주소를 길게 눌러 복사해 주세요';
+    }
   });
 }
 

@@ -1,0 +1,25 @@
+{
+  "name": "moabom",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "typecheck": "tsc",
+    "find-channel": "node --env-file-if-exists=.env scripts/fetch.ts find-channel",
+    "fetch": "node --env-file-if-exists=.env scripts/fetch.ts fetch",
+    "draft-groups": "node --env-file-if-exists=.env scripts/fetch.ts draft-groups"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.3"
+  }
+}

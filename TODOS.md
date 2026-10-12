@@ -1,0 +1,59 @@
+# TODOS
+
+## Collections
+
+### 학습 먼저 규칙(prereq) + 오락 컬렉션
+
+**What:** profiles.json에 `prereq`를 다시 넣고(예: 넘버블럭스를 오늘 2편 보면 헬로카봇이 열림), 헬로카봇·포켓몬스터·똥탐정의 공식 채널을 검증해 컬렉션으로 추가한다.
+
+**Why:** 설계 전제 1에서 핵심 가치로 꼽은 "학습 먼저" 규칙이 v1에는 없다(eng review R9에서 v1 스키마에서 제거).
+
+**Context:** `today.started`가 영상 ID 목록이라 컬렉션별 오늘 편수를 구할 수 있다. 설계 문서의 prereq 예시는 `{ "unlock": "hellocarbot", "after": { "collection": "numberblocks", "episodesToday": 2 } }`. 공식 채널이 확인되지 않는 컬렉션은 추가하지 않는다(비공식 채널로 대체 금지).
+
+**Effort:** M
+**Priority:** P2
+**Depends on:** v1 안정화, 각 컬렉션 공식 채널 확인
+
+## Progress
+
+### 진도 옮기기 (폰 ↔ 태블릿)
+
+**What:** 한 기기의 진도(✔)를 코드나 링크로 다른 기기에 옮긴다(설계 문서 규칙 X1~X4).
+
+**Why:** v1 진도는 기기별이라, 같은 아이가 두 기기를 쓰면 "다음 볼 영상(▶)"이 기기마다 다르다.
+
+**Context:** eng review D2에서 v1.1로 미뤘다(decision e4ae488d). 저장 키가 `moabom:v1:`로 버전이 붙어 있어 나중에 붙여도 데이터가 깨지지 않는다. iOS 홈 화면 앱은 Safari와 저장소를 따로 쓰므로 붙여넣기 경로가 필요하다(X3).
+
+**Effort:** M
+**Priority:** P3
+**Depends on:** 실사용에서 같은 아이가 두 기기를 쓰는 것이 확인될 때
+
+## Player
+
+### strictPlayer (클릭 차단 레이어)
+
+**What:** 프로필 옵션 `strictPlayer`를 켜면 플레이어 위에 클릭 차단 레이어와 자체 재생/일시정지 버튼을 둔다.
+
+**Why:** 다른 영상 감지(P2)가 안 되거나 아이가 유튜브 로고를 눌러 빠져나가는 경우의 대비책이다.
+
+**Context:** "너무 키즈용"이라는 판단으로 v1에서 뺐다. 프로필 옵션이라 주제 중립 구조는 유지된다. 플레이어를 가리는 것은 YouTube 약관상 회색지대이므로 가족용 범위에서만 쓴다.
+
+**Effort:** M
+**Priority:** P3
+**Depends on:** M4/M5 실기기 관찰에서 이탈이 실제로 보일 때
+
+## Devices
+
+### TV 대응
+
+**What:** TV 브라우저(삼성·LG·안드로이드TV)에서 방향키와 Enter만으로 전체를 조작하고, 큰 포커스 테두리와 4~5열 레이아웃을 쓴다.
+
+**Why:** 원래 명세의 수용 기준("TV 리모컨 방향키만으로 전체 조작 가능")인데 v1 범위(태블릿 + 폰)에서 제외됐다.
+
+**Context:** TV 브라우저별 iframe 호환성은 확인되지 않았다. v1의 `fs=0` + CSS "크게 보기" 결정이 TV에서도 통하는지 확인해야 한다.
+
+**Effort:** L
+**Priority:** P3
+**Depends on:** v1 태블릿·폰 안정화, 집 TV 실기기
+
+## Completed

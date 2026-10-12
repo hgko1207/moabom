@@ -456,3 +456,330 @@ button:active:not([aria-disabled='true']) {
     width: 112px;
   }
 }
+
+/* Daily limit on the collection screen (R7) */
+.card.locked .thumb {
+  opacity: 0.4;
+}
+
+.badge.state.locked {
+  background: var(--night);
+  color: var(--night-ink);
+}
+
+.hero.night {
+  background: var(--night);
+  color: var(--night-ink);
+  border-color: var(--night);
+}
+
+.hero.night .sub {
+  color: var(--night-ink);
+}
+
+.hero .moon-wrap {
+  aspect-ratio: 16 / 9;
+  display: grid;
+  place-items: center;
+}
+
+/* Player (SPEC §8, design D13): portrait stacks the up-next slot under the video,
+   landscape lets the video fill the height and floats the card bottom-right. */
+.player-screen .bar h1 {
+  flex: 1;
+  min-width: 0;
+  font-size: 22px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.big-toggle {
+  width: var(--target);
+  height: var(--target);
+  border-radius: var(--radius);
+  background: var(--surface);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.stage {
+  position: relative;
+}
+
+.video-wrap {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #000;
+}
+
+.video-wrap iframe,
+.video-wrap #yt {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.upnext-slot {
+  min-height: 0;
+  margin-top: var(--s2);
+}
+
+.upnext {
+  display: grid;
+  gap: var(--s1);
+  width: 100%;
+  max-width: 360px;
+  padding: var(--s1);
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 4px solid var(--accent);
+  color: var(--ink);
+  text-align: left;
+  animation: rise var(--rise) ease-out;
+}
+
+.upnext .play {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+}
+
+.upnext .title {
+  font-size: 18px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.upnext.night,
+.upnext.done {
+  place-items: center;
+  min-height: 120px;
+  border-color: transparent;
+}
+
+.upnext.night {
+  background: var(--night);
+  color: var(--night-ink);
+}
+
+.upnext.done {
+  background: var(--done);
+  color: var(--surface);
+}
+
+.badge.group {
+  left: var(--s1);
+  bottom: var(--s1);
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--ink);
+  font-size: 16px;
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .upnext {
+    animation: none;
+  }
+}
+
+/* Full overlay over the video: end, error, foreign video */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: rgba(27, 34, 48, 0.92);
+  display: grid;
+  place-items: center;
+  padding: var(--s2);
+}
+
+.overlay[hidden] {
+  display: none;
+}
+
+.overlay-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s3);
+  flex-wrap: wrap;
+  color: var(--surface);
+}
+
+.overlay .upnext {
+  max-width: 420px;
+  width: min(420px, 60vw);
+}
+
+.overlay-small {
+  width: var(--target);
+  height: var(--target);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+}
+
+.overlay-icon {
+  color: var(--surface);
+}
+
+.big-exit {
+  display: none;
+}
+
+.detect-off {
+  font-size: 14px;
+  color: var(--ink-2);
+  margin: var(--s1) 0 0;
+}
+
+/* "크게 보기": CSS fullscreen that keeps the app overlays visible (fs=0, design P1) */
+.player-screen.big .stage {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: #000;
+  display: grid;
+  place-items: center;
+}
+
+.player-screen.big .video-wrap {
+  border-radius: 0;
+  width: min(100vw, calc(100dvh * 16 / 9));
+}
+
+.player-screen.big .upnext-slot {
+  position: absolute;
+  right: var(--s2);
+  bottom: var(--s2);
+  margin: 0;
+  width: max(220px, 30%);
+  z-index: 3;
+}
+
+.player-screen.big .big-exit {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  top: var(--s2);
+  right: var(--s2);
+  width: var(--target);
+  height: var(--target);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--ink);
+  z-index: 4;
+}
+
+@media (orientation: landscape) and (min-height: 380px) {
+  .player-screen .video-wrap {
+    width: min(100%, calc((100dvh - 120px) * 16 / 9));
+    margin: 0 auto;
+  }
+
+  .player-screen .upnext-slot {
+    position: absolute;
+    right: var(--s2);
+    bottom: var(--s2);
+    margin: 0;
+    width: max(220px, 30%);
+    z-index: 3;
+  }
+}
+
+/* That's all for today (design D9) */
+body.night {
+  background: var(--night);
+  color: var(--night-ink);
+}
+
+.night-screen .back {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--night-ink);
+}
+
+.night-screen .moon {
+  display: grid;
+  place-items: center;
+  color: #f6d365;
+  margin: var(--s2) 0 var(--s3);
+}
+
+.today-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--s2);
+}
+
+.today-row .thumb {
+  width: 180px;
+}
+
+.tomorrow {
+  display: grid;
+  justify-items: center;
+  margin-top: var(--s4);
+}
+
+.tomorrow .thumb {
+  width: 240px;
+  opacity: 0.6;
+}
+
+.tomorrow .lock {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--surface);
+}
+
+.resume-note {
+  display: grid;
+  justify-items: center;
+  margin-top: var(--s3);
+}
+
+.hero-mini {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+}
+
+.tomorrow .lock .icon {
+  box-sizing: content-box;
+  padding: 16px;
+  border-radius: 50%;
+  background: var(--night);
+}

@@ -1,7 +1,22 @@
 import { describe, expect, it } from 'vitest';
 import type { CollectionData, Profile } from '../src/config.ts';
-import { initialGroup, isStale, localDate, nextToWatch, profileGate } from '../src/rules.ts';
-import type { CollectionProgress } from '../src/storage.ts';
+import {
+  canStart,
+  initialGroup,
+  isStale,
+  limitReached,
+  localDate,
+  nextInOrder,
+  nextToWatch,
+  profileGate,
+  recordFailed,
+  recordFinished,
+  recordPlay,
+  recordProgress,
+  resumableAfterLimit,
+  upNext,
+} from '../src/rules.ts';
+import type { CollectionProgress, TodayState } from '../src/storage.ts';
 
 const data: CollectionData = {
   collectionId: 'c',
@@ -52,6 +67,99 @@ describe('initialGroup (O3a)', () => {
     expect(initialGroup(data, progress(all, [], 'b'))).toBe('lv1');
     expect(initialGroup(data, progress(all), 'lv2')).toBe('lv2');
     expect(initialGroup(data, progress(all))).toBe('lv1');
+  });
+});
+
+const day = (over: Partial<TodayState> = {}): TodayState => ({
+  date: '2026-10-12',
+  started: [],
+  finished: [],
+  playedToday: {},
+  seconds: 0,
+  ...over,
+});
+const eps = (n: number | null) => ({ dailyEpisodes: n, dailyMinutes: null });
+
+describe('daily limit (L1-L3a)', () => {
+  it('counts a video once it played 10 s today, and only once', () => {
+    let t = recordPlay(day(), 'a', 9);
+    expect(t.started).toEqual([]);
+    t = recordPlay(t, 'a', 1);
+    expect(t.started).toEqual(['a']);
+    t = recordPlay(t, 'a', 30);
+    expect(t).toMatchObject({ started: ['a'], seconds: 40, playedToday: { a: 40 } });
+  });
+
+  it('blocks new episodes at the episode limit and treats both limits null as unlimited', () => {
+    expect(limitReached(day({ started: ['a', 'b'] }), eps(3))).toBe(false);
+    expect(limitReached(day({ started: ['a', 'b', 'c'] }), eps(3))).toBe(true);
+    expect(limitReached(day({ started: ['a', 'b', 'c'], seconds: 9999 }), eps(null))).toBe(false);
+  });
+
+  it('blocks at the minutes limit', () => {
+    const limits = { dailyEpisodes: null, dailyMinutes: 10 };
+    expect(limitReached(day({ seconds: 599 }), limits)).toBe(false);
+    expect(limitReached(day({ seconds: 600 }), limits)).toBe(true);
+  });
+
+  it('lets only the last started episode reopen after the limit, and only while unfinished (L3a)', () => {
+    const t = day({ started: ['a', 'b', 'c'] });
+    expect(canStart(t, eps(3), 'c')).toBe(true);
+    expect(canStart(t, eps(3), 'b')).toBe(false);
+    expect(canStart(t, eps(3), 'z')).toBe(false);
+    expect(canStart(recordFinished(t, 'c'), eps(3), 'c')).toBe(false);
+    expect(resumableAfterLimit(recordFinished(t, 'c'))).toBeNull();
+  });
+});
+
+describe('recordProgress (O1)', () => {
+  const v = { id: 'a', durationSec: 300 };
+
+  it('accumulates across sessions and marks watched at 90%', () => {
+    let r = recordProgress(progress(), v, 200, 1);
+    expect(r).toMatchObject({ completed: false, progress: { progress: { a: 200 }, last: 'a' } });
+    r = recordProgress(r.progress, v, 70, 2);
+    expect(r.completed).toBe(true);
+    expect(r.progress.watched).toEqual({ a: 2 });
+    expect(r.progress.progress).toEqual({});
+  });
+
+  it('records nothing new when rewatching (R5)', () => {
+    const r = recordProgress(progress(['a']), v, 300, 99);
+    expect(r.completed).toBe(false);
+    expect(r.progress.watched).toEqual({ a: 1 });
+    expect(r.progress.progress).toEqual({});
+  });
+
+  it('marks failures separately', () => {
+    expect(recordFailed(progress(), 'a', 5).failed).toEqual({ a: 5 });
+  });
+});
+
+describe('upNext (P3)', () => {
+  const a = data.groups[0]!.videos[0]!;
+  const b = data.groups[0]!.videos[1]!;
+  const d = data.groups[1]!.videos[1]!;
+
+  it('offers the very next episode and flags a new group', () => {
+    expect(upNext(data, a, day(), eps(3), 20)).toEqual({ kind: 'next', video: b, newGroup: false });
+    expect(upNext(data, b, day(), eps(3), 20)).toMatchObject({ kind: 'next', newGroup: true });
+  });
+
+  it('shows the moon when this episode reaches the episode limit, even before it counted', () => {
+    expect(upNext(data, a, day({ started: ['x', 'y'] }), eps(3), 20)).toEqual({ kind: 'limit' });
+    expect(upNext(data, a, day({ started: ['x'] }), eps(3), 20)).toMatchObject({ kind: 'next' });
+  });
+
+  it('projects the remaining time against a minutes limit (R12)', () => {
+    const limits = { dailyEpisodes: null, dailyMinutes: 10 };
+    expect(upNext(data, a, day({ seconds: 590 }), limits, 20)).toEqual({ kind: 'limit' });
+    expect(upNext(data, a, day({ seconds: 500 }), limits, 20)).toMatchObject({ kind: 'next' });
+  });
+
+  it('ends with done after the last episode', () => {
+    expect(upNext(data, d, day(), eps(null), 20)).toEqual({ kind: 'done' });
+    expect(nextInOrder(data, 'missing')).toBeNull();
   });
 });
 

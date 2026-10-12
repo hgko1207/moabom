@@ -169,6 +169,8 @@ function render(): void {
   onBack = null;
   activePlayer?.destroy();
   activePlayer = null;
+  document.onfullscreenchange = null;
+  if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
   document.body.classList.remove('night');
   if (appData.errors.length) return renderErrors();
 
@@ -437,11 +439,35 @@ function renderPlayer(profile: Profile, c: Collection, videoId: string, listRout
   const openNext = (id: string) => replace({ ...listRoute, video: id });
   const openToday = () => replace({ ...listRoute, today: true });
 
+  // "크게 보기": real fullscreen on our own stage (so the up-next card and overlays stay visible) plus a
+  // landscape lock, which Android only allows while fullscreen. iPhone has no element fullscreen and keeps
+  // the CSS-only big mode.
+  const stage = app.querySelector<HTMLElement>('.stage')!;
+  const orientation = screen.orientation as ScreenOrientation & { lock?: (o: string) => Promise<void> };
+  const setBig = (on: boolean) => {
+    main.classList.toggle('big', on);
+    app.querySelector('.big-toggle')?.setAttribute('aria-pressed', String(on));
+  };
+  const enterBig = async () => {
+    setBig(true);
+    if (!stage.requestFullscreen) return;
+    try {
+      await stage.requestFullscreen({ navigationUI: 'hide' });
+      await orientation.lock?.('landscape');
+    } catch {
+      // fullscreen or the lock was refused: the CSS big mode still applies
+    }
+  };
+  const exitBig = () => {
+    setBig(false);
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+  };
+  // Leaving fullscreen with the system back gesture also leaves big mode.
+  document.onfullscreenchange = () => {
+    if (!document.fullscreenElement && main.classList.contains('big')) setBig(false);
+  };
   app.querySelectorAll<HTMLButtonElement>('[data-action="big"]').forEach((b) =>
-    b.addEventListener('click', () => {
-      const on = main.classList.toggle('big');
-      app.querySelector('.big-toggle')?.setAttribute('aria-pressed', String(on));
-    }),
+    b.addEventListener('click', () => (main.classList.contains('big') ? exitBig() : void enterBig())),
   );
 
   const bindOverlayActions = (root: HTMLElement) => {

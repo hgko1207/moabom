@@ -88,8 +88,9 @@ export async function createPlayer(el: HTMLElement, videoId: string, events: Pla
   let destroyed = false;
 
   const player: YTPlayer = await new Promise((resolve) => {
+    // Default youtube.com host (not youtube-nocookie.com): the signed-in YouTube Premium session in Chrome is
+    // only recognised with YouTube cookies, so the family's Premium account plays without ads (2026-10-12).
     const p = new YT.Player(el, {
-      host: 'https://www.youtube-nocookie.com',
       videoId,
       width: '100%',
       height: '100%',

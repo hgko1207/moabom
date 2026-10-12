@@ -2,6 +2,13 @@ import { describe, expect, it } from 'vitest';
 import type { CollectionData, Profile } from '../src/config.ts';
 import {
   canStart,
+  effectiveLimits,
+  recordPosition,
+  recordStopped,
+  seriesOnly,
+  shouldCutAtLimit,
+  startPosition,
+  upNextScope,
   initialGroup,
   isStale,
   limitReached,
@@ -35,6 +42,7 @@ const progress = (watched: string[] = [], failed: string[] = [], last: string | 
   watched: Object.fromEntries(watched.map((id) => [id, 1])),
   progress: {},
   failed: Object.fromEntries(failed.map((id) => [id, 1])),
+  position: {},
   last,
 });
 
@@ -76,6 +84,7 @@ const day = (over: Partial<TodayState> = {}): TodayState => ({
   finished: [],
   playedToday: {},
   seconds: 0,
+  stopped: [],
   ...over,
 });
 const eps = (n: number | null) => ({ dailyEpisodes: n, dailyMinutes: null });
@@ -160,6 +169,60 @@ describe('upNext (P3)', () => {
   it('ends with done after the last episode', () => {
     expect(upNext(data, d, day(), eps(null), 20)).toEqual({ kind: 'done' });
     expect(nextInOrder(data, 'missing')).toBeNull();
+  });
+});
+
+describe('device settings and long videos', () => {
+  const profile = { dailyEpisodes: 3, dailyMinutes: null };
+
+  it('lets device settings override the profile defaults', () => {
+    expect(effectiveLimits(profile, null)).toEqual(profile);
+    expect(effectiveLimits(profile, { limit: { mode: 'none', value: 0 } })).toEqual({ dailyEpisodes: null, dailyMinutes: null });
+    expect(effectiveLimits(profile, { limit: { mode: 'minutes', value: 60 } })).toEqual({ dailyEpisodes: null, dailyMinutes: 60 });
+    expect(effectiveLimits(profile, { limit: { mode: 'episodes', value: 2 } })).toEqual({ dailyEpisodes: 2, dailyMinutes: null });
+  });
+
+  it('cuts only long videos at the limit, and a cut video does not reopen today', () => {
+    const limits = { dailyEpisodes: null, dailyMinutes: 30 };
+    const t = day({ started: ['long'], seconds: 1800 });
+    expect(shouldCutAtLimit(t, limits, { durationSec: 3600 })).toBe(true);
+    expect(shouldCutAtLimit(t, limits, { durationSec: 300 })).toBe(false);
+    expect(shouldCutAtLimit(day({ seconds: 100 }), limits, { durationSec: 3600 })).toBe(false);
+    expect(canStart(t, limits, 'long')).toBe(true);
+    expect(canStart(recordStopped(t, 'long'), limits, 'long')).toBe(false);
+  });
+});
+
+describe('resume position', () => {
+  const v = { id: 'a', durationSec: 3600 };
+
+  it('starts where the video stopped', () => {
+    expect(startPosition(recordPosition(progress(), 'a', 1234.6), v)).toBe(1234);
+  });
+
+  it('starts from 0 near the start or end, after the end, and for rewatches', () => {
+    expect(startPosition(recordPosition(progress(), 'a', 3), v)).toBe(0);
+    expect(startPosition(recordPosition(progress(), 'a', 3590), v)).toBe(0);
+    expect(startPosition(recordPosition(recordPosition(progress(), 'a', 900), 'a', null), v)).toBe(0);
+    expect(startPosition(recordPosition(progress(['a']), 'a', 900), v)).toBe(0);
+  });
+});
+
+describe('series and free groups', () => {
+  const cfg = { groups: [{ id: 'lv1', label: '1' }, { id: 'lv2', label: '2', kind: 'free' as const }] };
+
+  it('keeps free groups out of the series order', () => {
+    expect(seriesOnly(data, cfg).groups.map((g) => g.id)).toEqual(['lv1']);
+    expect(nextToWatch(seriesOnly(data, cfg), progress(['a', 'b']))).toBeNull();
+  });
+
+  it('keeps up-next inside a free group and ends there', () => {
+    const c = data.groups[1]!.videos[0]!;
+    const d = data.groups[1]!.videos[1]!;
+    expect(upNext(upNextScope(data, cfg, c), c, day(), eps(null), 20)).toMatchObject({ kind: 'next', video: { id: 'd' } });
+    expect(upNext(upNextScope(data, cfg, d), d, day(), eps(null), 20)).toEqual({ kind: 'done' });
+    const b = data.groups[0]!.videos[1]!;
+    expect(upNext(upNextScope(data, cfg, b), b, day(), eps(null), 20)).toEqual({ kind: 'done' });
   });
 });
 

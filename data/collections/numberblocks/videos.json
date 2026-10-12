@@ -1,6 +1,6 @@
 {
   "collectionId": "numberblocks",
-  "fetchedAt": "2026-10-12T06:17:12.608Z",
+  "fetchedAt": "2026-10-12T07:44:06.548Z",
   "groups": [
     {
       "id": "lv1",
@@ -1103,6 +1103,281 @@
           "durationSec": 295,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "lv5",
+          "order": 30
+        }
+      ]
+    },
+    {
+      "id": "mix",
+      "videos": [
+        {
+          "id": "9BjJoNebRFI",
+          "title": "넘버 원 👻 – 으스스한 숫자 세기 모험! | 넘버블록스 만화",
+          "displayTitle": "넘버 원 👻 – 으스스한 숫자 세기 모험!",
+          "durationSec": 3998,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 1
+        },
+        {
+          "id": "0nYfWaJKSf4",
+          "title": "잘못 걸린 전화와 그 밖의 숫자에 얽힌 끔찍한 이야기들 | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "잘못 걸린 전화와 그 밖의 숫자에 얽힌 끔찍한 이야기들",
+          "durationSec": 4565,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 2
+        },
+        {
+          "id": "IcAsZCa-g7Y",
+          "title": "숫자 노래 - 숫자 세기 배우기 | 어린이용 수학 그림 | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "숫자 노래 - 숫자 세기 배우기",
+          "durationSec": 4566,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 3
+        },
+        {
+          "id": "y0nu-xLRxS8",
+          "title": "할로윈 특집 - 수학 1단계 | 숫자 세기 배우기 | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "할로윈 특집 - 수학 1단계",
+          "durationSec": 5112,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 4
+        },
+        {
+          "id": "ab6aPi_rhdc",
+          "title": "|어린이를 위한 기본 도형 배우기 🟦🔶 🟥🟢🟨  세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "어린이를 위한 기본 도형 배우기 🟦🔶 🟥🟢🟨  세는 법을 배우다",
+          "durationSec": 3772,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 5
+        },
+        {
+          "id": "W7c1bYLrvuo",
+          "title": "숫자 암호와 패턴을 풀 수 있을까요? | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "숫자 암호와 패턴을 풀 수 있을까요?",
+          "durationSec": 3219,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 6
+        },
+        {
+          "id": "uWHvc0vUrNk",
+          "title": "넘버블록 9는 정말 놀라워요! | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "넘버블록 9는 정말 놀라워요!",
+          "durationSec": 4303,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 7
+        },
+        {
+          "id": "NTCdopieWEk",
+          "title": "넘버블록 7과 함께하는 무지개 숫자 세기 🌈 | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "넘버블록 7과 함께하는 무지개 숫자 세기 🌈",
+          "durationSec": 3430,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 8
+        },
+        {
+          "id": "Nw_9R_KJWQU",
+          "title": "유치원을 위한 레벨 2 숫자 세기와 수학 | 어린이 숫자 배우기 모음집 | 넘버블록스",
+          "displayTitle": "유치원을 위한 레벨 2 숫자 세기와 수학",
+          "durationSec": 4047,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 9
+        },
+        {
+          "id": "Mf-04vZwMpY",
+          "title": "엉뚱한 숫자들! 신나는 수학 놀이 | 어린이 숫자 배우기 모음집 | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "엉뚱한 숫자들! 신나는 수학 놀이",
+          "durationSec": 3781,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 10
+        },
+        {
+          "id": "AU4EpTakxCQ",
+          "title": "어린이를 위한 쉬운 덧셈과 뺄셈 ➕➖ | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "어린이를 위한 쉬운 덧셈과 뺄셈 ➕➖",
+          "durationSec": 4039,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 11
+        },
+        {
+          "id": "1uJYWfogCwY",
+          "title": "넘버블록을 그려봐요 - 미술 및 공예 | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "넘버블록을 그려봐요 - 미술 및 공예",
+          "durationSec": 1244,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 12
+        },
+        {
+          "id": "J_iW5LlKCJw",
+          "title": "숫자나라에 외계인이?! | 어린이 숫자 배우기 모음집 | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "숫자나라에 외계인이?!",
+          "durationSec": 2426,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 13
+        },
+        {
+          "id": "SV1VRkpyC-M",
+          "title": "학교로 돌아가는 패턴과 순서 배우기 | 어린이 숫자 배우기 모음집 | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "학교로 돌아가는 패턴과 순서 배우기",
+          "durationSec": 2971,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 14
+        },
+        {
+          "id": "dZ1OotK9kIg",
+          "title": "신학기 스포츠 스페셜 | 어린이 숫자 배우기 모음집 | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "신학기 스포츠 스페셜",
+          "durationSec": 3757,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 15
+        },
+        {
+          "id": "2z3yJX1B7lM",
+          "title": "곱셈과 나눗셈 - 신학기 홈스쿨링 | 어린이 숫자 배우기 모음집 | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "곱셈과 나눗셈 - 신학기 홈스쿨링",
+          "durationSec": 3217,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 16
+        },
+        {
+          "id": "R_tLJgI9_58",
+          "title": "친절, 숫자 세기, 숫자, 우정, 팀워크 배우기 | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "친절, 숫자 세기, 숫자, 우정, 팀워크 배우기",
+          "durationSec": 3484,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 17
+        },
+        {
+          "id": "Ed3vPG8kLHI",
+          "title": "거인의 나라! - 큰 아이들을 위한 큰 숫자 | 어린이 숫자 배우기 모음집 | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "거인의 나라! - 큰 아이들을 위한 큰 숫자",
+          "durationSec": 6172,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 18
+        },
+        {
+          "id": "jDMN6O7qsM0",
+          "title": "너는 엄마 아빠보다 똑똑하니 | 아이들을 위한 숫자 세기 모음 | 넘버블록스",
+          "displayTitle": "너는 엄마 아빠보다 똑똑하니",
+          "durationSec": 1299,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 19
+        },
+        {
+          "id": "vGkO3RwPF2c",
+          "title": "무지개 수학 한 시간 | 어린이 숫자 배우기 모음집 | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "무지개 수학 한 시간",
+          "durationSec": 3746,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 20
+        },
+        {
+          "id": "gRzJ4siPRrw",
+          "title": "숨바꼭질 챔피언은 누구일까요?  | 어린이 숫자 배우기 모음집 | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "숨바꼭질 챔피언은 누구일까요?",
+          "durationSec": 4028,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 21
+        },
+        {
+          "id": "hyzvMs2hY1c",
+          "title": "여름방학 숫자 세기! ☀️어린이 숫자 배우기 모음집 | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "여름방학 숫자 세기! ☀️어린이 숫자 배우기 모음집",
+          "durationSec": 3759,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 22
+        },
+        {
+          "id": "EHIHEblOXcI",
+          "title": "🍽️ 일요일 점심 이야기 | 어린이를 위한 숫자 배우기 | 교육용 애니메이션 | 넘버블록스",
+          "displayTitle": "🍽️ 일요일 점심 이야기",
+          "durationSec": 4041,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 23
+        },
+        {
+          "id": "WluV0IyCq9U",
+          "title": "📺 토요일 만화 시간 | 숫자 배우기 애니메이션 | 어린이 교육 영상  | 넘버블록스",
+          "displayTitle": "📺 토요일 만화 시간",
+          "durationSec": 3772,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 24
+        },
+        {
+          "id": "9HsVgRziqwU",
+          "title": "☀️ 여름 스포츠 데이 | 어린이를 위한 숫자 배우기 | 교육용 애니메이션 | 넘버블록스",
+          "displayTitle": "☀️ 여름 스포츠 데이",
+          "durationSec": 3782,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 25
+        },
+        {
+          "id": "KoyoaCD-LKY",
+          "title": "🚂 칙칙폭폭! 숫자 기차 여행 | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "🚂 칙칙폭폭! 숫자 기차 여행",
+          "durationSec": 3780,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 26
+        },
+        {
+          "id": "87q8Oiw6Ceo",
+          "title": "여름 방학 준비하기 🌞 | 어린이를 위한 숫자 배우기 | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "여름 방학 준비하기 🌞",
+          "durationSec": 4308,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 27
+        },
+        {
+          "id": "BH1fb6EalXQ",
+          "title": "🎵 나는 숫자 4야 | 어린이를 위한 수학 노래 | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "🎵 나는 숫자 4야",
+          "durationSec": 3770,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 28
+        },
+        {
+          "id": "GKghYPb976s",
+          "title": "🎓 숫자 아카데미 | 어린이를 위한 수학 배우기 | 숫자 공부 애니메이션 | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "🎓 숫자 아카데미",
+          "durationSec": 3775,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 29
+        },
+        {
+          "id": "XPDsU2qR4wA",
+          "title": "무지개로 숫자 배우기 🌈 | 어린이를 위한 숫자 교육 | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "무지개로 숫자 배우기 🌈",
+          "durationSec": 4314,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
           "order": 30
         }
       ]

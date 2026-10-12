@@ -77,12 +77,17 @@ function playingId(p: YTPlayer): string | null {
   }
 }
 
-export async function createPlayer(el: HTMLElement, videoId: string, events: PlayerEvents): Promise<PlayerHandle> {
+export async function createPlayer(
+  el: HTMLElement,
+  videoId: string,
+  events: PlayerEvents,
+  startSeconds = 0,
+): Promise<PlayerHandle> {
   const YT = await loadApi();
   let expected = videoId;
   /** Comparison starts only after the app's own video is confirmed playing (avoids flagging our own loads). */
   let armed = false;
-  let lastGood = 0;
+  let lastGood = startSeconds;
   let lastTick = 0;
   let detectionChecked = false;
   let destroyed = false;
@@ -94,7 +99,7 @@ export async function createPlayer(el: HTMLElement, videoId: string, events: Pla
       videoId,
       width: '100%',
       height: '100%',
-      playerVars: { rel: 0, playsinline: 1, fs: 0, iv_load_policy: 3, autoplay: 1, origin: location.origin },
+      playerVars: { rel: 0, playsinline: 1, fs: 0, iv_load_policy: 3, autoplay: 1, start: startSeconds, origin: location.origin },
       events: {
         onReady: () => resolve(p),
         onStateChange: (e: { data: number }) => {

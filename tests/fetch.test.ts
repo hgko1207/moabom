@@ -1,7 +1,15 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import type { CollectionConfig, CollectionData } from '../src/config.ts';
-import { buildDisplayTitle, checkSafety, collect, draftGroups, parseRanges, selectVideos } from '../scripts/fetch.ts';
+import {
+  buildDisplayTitle,
+  checkSafety,
+  collect,
+  draftGroups,
+  parseRanges,
+  selectUploads,
+  selectVideos,
+} from '../scripts/fetch.ts';
 import { ApiError, createClient, parseDuration, type VideoDetails, type YouTubeClient } from '../scripts/youtube.ts';
 
 const config = (over: Partial<CollectionConfig> = {}): CollectionConfig => ({
@@ -173,6 +181,56 @@ describe('collect', () => {
       videos: async () => [],
     };
     await expect(collect(client, config(), new Date(), () => {})).rejects.toThrow(/playlistNotFound/);
+  });
+});
+
+describe('selectUploads', () => {
+  const uploads = ['n1', 'short', 'n2', 'n3', 'blocked'].map((videoId, position) => ({ videoId, position }));
+  const details = new Map(
+    [
+      video('n1', { durationSec: 3600, title: '모음집 A' }),
+      video('short', { durationSec: 60, title: '모음집 S' }),
+      video('n2', { durationSec: 1900, title: '노래 모음' }),
+      video('n3', { durationSec: 2400, title: '모음집 B' }),
+      video('blocked', { durationSec: 3000, title: '모음집 C', embeddable: false }),
+    ].map((v) => [v.id, v]),
+  );
+
+  it('keeps the newest N uploads inside the duration window, renumbered from 0', () => {
+    expect(selectUploads(uploads, details, { minSec: 901, latest: 2 })).toEqual([
+      { videoId: 'n1', position: 0 },
+      { videoId: 'n2', position: 1 },
+    ]);
+  });
+
+  it('filters by title pattern and skips non-embeddable videos', () => {
+    expect(selectUploads(uploads, details, { minSec: 901, titlePattern: '^모음집' }).map((e) => e.videoId)).toEqual(['n1', 'n3']);
+  });
+});
+
+describe('collect with an uploads group', () => {
+  it('reads the channel uploads once and shares them between groups', async () => {
+    let uploadCalls = 0;
+    const client: YouTubeClient = {
+      searchChannels: async () => [],
+      playlistItems: async (id) => {
+        if (id === 'UU_official') uploadCalls++;
+        return ['a', 'b', 'c'].map((videoId, position) => ({ videoId, position }));
+      },
+      videos: async (ids) => ids.map((id) => video(id, { durationSec: id === 'a' ? 300 : 2000 })),
+    };
+    const cfg = config({
+      groups: [
+        { id: 'long', label: '모음', kind: 'free', uploads: { minSec: 901 } },
+        { id: 'short', label: '편', uploads: { maxSec: 900 } },
+      ],
+    });
+    const data = await collect(client, cfg, new Date(), () => {});
+    expect(uploadCalls).toBe(1);
+    expect(data.groups.map((g) => [g.id, g.videos.map((v) => v.id)])).toEqual([
+      ['long', ['b', 'c']],
+      ['short', ['a']],
+    ]);
   });
 });
 

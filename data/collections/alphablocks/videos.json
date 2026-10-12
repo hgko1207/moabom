@@ -1,0 +1,1635 @@
+{
+  "collectionId": "alphablocks",
+  "fetchedAt": "2026-10-12T07:44:45.913Z",
+  "groups": [
+    {
+      "id": "s1",
+      "videos": [
+        {
+          "id": "BScgKbbxObk",
+          "title": "A-Z | Alphablocks Full Episode - S1 E1 | Learn to Read",
+          "displayTitle": "A-Z",
+          "durationSec": 180,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s1",
+          "order": 1
+        },
+        {
+          "id": "8j2sPgWVSkY",
+          "title": "Top | Alphablocks Full Episode - S1 E2 | Learn to Read",
+          "displayTitle": "Top",
+          "durationSec": 180,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s1",
+          "order": 2
+        },
+        {
+          "id": "FwIGdcywGpw",
+          "title": "Why? | Alphablocks Full Episode - S1 E3 | Learn to Read",
+          "displayTitle": "Why?",
+          "durationSec": 181,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s1",
+          "order": 3
+        },
+        {
+          "id": "3lYoQ4eIOzM",
+          "title": "Glow | Alphablocks Full Episode - S1 E4 | Learn to Read​",
+          "displayTitle": "Glow",
+          "durationSec": 181,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s1",
+          "order": 4
+        },
+        {
+          "id": "ojMUUhloUjw",
+          "title": "Sing | Alphablocks Full Episode - S1 E5 | Learn to Read",
+          "displayTitle": "Sing",
+          "durationSec": 181,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s1",
+          "order": 5
+        },
+        {
+          "id": "E_c03kSLbWo",
+          "title": "Band | Alphablocks Full Episode - S1 E6 | Learn to Read",
+          "displayTitle": "Band",
+          "durationSec": 181,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s1",
+          "order": 6
+        },
+        {
+          "id": "co4z5KN3q1k",
+          "title": "Party | Alphablocks Full Episode - S1 E7 | Learn to Read",
+          "displayTitle": "Party",
+          "durationSec": 180,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s1",
+          "order": 7
+        },
+        {
+          "id": "iJE5JO9vQYQ",
+          "title": "Race | Alphablocks Full Episode - S1 E8 | Learn to Read",
+          "displayTitle": "Race",
+          "durationSec": 181,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s1",
+          "order": 8
+        },
+        {
+          "id": "Di73mvoZHr8",
+          "title": "Moon | Alphablocks Full Episode - S1 E9 | Learn to Read",
+          "displayTitle": "Moon",
+          "durationSec": 181,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s1",
+          "order": 9
+        },
+        {
+          "id": "KU2AdaTeVMY",
+          "title": "Sail | Alphablocks Full Episode - S1 E10 | Learn to Read",
+          "displayTitle": "Sail",
+          "durationSec": 181,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s1",
+          "order": 10
+        },
+        {
+          "id": "Htz0n4v6ONM",
+          "title": "Fox | Alphablocks Full Episode - S1 E11 | Learn to Read",
+          "displayTitle": "Fox",
+          "durationSec": 181,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s1",
+          "order": 11
+        },
+        {
+          "id": "AnZcoQE4ErY",
+          "title": "Surprise | Alphablocks Full Episode - S1 E12 | Learn to Read",
+          "displayTitle": "Surprise",
+          "durationSec": 181,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s1",
+          "order": 12
+        },
+        {
+          "id": "ZYiJ6C-lRcE",
+          "title": "Bus | Alphablocks Full Episode - S1 E13 | Learn to Read",
+          "displayTitle": "Bus",
+          "durationSec": 181,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s1",
+          "order": 13
+        },
+        {
+          "id": "jq304XrOM-Q",
+          "title": "Space | Alphablocks Full Episode - S1 E14 | Learn to Read​",
+          "displayTitle": "Space",
+          "durationSec": 181,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s1",
+          "order": 14
+        },
+        {
+          "id": "CK1rt3jDtYs",
+          "title": "Hide | Alphablocks Full Episode - S1 E15 | Learn to Read",
+          "displayTitle": "Hide",
+          "durationSec": 181,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s1",
+          "order": 15
+        },
+        {
+          "id": "LYQO5c_cpk4",
+          "title": "Jaybird | Alphablocks Full Episode - S1 E16 | Learn to Read",
+          "displayTitle": "Jaybird",
+          "durationSec": 181,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s1",
+          "order": 16
+        },
+        {
+          "id": "xOE4C0dztxE",
+          "title": "Magic | Alphablocks Full Episode - S1 E17 | Learn to Read",
+          "displayTitle": "Magic",
+          "durationSec": 181,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s1",
+          "order": 17
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "videos": [
+        {
+          "id": "oIXIs0-6jyM",
+          "title": "Taps | Alphablocks Full Episode - S2 E1 | Learn to Read | Alphablocks",
+          "displayTitle": "Taps",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 1
+        },
+        {
+          "id": "0MjuWvjxiLw",
+          "title": "In | Alphablocks Full Episode - S2 E2 | Learn to Read | Alphablocks",
+          "displayTitle": "In",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 2
+        },
+        {
+          "id": "jbqrO5oLrY8",
+          "title": "Man | Alphablocks Full Episode - S2 E3 | Learn to Read | Alphablocks",
+          "displayTitle": "Man",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 3
+        },
+        {
+          "id": "mIGdTAYxCTE",
+          "title": "Din | Alphablocks Full Episode - S2 E4 | Learn to Read | Alphablocks",
+          "displayTitle": "Din",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 4
+        },
+        {
+          "id": "SOSo3mmUf_o",
+          "title": "Dog | Alphablocks Full Episode - S2 E5 | Learn to Read | Alphablocks",
+          "displayTitle": "Dog",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 5
+        },
+        {
+          "id": "-FcJYS-TAZE",
+          "title": "Cat | Alphablocks Full Episode - S2 E6 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Cat",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 6
+        },
+        {
+          "id": "WhwK6kkU8kE",
+          "title": "Pen | Alphablocks Full Episode - S2 E7 | Learn to Read | Alphablocks",
+          "displayTitle": "Pen",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 7
+        },
+        {
+          "id": "zC58riBLaN8",
+          "title": "Up | Alphablocks Full Episode - S2 E8 | Learn to Read | Alphablocks",
+          "displayTitle": "Up",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 8
+        },
+        {
+          "id": "8r6qyqOLUGM",
+          "title": "Red | Alphablocks Full Episode - S2 E9 | Learn to Read | Alphablocks",
+          "displayTitle": "Red",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 9
+        },
+        {
+          "id": "IYWiJLAPWeA",
+          "title": "Hen | Alphablocks Full Episode - S2 E10 | Learn to Read | Alphablocks",
+          "displayTitle": "Hen",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 10
+        },
+        {
+          "id": "67-VuKlDen0",
+          "title": "Bop | Alphablocks Full Episode - S2 E11 | Learn to Read | Alphablocks",
+          "displayTitle": "Bop",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 11
+        },
+        {
+          "id": "xIYTWul5YnQ",
+          "title": "Fred | Alphablocks Full Episode - S2 E12 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Fred",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 12
+        },
+        {
+          "id": "G6YVR8PLq1I",
+          "title": "Hill | Alphablocks Full Episode - S2 E13 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Hill",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 13
+        },
+        {
+          "id": "-QgtuUGGJBI",
+          "title": "Van l Alphablocks Full Episode - S2 E14 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Van",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 14
+        },
+        {
+          "id": "gA7C_Ug8c6Q",
+          "title": "Zap | Alphablocks Full Episode - S2 E15 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Zap",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 15
+        },
+        {
+          "id": "AxtezuHwN1I",
+          "title": "Dot | Alphablocks Full Episode - S2 E16 | Learn to Read | Alphablocks",
+          "displayTitle": "Dot",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 16
+        },
+        {
+          "id": "On8s5PZTV-8",
+          "title": "Lips | Alphablocks Full Episode - S2 E17 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Lips",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 17
+        },
+        {
+          "id": "AVvSzZTIz5o",
+          "title": "Web | Alphablocks Full Episode - S2 E18 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Web",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 18
+        },
+        {
+          "id": "BNj9pbioqRY",
+          "title": "Box | Alphablocks Full Episode - S2 E19 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Box",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 19
+        },
+        {
+          "id": "ywXEgJ-Lw0c",
+          "title": "Quick | Alphablocks Full Episode - S2 E20 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Quick",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 20
+        },
+        {
+          "id": "GdSbVpVC04M",
+          "title": "Kick | Alphablocks Full Episode - S2 E21 | Learn to Read | Alphablocks",
+          "displayTitle": "Kick",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 21
+        },
+        {
+          "id": "QeeW-6wJK68",
+          "title": "Wig | Alphablocks Full Episode - S2 E22 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Wig",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 22
+        },
+        {
+          "id": "tuMJF-mId4Q",
+          "title": "Rainbow | Alphablocks Full Episode - S2 E23 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Rainbow",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 23
+        },
+        {
+          "id": "2kpxZOAfOrI",
+          "title": "On | Alphablocks Full Episode - S2 E24 | Learn to Read | @officialalphablocks",
+          "displayTitle": "On",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 24
+        },
+        {
+          "id": "IdIP3BGx11M",
+          "title": "ABC | Alphablocks Full Episode - S2 E25 | Learn to Read | @officialalphablocks",
+          "displayTitle": "ABC",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 25
+        },
+        {
+          "id": "uTZZyxwC0NY",
+          "title": "The Cat Sat On The Mat | Alphablocks Full Episode - S2 E26 | @officialalphablocks",
+          "displayTitle": "The Cat Sat On The Mat",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s2",
+          "order": 26
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "videos": [
+        {
+          "id": "5m4ytgaV0x4",
+          "title": "Wish | Alphablocks Full Episode - S3 E1 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Wish",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 1
+        },
+        {
+          "id": "YMbi1_nsJOk",
+          "title": "Snowman | Alphablocks Full Episode - S3 E2 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Snowman",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 2
+        },
+        {
+          "id": "a999x1Bn5NQ",
+          "title": "Win | Alphablocks Full Episode - S3 E3 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Win",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 3
+        },
+        {
+          "id": "VEUhr66aAs0",
+          "title": "Hat | Alphablocks Full Episode - S3 E4 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Hat",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 4
+        },
+        {
+          "id": "iHMU2S_dbO0",
+          "title": "Little Red N | Alphablocks Full Episode - S3 E5 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Little Red N",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 5
+        },
+        {
+          "id": "rlwKvq4croY",
+          "title": "Art (aka 'Dots')| Alphablocks Full Episode - S3 E6 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Art (aka 'Dots')",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 6
+        },
+        {
+          "id": "F7jfm17RPPc",
+          "title": "Frog on a Dog | Alphablocks Full Episode - S3 E7 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Frog on a Dog",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 7
+        },
+        {
+          "id": "3t6b9kfn2z8",
+          "title": "Best Day Ever! | Alphablocks Full Episode - S3 E8 | Learn to Read | @officialalphablocks​",
+          "displayTitle": "Best Day Ever!",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 8
+        },
+        {
+          "id": "BbqK2rSMaPA",
+          "title": "Fit | Alphablocks Full Episode - S3 E9 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Fit",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 9
+        },
+        {
+          "id": "TT-uDhMj_-M",
+          "title": "Odd | Alphablocks Full Episode - S3 E10 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Odd",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 10
+        },
+        {
+          "id": "HfO-71tBFjA",
+          "title": "Champ | Alphablocks Full Episode - S3 E11 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Champ",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 11
+        },
+        {
+          "id": "tqDTpwypnck",
+          "title": "Song | Alphablocks Full Episode - S3 E12 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Song",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 12
+        },
+        {
+          "id": "RG_7XqNM0DI",
+          "title": "Thing | Alphablocks Full Episode - S3 E13 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Thing",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 13
+        },
+        {
+          "id": "5RDJx9_7A7A",
+          "title": "Train | Alphablocks Full Episode - S3 E14 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Train",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 14
+        },
+        {
+          "id": "IaJRK12WeWQ",
+          "title": "Beep | Alphablocks Full Episode - S3 E15 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Beep",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 15
+        },
+        {
+          "id": "XckB4gkaO9s",
+          "title": "Tightrope | Alphablocks Full Episode - S3 E16 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Tightrope",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 16
+        },
+        {
+          "id": "fKPEq1C1zvY",
+          "title": "Toad | Alphablocks Full Episode - S3 E17 | Learn to Read | @officialalphablocks​",
+          "displayTitle": "Toad",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 17
+        },
+        {
+          "id": "9umSAnbbM7Q",
+          "title": "Book | Alphablocks Full Episode - S3 E18 | Learn to Read | @officialalphablocks​",
+          "displayTitle": "Book",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 18
+        },
+        {
+          "id": "VQ_6I2zzpJA",
+          "title": "Hey | Alphablocks Full Episode - S3 E19 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Hey",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 19
+        },
+        {
+          "id": "ENMXuyBT6N8",
+          "title": "Card | Alphablocks Full Episode - S3 E20 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Card",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 20
+        },
+        {
+          "id": "eVDTV9r6r4I",
+          "title": "The End | Alphablocks Full Episode - S3 E21 | Learn to Read | @officialalphablocks",
+          "displayTitle": "The End",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 21
+        },
+        {
+          "id": "XsCUvRigM8A",
+          "title": "How Now Brown Cow | Alphablocks Full Episode - S3 E22 | Learn to Read | @officialalphablocks​",
+          "displayTitle": "How Now Brown Cow",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 22
+        },
+        {
+          "id": "3aK1A0J7u6M",
+          "title": "Fair | Alphablocks Full Episode - S3 E23 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Fair",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 23
+        },
+        {
+          "id": "5uiZzIolkWM",
+          "title": "Ants | Alphablocks Full Episode - S3 E24 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Ants",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 24
+        },
+        {
+          "id": "zRoUe9tMEIo",
+          "title": "Ink | Alphablocks Full Episode - S3 E25 | Learn to Read | @officialalphablocks",
+          "displayTitle": "Ink",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 25
+        },
+        {
+          "id": "Ou6-6Dme27Y",
+          "title": "Crash | Alphablocks Full Episode - S3 E26 | Learn to Read | @officialalphablocks​",
+          "displayTitle": "Crash",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s3",
+          "order": 26
+        }
+      ]
+    },
+    {
+      "id": "s4",
+      "videos": [
+        {
+          "id": "kVSPaNVHB-c",
+          "title": "Four 🥁 | S4 E1 | Alphablocks Full Episode | Learn to Read | @officialalphablocks",
+          "displayTitle": "Four 🥁",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s4",
+          "order": 1
+        },
+        {
+          "id": "oS4Rm61pJ9k",
+          "title": "Clap 🙌 | S4 E2 | Alphablocks Full Episode | Learn to Read | @officialalphablocks",
+          "displayTitle": "Clap 🙌",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s4",
+          "order": 2
+        },
+        {
+          "id": "iAXtnXRn318",
+          "title": "Prank 😂 | S4 E3 | Alphablocks Full Episode | Learn to Read | @officialalphablocks​",
+          "displayTitle": "Prank 😂",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s4",
+          "order": 3
+        },
+        {
+          "id": "Vm-FzUKBAtQ",
+          "title": "Plusman ➕ | S4 E4 | Alphablocks Full Episode | Learn to Read | @officialalphablocks",
+          "displayTitle": "Plusman ➕",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s4",
+          "order": 4
+        },
+        {
+          "id": "WYW3mwJ4KXE",
+          "title": "Alphabet 🔤 | S4 E5 | Alphablocks Full Episode | Learn to Read | @officialalphablocks​",
+          "displayTitle": "Alphabet 🔤",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s4",
+          "order": 5
+        },
+        {
+          "id": "xdrJbCtkx08",
+          "title": "Name 🟩 | S4 E6 | Alphablocks Full Episode | Learn to Read | @officialalphablocks",
+          "displayTitle": "Name 🟩",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s4",
+          "order": 6
+        },
+        {
+          "id": "opDa6Fzwmmo",
+          "title": "Sleep 🥱 | S4 E7 | Alphablocks Full Episode | Learn to Read | @officialalphablocks",
+          "displayTitle": "Sleep 🥱",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s4",
+          "order": 7
+        },
+        {
+          "id": "-tNREA4Zktw",
+          "title": "Mine ⭐ | S4 E8 | Alphablocks Full Episode | Learn to Read | @officialalphablocks",
+          "displayTitle": "Mine ⭐",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s4",
+          "order": 8
+        },
+        {
+          "id": "AihT81UvKxk",
+          "title": "Home 🏠 | S4 E9 | Alphablocks Full Episode | Learn to Read | @officialalphablocks",
+          "displayTitle": "Home 🏠",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s4",
+          "order": 9
+        },
+        {
+          "id": "OzVTFDWEzfQ",
+          "title": "Blue 🔵 | S4 E10 | Alphablocks Full Episode | Learn to Read | @officialalphablocks",
+          "displayTitle": "Blue 🔵",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s4",
+          "order": 10
+        },
+        {
+          "id": "ordLOAVoqmY",
+          "title": "Outlaw 🚓 | S4 E11 | Alphablocks Full Episode | Learn to Read | @officialalphablocks",
+          "displayTitle": "Outlaw 🚓",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s4",
+          "order": 11
+        },
+        {
+          "id": "iNW1keX1ENM",
+          "title": "Birthday Girl 🎂 | S4 E12 | Alphablocks Full Episode | Learn to Read | Alphablocks",
+          "displayTitle": "Birthday Girl 🎂",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s4",
+          "order": 12
+        },
+        {
+          "id": "8EdbqHiezqE",
+          "title": "Cowboy 🐄 | S4 E13 | Alphablocks Full Episode | Learn to Read | Alphablocks",
+          "displayTitle": "Cowboy 🐄",
+          "durationSec": 301,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s4",
+          "order": 13
+        }
+      ]
+    },
+    {
+      "id": "s5",
+      "videos": [
+        {
+          "id": "XTcdaRqRYzQ",
+          "title": "An Alphablock Adventure 🔤 | S5 E1 - FULL EPISODE | Learn to Read | @officialalphablocks",
+          "displayTitle": "An Alphablock Adventure 🔤",
+          "durationSec": 305,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s5",
+          "order": 1
+        },
+        {
+          "id": "FHnKF8zUJTQ",
+          "title": "Pip 🐹 | S5 E2 - FULL EPISODE | Learn to Read | @officialalphablocks",
+          "displayTitle": "Pip 🐹",
+          "durationSec": 305,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s5",
+          "order": 2
+        },
+        {
+          "id": "rCxxy1bAAbY",
+          "title": "C Versus K ⚽ | S5 E3 - FULL EPISODE | Learn to Read | @officialalphablocks",
+          "displayTitle": "C Versus K ⚽",
+          "durationSec": 305,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s5",
+          "order": 3
+        },
+        {
+          "id": "WRy9ai1406c",
+          "title": "Castles 🏰 | S5 E4 - FULL EPISODE | Learn to Read | @officialalphablocks",
+          "displayTitle": "Castles 🏰",
+          "durationSec": 305,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s5",
+          "order": 4
+        },
+        {
+          "id": "mPynNEn37yM",
+          "title": "R's Really Red Rose 🌹 | S5 E5 - FULL EPISODE | Learn to Read | @officialalphablocks",
+          "displayTitle": "R's Really Red Rose 🌹",
+          "durationSec": 305,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s5",
+          "order": 5
+        },
+        {
+          "id": "UOpuT_StbXY",
+          "title": "An Apple A Day 🍏 | S5 E6 - FULL EPISODE | Learn to Read | @officialalphablocks​",
+          "displayTitle": "An Apple A Day 🍏",
+          "durationSec": 305,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s5",
+          "order": 6
+        },
+        {
+          "id": "cliRS8rBNTY",
+          "title": "Ned 🐸 | S5 E7 - FULL EPISODE | Learn to Read | @officialalphablocks",
+          "displayTitle": "Ned 🐸",
+          "durationSec": 305,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s5",
+          "order": 7
+        },
+        {
+          "id": "boUV1mzCHN4",
+          "title": "Treasure 🐷 | S5 E8 - FULL EPISODE | Learn to Read | @officialalphablocks",
+          "displayTitle": "Treasure 🐷",
+          "durationSec": 305,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s5",
+          "order": 8
+        },
+        {
+          "id": "rTundrE5er8",
+          "title": "Pot ☕ | S5 E9 - FULL EPISODE | Learn to Read | @officialalphablocks​",
+          "displayTitle": "Pot ☕",
+          "durationSec": 305,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s5",
+          "order": 9
+        },
+        {
+          "id": "LqvqX_MDjAA",
+          "title": "No Fun Without U 💙 | S5 E10 - FULL EPISODE | Learn to Read | @officialalphablocks",
+          "displayTitle": "No Fun Without U 💙",
+          "durationSec": 305,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s5",
+          "order": 10
+        },
+        {
+          "id": "-Nl2U1fPh5g",
+          "title": "Cub 🦊 | S5 E11 - FULL EPISODE | Learn to Read | @officialalphablocks",
+          "displayTitle": "Cub 🦊",
+          "durationSec": 305,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s5",
+          "order": 11
+        },
+        {
+          "id": "KV6ach_hsI8",
+          "title": "Around Alphaland in a Day 🌍 | S5 E12 - FULL EPISODE | Learn to Read | @officialalphablocks​",
+          "displayTitle": "Around Alphaland in a Day 🌍",
+          "durationSec": 305,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s5",
+          "order": 12
+        },
+        {
+          "id": "4xT11izGwhI",
+          "title": "Farm 🚜 | S5 E13 - FULL EPISODE | Learn to Read | @officialalphablocks",
+          "displayTitle": "Farm 🚜",
+          "durationSec": 305,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s5",
+          "order": 13
+        },
+        {
+          "id": "pucr2yH2Qc8",
+          "title": "Names 🖊️ | S5 E14 - FULL EPISODE | Learn to Read | @officialalphablocks",
+          "displayTitle": "Names 🖊️",
+          "durationSec": 305,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s5",
+          "order": 14
+        },
+        {
+          "id": "Jj0ips-evMc",
+          "title": "Good Food 🥗 | S5 E15 - FULL EPISODE | Learn to Read | @officialalphablocks",
+          "displayTitle": "Good Food 🥗",
+          "durationSec": 305,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s5",
+          "order": 15
+        }
+      ]
+    },
+    {
+      "id": "s6",
+      "videos": [
+        {
+          "id": "-Jqq9ZFRUfc",
+          "title": "Party Party 🎉 | S6 E1 - FULL EPISODE | @officialalphablocks",
+          "displayTitle": "Party Party 🎉",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s6",
+          "order": 1
+        },
+        {
+          "id": "PH-VaGj3B2A",
+          "title": "Shop 😁 | S6 E2 - FULL EPISODE | @officialalphablocks",
+          "displayTitle": "Shop 😁",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s6",
+          "order": 2
+        },
+        {
+          "id": "tSw0xtt0OeU",
+          "title": "Think 💭 | S6 E3 - FULL EPISODE | @officialalphablocks",
+          "displayTitle": "Think 💭",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s6",
+          "order": 3
+        },
+        {
+          "id": "IfIQbsE2BB4",
+          "title": "Wow 🤩 | S6 E4 - FULL EPISODE | @officialalphablocks",
+          "displayTitle": "Wow 🤩",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s6",
+          "order": 4
+        },
+        {
+          "id": "-G4j2-NzIp4",
+          "title": "Snow ⛄ | S6 E5 - FULL EPISODE | @officialalphablocks",
+          "displayTitle": "Snow ⛄",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s6",
+          "order": 5
+        },
+        {
+          "id": "pTgisnjAu1A",
+          "title": "Stop 🛑 | S6 E6 - FULL EPISODE | @officialalphablocks",
+          "displayTitle": "Stop 🛑",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s6",
+          "order": 6
+        },
+        {
+          "id": "tYBXWwAn7Cg",
+          "title": "Bugs | S6 E7 - FULL EPISODE | @officialalphablocks",
+          "displayTitle": "Bugs",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s6",
+          "order": 7
+        },
+        {
+          "id": "km85A1i0tTk",
+          "title": "Stamp | S6 E8 - FULL EPISODE | @officialalphablocks",
+          "displayTitle": "Stamp",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s6",
+          "order": 8
+        },
+        {
+          "id": "eaGa0-UBLRw",
+          "title": "Star | S6 E9 - FULL EPISODE | @officialalphablocks",
+          "displayTitle": "Star",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s6",
+          "order": 9
+        },
+        {
+          "id": "6JcNFkSrL8E",
+          "title": "Snail | S6 E10 - FULL EPISODE | @officialalphablocks",
+          "displayTitle": "Snail",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s6",
+          "order": 10
+        },
+        {
+          "id": "Q3OJu84aYjY",
+          "title": "Signs | S6 E11 - FULL EPISODE | @officialalphablocks",
+          "displayTitle": "Signs",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s6",
+          "order": 11
+        },
+        {
+          "id": "zNj3SiPSEcE",
+          "title": "Maze | S6 E12 - FULL EPISODE | @officialalphablocks",
+          "displayTitle": "Maze",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s6",
+          "order": 12
+        },
+        {
+          "id": "VUvjYw8IN8k",
+          "title": "Who Can Help | S6 E13 - FULL EPISODE | @officialalphablocks",
+          "displayTitle": "Who Can Help",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s6",
+          "order": 13
+        },
+        {
+          "id": "fnvM4Y04sSQ",
+          "title": "P's Perfect Painting | S6 E14 - FULL EPISODE | @officialalphablocks",
+          "displayTitle": "P's Perfect Painting",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s6",
+          "order": 14
+        },
+        {
+          "id": "GMKo3rq9ync",
+          "title": "I Am I | S6 E15 - FULL EPISODE | @officialalphablocks",
+          "displayTitle": "I Am I",
+          "durationSec": 300,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "s6",
+          "order": 15
+        }
+      ]
+    },
+    {
+      "id": "mix30",
+      "videos": [
+        {
+          "id": "xJSVrq-6-jc",
+          "title": "Writing Made Easy | Phonics for Kids - Learn To Read | Alphablocks",
+          "displayTitle": "Writing Made Easy",
+          "durationSec": 2474,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 1
+        },
+        {
+          "id": "NN8gsI2FBQw",
+          "title": "Letter Teams - OO & OA | Phonics For Kids - Learn To Read | Alphablocks",
+          "displayTitle": "Letter Teams - OO & OA",
+          "durationSec": 2113,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 2
+        },
+        {
+          "id": "fDhXsaC2ZA0",
+          "title": "Phonics - Alien Alphabet | Learn to Read | Alphablocks",
+          "displayTitle": "Phonics - Alien Alphabet",
+          "durationSec": 1847,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 3
+        },
+        {
+          "id": "xrjVALwDx_Y",
+          "title": "Phonics - Simple Spelling | Learn to Read | Alphablocks",
+          "displayTitle": "Phonics - Simple Spelling",
+          "durationSec": 1912,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 4
+        },
+        {
+          "id": "a1GVCuEh5PY",
+          "title": "Alphablocks - Countdown to Christmas | The Letter A | Phonics for Kids",
+          "displayTitle": "Countdown to Christmas",
+          "durationSec": 2398,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 5
+        },
+        {
+          "id": "bORaqCmIT7o",
+          "title": "Alphablocks - Learn to Read | Mysterious Magic E | Phonics for Kids",
+          "displayTitle": "Learn to Read",
+          "durationSec": 1950,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 6
+        },
+        {
+          "id": "7mZeGxKAvBY",
+          "title": "Learn to Read | Vowels | Letter 'A'",
+          "displayTitle": "Learn to Read",
+          "durationSec": 2090,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 7
+        },
+        {
+          "id": "iH5EC2JMCyA",
+          "title": "Phonics Summer Vacations A to Z | Learn to Read | Alphablocks",
+          "displayTitle": "Phonics Summer Vacations A to Z",
+          "durationSec": 2595,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 8
+        },
+        {
+          "id": "CJQxUSd70u4",
+          "title": "Phonics - Learn to Read | 3 Letter Words | Alphablocks",
+          "displayTitle": "Phonics - Learn to Read",
+          "durationSec": 1757,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 9
+        },
+        {
+          "id": "DF7rDgTDi4Q",
+          "title": "Phonics - Learn to Read | Letters D, E, F | Alphablocks",
+          "displayTitle": "Phonics - Learn to Read",
+          "durationSec": 2485,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 10
+        },
+        {
+          "id": "p2DLcPB1238",
+          "title": "Phonics - Learn to Read | APRIL - Letter I | Alphablocks",
+          "displayTitle": "Phonics - Learn to Read",
+          "durationSec": 2136,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 11
+        },
+        {
+          "id": "Z9Pc4tkIvwk",
+          "title": "Learn to Read | Vowels | Letter 'I'",
+          "displayTitle": "Learn to Read",
+          "durationSec": 1817,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 12
+        },
+        {
+          "id": "yODh725nd5w",
+          "title": "Phonics - Learn to Read | APRIL - Letter P | Alphablocks",
+          "displayTitle": "Phonics - Learn to Read",
+          "durationSec": 2419,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 13
+        },
+        {
+          "id": "-gYYP7HYhDE",
+          "title": "Phonics - Learn to Read | Letters J, K, L | Alphablocks",
+          "displayTitle": "Phonics - Learn to Read",
+          "durationSec": 1787,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 14
+        },
+        {
+          "id": "OelN5uPPMpY",
+          "title": "Phonics - AR Sound | Learn to Read | Alphablocks",
+          "displayTitle": "Phonics - AR Sound",
+          "durationSec": 1893,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 15
+        },
+        {
+          "id": "psV_5u0UKto",
+          "title": "Phonics - Little Red Riding Hood | Learn to Read | Reading Month",
+          "displayTitle": "Phonics - Little Red Riding Hood",
+          "durationSec": 1810,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 16
+        },
+        {
+          "id": "GswtYe_iTUo",
+          "title": "Meet The Letter O! | Vowels | Learn to Read | Alphablocks",
+          "displayTitle": "Meet The Letter O!",
+          "durationSec": 2640,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 17
+        },
+        {
+          "id": "hFL1zuRprYI",
+          "title": "Snowy Weather | Learn to Read | @officialalphablocks",
+          "displayTitle": "Snowy Weather",
+          "durationSec": 1890,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 18
+        },
+        {
+          "id": "yHdYnLukNXE",
+          "title": "@officialalphablocks - Say Hello to A! 🍎 | Learn to Spell | Learn the Alphabet",
+          "displayTitle": "Say Hello to A! 🍎",
+          "durationSec": 1836,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 19
+        },
+        {
+          "id": "3tdmbSxeIow",
+          "title": "Phonics - Learn to Read | Letter Teams",
+          "displayTitle": "Phonics - Learn to Read",
+          "durationSec": 1851,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 20
+        },
+        {
+          "id": "kbJ4xhpP_Go",
+          "title": "Phonics - Learn to Read | Create Your Own Adventure | #ReadingMonth | Alphablocks",
+          "displayTitle": "Phonics - Learn to Read",
+          "durationSec": 1807,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 21
+        },
+        {
+          "id": "Jf1js0MB5w8",
+          "title": "Phonics - Learn to Read | A is For April | Alphablocks",
+          "displayTitle": "Phonics - Learn to Read",
+          "durationSec": 2477,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 22
+        },
+        {
+          "id": "7BHNPlCRrRo",
+          "title": "@officialalphablocks - Red Level Episodes! 🔴 | Full Episodes | Phonics",
+          "displayTitle": "Red Level Episodes! 🔴",
+          "durationSec": 1800,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 23
+        },
+        {
+          "id": "b10HqV6I95Q",
+          "title": "Phonics - Learn to Read | Spring Time Special | Alphablocks",
+          "displayTitle": "Phonics - Learn to Read",
+          "durationSec": 1890,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 24
+        },
+        {
+          "id": "rXaA8aKv-H4",
+          "title": "Ultimate Spelling Compilation! | Learn to Read | @officialalphablocks",
+          "displayTitle": "Ultimate Spelling Compilation!",
+          "durationSec": 2160,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 25
+        },
+        {
+          "id": "nl_KF021UiI",
+          "title": "Your First Time Learning CVC Words 📚 | Learn to Read and Spell for Kids| Alphablocks",
+          "displayTitle": "Your First Time Learning CVC Words 📚",
+          "durationSec": 1821,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 26
+        },
+        {
+          "id": "ycAZb-VmBO8",
+          "title": "Words with the letter E | Learn to Read | @officialalphablocks",
+          "displayTitle": "Words with the letter E",
+          "durationSec": 2055,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 27
+        },
+        {
+          "id": "J0X1GR9UBpo",
+          "title": "Awesome Animals! | Learn to Read | @officialalphablocks",
+          "displayTitle": "Awesome Animals!",
+          "durationSec": 1847,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 28
+        },
+        {
+          "id": "2SjpIxKtmpw",
+          "title": "1 Second From Every Episode! 🎥 | Learn to Read and Spell for Kids | Alphablocks",
+          "displayTitle": "1 Second From Every Episode! 🎥",
+          "durationSec": 1701,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix30",
+          "order": 29
+        }
+      ]
+    },
+    {
+      "id": "mix45",
+      "videos": [
+        {
+          "id": "s7LjGDcXqcs",
+          "title": "Awesome Alphabet | Phonics for Kids - Learn To Read | Alphablocks",
+          "displayTitle": "Awesome Alphabet",
+          "durationSec": 3035,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix45",
+          "order": 1
+        },
+        {
+          "id": "Ijs5PWJ86AY",
+          "title": "Learn to Read | Phonics for Kids | Learning Letter Blends",
+          "displayTitle": "Learn to Read",
+          "durationSec": 3331,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix45",
+          "order": 2
+        },
+        {
+          "id": "WD4-vPkeIqs",
+          "title": "Phonics - Learn to Read | Letters M, N, O | Alphablocks",
+          "displayTitle": "Phonics - Learn to Read",
+          "durationSec": 3380,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix45",
+          "order": 3
+        },
+        {
+          "id": "wSYGM1envlI",
+          "title": "Phonics - Learn to Read | Letters S, T, U | Alphablocks",
+          "displayTitle": "Phonics - Learn to Read",
+          "durationSec": 2921,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix45",
+          "order": 4
+        },
+        {
+          "id": "8x9x-WKwoCY",
+          "title": "A is for Apple | Learn to Read | @officialalphablocks",
+          "displayTitle": "A is for Apple",
+          "durationSec": 3287,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix45",
+          "order": 5
+        },
+        {
+          "id": "LR2CgcIsOB8",
+          "title": "Try not laugh! | Learn to read challenge | @officialalphablocks",
+          "displayTitle": "Try not laugh!",
+          "durationSec": 3530,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix45",
+          "order": 6
+        },
+        {
+          "id": "YLOqXH8FMlw",
+          "title": "Phonics - Learn to Read | Letters G, H, I | Alphablocks",
+          "displayTitle": "Phonics - Learn to Read",
+          "durationSec": 2979,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix45",
+          "order": 7
+        },
+        {
+          "id": "GswtYe_iTUo",
+          "title": "Meet The Letter O! | Vowels | Learn to Read | Alphablocks",
+          "displayTitle": "Meet The Letter O!",
+          "durationSec": 2640,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix45",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "mix60",
+      "videos": [
+        {
+          "id": "k41oc_WTpRg",
+          "title": "Alphablocks - Learn to Read | 60+ Mins of Spelling | Phonics for Kids",
+          "displayTitle": "Learn to Read",
+          "durationSec": 3622,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 1
+        },
+        {
+          "id": "TudDmLIBH4c",
+          "title": "I Can Read! | Phonics for Kids - Learn To Read | Alphablocks",
+          "displayTitle": "I Can Read!",
+          "durationSec": 4012,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 2
+        },
+        {
+          "id": "wpoHQN2X8mM",
+          "title": "Alphabet Learn-A-Thon! | Phonics For Kids Compilation - Learn To Read | Alphablocks​",
+          "displayTitle": "Alphabet Learn-A-Thon!",
+          "durationSec": 7191,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 3
+        },
+        {
+          "id": "qPCbB-gH2Ew",
+          "title": "Alphablocks | Learn to Read | @officialalphablocks",
+          "displayTitle": "Alphablocks",
+          "durationSec": 7334,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 4
+        },
+        {
+          "id": "Wgx3rpu6ZZM",
+          "title": "60 Minutes of Spelling! | Phonics for Kids - Learn To Spell | Alphablocks",
+          "displayTitle": "60 Minutes of Spelling!",
+          "durationSec": 3929,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 5
+        },
+        {
+          "id": "KJMvllGczuk",
+          "title": "Say Hello To Letters M, N, O & P! | Phonics For Kids - Learn To Read | Alphablocks",
+          "displayTitle": "Say Hello To Letters M, N, O & P!",
+          "durationSec": 6575,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 6
+        },
+        {
+          "id": "8x9x-WKwoCY",
+          "title": "A is for Apple | Learn to Read | @officialalphablocks",
+          "displayTitle": "A is for Apple",
+          "durationSec": 3287,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 7
+        },
+        {
+          "id": "LR2CgcIsOB8",
+          "title": "Try not laugh! | Learn to read challenge | @officialalphablocks",
+          "displayTitle": "Try not laugh!",
+          "durationSec": 3530,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 8
+        },
+        {
+          "id": "1GrTf6nID7E",
+          "title": "Spend 1 Hour In Alphaland! | Phonics for Kids - Learn To Read | Alphablocks",
+          "displayTitle": "Spend 1 Hour In Alphaland!",
+          "durationSec": 3755,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 9
+        },
+        {
+          "id": "BvGLDQcfA4w",
+          "title": "Learn To Read! | Level 2 Reading | @officialalphablocks",
+          "displayTitle": "Learn To Read!",
+          "durationSec": 4489,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 10
+        },
+        {
+          "id": "Wy1mXgaH_bY",
+          "title": "@officialalphablocks - Say Hello to Letters A, B, C and D! | Meet the Alphabet | Learn to Spell",
+          "displayTitle": "Say Hello to Letters A, B, C and D!",
+          "durationSec": 4674,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 11
+        },
+        {
+          "id": "TNK4JiDBHss",
+          "title": "Say Hello To Letters E, F, G & H! | Phonics for Kids - Learn To Read | Alphablocks",
+          "displayTitle": "Say Hello To Letters E, F, G & H!",
+          "durationSec": 5319,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 12
+        },
+        {
+          "id": "5KCU2OSqza8",
+          "title": "Alphablocks February Break Full Episodes | Learn to Read | @@officialalphablocks",
+          "displayTitle": "Alphablocks February Break Full Episodes",
+          "durationSec": 6063,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 13
+        },
+        {
+          "id": "y2yHyoLF8MU",
+          "title": "Alphablocks Compilation | Learn to Read | @officialalphablocks",
+          "displayTitle": "Alphablocks Compilation",
+          "durationSec": 7334,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 14
+        },
+        {
+          "id": "TKbVbDDxM94",
+          "title": "Reading extravaganza! | Level 1 Spelling | @officialalphablocks",
+          "displayTitle": "Reading extravaganza!",
+          "durationSec": 4637,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 15
+        },
+        {
+          "id": "grsx_Co8aK4",
+          "title": "📚 Alphablocks Readathon for #ReadingMonth ! 📚 | Learn to Read | Phonics",
+          "displayTitle": "📚 Alphablocks Readathon for #ReadingMonth ! 📚",
+          "durationSec": 3606,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 16
+        },
+        {
+          "id": "j78xZz0DQ6E",
+          "title": "@officialalphablocks  - Merry Christmas from the Alphablocks! 🎅🎄🎁  | Christmas Time | Learn to Spell",
+          "displayTitle": "Merry Christmas from the Alphablocks! 🎅🎄🎁",
+          "durationSec": 4488,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 17
+        },
+        {
+          "id": "hjx0Hnk8rxo",
+          "title": "Happy Youtube Kids Special | Reading for Kids | @officialalphablocks",
+          "displayTitle": "Happy Youtube Kids Special",
+          "durationSec": 15014,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 18
+        },
+        {
+          "id": "xf_cN3MVhlk",
+          "title": "@officialalphablocks - 75 Minutes of Fun! | Learn to Spell | Phonics",
+          "displayTitle": "75 Minutes of Fun!",
+          "durationSec": 4497,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 19
+        },
+        {
+          "id": "GxgFZfQSkIo",
+          "title": "@officialalphablocks - Welcome 2022! 🎆 | Happy New Year | Learn to Spell",
+          "displayTitle": "Welcome 2022! 🎆",
+          "durationSec": 3750,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 20
+        },
+        {
+          "id": "w7j2NEXAydg",
+          "title": "@officialalphablocks - Say Hello to Letters I, J, K and L! | Meet the Alphabet | Phonics",
+          "displayTitle": "Say Hello to Letters I, J, K and L!",
+          "durationSec": 4384,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 21
+        },
+        {
+          "id": "foY7bp954LU",
+          "title": "@officialalphablocks - Sharing the Love ❤️ | Happy Valentine's Day | Learn to Read",
+          "displayTitle": "Sharing the Love ❤️",
+          "durationSec": 3954,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 22
+        },
+        {
+          "id": "V2To47RtuoM",
+          "title": "@officialalphablocks - Learn to Spell with Music 🎵 | Songs for Kids | Phonics",
+          "displayTitle": "Learn to Spell with Music 🎵",
+          "durationSec": 3535,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 23
+        },
+        {
+          "id": "tlsGgyfWe4A",
+          "title": "Weekend Compilation | Learn to Read | @officialalphablocks",
+          "displayTitle": "Weekend Compilation",
+          "durationSec": 3283,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 24
+        },
+        {
+          "id": "esbM4xij5eI",
+          "title": "Alphablocks World Building | Learn to read for kindergarten | @officialalphablocks",
+          "displayTitle": "Alphablocks World Building",
+          "durationSec": 3981,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 25
+        },
+        {
+          "id": "RUyLZzz4RVg",
+          "title": "Groundhog Day | Learn to Read | @officialalphablocks",
+          "displayTitle": "Groundhog Day",
+          "durationSec": 4092,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 26
+        },
+        {
+          "id": "vAkZyj1QB28",
+          "title": "⛄🌠 Festive Compilation | Learn to Read | @officialalphablocks",
+          "displayTitle": "⛄🌠 Festive Compilation",
+          "durationSec": 3945,
+          "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
+          "group": "mix60",
+          "order": 27
+        }
+      ]
+    }
+  ]
+}

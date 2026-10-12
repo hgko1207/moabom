@@ -13,6 +13,8 @@ export interface CollectionProgress {
   progress: Record<string, number>;
   /** videoId -> time (ms) the player reported an error on this device */
   failed: Record<string, number>;
+  /** videoId -> last playback position (s), so long compilations continue where they stopped */
+  position: Record<string, number>;
   last: string | null;
 }
 
@@ -22,6 +24,15 @@ export interface TodayState {
   finished: string[];
   playedToday: Record<string, number>;
   seconds: number;
+  /** Long videos cut off by the daily limit; they continue tomorrow, not today. */
+  stopped: string[];
+}
+
+export type LimitMode = 'none' | 'minutes' | 'episodes';
+
+/** Parent settings kept on this device; they override config/profiles.json. */
+export interface DeviceSettings {
+  limit: { mode: LimitMode; value: number };
 }
 
 export interface DeviceToday {
@@ -79,16 +90,31 @@ export function createStore(kv: KV) {
   return {
     progress(profileId: string, collectionId: string): CollectionProgress {
       const p = read<Partial<CollectionProgress>>(`${profileId}:${collectionId}`);
-      return { watched: p?.watched ?? {}, progress: p?.progress ?? {}, failed: p?.failed ?? {}, last: p?.last ?? null };
+      return {
+        watched: p?.watched ?? {},
+        progress: p?.progress ?? {},
+        failed: p?.failed ?? {},
+        position: p?.position ?? {},
+        last: p?.last ?? null,
+      };
     },
     saveProgress(profileId: string, collectionId: string, value: CollectionProgress): void {
       write(`${profileId}:${collectionId}`, value);
     },
     /** Today's counters; a stored state from another day reads as a fresh day. */
     today(profileId: string, date: string): TodayState {
-      const t = read<TodayState>(`${profileId}:today`);
-      if (t?.date === date) return t;
-      return { date, started: [], finished: [], playedToday: {}, seconds: 0 };
+      const t = read<Partial<TodayState>>(`${profileId}:today`);
+      if (t?.date === date) {
+        return {
+          date,
+          started: t.started ?? [],
+          finished: t.finished ?? [],
+          playedToday: t.playedToday ?? {},
+          seconds: t.seconds ?? 0,
+          stopped: t.stopped ?? [],
+        };
+      }
+      return { date, started: [], finished: [], playedToday: {}, seconds: 0, stopped: [] };
     },
     saveToday(profileId: string, value: TodayState): void {
       write(`${profileId}:today`, value);
@@ -98,6 +124,13 @@ export function createStore(kv: KV) {
     },
     saveDeviceToday(value: DeviceToday): void {
       write('device:today', value);
+    },
+    /** null until a parent saves settings on this device. */
+    settings(): DeviceSettings | null {
+      return read<DeviceSettings>('device:settings');
+    },
+    saveSettings(value: DeviceSettings): void {
+      write('device:settings', value);
     },
     pinned(): string | null {
       return read<string>('device:pinned');

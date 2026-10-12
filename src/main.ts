@@ -6,6 +6,7 @@ import { icon } from './icons.ts';
 import { createPlayer, type PlayerHandle } from './player.ts';
 import {
   canStart,
+  effectiveLimits,
   initialGroup,
   isStale,
   limitReached,
@@ -15,14 +16,21 @@ import {
   recordFailed,
   recordFinished,
   recordPlay,
+  recordPosition,
   recordProgress,
+  recordStopped,
   resumableAfterLimit,
+  seriesOnly,
+  shouldCutAtLimit,
+  startPosition,
   UP_NEXT_SEC,
   upNext,
+  upNextScope,
   viewingOrder,
+  type Limits,
   type UpNext,
 } from './rules.ts';
-import { browserKV, createStore, type CollectionProgress, type TodayState } from './storage.ts';
+import { browserKV, createStore, type CollectionProgress, type DeviceSettings, type LimitMode, type TodayState } from './storage.ts';
 
 const app = document.getElementById('app')!;
 const appData = loadAppData();
@@ -35,6 +43,7 @@ interface Route {
   collection?: string;
   video?: string;
   today?: boolean;
+  settings?: boolean;
   group?: string;
 }
 
@@ -44,8 +53,8 @@ function parseHash(): Route {
   const route: Route = {};
   for (let i = 0; i < parts.length; i++) {
     const key = parts[i];
-    if (key === 'today') {
-      route.today = true;
+    if (key === 'today' || key === 'settings') {
+      route[key] = true;
       continue;
     }
     const value = parts[++i];
@@ -62,6 +71,7 @@ function parseHash(): Route {
 function href(r: Route): string {
   let h = '#/';
   if (r.profile) h += `p/${encodeURIComponent(r.profile)}`;
+  if (r.profile && r.settings) return `${h}/settings`;
   if (r.profile && r.collection) {
     h += `/c/${encodeURIComponent(r.collection)}`;
     if (r.video) h += `/v/${encodeURIComponent(r.video)}`;
@@ -191,6 +201,9 @@ function render(): void {
   const collections = profile.collections.flatMap((id) => appData.collections.get(id) ?? []);
   const showPicker = gate.kind === 'choose';
 
+  const home: Route = collections.length > 1 || showPicker ? { profile: profile.id } : { profile: profile.id, collection: collections[0]?.config.id };
+  if (route.settings) return renderSettings(profile, home);
+
   if (!route.collection) {
     if (collections.length === 1) return replace({ profile: profile.id, collection: collections[0]!.config.id });
     return renderCollections(profile, collections, showPicker);
@@ -231,7 +244,7 @@ function renderProfiles(allowed: Set<string>): void {
 
 function renderCollections(profile: Profile, collections: Collection[], showBack: boolean): void {
   if (showBack) onBack = () => backTo({});
-  app.innerHTML = `<main class="screen"><div class="bar">${showBack ? backButton() : ''}<h1>${esc(profile.name)}</h1></div>
+  app.innerHTML = `<main class="screen"><div class="bar">${showBack ? backButton() : ''}<h1>${esc(profile.name)}</h1>${gearButton()}</div>
     ${offlineNotice()}
     <nav class="tiles" aria-label="컬렉션">${collections
       .map((c) => {
@@ -241,6 +254,7 @@ function renderCollections(profile: Profile, collections: Collection[], showBack
       })
       .join('')}</nav>${staleNote()}</main>`;
   bindBack();
+  bindGear(profile.id);
   app.querySelectorAll<HTMLButtonElement>('.tile').forEach((b) =>
     b.addEventListener('click', () => go({ profile: profile.id, collection: b.dataset.collection! })),
   );
@@ -257,12 +271,12 @@ interface CollectionView {
 function collectionView(profile: Profile, c: Collection): CollectionView {
   const progress = store.progress(profile.id, c.config.id);
   const today = store.today(profile.id, localDate(new Date()));
-  const limited = limitReached(today, profile);
+  const limited = limitReached(today, limitsFor(profile));
   const all = viewingOrder(c.data);
   const resumable = resumableAfterLimit(today);
   const highlight = limited
     ? (all.find((v) => v.id === resumable) ?? null)
-    : nextToWatch(c.data, progress, profile.startGroup?.[c.config.id]);
+    : nextToWatch(seriesOnly(c.data, c.config), progress, profile.startGroup?.[c.config.id]);
   return { progress, today, limited, highlight };
 }
 
@@ -325,16 +339,17 @@ function renderCollection(profile: Profile, c: Collection, groupParam: string | 
   const selected =
     groups.find((g) => g.id === groupParam)?.id ??
     view.highlight?.group ??
-    initialGroup(c.data, view.progress, startGroup) ??
+    initialGroup(seriesOnly(c.data, c.config), view.progress, startGroup) ??
     groups[0]?.id ??
     '';
   const current = groups.find((g) => g.id === selected);
   const base: Route = { profile: profile.id, collection: c.config.id };
 
   if (parent) onBack = () => backTo(parent);
-  app.innerHTML = `<main class="screen"><div class="bar">${parent ? backButton() : ''}<h1>${esc(c.config.displayName)}</h1></div>
+  const firstEpisode = seriesOnly(c.data, c.config).groups[0]?.videos[0];
+  app.innerHTML = `<main class="screen"><div class="bar">${parent ? backButton() : ''}<h1>${esc(c.config.displayName)}</h1>${parent ? '' : gearButton()}</div>
     ${offlineNotice()}
-    ${heroHtml(view, groups[0]?.videos[0], groupLabels)}
+    ${heroHtml(view, firstEpisode, groupLabels)}
     <div class="tabs" role="tablist" aria-label="${esc(c.config.groupLabel)}">${groups
       .map((g, i) => {
         const on = g.id === selected;
@@ -350,6 +365,7 @@ function renderCollection(profile: Profile, c: Collection, groupParam: string | 
       .join('')}</section>${staleNote()}</main>`;
 
   bindBack();
+  if (!parent) bindGear(profile.id);
   app.querySelectorAll<HTMLButtonElement>('[data-video]').forEach((b) =>
     b.addEventListener('click', () => go({ ...base, video: b.dataset.video! })),
   );
@@ -409,9 +425,13 @@ function renderPlayer(profile: Profile, c: Collection, videoId: string, listRout
   if (!video) return replace(listRoute);
   const date = localDate(new Date());
   let today = store.today(profile.id, date);
-  if (!canStart(today, profile, video.id)) return replace({ ...listRoute, today: true });
+  const limits = limitsFor(profile);
+  if (!canStart(today, limits, video.id)) return replace({ ...listRoute, today: true });
   let progress = store.progress(profile.id, c.config.id);
   const groupLabels = new Map(c.config.groups.map((g) => [g.id, g.label]));
+  // Free groups (compilations, clips) play on inside their own tab; series groups walk the episodes.
+  const scope = upNextScope(c.data, c.config, video);
+  const start = startPosition(progress, video);
 
   onBack = () => backTo(listRoute);
   app.innerHTML = `<main class="screen player-screen">
@@ -493,12 +513,19 @@ function renderPlayer(profile: Profile, c: Collection, videoId: string, listRout
     onPlaying(delta, current, total) {
       today = recordPlay(today, video.id, delta);
       const r = recordProgress(progress, video, delta, Date.now());
-      progress = r.progress;
+      progress = recordPosition(r.progress, video.id, current);
       if (r.completed) today = recordFinished(today, video.id);
+      if (shouldCutAtLimit(today, limits, video)) {
+        // A compilation stops at the limit and continues tomorrow from this position.
+        player?.stop();
+        today = recordStopped(today, video.id);
+        save();
+        return openToday();
+      }
       save();
       const remaining = total - current;
       if (total > 0 && remaining <= UP_NEXT_SEC && overlay.hidden) {
-        const u = upNext(c.data, video, today, profile, remaining);
+        const u = upNext(scope, video, today, limits, remaining);
         const key = u.kind === 'next' ? u.video.id : u.kind;
         if (key !== shownUpNext) {
           shownUpNext = key;
@@ -509,8 +536,9 @@ function renderPlayer(profile: Profile, c: Collection, videoId: string, listRout
     },
     onEnded() {
       today = recordFinished(today, video.id);
+      progress = recordPosition(progress, video.id, null);
       save();
-      const u = upNext(c.data, video, today, profile, 0);
+      const u = upNext(scope, video, today, limits, 0);
       if (u.kind === 'limit') return openToday();
       showOverlay(`${upNextCardHtml(u, groupLabels)}${listButton}`);
     },
@@ -518,10 +546,10 @@ function renderPlayer(profile: Profile, c: Collection, videoId: string, listRout
       // P4: never counted, never marked watched; remembered so O3 skips it on this device.
       progress = recordFailed(progress, video.id, Date.now());
       store.saveProgress(profile.id, c.config.id, progress);
-      const u = upNext(c.data, video, today, profile, 0);
+      const u = upNext(scope, video, today, limits, 0);
       showOverlay(`<div class="overlay-icon" aria-hidden="true">${icon('unplug', 64)}</div>
         <span class="visually-hidden">이 영상은 지금 볼 수 없어요</span>
-        ${u.kind === 'next' && canStart(today, profile, u.video.id) ? upNextCardHtml(u, groupLabels) : ''}${listButton}`);
+        ${u.kind === 'next' && canStart(today, limits, u.video.id) ? upNextCardHtml(u, groupLabels) : ''}${listButton}`);
     },
     onForeignVideo(resumeAt) {
       // P2 + design D8: offer to continue the episode the child was watching.
@@ -536,7 +564,7 @@ function renderPlayer(profile: Profile, c: Collection, videoId: string, listRout
     onDetectionUnavailable() {
       app.querySelector<HTMLElement>('.detect-off')!.hidden = false;
     },
-  })
+  }, start)
     .then((p) => {
       if (activePlayer === null && app.contains(main)) {
         player = p;
@@ -555,11 +583,13 @@ function renderPlayer(profile: Profile, c: Collection, videoId: string, listRout
 
 function renderTodayDone(profile: Profile, c: Collection, listRoute: Route): void {
   const today = store.today(profile.id, localDate(new Date()));
-  if (!limitReached(today, profile)) return replace(listRoute);
+  if (!limitReached(today, limitsFor(profile))) return replace(listRoute);
   const all = viewingOrder(c.data);
   const seen = today.started.flatMap((id) => all.find((v) => v.id === id) ?? []);
   const progress = store.progress(profile.id, c.config.id);
-  const tomorrow = nextToWatch(c.data, progress, profile.startGroup?.[c.config.id]);
+  // A compilation cut off by the limit is what continues tomorrow; otherwise the next episode.
+  const cut = [...today.stopped].reverse().flatMap((id) => all.find((v) => v.id === id) ?? [])[0];
+  const tomorrow = cut ?? nextToWatch(seriesOnly(c.data, c.config), progress, profile.startGroup?.[c.config.id]);
   const resumable = resumableAfterLimit(today);
 
   document.body.classList.add('night');
@@ -584,6 +614,121 @@ function renderTodayDone(profile: Profile, c: Collection, listRoute: Route): voi
   app.querySelector<HTMLButtonElement>('[data-video]')?.addEventListener('click', (e) =>
     replace({ ...listRoute, video: (e.currentTarget as HTMLButtonElement).dataset.video! }),
   );
+}
+
+// ---------- parent settings (device-local, long-press gear) ----------
+
+function limitsFor(profile: Profile): Limits {
+  return effectiveLimits(profile, store.settings());
+}
+
+const HOLD_MS = 2000;
+
+function gearButton(): string {
+  return `<button class="gear" data-action="gear" aria-label="설정 (2초 동안 누르기)">${icon('settings', 28)}<span class="hold" aria-hidden="true"></span></button>`;
+}
+
+/** Opens settings only after a 2 s press (pointer or Enter/Space), so a child's tap does nothing. */
+function bindGear(profileId: string): void {
+  const gear = app.querySelector<HTMLButtonElement>('[data-action="gear"]');
+  if (!gear) return;
+  let timer = 0;
+  const start = () => {
+    window.clearTimeout(timer);
+    gear.classList.add('holding');
+    timer = window.setTimeout(() => {
+      gear.classList.remove('holding');
+      go({ profile: profileId, settings: true });
+    }, HOLD_MS);
+  };
+  const cancel = () => {
+    window.clearTimeout(timer);
+    gear.classList.remove('holding');
+  };
+  gear.addEventListener('pointerdown', start);
+  for (const ev of ['pointerup', 'pointerleave', 'pointercancel', 'blur']) gear.addEventListener(ev, cancel);
+  gear.addEventListener('contextmenu', (e) => e.preventDefault());
+  gear.addEventListener('keydown', (e) => {
+    if ((e.key === 'Enter' || e.key === ' ') && !e.repeat) {
+      e.preventDefault();
+      start();
+    }
+  });
+  gear.addEventListener('keyup', cancel);
+}
+
+const LIMIT_STEP: Record<LimitMode, { step: number; min: number; max: number; unit: string; initial: number }> = {
+  none: { step: 0, min: 0, max: 0, unit: '', initial: 0 },
+  minutes: { step: 10, min: 10, max: 240, unit: '분', initial: 60 },
+  episodes: { step: 1, min: 1, max: 20, unit: '편', initial: 3 },
+};
+
+function renderSettings(profile: Profile, home: Route): void {
+  const current: DeviceSettings = store.settings() ?? {
+    limit:
+      profile.dailyMinutes !== null
+        ? { mode: 'minutes', value: profile.dailyMinutes }
+        : profile.dailyEpisodes !== null
+          ? { mode: 'episodes', value: profile.dailyEpisodes }
+          : { mode: 'none', value: 0 },
+  };
+  const today = store.today(profile.id, localDate(new Date()));
+  const { mode, value } = current.limit;
+  const spec = LIMIT_STEP[mode];
+  const option = (m: LimitMode, label: string) =>
+    `<button class="choice" role="radio" aria-checked="${m === mode}" data-mode="${m}">${label}</button>`;
+
+  onBack = () => backTo(home);
+  app.innerHTML = `<main class="screen settings"><div class="bar">${backButton()}<h1>설정</h1></div>
+    <section class="panel" aria-labelledby="limit-title">
+      <h2 id="limit-title">하루 시청 제한</h2>
+      <div class="choices" role="radiogroup" aria-labelledby="limit-title">
+        ${option('none', '제한 없음')}${option('minutes', '시간으로')}${option('episodes', '편 수로')}
+      </div>
+      ${
+        mode === 'none'
+          ? ''
+          : `<div class="stepper">
+          <button class="step" data-step="-1" aria-label="줄이기"${value <= spec.min ? ' disabled' : ''}>−</button>
+          <output class="value" aria-live="polite">하루 ${value}${spec.unit}</output>
+          <button class="step" data-step="1" aria-label="늘리기"${value >= spec.max ? ' disabled' : ''}>+</button>
+        </div>
+        <p class="hint">${mode === 'minutes' ? '15분이 넘는 모음집은 시간이 되면 멈추고, 다음 날 그 자리부터 이어 봐요.' : '보던 편은 끝까지 보고, 다음 편부터 막혀요.'}</p>`
+      }
+    </section>
+    <section class="panel" aria-labelledby="today-title">
+      <h2 id="today-title">오늘</h2>
+      <p>본 시간 ${Math.floor(today.seconds / 60)}분 · 시작한 영상 ${today.started.length}편</p>
+      <button class="secondary" data-action="reset-today">오늘 기록 초기화 (한 번 더 보기)</button>
+    </section>
+    <p class="hint">설정은 이 기기에만 저장돼요.</p>
+  </main>`;
+  bindBack();
+
+  const save = (next: DeviceSettings) => {
+    store.saveSettings(next);
+    renderSettings(profile, home);
+    app.querySelector<HTMLElement>(`[data-mode="${next.limit.mode}"]`)?.focus();
+  };
+  app.querySelectorAll<HTMLButtonElement>('[data-mode]').forEach((b) =>
+    b.addEventListener('click', () => {
+      const m = b.dataset.mode as LimitMode;
+      if (m !== mode) save({ limit: { mode: m, value: LIMIT_STEP[m].initial } });
+    }),
+  );
+  app.querySelectorAll<HTMLButtonElement>('[data-step]').forEach((b) =>
+    b.addEventListener('click', () => {
+      const next = Math.min(spec.max, Math.max(spec.min, value + Number(b.dataset.step) * spec.step));
+      store.saveSettings({ limit: { mode, value: next } });
+      renderSettings(profile, home);
+      app.querySelector<HTMLButtonElement>(`[data-step="${b.dataset.step}"]`)?.focus();
+    }),
+  );
+  app.querySelector('[data-action="reset-today"]')?.addEventListener('click', () => {
+    if (!confirm('오늘 본 시간과 편 수를 0으로 되돌릴까요?')) return;
+    store.saveToday(profile.id, { date: today.date, started: [], finished: [], playedToday: {}, seconds: 0, stopped: [] });
+    renderSettings(profile, home);
+  });
 }
 
 function bindBack(): void {

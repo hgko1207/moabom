@@ -793,3 +793,118 @@ body.night {
   font-size: 16px;
   text-align: center;
 }
+
+/* Parent settings: gear opens only after a 2 s press */
+.gear {
+  position: relative;
+  margin-left: auto;
+  width: var(--target);
+  height: var(--target);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--ink-2);
+  -webkit-touch-callout: none;
+  user-select: none;
+  touch-action: none;
+}
+
+.gear .hold {
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: conic-gradient(var(--accent) var(--p, 0%), transparent 0);
+  mask: radial-gradient(circle, transparent 58%, #000 60%);
+  opacity: 0;
+}
+
+.gear.holding .hold {
+  opacity: 1;
+  animation: hold 2s linear forwards;
+}
+
+@property --p {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 0%;
+}
+
+@keyframes hold {
+  to {
+    --p: 100%;
+  }
+}
+
+.settings h2 {
+  font-size: 22px;
+  margin: 0 0 var(--s2);
+}
+
+.panel {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: var(--s3);
+  margin-bottom: var(--s2);
+}
+
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s1);
+}
+
+.choice {
+  min-height: var(--target);
+  padding: 0 var(--s3);
+  border-radius: var(--radius);
+  border: 3px solid var(--line);
+  font-weight: 600;
+}
+
+.choice[aria-checked='true'] {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface));
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin-top: var(--s3);
+}
+
+.step {
+  width: var(--target);
+  height: var(--target);
+  border-radius: var(--radius);
+  border: 3px solid var(--line);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.step:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.value {
+  min-width: 140px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.hint {
+  color: var(--ink-2);
+  font-size: 16px;
+}
+
+.secondary {
+  min-height: var(--target);
+  padding: 0 var(--s3);
+  border-radius: var(--radius);
+  border: 3px solid var(--line);
+  font-weight: 600;
+}

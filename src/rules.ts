@@ -1,7 +1,7 @@
 // Pure viewing rules (SPEC §8). No DOM, no storage: everything is passed in so it can be unit-tested.
 
-import type { CollectionData, Profile, VideoRecord } from './config.ts';
-import type { CollectionProgress, DeviceToday, TodayState } from './storage.ts';
+import { groupKind, type CollectionConfig, type CollectionData, type Profile, type VideoRecord } from './config.ts';
+import type { CollectionProgress, DeviceSettings, DeviceToday, TodayState } from './storage.ts';
 
 export const STALE_DAYS = 30;
 /** L1: seconds of playback today before a video counts toward the daily episode limit. */
@@ -10,6 +10,8 @@ export const COUNT_AFTER_SEC = 10;
 export const WATCHED_FRACTION = 0.9;
 /** P3: the up-next card appears when this many seconds remain. */
 export const UP_NEXT_SEC = 20;
+/** Videos longer than this (compilations) stop at the daily limit instead of playing to the end. */
+export const LONG_VIDEO_SEC = 900;
 
 /** Device-local calendar date (YYYY-MM-DD); the daily limit resets at local midnight. */
 export function localDate(now: Date): string {
@@ -52,7 +54,16 @@ export function initialGroup(data: CollectionData, p: CollectionProgress, startG
 
 // ---------- daily limit (L) ----------
 
-type Limits = Pick<Profile, 'dailyEpisodes' | 'dailyMinutes'>;
+export type Limits = Pick<Profile, 'dailyEpisodes' | 'dailyMinutes'>;
+
+/** Device settings saved by a parent override the profile defaults from config. */
+export function effectiveLimits(profile: Limits, settings: DeviceSettings | null): Limits {
+  if (!settings) return { dailyEpisodes: profile.dailyEpisodes, dailyMinutes: profile.dailyMinutes };
+  const { mode, value } = settings.limit;
+  if (mode === 'minutes') return { dailyEpisodes: null, dailyMinutes: value };
+  if (mode === 'episodes') return { dailyEpisodes: value, dailyMinutes: null };
+  return { dailyEpisodes: null, dailyMinutes: null };
+}
 
 /** L3: no new episode may start. Both limits null means unlimited. */
 export function limitReached(today: TodayState, limits: Limits): boolean {
@@ -64,7 +75,16 @@ export function limitReached(today: TodayState, limits: Limits): boolean {
 /** L3a: after the limit, only today's last started episode may reopen, and only while unfinished. */
 export function resumableAfterLimit(today: TodayState): string | null {
   const last = today.started.at(-1);
-  return last && !today.finished.includes(last) ? last : null;
+  return last && !today.finished.includes(last) && !today.stopped.includes(last) ? last : null;
+}
+
+/** A long video playing past the limit is cut off (it continues tomorrow from the same spot). */
+export function shouldCutAtLimit(today: TodayState, limits: Limits, video: Pick<VideoRecord, 'durationSec'>): boolean {
+  return video.durationSec > LONG_VIDEO_SEC && limitReached(today, limits);
+}
+
+export function recordStopped(today: TodayState, videoId: string): TodayState {
+  return today.stopped.includes(videoId) ? today : { ...today, stopped: [...today.stopped, videoId] };
 }
 
 export function canStart(today: TodayState, limits: Limits, videoId: string): boolean {
@@ -111,6 +131,34 @@ export function recordProgress(
 
 export function recordFailed(p: CollectionProgress, videoId: string, now: number): CollectionProgress {
   return { ...p, failed: { ...p.failed, [videoId]: now } };
+}
+
+/** Remember where playback is, or forget it (`null`) once the video ended. */
+export function recordPosition(p: CollectionProgress, videoId: string, sec: number | null): CollectionProgress {
+  const { [videoId]: _, ...rest } = p.position;
+  return { ...p, position: sec === null ? rest : { ...rest, [videoId]: sec } };
+}
+
+/** Where to start: the saved position, unless it is at the very start or end, or the video is a rewatch. */
+export function startPosition(p: CollectionProgress, video: Pick<VideoRecord, 'id' | 'durationSec'>): number {
+  if (video.id in p.watched) return 0;
+  const pos = p.position[video.id] ?? 0;
+  return pos > 5 && pos < video.durationSec - 15 ? Math.floor(pos) : 0;
+}
+
+// ---------- series vs free groups ----------
+
+/** Only "series" groups: they drive today's video, the first tab and the episode-to-episode up-next. */
+export function seriesOnly(data: CollectionData, config: Pick<CollectionConfig, 'groups'>): CollectionData {
+  const series = new Set(config.groups.filter((g) => groupKind(g) === 'series').map((g) => g.id));
+  return { ...data, groups: data.groups.filter((g) => series.has(g.id)) };
+}
+
+/** Up-next stays inside the current group for free groups, and walks the series groups otherwise. */
+export function upNextScope(data: CollectionData, config: Pick<CollectionConfig, 'groups'>, current: VideoRecord): CollectionData {
+  const g = config.groups.find((x) => x.id === current.group);
+  if (g && groupKind(g) === 'free') return { ...data, groups: data.groups.filter((x) => x.id === current.group) };
+  return seriesOnly(data, config);
 }
 
 // ---------- up next (P3) ----------

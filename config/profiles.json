@@ -4,8 +4,12 @@
       "id": "home",
       "name": "우리집",
       "color": "#4C8BF5",
-      "collections": ["numberblocks"],
-      "dailyEpisodes": 3,
+      "collections": [
+        "numberblocks",
+        "bluey",
+        "alphablocks"
+      ],
+      "dailyEpisodes": null,
       "dailyMinutes": null
     }
   ]

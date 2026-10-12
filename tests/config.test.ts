@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { validateCollection, validateProfiles } from '../src/config.ts';
 
@@ -86,9 +86,30 @@ describe('validateCollection', () => {
       ],
     };
     expect(errorsOf(validateCollection(c))).toEqual([
-      'groups[0] needs exactly one of playlistId or videos',
-      'groups[1] needs exactly one of playlistId or videos',
+      'groups[0] needs exactly one of playlistId, videos or uploads',
+      'groups[1] needs exactly one of playlistId, videos or uploads',
       'groups[2].videos must be a non-empty array of video IDs',
+    ]);
+  });
+
+  it('accepts an uploads rule group and a free kind', () => {
+    const c = {
+      ...collection(),
+      groups: [{ id: 'mix', label: '모음집', kind: 'free', uploads: { minSec: 901, latest: 30, titlePattern: '모음' } }],
+    };
+    expect(validateCollection(c).ok).toBe(true);
+  });
+
+  it('rejects a bad kind and bad uploads values', () => {
+    const c = {
+      ...collection(),
+      groups: [{ id: 'mix', label: '모음집', kind: 'bonus', uploads: { minSec: -1, latest: 1.5, titlePattern: '(' } }],
+    };
+    expect(errorsOf(validateCollection(c))).toEqual([
+      'groups[0].kind must be "series" or "free"',
+      'groups[0].uploads.minSec must be a positive integer',
+      'groups[0].uploads.latest must be a positive integer',
+      'groups[0].uploads.titlePattern has an invalid regular expression: (',
     ]);
   });
 
@@ -126,10 +147,14 @@ describe('validateProfiles', () => {
     ]);
   });
 
-  it('keeps the checked-in profiles.json valid against the checked-in collections', () => {
+  it('keeps every checked-in collection config and profiles.json valid', () => {
     const repoProfiles = JSON.parse(readFileSync('config/profiles.json', 'utf8'));
-    const nb = JSON.parse(readFileSync('config/collections/numberblocks.json', 'utf8'));
-    const res = validateProfiles(repoProfiles, { [nb.id]: nb.groups.map((g: { id: string }) => g.id) });
-    expect(errorsOf(res)).toEqual([]);
+    const groups: Record<string, string[]> = {};
+    for (const file of readdirSync('config/collections').filter((f) => f.endsWith('.json'))) {
+      const c = JSON.parse(readFileSync(`config/collections/${file}`, 'utf8'));
+      expect(errorsOf(validateCollection(c, file.replace(/\.json$/, '')))).toEqual([]);
+      groups[c.id] = c.groups.map((g: { id: string }) => g.id);
+    }
+    expect(errorsOf(validateProfiles(repoProfiles, groups))).toEqual([]);
   });
 });

@@ -1,0 +1,36 @@
+{
+  "id": "bluey",
+  "displayName": "블루이",
+  "enabled": true,
+  "channels": [
+    "UCUwa4WCAEfUqy4HWMDkx6Mg"
+  ],
+  "coverVideoId": null,
+  "groupLabel": "모음",
+  "groups": [
+    {
+      "id": "ep",
+      "label": "에피소드",
+      "playlistId": "PLPrhyopf_mxvdhY9clr2smOS81fMUNdnP"
+    },
+    {
+      "id": "long",
+      "label": "긴 모음",
+      "kind": "free",
+      "uploads": {
+        "minSec": 1800
+      }
+    },
+    {
+      "id": "best",
+      "label": "최고의 순간",
+      "kind": "free",
+      "playlistId": "PLPrhyopf_mxvE0uPDR4KsqN26Ucltb9b-"
+    }
+  ],
+  "excludeShorts": false,
+  "titleExcludePatterns": [],
+  "titleStripPatterns": [
+    "\\s*\\|.*$"
+  ]
+}

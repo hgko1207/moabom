@@ -157,6 +157,15 @@
         "zt1Tut0IdO4",
         "sLjgd6JaFGs"
       ]
+    },
+    {
+      "id": "mix",
+      "label": "모음집",
+      "kind": "free",
+      "uploads": {
+        "minSec": 901,
+        "latest": 30
+      }
     }
   ],
   "excludeShorts": false,

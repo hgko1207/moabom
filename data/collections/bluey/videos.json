@@ -1,0 +1,1740 @@
+{
+  "collectionId": "bluey",
+  "fetchedAt": "2026-10-12T07:44:06.548Z",
+  "groups": [
+    {
+      "id": "ep",
+      "videos": [
+        {
+          "id": "odvSZ2oWCQM",
+          "title": "블루리 시리즈 3 전체 에피소드 | 40분 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루리 시리즈 3 전체 에피소드",
+          "durationSec": 2374,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "ep",
+          "order": 1
+        },
+        {
+          "id": "tIPTvnAaPGI",
+          "title": "화상 채팅 😮 💜 | 블루이 전체 에피소드 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "화상 채팅 😮 💜",
+          "durationSec": 420,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "ep",
+          "order": 2
+        },
+        {
+          "id": "_LwVvrONX68",
+          "title": "피자 소녀들 🍕 ✨ | 블루이 전체 에피소드 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "피자 소녀들 🍕 ✨",
+          "durationSec": 420,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "ep",
+          "order": 3
+        },
+        {
+          "id": "_iQWI7PylPQ",
+          "title": "선물 돌리기 🎁 💙 | 블루이 전체 에피소드 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "선물 돌리기 🎁 💙",
+          "durationSec": 480,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "ep",
+          "order": 4
+        },
+        {
+          "id": "P_6RLdrDilY",
+          "title": "마법 ✨ | 블루이 전체 에피소드 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "마법 ✨",
+          "durationSec": 420,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "ep",
+          "order": 5
+        },
+        {
+          "id": "fQiPsc6Te_w",
+          "title": "유니코스 🦄 💙 | 블루이 전체 에피소드 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "유니코스 🦄 💙",
+          "durationSec": 421,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "ep",
+          "order": 6
+        },
+        {
+          "id": "OtOBBLQK7-o",
+          "title": "미니 블루이 💙 | 블루이 전체 에피소드 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "미니 블루이 💙",
+          "durationSec": 416,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "ep",
+          "order": 7
+        },
+        {
+          "id": "f8hQeZjmMo4",
+          "title": "크리스마스 수영 | 전체 에피소드 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "크리스마스 수영",
+          "durationSec": 435,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "ep",
+          "order": 8
+        },
+        {
+          "id": "Y-fPaYxyaQM",
+          "title": "해변 🏖️ | 블루이 전체 에피소드 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "해변 🏖️",
+          "durationSec": 405,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "ep",
+          "order": 9
+        },
+        {
+          "id": "T6bO2bjGYJc",
+          "title": "아스파라거스 🪄 | 블루이 전체 에피소드 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "아스파라거스 🪄",
+          "durationSec": 417,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "ep",
+          "order": 10
+        },
+        {
+          "id": "yZ3MZl0BTGo",
+          "title": "수영장 🏊 | 블루이 전체 에피소드 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "수영장 🏊",
+          "durationSec": 417,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "ep",
+          "order": 11
+        },
+        {
+          "id": "rqjZNssCHa0",
+          "title": "요가 볼 🧘 | 블루이 전체 에피소드 📺 | - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "요가 볼 🧘",
+          "durationSec": 417,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "ep",
+          "order": 12
+        },
+        {
+          "id": "J05yUpjjOiM",
+          "title": "베이비 레이스 👶 | 전체 에피소드 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "베이비 레이스 👶",
+          "durationSec": 435,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "ep",
+          "order": 13
+        },
+        {
+          "id": "cOZIAolvJRU",
+          "title": "더블 베이비시터 | 전체 에피소드 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "더블 베이비시터",
+          "durationSec": 435,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "ep",
+          "order": 14
+        },
+        {
+          "id": "i6Ogdl0DitA",
+          "title": "시소 ⚖️ | 전체 에피소드 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "시소 ⚖️",
+          "durationSec": 435,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "ep",
+          "order": 15
+        },
+        {
+          "id": "wqVe-nHM0Og",
+          "title": "아이스크림 🍦 | 전체 에피소드 📺 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "아이스크림 🍦",
+          "durationSec": 435,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "ep",
+          "order": 16
+        },
+        {
+          "id": "rI4O7w3esEk",
+          "title": "영화 🍿 | 블루이 - 한국 공식 채널 - Bluey  💙 🇰🇷",
+          "displayTitle": "영화 🍿",
+          "durationSec": 435,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "ep",
+          "order": 17
+        },
+        {
+          "id": "Nev3B3i1duw",
+          "title": "파란산 | 블루이 모든 회차 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "파란산",
+          "durationSec": 383,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "ep",
+          "order": 18
+        },
+        {
+          "id": "k4aRJdqqpqg",
+          "title": "호텔 놀이 | 블루이 모든 회차! | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "호텔 놀이",
+          "durationSec": 383,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "ep",
+          "order": 19
+        }
+      ]
+    },
+    {
+      "id": "long",
+      "videos": [
+        {
+          "id": "I3uXps93lTo",
+          "title": "수영장 🤿🐠 | 1시간 넘게 온 가족이 함께 즐길 수 있는 재미 💙 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "수영장 🤿🐠",
+          "durationSec": 3921,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "long",
+          "order": 1
+        },
+        {
+          "id": "PJL72DBYVLc",
+          "title": "개울 🦋🌿 | 모음집 💙 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "개울 🦋🌿",
+          "durationSec": 2039,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "long",
+          "order": 2
+        },
+        {
+          "id": "UeLqYrLXXTA",
+          "title": "미니 블루이 💙😂 그리고 1시간이 넘는 가족과의 즐거운 시간! | Bluey Korean",
+          "displayTitle": "미니 블루이 💙😂 그리고 1시간이 넘는 가족과의 즐거운 시간!",
+          "durationSec": 3912,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "long",
+          "order": 3
+        },
+        {
+          "id": "-VfmDgnane4",
+          "title": "써니 블루이의 재미와 게임 💙 ☀️ | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "써니 블루이의 재미와 게임 💙 ☀️",
+          "durationSec": 1874,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "long",
+          "order": 4
+        },
+        {
+          "id": "gYJIUuwPbWA",
+          "title": "블루이와 함께 캠핑하기 🏕️ 💙 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이와 함께 캠핑하기 🏕️ 💙",
+          "durationSec": 1868,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "long",
+          "order": 5
+        },
+        {
+          "id": "bdWBJHr2lvU",
+          "title": "모든 블루이 단편 프래그먼트! 💙 ⭐️ | 20 에피소드 | 40분 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "모든 블루이 단편 프래그먼트! 💙 ⭐️",
+          "durationSec": 2377,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "long",
+          "order": 6
+        },
+        {
+          "id": "HaYnPGckSao",
+          "title": "야외에서 즐기는 활동적인 블루이 모멘트 30분 ☀️ ❤️ | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "야외에서 즐기는 활동적인 블루이 모멘트 30분 ☀️ ❤️",
+          "durationSec": 1862,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "long",
+          "order": 7
+        },
+        {
+          "id": "WIRB9sGmrd4",
+          "title": "빅 허그! 🤗 | 블루이 차분하고 편안한 순간 💙 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "빅 허그! 🤗",
+          "durationSec": 1802,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "long",
+          "order": 8
+        },
+        {
+          "id": "96z7aX2FtzI",
+          "title": "비오는 날을 위한 블루이 게임 ☔️ 💙 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "비오는 날을 위한 블루이 게임 ☔️ 💙",
+          "durationSec": 1818,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "long",
+          "order": 9
+        },
+        {
+          "id": "xi2gxAZkj9I",
+          "title": "블루이 정원 놀이 | 친구와 함께 하는 30분간의 야외 놀이 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이 정원 놀이",
+          "durationSec": 1839,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "long",
+          "order": 10
+        },
+        {
+          "id": "IvNIyRTL-7g",
+          "title": "블루이 와 빙고와 함께하는 부활절 간식 🐰 🐣 💙 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이 와 빙고와 함께하는 부활절 간식 🐰 🐣 💙",
+          "durationSec": 1901,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "long",
+          "order": 11
+        },
+        {
+          "id": "odvSZ2oWCQM",
+          "title": "블루리 시리즈 3 전체 에피소드 | 40분 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루리 시리즈 3 전체 에피소드",
+          "durationSec": 2374,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "long",
+          "order": 12
+        },
+        {
+          "id": "gS-Qua7xyWQ",
+          "title": "시리즈 2의 베스트! 💙 | 40분 이상 전체 에피소드 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "시리즈 2의 베스트! 💙",
+          "durationSec": 2408,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "long",
+          "order": 13
+        },
+        {
+          "id": "otnnSrnz1VI",
+          "title": "시리즈 1의 베스트! 💙 | 35분 이상 전체 에피소드 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "시리즈 1의 베스트! 💙",
+          "durationSec": 2316,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "long",
+          "order": 14
+        }
+      ]
+    },
+    {
+      "id": "best",
+      "videos": [
+        {
+          "id": "-WPtwAu4T3Y",
+          "title": "블루이와 미니 블루이! 💙😆👯‍♀️ | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이와 미니 블루이! 💙😆👯‍♀️",
+          "durationSec": 416,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 1
+        },
+        {
+          "id": "dpZ5mIGrzX0",
+          "title": "빙고가 오믈렛을 만들고 있어요!🍳🧡 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "빙고가 오믈렛을 만들고 있어요!🍳🧡",
+          "durationSec": 123,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 2
+        },
+        {
+          "id": "YdlPPQHZaAA",
+          "title": "요가 볼로 놀기!💙🎾 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "요가 볼로 놀기!💙🎾",
+          "durationSec": 417,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 3
+        },
+        {
+          "id": "_fBTK65O3-8",
+          "title": "동물 대모험!💙😮 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "동물 대모험!💙😮",
+          "durationSec": 662,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 4
+        },
+        {
+          "id": "AqNrZOtbu98",
+          "title": "블루이와 가족과 함께하는 즐거운 시간!💙🧡 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이와 가족과 함께하는 즐거운 시간!💙🧡",
+          "durationSec": 566,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 5
+        },
+        {
+          "id": "9KWjbxhae7A",
+          "title": "친구들과 어울리기!💙😄 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "친구들과 어울리기!💙😄",
+          "durationSec": 537,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 6
+        },
+        {
+          "id": "sZhWhFCIIQo",
+          "title": "정원에서 놀기! 💙🌻 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "정원에서 놀기! 💙🌻",
+          "durationSec": 1703,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 7
+        },
+        {
+          "id": "icfl37H_pfw",
+          "title": "블루이와 친구들과 함께하는 햇살 가득한 즐거운 시간!💙🌞 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이와 친구들과 함께하는 햇살 가득한 즐거운 시간!💙🌞",
+          "durationSec": 1622,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 8
+        },
+        {
+          "id": "4iPe6pjlJQo",
+          "title": "로맨스의 시간이다! 💙🥰 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "로맨스의 시간이다! 💙🥰",
+          "durationSec": 1639,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 9
+        },
+        {
+          "id": "zemc8MHPqd0",
+          "title": "블루이의 스릴! 💙🧡 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이의 스릴! 💙🧡",
+          "durationSec": 1395,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 10
+        },
+        {
+          "id": "eeIJwwPTNRA",
+          "title": "블루이와 빙고와 함께 웃어보세요! 💙🧡 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이와 빙고와 함께 웃어보세요! 💙🧡",
+          "durationSec": 733,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 11
+        },
+        {
+          "id": "D74FywESN-E",
+          "title": "힐러 가족과 함께하는 신나는 순간들 💙🧡 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "힐러 가족과 함께하는 신나는 순간들 💙🧡",
+          "durationSec": 1120,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 12
+        },
+        {
+          "id": "9bAThsc27Vo",
+          "title": "아늑한 블루이 가족 시간 😊 ✨ | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "아늑한 블루이 가족 시간 😊 ✨",
+          "durationSec": 1562,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 13
+        },
+        {
+          "id": "TlMn9U_BJyU",
+          "title": "졸린 꿈과 상상 속 모험 💤 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "졸린 꿈과 상상 속 모험 💤",
+          "durationSec": 1797,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 14
+        },
+        {
+          "id": "mr7cb4iSsok",
+          "title": "가장 용감한 블루이 모험 🐉 💙 | 30분 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "가장 용감한 블루이 모험 🐉 💙",
+          "durationSec": 1762,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 15
+        },
+        {
+          "id": "-VfmDgnane4",
+          "title": "써니 블루이의 재미와 게임 💙 ☀️ | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "써니 블루이의 재미와 게임 💙 ☀️",
+          "durationSec": 1874,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 16
+        },
+        {
+          "id": "gYJIUuwPbWA",
+          "title": "블루이와 함께 캠핑하기 🏕️ 💙 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이와 함께 캠핑하기 🏕️ 💙",
+          "durationSec": 1868,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 17
+        },
+        {
+          "id": "9p0_sq7ULus",
+          "title": "30분간의 블루이 드레스업 놀이 ⭐️ 💙 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "30분간의 블루이 드레스업 놀이 ⭐️ 💙",
+          "durationSec": 1698,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 18
+        },
+        {
+          "id": "HaYnPGckSao",
+          "title": "야외에서 즐기는 활동적인 블루이 모멘트 30분 ☀️ ❤️ | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "야외에서 즐기는 활동적인 블루이 모멘트 30분 ☀️ ❤️",
+          "durationSec": 1862,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 19
+        },
+        {
+          "id": "WIRB9sGmrd4",
+          "title": "빅 허그! 🤗 | 블루이 차분하고 편안한 순간 💙 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "빅 허그! 🤗",
+          "durationSec": 1802,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 20
+        },
+        {
+          "id": "Z8-IabDEoW0",
+          "title": "블루이 시리즈 1 축하! 💙 | 최고의 순간 ✨ | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이 시리즈 1 축하! 💙",
+          "durationSec": 1761,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 21
+        },
+        {
+          "id": "96z7aX2FtzI",
+          "title": "비오는 날을 위한 블루이 게임 ☔️ 💙 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "비오는 날을 위한 블루이 게임 ☔️ 💙",
+          "durationSec": 1818,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 22
+        },
+        {
+          "id": "xi2gxAZkj9I",
+          "title": "블루이 정원 놀이 | 친구와 함께 하는 30분간의 야외 놀이 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이 정원 놀이",
+          "durationSec": 1839,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 23
+        },
+        {
+          "id": "HemKiCo_13w",
+          "title": "베스트 오브 블루이 단편 - 2부 💙 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "베스트 오브 블루이 단편 - 2부 💙",
+          "durationSec": 450,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 24
+        },
+        {
+          "id": "nrRMZvp7pYo",
+          "title": "블루이 빙고 남매의 순간 🧡 💙 | 30 분 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이 빙고 남매의 순간 🧡 💙",
+          "durationSec": 1759,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 25
+        },
+        {
+          "id": "wV2g3cNmW9g",
+          "title": "베스트 오브 블루이 단편 - 1부 💙 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "베스트 오브 블루이 단편 - 1부 💙",
+          "durationSec": 352,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 26
+        },
+        {
+          "id": "9LMfFrssvU0",
+          "title": "블루이 가든 파티 🏡 | 친구들과 함께하는 멋진 모험 😎 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이 가든 파티 🏡",
+          "durationSec": 1703,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 27
+        },
+        {
+          "id": "HOBN1Wi_4W8",
+          "title": "블루이 봄날의 모험! ☀️ 🌺 | 친구와 함께하는 즐거운 화창한 날 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이 봄날의 모험! ☀️ 🌺",
+          "durationSec": 1189,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 28
+        },
+        {
+          "id": "_gwS8MuU8L0",
+          "title": "플라워 걸과 함께하는 블루이 펀 🌸 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "플라워 걸과 함께하는 블루이 펀 🌸",
+          "durationSec": 1573,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 29
+        },
+        {
+          "id": "2ORflXk1PKQ",
+          "title": "재미있는 블루이 게임! 😆 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "재미있는 블루이 게임! 😆",
+          "durationSec": 1688,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 30
+        },
+        {
+          "id": "aRRgLa6u-Rk",
+          "title": "바보 같은 아이들! 😝 | 재미있는 블루이 순간 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "바보 같은 아이들! 😝",
+          "durationSec": 1557,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 31
+        },
+        {
+          "id": "2rmqI52ato0",
+          "title": "엄마와 아빠가 함께하는 블루이 게임 ☺️ | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "엄마와 아빠가 함께하는 블루이 게임 ☺️",
+          "durationSec": 1557,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 32
+        },
+        {
+          "id": "Brwu3i8IuTA",
+          "title": "로맨스를 위한 시간 💕 | 블루이 큐트 모멘트 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "로맨스를 위한 시간 💕",
+          "durationSec": 1639,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 33
+        },
+        {
+          "id": "O3_gOOVwG_I",
+          "title": "블루이 스릴! 😯 💙 | 신나는 재미 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이 스릴! 😯 💙",
+          "durationSec": 1395,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 34
+        },
+        {
+          "id": "lPMvBaz18m8",
+          "title": "빙고와 블루이로 드레스업 놀이하기 ✨ | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "빙고와 블루이로 드레스업 놀이하기 ✨",
+          "durationSec": 1504,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 35
+        },
+        {
+          "id": "VJWb8jJHckc",
+          "title": "베스트 오브 칠리와 밴딧 💕 | 엄마 아빠와 함께하는 블루이 펀 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "베스트 오브 칠리와 밴딧 💕",
+          "durationSec": 1497,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 36
+        },
+        {
+          "id": "9E6yMi99e5Q",
+          "title": "더 많은 블루이 모험을 즐길 시간입니다! 😍 💙 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "더 많은 블루이 모험을 즐길 시간입니다! 😍 💙",
+          "durationSec": 1500,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 37
+        },
+        {
+          "id": "XoBgiqDFReU",
+          "title": "블루이 함께 새해 복 많이 받으세요! 🎊 💙 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이 함께 새해 복 많이 받으세요! 🎊 💙",
+          "durationSec": 1363,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 38
+        },
+        {
+          "id": "Wp7VaFeXIWk",
+          "title": "아늑한 블루이 타임 ✨ | 휴식의 순간 💙 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "아늑한 블루이 타임 ✨",
+          "durationSec": 1562,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 39
+        },
+        {
+          "id": "Vpo2Qfg5GHs",
+          "title": "장난감 가지고 놀기 🎁 | 크리스마스의 블루이 🎄 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "장난감 가지고 놀기 🎁",
+          "durationSec": 1452,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 40
+        },
+        {
+          "id": "rojWa5e9r-E",
+          "title": "블루이와의 즐거운 이야기 시간 📚 ✨  | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "블루이와의 즐거운 이야기 시간 📚 ✨",
+          "durationSec": 1789,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 41
+        },
+        {
+          "id": "H-oMlzCBuIA",
+          "title": "블루이 패밀리 크리스마스 🎄 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "블루이 패밀리 크리스마스 🎄",
+          "durationSec": 1679,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 42
+        },
+        {
+          "id": "fHljZbYl-Sg",
+          "title": "한입 크기 블루이 모멘트 ✨ 💙 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "한입 크기 블루이 모멘트 ✨ 💙",
+          "durationSec": 1418,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 43
+        },
+        {
+          "id": "sngdRie4FDY",
+          "title": "블루이와 함께 춤추기 🪩 💙 | 최고의 댄스 순간 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이와 함께 춤추기 🪩 💙",
+          "durationSec": 986,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 44
+        },
+        {
+          "id": "NhKHY8w5z20",
+          "title": "졸린 잠자리 꿈 💤 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "졸린 잠자리 꿈 💤",
+          "durationSec": 1797,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 45
+        },
+        {
+          "id": "TGh-e-Ot4-w",
+          "title": "무인도에서 휴식하기 🤩 🏝️ | 사랑스러운 블루이 순간 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "무인도에서 휴식하기 🤩 🏝️",
+          "durationSec": 808,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 46
+        },
+        {
+          "id": "6BnQWy9yRM0",
+          "title": "귀여운 블루이 에피소드 🥰 | 사랑스러운 블루이 순간들 💙 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "귀여운 블루이 에피소드 🥰",
+          "durationSec": 1350,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 47
+        },
+        {
+          "id": "odvSZ2oWCQM",
+          "title": "블루리 시리즈 3 전체 에피소드 | 40분 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루리 시리즈 3 전체 에피소드",
+          "durationSec": 2374,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 48
+        },
+        {
+          "id": "p7na3gZOLOM",
+          "title": "블루이 빙고가 동물인 척하기 🐘 🦘💙 | 블루이 시리즈 3 - 집안일 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이 빙고가 동물인 척하기 🐘 🦘💙",
+          "durationSec": 125,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 49
+        },
+        {
+          "id": "JMZd2qLd48c",
+          "title": "블루이 시리즈 2 하이라이트 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이 시리즈 2 하이라이트",
+          "durationSec": 1247,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 50
+        },
+        {
+          "id": "DSwJSBMKKL0",
+          "title": "블루이와 함께하는 신나는 놀이 시간 😮 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이와 함께하는 신나는 놀이 시간 😮",
+          "durationSec": 1120,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 51
+        },
+        {
+          "id": "t0KhmsIBdIY",
+          "title": "블루이 빅 스마일 😁 💙 | 블루이와 빙고와 함께하는 즐거운 순간 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "블루이 빅 스마일 😁 💙",
+          "durationSec": 866,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 52
+        },
+        {
+          "id": "Fmw9EXY_nJQ",
+          "title": "블루이와 빙고의 친구들 💙 | 최고의 우정의 순간 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "블루이와 빙고의 친구들 💙",
+          "durationSec": 675,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 53
+        },
+        {
+          "id": "obMtA2gugWo",
+          "title": "반딧트의 최고의 순간 💙 | 블루이와 아빠와 함께하는 게임 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "반딧트의 최고의 순간 💙",
+          "durationSec": 745,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 54
+        },
+        {
+          "id": "M6Ud9pnTcHg",
+          "title": "블루이와 빙고와 함께 웃자 😆💙 | 블루이 - 한국 공식 채널 - Bluey  🇰🇷",
+          "displayTitle": "블루이와 빙고와 함께 웃자 😆💙",
+          "durationSec": 733,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 55
+        },
+        {
+          "id": "ddVLRQqaXX0",
+          "title": "가슴 따뜻한 블루의 순간 🥰 💙 | 블루이 - 한국 공식 채널 - Bluey  🇰🇷",
+          "displayTitle": "가슴 따뜻한 블루의 순간 🥰 💙",
+          "durationSec": 848,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 56
+        },
+        {
+          "id": "WVbEUVWygg0",
+          "title": "카오틱 머핀과 삭스 하이라이트! 💜 🤍 | 블루이와 함께하는 사촌 놀이 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "카오틱 머핀과 삭스 하이라이트! 💜 🤍",
+          "durationSec": 634,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 57
+        },
+        {
+          "id": "VpX39ASH2PE",
+          "title": "블루이와 빙고와 함께하는 신나는 순간! 😮 💙 🧡 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "블루이와 빙고와 함께하는 신나는 순간! 😮 💙 🧡",
+          "durationSec": 886,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 58
+        },
+        {
+          "id": "-UrTMh3Uifo",
+          "title": "블루이함께 떠나는 가족 여행! 🤿 💙 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "블루이함께 떠나는 가족 여행! 🤿 💙",
+          "durationSec": 640,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 59
+        },
+        {
+          "id": "y4MZR6lBj08",
+          "title": "블루이의 새 방 | 시리즈 3 - 침대방 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "블루이의 새 방",
+          "durationSec": 124,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 60
+        },
+        {
+          "id": "7nkU-g3C5Dw",
+          "title": "블루이와의 판타지 게임 ✨ | 플레이 순간을 가장하기 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "블루이와의 판타지 게임 ✨",
+          "durationSec": 566,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 61
+        },
+        {
+          "id": "YB5602nlQXs",
+          "title": "밖에서 즐길 수 있는 게임 ✨ | 블루이와 빙고로 밖에서 즐기기 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "밖에서 즐길 수 있는 게임 ✨",
+          "durationSec": 794,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 62
+        },
+        {
+          "id": "mNboQ4cwOSA",
+          "title": "편안한 휴일의 순간 | 블루이와 빙고와 함께하는 휴식 시간 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "편안한 휴일의 순간",
+          "durationSec": 732,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 63
+        },
+        {
+          "id": "baaUyt-bk8o",
+          "title": "태양의 즐거움 ☀️ | 블루이와 빙고와 함께하는 여름 액티비티 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "태양의 즐거움 ☀️",
+          "durationSec": 787,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 64
+        },
+        {
+          "id": "QToqOUTVGlA",
+          "title": "빅 블루이 여행 💙 ✨ | 세계 탐험하기  | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "빅 블루이 여행 💙 ✨",
+          "durationSec": 601,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 65
+        },
+        {
+          "id": "meXkiI0jBpg",
+          "title": "홀리데이 모멘트 ☀️ | 블루이와 빙고와 함께하는 여행의 즐거움 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "홀리데이 모멘트 ☀️",
+          "durationSec": 886,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 66
+        },
+        {
+          "id": "s_N0D3DICIk",
+          "title": "오리 케이크 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "오리 케이크",
+          "durationSec": 127,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 67
+        },
+        {
+          "id": "gW560845LqE",
+          "title": "블루이 최고의 자동차 게임 🚘 ✨ | 블루이와 빙고와 함께하는 여행의 즐거움 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이 최고의 자동차 게임 🚘 ✨",
+          "durationSec": 627,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 68
+        },
+        {
+          "id": "lUaLUfdiBZ4",
+          "title": "귀여운 빙고 순간! 🧡 | 블루이와 빙고의 재미 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "귀여운 빙고 순간! 🧡",
+          "durationSec": 646,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 69
+        },
+        {
+          "id": "1NAUW-rRwu4",
+          "title": "상상력 놀이의 순간 💭 | 블루이와의 상상력 게임 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "상상력 놀이의 순간 💭",
+          "durationSec": 813,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 70
+        },
+        {
+          "id": "pp0sTIg_S_4",
+          "title": "문어 게임 🐙 | 블루이 게임 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "문어 게임 🐙",
+          "durationSec": 131,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 71
+        },
+        {
+          "id": "Eeb-JMI-eJ8",
+          "title": "실내 모험 ✨ | 블루이와 빙고가 실내에서 즐기는 즐거운 시간 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "실내 모험 ✨",
+          "durationSec": 678,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 72
+        },
+        {
+          "id": "aHGqUmHs0IY",
+          "title": "칠리의 최고 🧡 | 엄마와 함께하는 재미와 게임 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "칠리의 최고 🧡",
+          "durationSec": 626,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 73
+        },
+        {
+          "id": "VlE7pLb1QrY",
+          "title": "블루이와 빙고와 함께 놀기 💙 | 어린이용 카툰 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "블루이와 빙고와 함께 놀기 💙",
+          "durationSec": 607,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 74
+        },
+        {
+          "id": "YdX1lijNnZ4",
+          "title": "블루이의 최고의 순간 | 축하! | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "블루이의 최고의 순간",
+          "durationSec": 752,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 75
+        },
+        {
+          "id": "dCSA0jZKX5s",
+          "title": "블루이처럼 파티하는 방법 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "블루이처럼 파티하는 방법",
+          "durationSec": 637,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 76
+        },
+        {
+          "id": "eJXOnFiVCiU",
+          "title": "블루이의 가장 재미있는 게임 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "블루이의 가장 재미있는 게임",
+          "durationSec": 668,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 77
+        },
+        {
+          "id": "Ms9qk-YzP0U",
+          "title": "카페 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "카페",
+          "durationSec": 124,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 78
+        },
+        {
+          "id": "OCLeu-wcDgs",
+          "title": "블루이와 대자연 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "블루이와 대자연",
+          "durationSec": 645,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 79
+        },
+        {
+          "id": "Qi0fj2p1moI",
+          "title": "힐러와 함께하는 가족 시간 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "힐러와 함께하는 가족 시간",
+          "durationSec": 734,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 80
+        },
+        {
+          "id": "9CL4k81tkZU",
+          "title": "가장 재미있는 빙고 순간 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "가장 재미있는 빙고 순간",
+          "durationSec": 700,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 81
+        },
+        {
+          "id": "S0E9fLF1YE4",
+          "title": "블루이와 함께하는 봄날 🌸 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "블루이와 함께하는 봄날 🌸",
+          "durationSec": 732,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 82
+        },
+        {
+          "id": "ugA1sGX_vqE",
+          "title": "최고의 공연! | 블루이 빙고로 캐릭터 놀이하기 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "최고의 공연!",
+          "durationSec": 697,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 83
+        },
+        {
+          "id": "vnFUO4fOSU0",
+          "title": "힐러와 함께 춤추기 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "힐러와 함께 춤추기",
+          "durationSec": 450,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 84
+        },
+        {
+          "id": "UfrxJeZ9bXg",
+          "title": "블루이와 함께하는 즐거운 주방 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "블루이와 함께하는 즐거운 주방",
+          "durationSec": 447,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 85
+        },
+        {
+          "id": "rjUu5OeRwjg",
+          "title": "블루이와 함께하는 사랑스러운 순간 💙 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "블루이와 함께하는 사랑스러운 순간 💙",
+          "durationSec": 634,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 86
+        },
+        {
+          "id": "XDhBf6-YNag",
+          "title": "칠리의 최고의 순간! | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "칠리의 최고의 순간!",
+          "durationSec": 543,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 87
+        },
+        {
+          "id": "ZyXEUlt5t84",
+          "title": "블루이와 함께하는 취침 시간 | 더블 베이비시터 전체 에피소드 등! | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "블루이와 함께하는 취침 시간",
+          "durationSec": 705,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 88
+        },
+        {
+          "id": "0c6qjaEILOc",
+          "title": "베스트 오브 더 사촌 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "베스트 오브 더 사촌",
+          "durationSec": 476,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 89
+        },
+        {
+          "id": "2iY52JZCr_E",
+          "title": "블루이와 빙고가 가장 좋아하는 장난감 | 최고의 장난감 순간 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "블루이와 빙고가 가장 좋아하는 장난감",
+          "durationSec": 555,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 90
+        },
+        {
+          "id": "DcYmRDOttCM",
+          "title": "바보 같은 목소리 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "바보 같은 목소리",
+          "durationSec": 839,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 91
+        },
+        {
+          "id": "wEaI1P_eaOc",
+          "title": "힐러와 함께하는 가족의 순간 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "힐러와 함께하는 가족의 순간",
+          "durationSec": 545,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 92
+        },
+        {
+          "id": "byn92o17ygU",
+          "title": "힐러와 함께 휴식하기 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "힐러와 함께 휴식하기",
+          "durationSec": 887,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 93
+        },
+        {
+          "id": "x23T4bb5oyM",
+          "title": "블루이와 함께하는 아늑한 밤 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이와 함께하는 아늑한 밤",
+          "durationSec": 716,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 94
+        },
+        {
+          "id": "mMXCBM4Dveg",
+          "title": "메리 노래와 춤 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "메리 노래와 춤",
+          "durationSec": 446,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 95
+        },
+        {
+          "id": "gS-Qua7xyWQ",
+          "title": "시리즈 2의 베스트! 💙 | 40분 이상 전체 에피소드 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "시리즈 2의 베스트! 💙",
+          "durationSec": 2408,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 96
+        },
+        {
+          "id": "a-HmHhmHSgY",
+          "title": "크리스마스 쇼핑 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "크리스마스 쇼핑",
+          "durationSec": 545,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 97
+        },
+        {
+          "id": "DjcsdSx_AJY",
+          "title": "가족 축제  | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "가족 축제",
+          "durationSec": 816,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 98
+        },
+        {
+          "id": "0fTbUS9WtN8",
+          "title": "블루이와 함께하는 음식 게임 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "블루이와 함께하는 음식 게임",
+          "durationSec": 393,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 99
+        },
+        {
+          "id": "w0chFW6KlZc",
+          "title": "블루리와 빙고의 친구들 베스트 | 시리즈 2 베스트 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "블루리와 빙고의 친구들 베스트",
+          "durationSec": 533,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 100
+        },
+        {
+          "id": "otnnSrnz1VI",
+          "title": "시리즈 1의 베스트! 💙 | 35분 이상 전체 에피소드 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "시리즈 1의 베스트! 💙",
+          "durationSec": 2316,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 101
+        },
+        {
+          "id": "BcxCSr1kyJY",
+          "title": "블루리와 빙고의 친구들 베스트 | 시리즈 1 베스트 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "블루리와 빙고의 친구들 베스트",
+          "durationSec": 839,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 102
+        },
+        {
+          "id": "WEGW9JBgLDY",
+          "title": "온 가족을 위한 게임 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "온 가족을 위한 게임",
+          "durationSec": 641,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 103
+        },
+        {
+          "id": "MlhETZCHTEQ",
+          "title": "공원에서의 즐거운 시간 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "공원에서의 즐거운 시간",
+          "durationSec": 558,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 104
+        },
+        {
+          "id": "NNgAL_0oInI",
+          "title": "어른과 함께 즐길 수 있는 게임! | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "어른과 함께 즐길 수 있는 게임!",
+          "durationSec": 334,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 105
+        },
+        {
+          "id": "g6iw9goE9RA",
+          "title": "블루이 친구들과 놀기 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "블루이 친구들과 놀기",
+          "durationSec": 475,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 106
+        },
+        {
+          "id": "Vuc2mDiwfr0",
+          "title": "쉽게 따라하는 블루이 게임 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "쉽게 따라하는 블루이 게임",
+          "durationSec": 314,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 107
+        },
+        {
+          "id": "Iv7wpZGIPeg",
+          "title": "블루이와 핼러윈 🎃 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
+          "displayTitle": "블루이와 핼러윈 🎃",
+          "durationSec": 481,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 108
+        },
+        {
+          "id": "ql5BVhyjIME",
+          "title": "부모님이 된 아이들 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "부모님이 된 아이들",
+          "durationSec": 607,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 109
+        },
+        {
+          "id": "skRa7yy-Z8I",
+          "title": "블루이와 함께하는 할로윈 🎃 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "블루이와 함께하는 할로윈 🎃",
+          "durationSec": 543,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 110
+        },
+        {
+          "id": "DTjnru_-RIg",
+          "title": "메가 머핀 매드니스! | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "메가 머핀 매드니스!",
+          "durationSec": 426,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 111
+        },
+        {
+          "id": "sf_jF0SMOl0",
+          "title": "블루이와 학교에 가기! 👩‍🏫 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "블루이와 학교에 가기! 👩‍🏫",
+          "durationSec": 537,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 112
+        },
+        {
+          "id": "VX5Tg0o84AI",
+          "title": "블루이 놀이를 하자 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "블루이 놀이를 하자",
+          "durationSec": 483,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 113
+        },
+        {
+          "id": "J05yUpjjOiM",
+          "title": "베이비 레이스 👶 | 전체 에피소드 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "베이비 레이스 👶",
+          "durationSec": 435,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 114
+        },
+        {
+          "id": "i6Ogdl0DitA",
+          "title": "시소 ⚖️ | 전체 에피소드 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "시소 ⚖️",
+          "durationSec": 435,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 115
+        },
+        {
+          "id": "iuMsPGcFVnI",
+          "title": "블루이와 새로운 곳에 가기 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이와 새로운 곳에 가기",
+          "durationSec": 481,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 116
+        },
+        {
+          "id": "wqVe-nHM0Og",
+          "title": "아이스크림 🍦 | 전체 에피소드 📺 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "아이스크림 🍦",
+          "durationSec": 435,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 117
+        },
+        {
+          "id": "Ui-iNOPCRSk",
+          "title": "블루이와 같이 읽어요! 📚 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "블루이와 같이 읽어요! 📚",
+          "durationSec": 428,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 118
+        },
+        {
+          "id": "ehyPXlwj93M",
+          "title": "블루이의 상상력 넘치는 탐험 💡| 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "블루이의 상상력 넘치는 탐험 💡",
+          "durationSec": 425,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 119
+        },
+        {
+          "id": "Qspinmge_H0",
+          "title": "블루이의 꿈 😴 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "블루이의 꿈 😴",
+          "durationSec": 368,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 120
+        },
+        {
+          "id": "yIVmGGzqJQk",
+          "title": "가족들의 순간 🧑‍🧑‍🧒‍🧒 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "가족들의 순간 🧑‍🧑‍🧒‍🧒",
+          "durationSec": 423,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 121
+        },
+        {
+          "id": "Qimwv1CpRHs",
+          "title": "모두 동물이 되자 🧠 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "모두 동물이 되자 🧠",
+          "durationSec": 427,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 122
+        },
+        {
+          "id": "9HuvVdS0j9g",
+          "title": "맛있는 순간들! | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "맛있는 순간들!",
+          "durationSec": 473,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 123
+        },
+        {
+          "id": "j2S3Eumpso0",
+          "title": "이동하면서 같이 놀자! 🚗 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "이동하면서 같이 놀자! 🚗",
+          "durationSec": 422,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 124
+        },
+        {
+          "id": "osFy5t_Xqos",
+          "title": "밴디트의 최고의 순간! 👨  | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "밴디트의 최고의 순간! 👨",
+          "durationSec": 432,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 125
+        },
+        {
+          "id": "Pnc7sT4q534",
+          "title": "블루이의 꿈속 모험 🌚  | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "블루이의 꿈속 모험 🌚",
+          "durationSec": 545,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 126
+        },
+        {
+          "id": "G2zU13k6UqU",
+          "title": "재밌는 힐러 가족 | 블루이 - 한국 공식 채널 - Bluey 💙 🇰🇷",
+          "displayTitle": "재밌는 힐러 가족",
+          "durationSec": 510,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 127
+        },
+        {
+          "id": "XfMO4kWGAnQ",
+          "title": "블루이와 함께 특이한 놀이 💡| 블루이 - 한국 공식 채널 - Bluey 💙🇰🇷",
+          "displayTitle": "블루이와 함께 특이한 놀이 💡",
+          "durationSec": 494,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 128
+        },
+        {
+          "id": "1zYE2CG9M4w",
+          "title": "삼촌 스트라이프의 최고의 순간 | 블루이 - 한국 공식 채널 - Bluey 💙🇰🇷",
+          "displayTitle": "삼촌 스트라이프의 최고의 순간",
+          "durationSec": 428,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 129
+        },
+        {
+          "id": "LJsfLheLWW4",
+          "title": "물이 첨벙첨벙! 💦 | 블루이 - 한국 공식 채널 - Bluey 💙🇰🇷",
+          "displayTitle": "물이 첨벙첨벙! 💦",
+          "durationSec": 484,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 130
+        },
+        {
+          "id": "f1f1rPr1svg",
+          "title": "힐러 가족과 시간을 보내요 🧑‍🧑‍🧒‍🧒 | 블루이 - 한국 공식 채널 - Bluey 💙🇰🇷",
+          "displayTitle": "힐러 가족과 시간을 보내요 🧑‍🧑‍🧒‍🧒",
+          "durationSec": 476,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 131
+        },
+        {
+          "id": "-kIsgZee0XA",
+          "title": "블루이 게임을 하자  💃 | 블루이 - 한국 공식 채널 - Bluey 💙🇰🇷",
+          "displayTitle": "블루이 게임을 하자  💃",
+          "durationSec": 489,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 132
+        },
+        {
+          "id": "GLelay-e4Gs",
+          "title": "엄마와 할머니의 최고의 순간 👩👵 | 블루이 - 한국 공식 채널 - Bluey 💙🇰🇷",
+          "displayTitle": "엄마와 할머니의 최고의 순간 👩👵",
+          "durationSec": 430,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 133
+        },
+        {
+          "id": "m4HopfWeqQE",
+          "title": "블루이 친구들과 같이 놀기 👯 | 블루이 - 한국 공식 채널 - Bluey 💙🇰🇷",
+          "displayTitle": "블루이 친구들과 같이 놀기 👯",
+          "durationSec": 429,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 134
+        },
+        {
+          "id": "MZjcjcZUCSc",
+          "title": "블루이와 음악 즐기기 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이와 음악 즐기기",
+          "durationSec": 432,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 135
+        },
+        {
+          "id": "iC6v_DceUxw",
+          "title": "웃긴 빙고의 모습들 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "웃긴 빙고의 모습들",
+          "durationSec": 428,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 136
+        },
+        {
+          "id": "h2G4Q-wN_q4",
+          "title": "힐러 가족이 사는 법 | 모음집 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "힐러 가족이 사는 법",
+          "durationSec": 369,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 137
+        },
+        {
+          "id": "Yog5xuydWlI",
+          "title": "실내에서 하는 블루이의 놀이 | | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "실내에서 하는 블루이의 놀이",
+          "durationSec": 608,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 138
+        },
+        {
+          "id": "OtZeb34H2Gw",
+          "title": "웃긴 빙고의 모습들 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "웃긴 빙고의 모습들",
+          "durationSec": 425,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 139
+        },
+        {
+          "id": "j1gnWKc9MyM",
+          "title": "블루이의 우정 | 블루이 최고의 순간 | | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이의 우정",
+          "durationSec": 363,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 140
+        },
+        {
+          "id": "EnQtWYMQh-c",
+          "title": "블루이와 함께하는 이야기 시간! | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이와 함께하는 이야기 시간!",
+          "durationSec": 476,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 141
+        },
+        {
+          "id": "uN2J09McVoA",
+          "title": "어른들과 함께하는 블루이의 놀이 | | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "어른들과 함께하는 블루이의 놀이",
+          "durationSec": 345,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 142
+        },
+        {
+          "id": "CM8B8BLkPSs",
+          "title": "우스꽝스러운 순간들! | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "우스꽝스러운 순간들!",
+          "durationSec": 470,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 143
+        },
+        {
+          "id": "OM936T5Tq_g",
+          "title": "노래하는 순간들 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "노래하는 순간들",
+          "durationSec": 299,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 144
+        },
+        {
+          "id": "lO2ljVgV4Gw",
+          "title": "시늉하기 놀이! | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "시늉하기 놀이!",
+          "durationSec": 514,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 145
+        },
+        {
+          "id": "DA0pk_Bx2LM",
+          "title": "다정한 모습들 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "다정한 모습들",
+          "durationSec": 512,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 146
+        },
+        {
+          "id": "LVge5-SzPr8",
+          "title": "온 가족이 함께하는 블루이의 놀이 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "온 가족이 함께하는 블루이의 놀이",
+          "durationSec": 492,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 147
+        },
+        {
+          "id": "fKTFIgZ8fkM",
+          "title": "블루이와 춤추기 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이와 춤추기",
+          "durationSec": 386,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 148
+        },
+        {
+          "id": "eMmVcB8Mu-Q",
+          "title": "블루이와 함께 크리스마스 보내기 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이와 함께 크리스마스 보내기",
+          "durationSec": 448,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 149
+        },
+        {
+          "id": "7_arQQ6QpuA",
+          "title": "재밌는 아빠 | 아빠가 좋은 이유 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "재밌는 아빠",
+          "durationSec": 516,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 150
+        },
+        {
+          "id": "8Ctu3OSC6ps",
+          "title": "칠리의 웃긴 순간들 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "칠리의 웃긴 순간들",
+          "durationSec": 523,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 151
+        },
+        {
+          "id": "LaPeWrX6TaM",
+          "title": "빙고 타임! | | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "빙고 타임!",
+          "durationSec": 506,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 152
+        },
+        {
+          "id": "6fybjSDrG30",
+          "title": "블루이, 빙고와 재밌게 놀아요 | 모음집 | 블루이 - 한국 공식 채널",
+          "displayTitle": "블루이, 빙고와 재밌게 놀아요",
+          "durationSec": 515,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 153
+        },
+        {
+          "id": "9ZcHWClPAAM",
+          "title": "블루이 모든 회차 보기 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이 모든 회차 보기",
+          "durationSec": 763,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 154
+        },
+        {
+          "id": "0jNaOzJvx7s",
+          "title": "블루이와 빙고 - 자매의 최고의 순간 | 모음집 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이와 빙고 - 자매의 최고의 순간",
+          "durationSec": 420,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 155
+        },
+        {
+          "id": "ni0EctP3X8o",
+          "title": "핼로윈 맞이 비명 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "핼로윈 맞이 비명",
+          "durationSec": 472,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 156
+        },
+        {
+          "id": "Lh8dcwMxSrg",
+          "title": "블루이의 친구들 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "블루이의 친구들",
+          "durationSec": 484,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 157
+        },
+        {
+          "id": "O6qpXx3XFnA",
+          "title": "힐러 가족을 만나 보세요! | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "힐러 가족을 만나 보세요!",
+          "durationSec": 488,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "best",
+          "order": 158
+        }
+      ]
+    }
+  ]
+}

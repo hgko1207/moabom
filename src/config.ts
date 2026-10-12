@@ -1,16 +1,38 @@
 // Config types and validation shared by the app and the build-time scripts.
 // Validators return every problem at once so a parent editing JSON by hand sees all of them.
 
+/** Uploads of the whitelisted channels, filtered at fetch time; newest first. Refreshes itself every fetch. */
+export interface UploadsSource {
+  /** Minimum duration in seconds (inclusive). */
+  minSec?: number;
+  /** Maximum duration in seconds (inclusive). */
+  maxSec?: number;
+  /** Keep only the newest N matches. */
+  latest?: number;
+  /** Keep only titles matching this regular expression. */
+  titlePattern?: string;
+}
+
 /**
- * A group's videos come from exactly one source: a YouTube playlist, or an explicit list of video IDs.
- * Made-for-kids videos cannot be saved to playlists, so kids' collections use `videos`.
+ * A group's videos come from exactly one source: a YouTube playlist, an explicit list of video IDs, or the
+ * channels' uploads filtered by rules. Parents cannot save made-for-kids videos to their own playlists, so
+ * kids' collections use `videos`, official channel playlists, or `uploads`.
+ *
+ * `kind`: "series" groups are watched in order and drive "today's video" and the ✔ progression;
+ * "free" groups (compilations, clips) are picked freely and never suggested as the next episode.
  */
 export interface CollectionGroup {
   id: string;
   label: string;
+  kind?: 'series' | 'free';
   playlistId?: string;
   /** Video IDs in viewing order. */
   videos?: string[];
+  uploads?: UploadsSource;
+}
+
+export function groupKind(g: Pick<CollectionGroup, 'kind'>): 'series' | 'free' {
+  return g.kind ?? 'series';
 }
 
 export interface CollectionConfig {
@@ -125,14 +147,27 @@ export function validateCollection(raw: unknown, fileId?: string): Validated<Col
       else if (seen.has(g.id)) errors.push(`groups[${i}].id "${g.id}" is duplicated`);
       else seen.add(g.id);
       if (!isStr(g.label)) errors.push(`groups[${i}].label is required`);
-      const hasPlaylist = 'playlistId' in g;
-      const hasVideos = 'videos' in g;
-      if (hasPlaylist === hasVideos) {
-        errors.push(`groups[${i}] needs exactly one of playlistId or videos`);
-      } else if (hasPlaylist && !isStr(g.playlistId)) {
+      if (g.kind !== undefined && g.kind !== 'series' && g.kind !== 'free') {
+        errors.push(`groups[${i}].kind must be "series" or "free"`);
+      }
+      const sources = ['playlistId', 'videos', 'uploads'].filter((k) => k in g);
+      if (sources.length !== 1) {
+        errors.push(`groups[${i}] needs exactly one of playlistId, videos or uploads`);
+      } else if ('playlistId' in g && !isStr(g.playlistId)) {
         errors.push(`groups[${i}].playlistId must be a non-empty playlist ID`);
-      } else if (hasVideos && (!isStrArray(g.videos) || g.videos.length === 0 || g.videos.some((v) => !isStr(v)))) {
+      } else if ('videos' in g && (!isStrArray(g.videos) || g.videos.length === 0 || g.videos.some((v) => !isStr(v)))) {
         errors.push(`groups[${i}].videos must be a non-empty array of video IDs`);
+      } else if ('uploads' in g) {
+        const u = g.uploads;
+        if (!isObj(u)) errors.push(`groups[${i}].uploads must be an object`);
+        else {
+          for (const k of ['minSec', 'maxSec', 'latest'] as const) {
+            if (u[k] !== undefined && !(typeof u[k] === 'number' && Number.isInteger(u[k]) && (u[k] as number) > 0)) {
+              errors.push(`groups[${i}].uploads.${k} must be a positive integer`);
+            }
+          }
+          if (u.titlePattern !== undefined) checkPatterns(`groups[${i}].uploads.titlePattern`, [u.titlePattern], errors);
+        }
       }
     });
   }

@@ -19,7 +19,7 @@ describe('createStore', () => {
   it('round-trips progress under versioned keys', () => {
     const kv = mapKV();
     const store = createStore(kv);
-    store.saveProgress('home', 'nb', { watched: { a: 1 }, progress: {}, failed: {}, last: 'a' });
+    store.saveProgress('home', 'nb', { watched: { a: 1 }, progress: {}, failed: {}, position: {}, last: 'a' });
     expect(store.progress('home', 'nb').watched).toEqual({ a: 1 });
     expect([...kv.data.keys()]).toEqual(['moabom:v1:home:nb']);
   });
@@ -27,20 +27,31 @@ describe('createStore', () => {
   it('returns empty progress for unknown or corrupted entries', () => {
     const kv = mapKV();
     kv.data.set('moabom:v1:home:nb', '{not json');
-    expect(createStore(kv).progress('home', 'nb')).toEqual({ watched: {}, progress: {}, failed: {}, last: null });
+    expect(createStore(kv).progress('home', 'nb')).toEqual({ watched: {}, progress: {}, failed: {}, position: {}, last: null });
   });
 
   it('starts a fresh day when the stored date differs', () => {
     const store = createStore(mapKV());
-    store.saveToday('home', { date: '2026-10-11', started: ['a'], finished: [], playedToday: {}, seconds: 300 });
+    store.saveToday('home', { date: '2026-10-11', started: ['a'], finished: [], playedToday: {}, seconds: 300, stopped: [] });
     expect(store.today('home', '2026-10-12')).toEqual({
       date: '2026-10-12',
       started: [],
       finished: [],
       playedToday: {},
       seconds: 0,
+      stopped: [],
     });
     expect(store.today('home', '2026-10-11').started).toEqual(['a']);
+  });
+
+  it('reads state saved by the previous version without the new fields', () => {
+    const kv = mapKV();
+    kv.data.set('moabom:v1:home:today', JSON.stringify({ date: '2026-10-12', started: ['a'], finished: [], playedToday: {}, seconds: 5 }));
+    kv.data.set('moabom:v1:home:nb', JSON.stringify({ watched: { a: 1 }, progress: {}, failed: {}, last: 'a' }));
+    const store = createStore(kv);
+    expect(store.today('home', '2026-10-12').stopped).toEqual([]);
+    expect(store.progress('home', 'nb').position).toEqual({});
+    expect(store.settings()).toBeNull();
   });
 
   it('keeps working for the session when storage throws', () => {

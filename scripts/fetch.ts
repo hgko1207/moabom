@@ -13,6 +13,7 @@ import {
   type CollectionConfig,
   type CollectionData,
   type CollectionGroup,
+  type UploadsSource,
   type VideoRecord,
 } from '../src/config.ts';
 import { createClient, type PlaylistEntry, type VideoDetails, type YouTubeClient } from './youtube.ts';
@@ -108,6 +109,26 @@ export function checkSafety(prev: CollectionData | null, next: CollectionData, f
   return problems;
 }
 
+/**
+ * `uploads` groups: channel uploads (newest first) matching the duration window and title pattern,
+ * cut to the newest N. Embedding and whitelist checks still happen in selectVideos.
+ */
+export function selectUploads(
+  uploads: PlaylistEntry[],
+  details: Map<string, VideoDetails>,
+  rule: UploadsSource,
+): PlaylistEntry[] {
+  const title = rule.titlePattern ? new RegExp(rule.titlePattern, 'u') : null;
+  const matches = uploads.filter(({ videoId }) => {
+    const v = details.get(videoId);
+    if (!v || !v.embeddable) return false;
+    if (rule.minSec !== undefined && v.durationSec < rule.minSec) return false;
+    if (rule.maxSec !== undefined && v.durationSec > rule.maxSec) return false;
+    return !title || title.test(v.title);
+  });
+  return (rule.latest ? matches.slice(0, rule.latest) : matches).map((e, position) => ({ videoId: e.videoId, position }));
+}
+
 export async function collect(
   client: YouTubeClient,
   config: CollectionConfig,
@@ -115,12 +136,30 @@ export async function collect(
   log: Log,
 ): Promise<CollectionData> {
   const groups: CollectionData['groups'] = [];
+  // Channel uploads are read once per collection and shared by every `uploads` group.
+  let uploads: { entries: PlaylistEntry[]; details: Map<string, VideoDetails> } | null = null;
+  const channelUploads = async () => {
+    if (uploads) return uploads;
+    const entries: PlaylistEntry[] = [];
+    for (const channel of config.channels) entries.push(...(await client.playlistItems(`UU${channel.slice(2)}`)));
+    const details = new Map((await client.videos([...new Set(entries.map((e) => e.videoId))])).map((v) => [v.id, v]));
+    uploads = { entries, details };
+    return uploads;
+  };
+
   for (const group of config.groups) {
-    const entries = group.videos
-      ? group.videos.map((videoId, position) => ({ videoId, position }))
-      : await client.playlistItems(group.playlistId!);
-    const ids = [...new Set(entries.map((e) => e.videoId))];
-    const details = new Map((await client.videos(ids)).map((v) => [v.id, v]));
+    let entries: PlaylistEntry[];
+    let details: Map<string, VideoDetails>;
+    if (group.uploads) {
+      const u = await channelUploads();
+      entries = selectUploads(u.entries, u.details, group.uploads);
+      details = u.details;
+    } else {
+      entries = group.videos
+        ? group.videos.map((videoId, position) => ({ videoId, position }))
+        : await client.playlistItems(group.playlistId!);
+      details = new Map((await client.videos([...new Set(entries.map((e) => e.videoId))])).map((v) => [v.id, v]));
+    }
     const videos = selectVideos(config, group, entries, details, log);
     log(`[${config.id}/${group.id}] ${videos.length} of ${entries.length} playlist items kept`);
     groups.push({ id: group.id, videos });

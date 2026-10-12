@@ -1,0 +1,68 @@
+{
+  "id": "alphablocks",
+  "displayName": "알파블록스",
+  "enabled": true,
+  "channels": [
+    "UC_qs3c0ehDvZkbiEbOj6Drg"
+  ],
+  "coverVideoId": null,
+  "groupLabel": "시즌",
+  "groups": [
+    {
+      "id": "s1",
+      "label": "시즌 1",
+      "playlistId": "PLSW2D61TnopT9wHulLTwjgBJITX3eqQ-x"
+    },
+    {
+      "id": "s2",
+      "label": "시즌 2",
+      "playlistId": "PLSW2D61TnopSlWFCzFOOlrHMJHM73SS0s"
+    },
+    {
+      "id": "s3",
+      "label": "시즌 3",
+      "playlistId": "PLSW2D61TnopRJD0VZwu3m2cQKDM_M_5t7"
+    },
+    {
+      "id": "s4",
+      "label": "시즌 4",
+      "playlistId": "PLSW2D61TnopT7bXJYX6ineyr09gNWVrmF"
+    },
+    {
+      "id": "s5",
+      "label": "시즌 5",
+      "playlistId": "PLSW2D61TnopTLGBjKUf5rM3jljBdMkU04"
+    },
+    {
+      "id": "s6",
+      "label": "시즌 6",
+      "playlistId": "PLSW2D61TnopSVV21d-xqHpUzyaDTMPBc3"
+    },
+    {
+      "id": "mix30",
+      "label": "30분 모음",
+      "kind": "free",
+      "playlistId": "PLSW2D61TnopSB3X4VN5GBiLsT4Qus9a7x"
+    },
+    {
+      "id": "mix45",
+      "label": "45분 모음",
+      "kind": "free",
+      "playlistId": "PLSW2D61TnopS_nI9w8stRBYtCw0xtoSyE"
+    },
+    {
+      "id": "mix60",
+      "label": "60분 모음",
+      "kind": "free",
+      "playlistId": "PLSW2D61TnopR_BEAJO5nASdZmpOSj7dkM"
+    }
+  ],
+  "excludeShorts": false,
+  "titleExcludePatterns": [],
+  "titleStripPatterns": [
+    "^@officialalphablocks\\s*-\\s*",
+    "\\s+l\\s+Alphablocks.*$",
+    "\\s*\\|.*$",
+    "^Alphablocks\\s*-\\s*"
+  ]
+}

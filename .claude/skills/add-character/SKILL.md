@@ -34,10 +34,11 @@ How to design tabs:
 - **series** tabs (`kind` omitted) = things watched in order: official full-episode or season playlists (`playlistId`). Put them first — the first tab and "next to watch" only use series tabs. Have at least one.
 - **free** tabs (`"kind": "free"`) = pick-any: compilations (`uploads: {"minSec": 901}` or `1800`, add `"latest": 30` if there are many), "best moments"/theme playlists.
 - If there is no usable episode playlist but titles are numbered, use `npm run draft-groups -- --collection <id> --ranges 1-15,16-30` after writing the config with `channels` (it writes `data/collections/<id>/draft-groups.json`, gitignored) and copy the approved `videos` lists in.
-- Skip Shorts playlists, trailers, song-only or non-show playlists unless the user asks. Keep `excludeShorts: true` unless the show is mostly short clips.
+- Skip Shorts playlists, trailers, song-only or non-show playlists unless the user asks. `excludeShorts` treats anything **≤ 180 s** as a Short, so set it to `false` when the chosen playlists are curated episodes that often run about 3 minutes (e.g. 깨비키즈); keep `true` for `uploads` rules over a channel full of Shorts.
 - Labels are short Korean words a parent recognises: 에피소드, 시즌 1, 모음집, 긴 모음, 노래.
 
 ### 4. Write config
+- Write the JSON with the Write/Edit tools, not a shell heredoc: the shell halves the backslashes in regex strings (`\\s` → `\s`) and the JSON breaks.
 - `config/collections/<id>.json`. `id` is kebab-case ASCII (`hello-carbot`), equal to the file name. Copy the shape of an existing file (e.g. `bluey.json`): `id, displayName, enabled: true, channels, coverVideoId: null, groupLabel: "모음", groups, excludeShorts, titleExcludePatterns, titleStripPatterns`. Group ids are kebab-case and unique. Each group has exactly one of `playlistId` / `videos` / `uploads`. Schema and validation: `src/config.ts`.
 - Append the id to `collections` in `config/profiles.json`. A new collection shows on every device until a parent turns it off in settings (`hidden` in device settings), so nothing else is needed.
 

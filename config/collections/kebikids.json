@@ -1,0 +1,55 @@
+{
+  "id": "kebikids",
+  "displayName": "깨비키즈",
+  "enabled": true,
+  "channels": [
+    "UCD_-N4vf-tsqbUxrQ4CrJIA"
+  ],
+  "coverVideoId": null,
+  "groupLabel": "모음",
+  "groups": [
+    {
+      "id": "dino-rescue",
+      "label": "공룡구조대",
+      "playlistId": "PLsci4vyN8amcOVoVgH1Yv4sOQ0o7G_XgM"
+    },
+    {
+      "id": "safety",
+      "label": "생활안전",
+      "playlistId": "PLsci4vyN8amdlvdy1cgIY51luKbw7SOJ_"
+    },
+    {
+      "id": "folk",
+      "label": "전래동화",
+      "kind": "free",
+      "playlistId": "PLsci4vyN8amd4rVB5_EAkZvRZu2kSVoc4"
+    },
+    {
+      "id": "classic",
+      "label": "명작동화",
+      "kind": "free",
+      "playlistId": "PLsci4vyN8amfQbz1ObrnoB2RDiMgPgBSL"
+    },
+    {
+      "id": "science",
+      "label": "과학실험",
+      "kind": "free",
+      "playlistId": "PLsci4vyN8ame_LuNgKwKqA64WH5U2xonX"
+    }
+  ],
+  "excludeShorts": false,
+  "titleExcludePatterns": [],
+  "titleStripPatterns": [
+    "\\s*\\|.*$",
+    "\\s*#\\S+",
+    "\\s*-\\s*깨비키즈.*$",
+    "\\s*\\[깨비키즈[^\\]]*\\]",
+    "^뚝딱실험실\\s*-\\s*",
+    "^공룡\\s?구조대 출동!\\s*",
+    "^\\[충격\\]\\s*",
+    "\\s*\\(공룡구조대[^)]*\\)",
+    "\\s*[\\p{Extended_Pictographic}\\u{FE0F}\\u{200D}]+",
+    "\\s*[\\p{Extended_Pictographic}\\u{FE0F}\\u{200D}]+",
+    "\\s*공룡\\s?만화$"
+  ]
+}

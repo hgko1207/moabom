@@ -1,18 +1,18 @@
 {
-  "id": "/moabom/",
+  "id": "/",
   "name": "모아봄",
   "short_name": "모아봄",
   "description": "골라 담은 영상만, 모아서 봄",
   "lang": "ko",
-  "start_url": "/moabom/",
-  "scope": "/moabom/",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "orientation": "any",
   "background_color": "#F4F6FA",
   "theme_color": "#F4F6FA",
   "icons": [
-    { "src": "/moabom/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "/moabom/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "/moabom/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }

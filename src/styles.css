@@ -990,3 +990,88 @@ body.night {
   font-weight: 700;
   color: var(--done);
 }
+
+/* Settings: which collections the kids see, and the home title */
+.shown-list {
+  display: grid;
+  gap: var(--s1);
+}
+
+.shown {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  min-height: var(--target);
+  padding: var(--s1);
+  border-radius: var(--radius);
+  border: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+  text-align: left;
+}
+
+.shown img {
+  width: 96px;
+  height: 54px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.shown .name {
+  flex: 1;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.shown .state {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.shown[aria-checked='false'] {
+  border-color: var(--line);
+  background: var(--surface);
+}
+
+.shown[aria-checked='false'] img {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
+.shown[aria-checked='false'] .name {
+  color: var(--ink-2);
+}
+
+.shown[aria-checked='false'] .state {
+  background: var(--line);
+  color: var(--ink-2);
+}
+
+.shown[aria-disabled='true'] {
+  cursor: default;
+}
+
+.title-form {
+  display: flex;
+  gap: var(--s1);
+}
+
+.title-form input {
+  flex: 1;
+  min-width: 0;
+  min-height: var(--target);
+  padding: 0 var(--s2);
+  border-radius: var(--radius);
+  border: 3px solid var(--line);
+  font: inherit;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.title-form input:focus {
+  border-color: var(--accent);
+  outline: none;
+}

@@ -156,6 +156,7 @@ describe('collect', () => {
     let playlistCalls = 0;
     const client: YouTubeClient = {
       searchChannels: async () => [],
+      channelPlaylists: async () => [],
       playlistItems: async () => {
         playlistCalls++;
         return [];
@@ -175,6 +176,7 @@ describe('collect', () => {
   it('propagates API errors so nothing is written', async () => {
     const client: YouTubeClient = {
       searchChannels: async () => [],
+      channelPlaylists: async () => [],
       playlistItems: async () => {
         throw new ApiError('playlistItems', 404, 'playlistNotFound', '');
       },
@@ -213,6 +215,7 @@ describe('collect with an uploads group', () => {
     let uploadCalls = 0;
     const client: YouTubeClient = {
       searchChannels: async () => [],
+      channelPlaylists: async () => [],
       playlistItems: async (id) => {
         if (id === 'UU_official') uploadCalls++;
         return ['a', 'b', 'c'].map((videoId, position) => ({ videoId, position }));

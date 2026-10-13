@@ -6,6 +6,8 @@ Spec: `SPEC.md` (v4). Deferred work: `TODOS.md`.
 - `npm test` — vitest (rules, fetch filters/safety, config validation)
 - `npm run typecheck` — tsc (TypeScript 7, noEmit)
 - `npm run find-channel -- "<검색어>"` — list channel candidates; never write an ID to config without the user's confirmation
+- `npm run scout -- --channel <id>` — a channel's playlists and upload length split, for designing groups
+- `/add-character <이름>` — skill that adds a show end to end (find channel → confirm once → config → fetch → test → deploy)
 - `npm run fetch -- --collection <id> | --all [--force]` — needs `YOUTUBE_API_KEY` in `.env`
 - Scripts run with plain `node` (Node 24 strips types); keep TS erasable (no enums, no parameter properties) and import with `.ts` extensions.
 

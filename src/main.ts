@@ -8,6 +8,7 @@ import { createPlayer, type PlayerHandle } from './player.ts';
 import {
   canStart,
   effectiveLimits,
+  homeTitle,
   initialGroup,
   isStale,
   limitReached,
@@ -24,10 +25,12 @@ import {
   seriesOnly,
   shouldCutAtLimit,
   startPosition,
+  TITLE_MAX,
   UP_NEXT_SEC,
   upNext,
   upNextScope,
   viewingOrder,
+  visibleCollectionIds,
   type Limits,
   type UpNext,
 } from './rules.ts';
@@ -204,11 +207,13 @@ function render(): void {
   store.saveDeviceToday({ date: today, profileId: profile.id });
   setAccent(profile.color);
 
-  const collections = profile.collections.flatMap((id) => appData.collections.get(id) ?? []);
+  const available = profile.collections.flatMap((id) => appData.collections.get(id) ?? []);
+  const shown = new Set(visibleCollectionIds(available.map((c) => c.config.id), store.settings()));
+  const collections = available.filter((c) => shown.has(c.config.id));
   const showPicker = gate.kind === 'choose';
 
   const home: Route = collections.length > 1 || showPicker ? { profile: profile.id } : { profile: profile.id, collection: collections[0]?.config.id };
-  if (route.settings) return renderSettings(profile, home);
+  if (route.settings) return renderSettings(profile, available, home);
   if (route.install) return renderInstall(home);
 
   if (!route.collection) {
@@ -251,7 +256,7 @@ function renderProfiles(allowed: Set<string>): void {
 
 function renderCollections(profile: Profile, collections: Collection[], showBack: boolean): void {
   if (showBack) onBack = () => backTo({});
-  app.innerHTML = `<main class="screen"><div class="bar">${showBack ? backButton() : ''}<h1>${esc(profile.name)}</h1>${gearButton()}</div>
+  app.innerHTML = `<main class="screen"><div class="bar">${showBack ? backButton() : ''}<h1>${esc(homeTitle(profile.name, store.settings()))}</h1>${gearButton()}</div>
     ${offlineNotice()}
     <nav class="tiles" aria-label="컬렉션">${collections
       .map((c) => {
@@ -674,7 +679,7 @@ const LIMIT_STEP: Record<LimitMode, { step: number; min: number; max: number; un
   episodes: { step: 1, min: 1, max: 20, unit: '편', initial: 3 },
 };
 
-function renderSettings(profile: Profile, home: Route): void {
+function renderSettings(profile: Profile, available: Collection[], home: Route): void {
   const current: DeviceSettings = store.settings() ?? {
     limit:
       profile.dailyMinutes !== null
@@ -686,6 +691,8 @@ function renderSettings(profile: Profile, home: Route): void {
   const today = store.today(profile.id, localDate(new Date()));
   const { mode, value } = current.limit;
   const spec = LIMIT_STEP[mode];
+  const hidden = new Set(current.hidden ?? []);
+  const shownCount = available.filter((c) => !hidden.has(c.config.id)).length;
   const option = (m: LimitMode, label: string) =>
     `<button class="choice" role="radio" aria-checked="${m === mode}" data-mode="${m}">${label}</button>`;
 
@@ -707,6 +714,28 @@ function renderSettings(profile: Profile, home: Route): void {
         <p class="hint">${mode === 'minutes' ? '15분이 넘는 모음집은 시간이 되면 멈추고, 다음 날 그 자리부터 이어 봐요.' : '보던 편은 끝까지 보고, 다음 편부터 막혀요.'}</p>`
       }
     </section>
+    <section class="panel" aria-labelledby="shown-title">
+      <h2 id="shown-title">보여 줄 캐릭터</h2>
+      <div class="shown-list">${available
+        .map((c) => {
+          const on = !hidden.has(c.config.id);
+          const cover = c.config.coverVideoId ?? c.data.groups[0]?.videos[0]?.id ?? '';
+          // The last visible one cannot be turned off: the home screen must never be empty.
+          const locked = on && shownCount === 1;
+          return `<button class="shown" role="switch" aria-checked="${on}" data-shown="${esc(c.config.id)}"${locked ? ' aria-disabled="true"' : ''}>
+            <img src="${thumbUrl(cover)}" alt="" width="96" height="72" loading="lazy">
+            <span class="name">${esc(c.config.displayName)}</span><span class="state">${on ? '보여요' : '숨김'}</span></button>`;
+        })
+        .join('')}</div>
+      <p class="hint">끈 캐릭터는 아이 화면에서 사라지고, 본 기록은 그대로 남아요.</p>
+    </section>
+    <section class="panel" aria-labelledby="name-title">
+      <h2 id="name-title">홈 화면 이름</h2>
+      <form class="title-form" data-action="title">
+        <input id="home-title" name="title" maxlength="${TITLE_MAX}" value="${esc(homeTitle(profile.name, current))}" aria-labelledby="name-title" autocomplete="off">
+        <button class="secondary" type="submit">저장</button>
+      </form>
+    </section>
     <section class="panel" aria-labelledby="today-title">
       <h2 id="today-title">오늘</h2>
       <p>본 시간 ${Math.floor(today.seconds / 60)}분 · 시작한 영상 ${today.started.length}편</p>
@@ -725,29 +754,50 @@ function renderSettings(profile: Profile, home: Route): void {
   bindBack();
   app.querySelector('[data-action="install-guide"]')?.addEventListener('click', () => go({ profile: profile.id, install: true }));
 
+  // render() rather than renderSettings(): hiding collections can change where "home" is.
   const save = (next: DeviceSettings) => {
     store.saveSettings(next);
-    renderSettings(profile, home);
+    render();
     app.querySelector<HTMLElement>(`[data-mode="${next.limit.mode}"]`)?.focus();
   };
   app.querySelectorAll<HTMLButtonElement>('[data-mode]').forEach((b) =>
     b.addEventListener('click', () => {
       const m = b.dataset.mode as LimitMode;
-      if (m !== mode) save({ limit: { mode: m, value: LIMIT_STEP[m].initial } });
+      if (m !== mode) save({ ...current, limit: { mode: m, value: LIMIT_STEP[m].initial } });
     }),
   );
   app.querySelectorAll<HTMLButtonElement>('[data-step]').forEach((b) =>
     b.addEventListener('click', () => {
       const next = Math.min(spec.max, Math.max(spec.min, value + Number(b.dataset.step) * spec.step));
-      store.saveSettings({ limit: { mode, value: next } });
-      renderSettings(profile, home);
+      store.saveSettings({ ...current, limit: { mode, value: next } });
+      render();
       app.querySelector<HTMLButtonElement>(`[data-step="${b.dataset.step}"]`)?.focus();
     }),
   );
   app.querySelector('[data-action="reset-today"]')?.addEventListener('click', () => {
     if (!confirm('오늘 본 시간과 편 수를 0으로 되돌릴까요?')) return;
     store.saveToday(profile.id, { date: today.date, started: [], finished: [], playedToday: {}, seconds: 0, stopped: [] });
-    renderSettings(profile, home);
+    render();
+  });
+  app.querySelectorAll<HTMLButtonElement>('[data-shown]').forEach((b) =>
+    b.addEventListener('click', () => {
+      if (b.getAttribute('aria-disabled') === 'true') return;
+      const id = b.dataset.shown!;
+      const next = new Set(hidden);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      store.saveSettings({ ...current, hidden: [...next] });
+      render();
+      app.querySelector<HTMLElement>(`[data-shown="${CSS.escape(id)}"]`)?.focus();
+    }),
+  );
+  app.querySelector<HTMLFormElement>('[data-action="title"]')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = app.querySelector<HTMLInputElement>('#home-title')!;
+    const title = input.value.trim().slice(0, TITLE_MAX);
+    store.saveSettings({ ...current, title: title === profile.name ? undefined : title || undefined });
+    render();
+    app.querySelector<HTMLInputElement>('#home-title')?.blur();
   });
 }
 

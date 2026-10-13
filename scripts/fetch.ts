@@ -243,7 +243,7 @@ async function listCollectionIds(): Promise<string[]> {
   return files.filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -'.json'.length)).sort();
 }
 
-const VALUE_FLAGS = new Set(['--collection', '--ranges', '--pattern']);
+const VALUE_FLAGS = new Set(['--collection', '--ranges', '--pattern', '--channel']);
 
 function parseArgs(argv: string[]): { command: string; rest: string[]; flags: Map<string, string | true> } {
   const [command = '', ...args] = argv;
@@ -280,6 +280,31 @@ async function findChannel(client: YouTubeClient, query: string): Promise<void> 
     if (desc) console.log(`   ${desc.slice(0, 120)}${desc.length > 120 ? '…' : ''}`);
     console.log('');
   });
+}
+
+/** Overview of a confirmed channel for designing groups: its playlists and how its uploads split by length. */
+async function scoutCommand(client: YouTubeClient, flags: Map<string, string | true>): Promise<void> {
+  const channel = flags.get('--channel');
+  if (typeof channel !== 'string' || !channel.startsWith('UC')) throw new Error('usage: npm run scout -- --channel <UC... channel id>');
+
+  const playlists = (await client.channelPlaylists(channel)).sort((a, b) => b.itemCount - a.itemCount);
+  console.log(`Playlists (${playlists.length}), biggest first:`);
+  for (const p of playlists) console.log(`  ${String(p.itemCount).padStart(4)}  ${p.id}  ${p.title}`);
+
+  const entries = await client.playlistItems(`UU${channel.slice(2)}`);
+  const uploads = await client.videos(entries.map((e) => e.videoId));
+  const playable = uploads.filter((v) => v.embeddable && v.privacyStatus === 'public');
+  const bucket = (min: number, max: number) => playable.filter((v) => v.durationSec >= min && v.durationSec < max).length;
+  console.log(`\nUploads: ${uploads.length} total, ${playable.length} public and embeddable`);
+  console.log(`  shorts (<= 60s): ${bucket(0, 61)}`);
+  console.log(`  1-15 min:       ${bucket(61, 901)}`);
+  console.log(`  15-30 min:      ${bucket(901, 1800)}`);
+  console.log(`  30 min+:        ${bucket(1800, Infinity)}`);
+  console.log('\nNewest 15 uploads:');
+  for (const v of uploads.slice(0, 15)) {
+    const flag = v.embeddable && v.privacyStatus === 'public' ? '' : `  [${v.embeddable ? v.privacyStatus : 'not embeddable'}]`;
+    console.log(`  ${String(Math.round(v.durationSec / 60)).padStart(3)}m  ${v.id}  ${v.title}${flag}`);
+  }
 }
 
 async function fetchCommand(client: YouTubeClient, flags: Map<string, string | true>): Promise<void> {
@@ -360,11 +385,14 @@ async function draftCommand(client: YouTubeClient, flags: Map<string, string | t
 
 async function main(): Promise<void> {
   const { command, rest, flags } = parseArgs(process.argv.slice(2));
-  if (command !== 'find-channel' && command !== 'fetch' && command !== 'draft-groups') {
-    throw new Error('usage: node scripts/fetch.ts find-channel <query> | fetch --collection <id> | --all [--force] | draft-groups --collection <id> --ranges 1-15');
+  if (!['find-channel', 'scout', 'fetch', 'draft-groups'].includes(command)) {
+    throw new Error(
+      'usage: node scripts/fetch.ts find-channel <query> | scout --channel <id> | fetch --collection <id> | --all [--force] | draft-groups --collection <id> --ranges 1-15',
+    );
   }
   const client = createClient(process.env.YOUTUBE_API_KEY ?? '');
   if (command === 'find-channel') await findChannel(client, rest.join(' '));
+  else if (command === 'scout') await scoutCommand(client, flags);
   else if (command === 'draft-groups') await draftCommand(client, flags);
   else await fetchCommand(client, flags);
 }

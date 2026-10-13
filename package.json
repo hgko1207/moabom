@@ -13,6 +13,7 @@
     "test": "vitest run",
     "typecheck": "tsc",
     "find-channel": "node --env-file-if-exists=.env scripts/fetch.ts find-channel",
+    "scout": "node --env-file-if-exists=.env scripts/fetch.ts scout",
     "fetch": "node --env-file-if-exists=.env scripts/fetch.ts fetch",
     "draft-groups": "node --env-file-if-exists=.env scripts/fetch.ts draft-groups"
   },

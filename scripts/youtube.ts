@@ -39,8 +39,16 @@ export interface VideoDetails {
   privacyStatus: string;
 }
 
+export interface PlaylistSummary {
+  id: string;
+  title: string;
+  itemCount: number;
+}
+
 export interface YouTubeClient {
   searchChannels(query: string): Promise<ChannelCandidate[]>;
+  /** Public playlists a channel made (its own season/episode/compilation lists). */
+  channelPlaylists(channelId: string): Promise<PlaylistSummary[]>;
   playlistItems(playlistId: string): Promise<PlaylistEntry[]>;
   videos(ids: string[]): Promise<VideoDetails[]>;
 }
@@ -106,6 +114,24 @@ export function createClient(apiKey: string, fetchImpl: typeof fetch = fetch): Y
           },
         ];
       });
+    },
+
+    async channelPlaylists(channelId) {
+      const out: PlaylistSummary[] = [];
+      let pageToken = '';
+      do {
+        const page = await get('playlists', {
+          part: 'snippet,contentDetails',
+          channelId,
+          maxResults: String(BATCH),
+          ...(pageToken ? { pageToken } : {}),
+        });
+        for (const p of page.items ?? []) {
+          out.push({ id: String(p.id), title: String(p.snippet?.title ?? ''), itemCount: Number(p.contentDetails?.itemCount ?? 0) });
+        }
+        pageToken = page.nextPageToken ?? '';
+      } while (pageToken);
+      return out;
     },
 
     async playlistItems(playlistId) {

@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import type { CollectionData, Profile } from '../src/config.ts';
 import {
+  homeTitle,
+  visibleCollectionIds,
   canStart,
   effectiveLimits,
   recordPosition,
@@ -264,5 +266,27 @@ describe('dates', () => {
     expect(isStale('2026-09-01T00:00:00Z', new Date('2026-10-12T00:00:00Z'))).toBe(true);
     expect(isStale('2026-10-01T00:00:00Z', new Date('2026-10-12T00:00:00Z'))).toBe(false);
     expect(isStale('not a date', new Date())).toBe(true);
+  });
+});
+
+describe('visibleCollectionIds', () => {
+  const limit = { mode: 'none' as const, value: 0 };
+  it('shows everything until a parent hides something, keeping config order', () => {
+    expect(visibleCollectionIds(['a', 'b', 'c'], null)).toEqual(['a', 'b', 'c']);
+    expect(visibleCollectionIds(['a', 'b', 'c'], { limit, hidden: ['b'] })).toEqual(['a', 'c']);
+  });
+  it('shows a newly added collection, and never leaves the home screen empty', () => {
+    expect(visibleCollectionIds(['a', 'new'], { limit, hidden: ['a'] })).toEqual(['new']);
+    expect(visibleCollectionIds(['a', 'b'], { limit, hidden: ['a', 'b'] })).toEqual(['a', 'b']);
+  });
+});
+
+describe('homeTitle', () => {
+  const limit = { mode: 'none' as const, value: 0 };
+  it('uses the parent title on this device, else the profile name', () => {
+    expect(homeTitle('우리집', null)).toBe('우리집');
+    expect(homeTitle('우리집', { limit, title: '  지우네 극장 ' })).toBe('지우네 극장');
+    expect(homeTitle('우리집', { limit, title: '   ' })).toBe('우리집');
+    expect(homeTitle('우리집', { limit, title: '가'.repeat(20) })).toHaveLength(12);
   });
 });

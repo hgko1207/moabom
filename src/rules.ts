@@ -65,6 +65,22 @@ export function effectiveLimits(profile: Limits, settings: DeviceSettings | null
   return { dailyEpisodes: null, dailyMinutes: null };
 }
 
+// ---------- device display settings ----------
+
+/** Collections the kids see, in config order. Never empty: if every one is hidden, all are shown. */
+export function visibleCollectionIds(ids: string[], settings: DeviceSettings | null): string[] {
+  const hidden = new Set(settings?.hidden ?? []);
+  const shown = ids.filter((id) => !hidden.has(id));
+  return shown.length ? shown : ids;
+}
+
+export const TITLE_MAX = 12;
+
+/** Home screen title: the parent's title on this device, else the profile name. */
+export function homeTitle(profileName: string, settings: DeviceSettings | null): string {
+  return settings?.title?.trim().slice(0, TITLE_MAX) || profileName;
+}
+
 /** L3: no new episode may start. Both limits null means unlimited. */
 export function limitReached(today: TodayState, limits: Limits): boolean {
   if (limits.dailyEpisodes !== null && today.started.length >= limits.dailyEpisodes) return true;

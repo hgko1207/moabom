@@ -85,11 +85,13 @@ src/icons.ts, src/styles.css   아이콘·디자인 토큰
 - v1은 **공용 프로필 하나**(두 아이가 거의 같이 봄, 2026-10-12 결정). 프로필이 하나면 프로필 화면을 건너뛴다. 코드는 여러 프로필을 계속 지원하므로 나중에 설정만 추가하면 된다. `startGroup`(선택)도 그대로 지원.
 - `dailyEpisodes`와 `dailyMinutes`가 둘 다 null이면 무제한(현재 기본값).
 - **기기 설정이 우선**(2026-10-12): 컬렉션 선택 화면의 톱니바퀴를 2초 누르면 설정 화면. 하루 제한 없음 / 하루 N분(10~240, 10분 단위) / 하루 N편(1~20), "오늘 기록 초기화". 이 기기의 localStorage(`moabom:v1:device:settings`)에만 저장.
+- 같은 설정 화면(2026-10-13): **보여 줄 캐릭터** 켜고 끄기(`hidden`, 끈 것만 저장하므로 새로 추가한 컬렉션은 기본으로 보임, 마지막 하나는 끌 수 없음, 하나만 남으면 홈이 그 컬렉션으로 바로 열림. 숨긴 컬렉션 주소로 들어오면 홈으로), **홈 화면 이름**(`title`, 최대 12자, 비우면 `profiles.json`의 `name`).
 - `prereq`는 v1 스키마에 없음. 있으면 검증 오류("v1.1 기능").
 - 알 수 없는 컬렉션 ID를 참조하면 검증 오류.
 
 ## 7. 데이터 수집 (`npm run find-channel`, `npm run draft-groups`, `npm run fetch`)
 1. `npm run find-channel -- "넘버블록스"`: 채널 후보(ID, 제목, 구독자 수, 영상 수, 링크)를 출력만 함. 설정에 쓰는 것은 사람이 확인한 뒤.
+   `npm run scout -- --channel <id>`: 그 채널의 재생목록(큰 것부터)과 업로드 길이 분포, 최신 업로드를 출력해 그룹 설계를 돕는다. 전체 흐름은 `/add-character <이름>` 스킬(`.claude/skills/add-character/SKILL.md`).
 2. `npm run draft-groups -- --collection numberblocks --ranges 1-15,16-30 [--pattern "S5 E(\d+)"]`: 화이트리스트 채널의 업로드에서 제목의 편 번호로 그룹 초안(`data/collections/{id}/draft-groups.json`, git 제외)을 만든다. 중복 업로드는 최신 것을 고르고 나머지는 대안으로, 빠진 번호는 따로 보고한다. 업로드 목록에 없는 일부 공개 영상은 잡히지 않으므로 공식 재생목록과 대조한다.
 3. `npm run fetch -- --collection numberblocks` / `--all` / `--force`
    - 그룹마다 `videos` 또는 `playlistItems.list`(50개씩 페이지) → `videos.list`(50개 배치)

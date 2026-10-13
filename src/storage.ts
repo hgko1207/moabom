@@ -33,6 +33,10 @@ export type LimitMode = 'none' | 'minutes' | 'episodes';
 /** Parent settings kept on this device; they override config/profiles.json. */
 export interface DeviceSettings {
   limit: { mode: LimitMode; value: number };
+  /** Collections a parent turned off on this device. New collections are shown until turned off. */
+  hidden?: string[];
+  /** Home screen title; empty or missing means the profile name from config. */
+  title?: string;
 }
 
 export interface DeviceToday {

@@ -35,6 +35,8 @@ export interface DeviceSettings {
   limit: { mode: LimitMode; value: number };
   /** Collections a parent turned off on this device. New collections are shown until turned off. */
   hidden?: string[];
+  /** Collection order chosen by a parent; collections not listed follow in config order. */
+  order?: string[];
   /** Home screen title; empty or missing means the profile name from config. */
   title?: string;
 }

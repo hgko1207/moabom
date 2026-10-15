@@ -13,7 +13,9 @@ import {
   isStale,
   limitReached,
   localDate,
+  moveCollection,
   nextToWatch,
+  orderCollectionIds,
   profileGate,
   recordFailed,
   recordFinished,
@@ -207,7 +209,9 @@ function render(): void {
   store.saveDeviceToday({ date: today, profileId: profile.id });
   setAccent(profile.color);
 
-  const available = profile.collections.flatMap((id) => appData.collections.get(id) ?? []);
+  const configured = profile.collections.flatMap((id) => appData.collections.get(id) ?? []);
+  const byId = new Map(configured.map((c) => [c.config.id, c]));
+  const available = orderCollectionIds([...byId.keys()], store.settings()).map((id) => byId.get(id)!);
   const shown = new Set(visibleCollectionIds(available.map((c) => c.config.id), store.settings()));
   const collections = available.filter((c) => shown.has(c.config.id));
   const showPicker = gate.kind === 'choose';
@@ -717,17 +721,21 @@ function renderSettings(profile: Profile, available: Collection[], home: Route):
     <section class="panel" aria-labelledby="shown-title">
       <h2 id="shown-title">보여 줄 캐릭터</h2>
       <div class="shown-list">${available
-        .map((c) => {
+        .map((c, i) => {
           const on = !hidden.has(c.config.id);
           const cover = c.config.coverVideoId ?? c.data.groups[0]?.videos[0]?.id ?? '';
           // The last visible one cannot be turned off: the home screen must never be empty.
           const locked = on && shownCount === 1;
-          return `<button class="shown" role="switch" aria-checked="${on}" data-shown="${esc(c.config.id)}"${locked ? ' aria-disabled="true"' : ''}>
+          const id = esc(c.config.id);
+          const name = esc(c.config.displayName);
+          return `<div class="shown-row"><button class="shown" role="switch" aria-checked="${on}" data-shown="${id}"${locked ? ' aria-disabled="true"' : ''}>
             <img src="${thumbUrl(cover)}" alt="" width="96" height="72" loading="lazy">
-            <span class="name">${esc(c.config.displayName)}</span><span class="state">${on ? '보여요' : '숨김'}</span></button>`;
+            <span class="name">${name}</span><span class="state">${on ? '보여요' : '숨김'}</span></button>
+            <button class="move" data-move="-1" data-id="${id}" aria-label="${name} 위로"${i === 0 ? ' disabled' : ''}>${icon('up', 28)}</button>
+            <button class="move" data-move="1" data-id="${id}" aria-label="${name} 아래로"${i === available.length - 1 ? ' disabled' : ''}>${icon('down', 28)}</button></div>`;
         })
         .join('')}</div>
-      <p class="hint">끈 캐릭터는 아이 화면에서 사라지고, 본 기록은 그대로 남아요.</p>
+      <p class="hint">누르면 보이기·숨기기, 화살표로 홈 화면 순서를 바꿔요. 끈 캐릭터는 아이 화면에서 사라지고, 본 기록은 그대로 남아요.</p>
     </section>
     <section class="panel" aria-labelledby="name-title">
       <h2 id="name-title">홈 화면 이름</h2>
@@ -789,6 +797,17 @@ function renderSettings(profile: Profile, available: Collection[], home: Route):
       store.saveSettings({ ...current, hidden: [...next] });
       render();
       app.querySelector<HTMLElement>(`[data-shown="${CSS.escape(id)}"]`)?.focus();
+    }),
+  );
+  app.querySelectorAll<HTMLButtonElement>('[data-move]').forEach((b) =>
+    b.addEventListener('click', () => {
+      const id = b.dataset.id!;
+      const step = Number(b.dataset.move) as -1 | 1;
+      store.saveSettings({ ...current, order: moveCollection(available.map((c) => c.config.id), id, step) });
+      render();
+      // Keep focus on the moved item's arrow; fall back to the other arrow at the ends.
+      const same = app.querySelector<HTMLButtonElement>(`[data-move="${step}"][data-id="${CSS.escape(id)}"]`);
+      (same && !same.disabled ? same : app.querySelector<HTMLButtonElement>(`[data-move="${-step}"][data-id="${CSS.escape(id)}"]`))?.focus();
     }),
   );
   app.querySelector<HTMLFormElement>('[data-action="title"]')?.addEventListener('submit', (e) => {

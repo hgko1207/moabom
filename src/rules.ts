@@ -74,6 +74,26 @@ export function visibleCollectionIds(ids: string[], settings: DeviceSettings | n
   return shown.length ? shown : ids;
 }
 
+/** Collections in the parent's order on this device; ones not ordered yet (e.g. newly added) keep config order at the end. */
+export function orderCollectionIds(ids: string[], settings: DeviceSettings | null): string[] {
+  const order = settings?.order ?? [];
+  const rank = (id: string) => {
+    const i = order.indexOf(id);
+    return i >= 0 ? i : order.length + ids.indexOf(id);
+  };
+  return [...ids].sort((a, b) => rank(a) - rank(b));
+}
+
+/** The new full order after moving one collection a step up (-1) or down (+1). */
+export function moveCollection(ordered: string[], id: string, step: -1 | 1): string[] {
+  const from = ordered.indexOf(id);
+  const to = from + step;
+  if (from < 0 || to < 0 || to >= ordered.length) return ordered;
+  const next = [...ordered];
+  [next[from], next[to]] = [next[to]!, next[from]!];
+  return next;
+}
+
 export const TITLE_MAX = 12;
 
 /** Home screen title: the parent's title on this device, else the profile name. */

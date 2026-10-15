@@ -1075,3 +1075,73 @@ body.night {
   border-color: var(--accent);
   outline: none;
 }
+
+/* Settings: reorder collections with up/down arrows */
+.shown-row {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+}
+
+.shown-row .shown {
+  flex: 1;
+  min-width: 0;
+}
+
+.move {
+  width: 52px;
+  border-radius: var(--radius);
+  border: 3px solid var(--line);
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+}
+
+.move:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.shown .name,
+.shown .state {
+  white-space: nowrap;
+}
+
+.shown .name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 520px) {
+  .shown-row {
+    gap: 4px;
+  }
+
+  .shown {
+    gap: var(--s1);
+  }
+
+  .shown img {
+    width: 56px;
+    height: 32px;
+  }
+
+  .shown .name {
+    font-size: 16px;
+  }
+
+  .shown .state {
+    padding: 4px 8px;
+    font-size: 13px;
+  }
+
+  .move {
+    width: 44px;
+  }
+}
+
+.settings .hint,
+.settings p {
+  word-break: keep-all;
+}

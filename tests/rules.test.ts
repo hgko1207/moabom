@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import type { CollectionData, Profile } from '../src/config.ts';
 import {
+  moveCollection,
+  orderCollectionIds,
   homeTitle,
   visibleCollectionIds,
   canStart,
@@ -288,5 +290,20 @@ describe('homeTitle', () => {
     expect(homeTitle('우리집', { limit, title: '  지우네 극장 ' })).toBe('지우네 극장');
     expect(homeTitle('우리집', { limit, title: '   ' })).toBe('우리집');
     expect(homeTitle('우리집', { limit, title: '가'.repeat(20) })).toHaveLength(12);
+  });
+});
+
+describe('orderCollectionIds / moveCollection', () => {
+  const limit = { mode: 'none' as const, value: 0 };
+  it('follows the parent order and puts new collections last, in config order', () => {
+    expect(orderCollectionIds(['a', 'b', 'c'], null)).toEqual(['a', 'b', 'c']);
+    expect(orderCollectionIds(['a', 'b', 'c', 'new'], { limit, order: ['c', 'a', 'b'] })).toEqual(['c', 'a', 'b', 'new']);
+    expect(orderCollectionIds(['a', 'c'], { limit, order: ['c', 'removed', 'a'] })).toEqual(['c', 'a']);
+  });
+  it('moves one step and ignores moves past either end', () => {
+    expect(moveCollection(['a', 'b', 'c'], 'c', -1)).toEqual(['a', 'c', 'b']);
+    expect(moveCollection(['a', 'b', 'c'], 'a', 1)).toEqual(['b', 'a', 'c']);
+    expect(moveCollection(['a', 'b', 'c'], 'a', -1)).toEqual(['a', 'b', 'c']);
+    expect(moveCollection(['a', 'b', 'c'], 'c', 1)).toEqual(['a', 'b', 'c']);
   });
 });

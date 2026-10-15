@@ -1,0 +1,1124 @@
+{
+  "collectionId": "octonauts",
+  "fetchedAt": "2026-10-15T04:16:17.808Z",
+  "groups": [
+    {
+      "id": "s1",
+      "videos": [
+        {
+          "id": "wvx-J4mL4kQ",
+          "title": "바다 탐험대 옥토넛 - 긴집게발게 (시즌1 에피소드01 - 전체에피소드)",
+          "displayTitle": "긴집게발게",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 1
+        },
+        {
+          "id": "aDMXe4038Kc",
+          "title": "바다 탐험대 옥토넛 - 고래상어 (시즌1 에피소드02 - 전체에피소드)",
+          "displayTitle": "고래상어",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 2
+        },
+        {
+          "id": "dJq1wHTU-do",
+          "title": "바다 탐험대 옥토넛 - 조류 대탈출 (시즌1 에피소드03 - 전체에피소드)",
+          "displayTitle": "조류 대탈출",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 3
+        },
+        {
+          "id": "o5vnMx03AAA",
+          "title": "바다 탐험대 옥토넛 - 바다코끼리 대장 (시즌1 에피소드04 - 전체에피소드)",
+          "displayTitle": "바다코끼리 대장",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 4
+        },
+        {
+          "id": "EAnMxas_Jfo",
+          "title": "바다 탐험대 옥토넛 - 해저폭풍 (시즌1 에피소드05 - 전체에피소드)",
+          "displayTitle": "해저폭풍",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 5
+        },
+        {
+          "id": "5iSDljydkko",
+          "title": "바다 탐험대 옥토넛 - 대왕오징어 (시즌1 에피소드06 - 전체에피소드)",
+          "displayTitle": "대왕오징어",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 6
+        },
+        {
+          "id": "mu8Ojr6037A",
+          "title": "바다 탐험대 옥토넛 - 날치 대왕오징어 (시즌1 에피소드07 - 전체에피소드)",
+          "displayTitle": "날치 대왕오징어",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 7
+        },
+        {
+          "id": "0nA9nUdEz4Y",
+          "title": "바다 탐험대 옥토넛 - 일각고래 (시즌1 에피소드08 - 전체에피소드)",
+          "displayTitle": "일각고래",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 8
+        },
+        {
+          "id": "Y5AlubuThfI",
+          "title": "바다 탐험대 옥토넛 - 비밀지도 (시즌1 에피소드09 - 전체에피소드)",
+          "displayTitle": "비밀지도",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 9
+        },
+        {
+          "id": "uHkTzdvezjw",
+          "title": "바다 탐험대 옥토넛 - 게 그리고 성게 (시즌1 에피소드10 - 전체에피소드)",
+          "displayTitle": "게 그리고 성게",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 10
+        },
+        {
+          "id": "EyDm7wkFXZk",
+          "title": "바다 탐험대 옥토넛 - 범고래 (시즌1 에피소드11 - 전체에피소드)",
+          "displayTitle": "범고래",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 11
+        },
+        {
+          "id": "ROm-jDdQVnw",
+          "title": "바다 탐험대 옥토넛 - 블로브피시 삼형제 (시즌1 에피소드12 - 전체에피소드)",
+          "displayTitle": "블로브피시 삼형제",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 12
+        },
+        {
+          "id": "dTD1ITb8sDs",
+          "title": "바다 탐험대 옥토넛 - 혹등고래 (시즌1 에피소드13 - 전체에피소드)",
+          "displayTitle": "혹등고래",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 13
+        },
+        {
+          "id": "l33uN3Xgd_Y",
+          "title": "바다 탐험대 옥토넛 - 바다벌레 (시즌1 에피소드14 - 전체에피소드)",
+          "displayTitle": "바다벌레",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 14
+        },
+        {
+          "id": "RNZX1MZ2q7Q",
+          "title": "바다 탐험대 옥토넛 - 거대한 해초 숲 (시즌1 에피소드15 - 전체에피소드)",
+          "displayTitle": "거대한 해초 숲",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 15
+        },
+        {
+          "id": "jLkAQlE9DHo",
+          "title": "바다 탐험대 옥토넛 - 소라게 (시즌1 에피소드16 - 전체에피소드)",
+          "displayTitle": "소라게",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 16
+        },
+        {
+          "id": "lC2Un5cwUWo",
+          "title": "바다 탐험대 옥토넛 - 미끈미끈 해삼 (시즌1 에피소드17 - 전체에피소드)",
+          "displayTitle": "미끈미끈 해삼",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 17
+        },
+        {
+          "id": "QACqcDgKbqI",
+          "title": "바다 탐험대 옥토넛 - 거대 소용돌이 (시즌1 에피소드18 - 전체에피소드)",
+          "displayTitle": "거대 소용돌이",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 18
+        },
+        {
+          "id": "jdWE3EaL5n0",
+          "title": "바다 탐험대 옥토넛 - 심해 암흑층 (시즌1 에피소드19 - 전체에피소드)",
+          "displayTitle": "심해 암흑층",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 19
+        },
+        {
+          "id": "lBcZKIJrtk4",
+          "title": "바다 탐험대 옥토넛 - 대왕고래 (시즌1 에피소드20 - 전체에피소드)",
+          "displayTitle": "대왕고래",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 20
+        },
+        {
+          "id": "kA8HmNX3om8",
+          "title": "바다 탐험대 옥토넛 - 딱총새우 (시즌1 에피소드21 - 전체에피소드)",
+          "displayTitle": "딱총새우",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 21
+        },
+        {
+          "id": "QQC6YLCyejA",
+          "title": "바다 탐험대 옥토넛 -켈프 숲 구조작전 (시즌1 에피소드22 - 전체에피소드)",
+          "displayTitle": "켈프 숲 구조작전",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 22
+        },
+        {
+          "id": "ULaAK1vhBMw",
+          "title": "바다 탐험대 옥토넛 - 해마 이야기 (시즌1 에피소드23 - 전체에피소드)",
+          "displayTitle": "해마 이야기",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 23
+        },
+        {
+          "id": "bGl2z6-Dr14",
+          "title": "바다 탐험대 옥토넛 - 말미잘의 공격 (시즌1 에피소드24 - 전체에피소드)",
+          "displayTitle": "말미잘의 공격",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 24
+        },
+        {
+          "id": "xc2R94mHGLc",
+          "title": "바다 탐험대 옥토넛 - 바다의 제트기 돛새치 (시즌1 에피소드25 - 전체에피소드)",
+          "displayTitle": "바다의 제트기 돛새치",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 25
+        },
+        {
+          "id": "Y7p9MdfGwuU",
+          "title": "바다 탐험대 옥토넛 - 흡혈오징어 (시즌1 에피소드26 - 전체에피소드)",
+          "displayTitle": "흡혈오징어",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 26
+        },
+        {
+          "id": "qkGhLJxBwC8",
+          "title": "바다 탐험대 옥토넛 - 배고픈 동갈방어 (시즌1 에피소드27 - 전체에피소드)",
+          "displayTitle": "배고픈 동갈방어",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 27
+        },
+        {
+          "id": "A7N9xmlseAo",
+          "title": "바다 탐험대 옥토넛 - 흰고래 (시즌1 에피소드28 - 전체에피소드)",
+          "displayTitle": "흰고래",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 28
+        },
+        {
+          "id": "GYtQeuRjg7E",
+          "title": "바다 탐험대 옥토넛 - 길 잃은 불가사리 (시즌1 에피소드29 - 전체에피소드)",
+          "displayTitle": "길 잃은 불가사리",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 29
+        },
+        {
+          "id": "LuEZyh9BjPE",
+          "title": "바다 탐험대 옥토넛 - 거대한 빗해파리 (시즌1 에피소드30 - 전체에피소드)",
+          "displayTitle": "거대한 빗해파리",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 30
+        },
+        {
+          "id": "iYf1jcUdFIM",
+          "title": "바다 탐험대 옥토넛 - 쿠키커터상어 (시즌1 에피소드31 - 전체에피소드)",
+          "displayTitle": "쿠키커터상어",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 31
+        },
+        {
+          "id": "ZSGvEfFW6LI",
+          "title": "바다 탐험대 옥토넛 - 해파리 꽃 (시즌1 에피소드32 - 전체에피소드)",
+          "displayTitle": "해파리 꽃",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 32
+        },
+        {
+          "id": "snzETHftokI",
+          "title": "바다 탐험대 옥토넛 - 산갈치 (시즌1 에피소드33 - 전체에피소드)",
+          "displayTitle": "산갈치",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 33
+        },
+        {
+          "id": "Y6UaccoFBok",
+          "title": "바다 탐험대 옥토넛 - 청베도라치 (시즌1 에피소드34 - 전체에피소드)",
+          "displayTitle": "청베도라치",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 34
+        },
+        {
+          "id": "b6JsWRXWv2A",
+          "title": "바다 탐험대 옥토넛 - 아기 돌고래 (시즌1 에피소드35 - 전체에피소드)",
+          "displayTitle": "아기 돌고래",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 35
+        },
+        {
+          "id": "Ehdi6Rxuth4",
+          "title": "바다 탐험대 옥토넛 - 통안어 (시즌1 에피소드36 - 전체에피소드)",
+          "displayTitle": "통안어",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 36
+        },
+        {
+          "id": "qjOK94rDzQg",
+          "title": "바다 탐험대 옥토넛 - 먹장어 (시즌1 에피소드37 - 전체에피소드)",
+          "displayTitle": "먹장어",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 37
+        },
+        {
+          "id": "nzoQjRok2FU",
+          "title": "바다 탐험대 옥토넛 - 범고래 (시즌1 에피소드38 - 전체에피소드)",
+          "displayTitle": "범고래",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 38
+        },
+        {
+          "id": "t8H5R5c_WBs",
+          "title": "바다 탐험대 옥토넛 - 코끼리바다표범 (시즌1 에피소드39 - 전체에피소드)",
+          "displayTitle": "코끼리바다표범",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 39
+        },
+        {
+          "id": "TKqRCPsI_IY",
+          "title": "바다 탐험대 옥토넛 - 정어리 떼 (시즌1 에피소드40 - 전체에피소드)",
+          "displayTitle": "정어리 떼",
+          "durationSec": 725,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 40
+        },
+        {
+          "id": "FLkVwkd8KM0",
+          "title": "바다 탐험대 옥토넛 - 장어 대이동 (시즌1 에피소드41 - 전체에피소드)",
+          "displayTitle": "장어 대이동",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 41
+        },
+        {
+          "id": "5fqlI3YdZ_E",
+          "title": "바다 탐험대 옥토넛 - 슬픈 고래 상어 (시즌1 에피소드1 - 전체에피소드)",
+          "displayTitle": "슬픈 고래 상어",
+          "durationSec": 673,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 42
+        },
+        {
+          "id": "Qvb0scjj4Ow",
+          "title": "바다 탐험대 옥토넛 - 놀라운 조류 탈출 (시즌1 에피소드2 - 전체에피소드)",
+          "displayTitle": "놀라운 조류 탈출",
+          "durationSec": 672,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 43
+        },
+        {
+          "id": "-Wpx20QRyPU",
+          "title": "바다 탐험대 옥토넛 - 야생의 바다푹풍 (시즌1 에피소드3 - 전체에피소드)",
+          "displayTitle": "야생의 바다푹풍",
+          "durationSec": 673,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 44
+        },
+        {
+          "id": "AvBErt0h3ic",
+          "title": "바다 탐험대 옥토넛 - 믿기 힘든 날으는 물고기 생선 (시즌1 에피소드4 - 전체에피소드)",
+          "displayTitle": "믿기 힘든 날으는 물고기 생선",
+          "durationSec": 672,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 45
+        },
+        {
+          "id": "ww9zITLI_P8",
+          "title": "바다 탐험대 옥토넛 - 무서운 과물 지도 (시즌1 에피소드5 - 전체에피소드)",
+          "displayTitle": "무서운 과물 지도",
+          "durationSec": 672,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 46
+        },
+        {
+          "id": "AHLyxfA0XEc",
+          "title": "바다 탐험대 옥토넛 - 오카의 가족 (시즌1 에피소드6 - 전체에피소드)",
+          "displayTitle": "오카의 가족",
+          "durationSec": 673,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s1",
+          "order": 47
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "videos": [
+        {
+          "id": "C-iMsZfwF9E",
+          "title": "바다 탐험대 옥토넛 - 새로운 시즌2! - 백상어/우산뱀 (더블 에피소드)",
+          "displayTitle": "백상어/우산뱀",
+          "durationSec": 1431,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 1
+        },
+        {
+          "id": "5TwpBJzmwDU",
+          "title": "바다 탐험대 옥토넛 - 아델리 펭귄 (시즌2 에피소드3 - 전체에피소드)",
+          "displayTitle": "아델리 펭귄",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 2
+        },
+        {
+          "id": "UWflxge8L14",
+          "title": "바다 탐험대 옥토넛 - 코코넛 크랩 (시즌2 에피소드4 - 전체에피소드)",
+          "displayTitle": "코코넛 크랩",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 3
+        },
+        {
+          "id": "Wqc5tbSX_3o",
+          "title": "바다 탐험대 옥토넛 - 초대왕 오징어 (시즌2 에피소드5 - 전체에피소드)",
+          "displayTitle": "초대왕 오징어",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 4
+        },
+        {
+          "id": "s-i4DozMXdA",
+          "title": "바다 탐험대 옥토넛 - 후악치 (시즌2 에피소드6 - 전체에피소드)",
+          "displayTitle": "후악치",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 5
+        },
+        {
+          "id": "EfSbcXJFwhI",
+          "title": "바다 탐험대 옥토넛 - 황새치 (시즌2 에피소드7 - 전체에피소드)",
+          "displayTitle": "황새치",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 6
+        },
+        {
+          "id": "fQp1tA65f5c",
+          "title": "바다 탐험대 옥토넛 - 농게 (시즌2 에피소드8 - 전체에피소드)",
+          "displayTitle": "농게",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 7
+        },
+        {
+          "id": "-BEmgLNNvPE",
+          "title": "바다 탐험대 옥토넛 - 가시복어 (시즌2 에피소드9 - 전체에피소드)",
+          "displayTitle": "가시복어",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 8
+        },
+        {
+          "id": "RuqIuvGikpE",
+          "title": "바다 탐험대 옥토넛 - 쥐가오리 (시즌2 에피소드10 - 전체에피소드)",
+          "displayTitle": "쥐가오리",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 9
+        },
+        {
+          "id": "x8l8wa02MNI",
+          "title": "바다 탐험대 옥토넛 - 겁쟁이 향유고래 (시즌2 에피소드11 - 전체에피소드)",
+          "displayTitle": "겁쟁이 향유고래",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 10
+        },
+        {
+          "id": "2zbrYqiZNGQ",
+          "title": "바다 탐험대 옥토넛 - 긴팔오징어 (시즌2 에피소드12 - 전체에피소드)",
+          "displayTitle": "긴팔오징어",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 11
+        },
+        {
+          "id": "kE3HOTVcMeU",
+          "title": "바다 탐험대 옥토넛 - 북극고래 (시즌2 에피소드13 - 전체에피소드)",
+          "displayTitle": "북극고래",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 12
+        },
+        {
+          "id": "hBGhq12lgVM",
+          "title": "바다 탐험대 옥토넛 - 파랑돔 (시즌2 에피소드14 - 전체에피소드)",
+          "displayTitle": "파랑돔",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 13
+        },
+        {
+          "id": "w1b-hO-wbiw",
+          "title": "바다 탐험대 옥토넛 - 아마존 대탐험 (시즌2 에피소드15 - 전체에피소드)",
+          "displayTitle": "아마존 대탐험",
+          "durationSec": 1386,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 14
+        },
+        {
+          "id": "gStxDb6jRDM",
+          "title": "바다 탐험대 옥토넛 - 버팔로피쉬 (시즌2 에피소드16 - 전체에피소드)",
+          "displayTitle": "버팔로피쉬",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 15
+        },
+        {
+          "id": "vQX5zINlWRg",
+          "title": "바다 탐험대 옥토넛 - 나뭇잎해룡 (시즌2 에피소드17 - 전체에피소드)",
+          "displayTitle": "나뭇잎해룡",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 16
+        },
+        {
+          "id": "jOrUu3XRsbI",
+          "title": "바다 탐험대 옥토넛 - 바다소, 해우 (시즌2 에피소드18 - 전체에피소드)",
+          "displayTitle": "바다소, 해우",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 17
+        },
+        {
+          "id": "xbcJli_5jVo",
+          "title": "바다 탐험대 옥토넛 - 흉내문어 (시즌2 에피소드19 - 전체에피소드)",
+          "displayTitle": "흉내문어",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 18
+        },
+        {
+          "id": "NdIiJS2_KCU",
+          "title": "바다 탐험대 옥토넛 - 쥐치 (시즌2 에피소드20 - 전체에피소드)",
+          "displayTitle": "쥐치",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 19
+        },
+        {
+          "id": "FoCnAbLJvTA",
+          "title": "바다 탐험대 옥토넛 - 바다악어 (시즌2 에피소드21 - 전체에피소드)",
+          "displayTitle": "바다악어",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 20
+        },
+        {
+          "id": "V5Szg09pnKA",
+          "title": "바다 탐험대 옥토넛 - 꿀꺽장어 (시즌2 에피소드22 - 전체에피소드)",
+          "displayTitle": "꿀꺽장어",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 21
+        },
+        {
+          "id": "6VufFbHOW24",
+          "title": "바다 탐험대 옥토넛 - 라이언피쉬 (시즌2 에피소드23 - 전체에피소드)",
+          "displayTitle": "라이언피쉬",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 22
+        },
+        {
+          "id": "CabUFlIPMWo",
+          "title": "바다 탐험대 옥토넛 - 베지 크리스마스 (시즌2 에피소드24 - 전체에피소드)",
+          "displayTitle": "베지 크리스마스",
+          "durationSec": 1387,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s2",
+          "order": 23
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "videos": [
+        {
+          "id": "_A1Sl0k3_Oo",
+          "title": "바다 탐험대 옥토넛 - 물곰 (시즌3 에피소드1 - 전체에피소드)",
+          "displayTitle": "물곰",
+          "durationSec": 727,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 1
+        },
+        {
+          "id": "j6c3IQQLhRo",
+          "title": "바다 탐험대 옥토넛 - 창꼬치 (시즌3 에피소드2 - 전체에피소드)",
+          "displayTitle": "창꼬치",
+          "durationSec": 727,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 2
+        },
+        {
+          "id": "UXivmeYcDT8",
+          "title": "바다 탐험대 옥토넛 - 뿔달팽이 (시즌3 에피소드3 - 전체에피소드)",
+          "displayTitle": "뿔달팽이",
+          "durationSec": 727,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 3
+        },
+        {
+          "id": "y4xhXKc-1II",
+          "title": "바다 탐험대 옥토넛 - 인공산호초 (시즌3 에피소드4 - 전체에피소드)",
+          "displayTitle": "인공산호초",
+          "durationSec": 727,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 4
+        },
+        {
+          "id": "cg2aftGG8mE",
+          "title": "바다 탐험대 옥토넛 - 혹등고래 (시즌3 에피소드5 - 전체에피소드)",
+          "displayTitle": "혹등고래",
+          "durationSec": 727,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 5
+        },
+        {
+          "id": "aU7_bJqwDlU",
+          "title": "바다 탐험대 옥토넛 - 오리너구리 (시즌3 에피소드6 - 전체에피소드)",
+          "displayTitle": "오리너구리",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 6
+        },
+        {
+          "id": "bE0Ou734_P4",
+          "title": "바다 탐험대 옥토넛 - 말뚝망둥어 (시즌3 에피소드7 - 전체에피소드)",
+          "displayTitle": "말뚝망둥어",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 7
+        },
+        {
+          "id": "A3Bq1GrPmDA",
+          "title": "바다 탐험대 옥토넛 - 영원히 사는 해파리 (시즌3 에피소드8 - 전체에피소드)",
+          "displayTitle": "영원히 사는 해파리",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 8
+        },
+        {
+          "id": "j-dawkM1h0o",
+          "title": "바다 탐험대 옥토넛 - 바다소금쟁이 (시즌3 에피소드9 - 전체에피소드)",
+          "displayTitle": "바다소금쟁이",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 9
+        },
+        {
+          "id": "NxgCpvZn1qY",
+          "title": "바다 탐험대 옥토넛 - 관해파리 (시즌3 에피소드10 - 전체에피소드)",
+          "displayTitle": "관해파리",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 10
+        },
+        {
+          "id": "3q5jtO1a6ns",
+          "title": "바다 탐험대 옥토넛 - 성게의 습격 (시즌3 에피소드11 - 전체에피소드)",
+          "displayTitle": "성게의 습격",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 11
+        },
+        {
+          "id": "TFS8GyQytxo",
+          "title": "바다 탐험대 옥토넛 - 사자갈기 해파리 (시즌3 에피소드12 - 전체에피소드)",
+          "displayTitle": "사자갈기 해파리",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 12
+        },
+        {
+          "id": "Nx_9KHdpDoo",
+          "title": "바다 탐험대 옥토넛 - 펠리컨 (시즌3 에피소드13 - 전체에피소드)",
+          "displayTitle": "펠리컨",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 13
+        },
+        {
+          "id": "cFHWcntgHuE",
+          "title": "바다 탐험대 옥토넛 - 망치상어 (시즌3 에피소드14 - 전체에피소드)",
+          "displayTitle": "망치상어",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 14
+        },
+        {
+          "id": "4dwyrg06aqI",
+          "title": "바다 탐험대 옥토넛 - 갈라파고스붉은게 (시즌3 에피소드15 - 전체에피소드)",
+          "displayTitle": "갈라파고스붉은게",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 15
+        },
+        {
+          "id": "PQkUgQHzaQo",
+          "title": "바다 탐험대 옥토넛 - 바다돼지 (시즌3 에피소드16 - 전체에피소드)",
+          "displayTitle": "바다돼지",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 16
+        },
+        {
+          "id": "8mvauvpMk34",
+          "title": "바다 탐험대 옥토넛 - 해면 (시즌3 에피소드17 - 전체에피소드)",
+          "displayTitle": "해면",
+          "durationSec": 727,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 17
+        },
+        {
+          "id": "XS15HyfZIAA",
+          "title": "바다 탐험대 옥토넛 - 붉은바다거북 (시즌3 에피소드18 - 전체에피소드)",
+          "displayTitle": "붉은바다거북",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 18
+        },
+        {
+          "id": "xS7YdaXpwz0",
+          "title": "바다 탐험대 옥토넛 - 바다표범 (시즌3 에피소드19 - 전체에피소드)",
+          "displayTitle": "바다표범",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 19
+        },
+        {
+          "id": "wdkjnMDXxnE",
+          "title": "바다 탐험대 옥토넛 - 설인게 (시즌3 에피소드20 - 전체에피소드)",
+          "displayTitle": "설인게",
+          "durationSec": 726,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 20
+        },
+        {
+          "id": "vlCGEaovxTg",
+          "title": "바다 탐험대 옥토넛 - 북극 대탐험 (시즌3 에피소드21 - 전체에피소드)",
+          "displayTitle": "북극 대탐험",
+          "durationSec": 1387,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 21
+        },
+        {
+          "id": "m77_br881Yk",
+          "title": "바다 탐험대 옥토넛 - 마리아나 해구 탐험 (시즌3 에피소드22 - 전체에피소드)",
+          "displayTitle": "마리아나 해구 탐험",
+          "durationSec": 1387,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 22
+        },
+        {
+          "id": "4R76xBDfSpQ",
+          "title": "바다 탐험대 옥토넛 - 거대한 빙산 탐험 (시즌3 에피소드23 - 전체에피소드)",
+          "displayTitle": "거대한 빙산 탐험",
+          "durationSec": 1387,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "s3",
+          "order": 23
+        }
+      ]
+    },
+    {
+      "id": "mix",
+      "videos": [
+        {
+          "id": "f-c7QitKlxk",
+          "title": "바다 탐험대 옥토넛 - 🤿  거대한 바다 괴물을 찾아서 🦑 - 120분+ 편집 - 모음집",
+          "displayTitle": "거대한 바다 괴물을 찾아서",
+          "durationSec": 7777,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 1
+        },
+        {
+          "id": "lHU3S_8j_Nw",
+          "title": "바다 탐험대 옥토넛 - 🐻‍❄️😼🐧 바다 구조대 출동!  🌊 - 120분+ 편집 - 모음집",
+          "displayTitle": "바다 구조대 출동!",
+          "durationSec": 7778,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 2
+        },
+        {
+          "id": "0vk3HmgApL4",
+          "title": "바다 탐험대 옥토넛 - 🐙 바다 괴물의 비밀 🔍 - 60분+ 편집 - 모음집",
+          "displayTitle": "바다 괴물의 비밀",
+          "durationSec": 4197,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 3
+        },
+        {
+          "id": "qMqAWc5to-U",
+          "title": "바다 탐험대 옥토넛 - 🌌 신비로운 바닷속 세상! 🐠 - 60분+ 봄 편집 - 모음집",
+          "displayTitle": "신비로운 바닷속 세상!",
+          "durationSec": 4196,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 4
+        },
+        {
+          "id": "LDQBlgmvcfc",
+          "title": "바다 탐험대 옥토넛 - 🤿 수중 숲의 생물들 🌱 - 120분+ 편집 - 모음집",
+          "displayTitle": "수중 숲의 생물들",
+          "durationSec": 7901,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 5
+        },
+        {
+          "id": "1eo37zeDo0M",
+          "title": "바다 탐험대 옥토넛 - 🐠🪸 놀랍고 멋진 바다 🤿✨ - 120분+ 편집 - 모음집",
+          "displayTitle": "놀랍고 멋진 바다",
+          "durationSec": 7777,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 6
+        },
+        {
+          "id": "0ktTkgUNBeQ",
+          "title": "바다 탐험대 옥토넛 - 🌋 깜깜한 내리막길 🤿 - 30분+ 편집 - 모음집",
+          "displayTitle": "깜깜한 내리막길",
+          "durationSec": 1809,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 7
+        },
+        {
+          "id": "3TVX05671Lo",
+          "title": "바다 탐험대 옥토넛 - 🦦 세상에서 제일 귀여운 아기 동물들 🐬 - 150분+ 편집 - 모음집",
+          "displayTitle": "세상에서 제일 귀여운 아기 동물들",
+          "durationSec": 9096,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 8
+        },
+        {
+          "id": "S6Omr4aea-g",
+          "title": "바다 탐험대 옥토넛 - ⚡ 바다는 찌릿찌릿해 🌊 - 30분+ 편집 - 모음집",
+          "displayTitle": "바다는 찌릿찌릿해",
+          "durationSec": 1810,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 9
+        },
+        {
+          "id": "rNItjCRXNU8",
+          "title": "바다 탐험대 옥토넛 - ☀️ 슈퍼 여름 마라톤 🤿 -  240 분+ 편집 - 모음집",
+          "displayTitle": "슈퍼 여름 마라톤",
+          "durationSec": 14465,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 10
+        },
+        {
+          "id": "6MD8fFRGoME",
+          "title": "바다 탐험대 옥토넛 - 🦈😺 | 상어 주간입니다! 🦈😱 - 모음집",
+          "displayTitle": "상어 주간입니다!",
+          "durationSec": 4793,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 11
+        },
+        {
+          "id": "smCXOurkDfI",
+          "title": "바다 탐험대 옥토넛 - 🐶 대쉬의 바다 사진 탐험 📸 - 60분+ 편집 - 모음집",
+          "displayTitle": "대쉬의 바다 사진 탐험",
+          "durationSec": 3723,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 12
+        },
+        {
+          "id": "v2EUHJwtqbw",
+          "title": "바다 탐험대 옥토넛 - ⛑️ 구조 팀 출동!  🛟 - 모음집",
+          "displayTitle": "구조 팀 출동!",
+          "durationSec": 3600,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 13
+        },
+        {
+          "id": "DufksGWb0RU",
+          "title": "바다 탐험대 옥토넛 - 🦠 야수의 배 🐋 - 모음집",
+          "displayTitle": "야수의 배",
+          "durationSec": 3600,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 14
+        },
+        {
+          "id": "EVH4ZqmB_z8",
+          "title": "바다 탐험대 옥토넛 - 👨 아버지의 날 어드벤처 스페셜! ⛑️ - 모음집",
+          "displayTitle": "아버지의 날 어드벤처 스페셜!",
+          "durationSec": 6357,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 15
+        },
+        {
+          "id": "Idrr2FYycy8",
+          "title": "바다 탐험대 옥토넛 - 🪸🐚 바닷속 모험 🐚🪸 - 30분+ 편집 - 모음집",
+          "displayTitle": "바닷속 모험",
+          "durationSec": 1810,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 16
+        },
+        {
+          "id": "clW5c0eV7cY",
+          "title": "바다 탐험대 옥토넛 - 🌈 무지개 바다 🌊 - 모음집",
+          "displayTitle": "무지개 바다",
+          "durationSec": 4196,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 17
+        },
+        {
+          "id": "SiUUXH6fPKI",
+          "title": "바다 탐험대 옥토넛 - 🐊 악어의 날을 축하해요! 🤗 - 30분+ 편집 - 모음집",
+          "displayTitle": "악어의 날을 축하해요!",
+          "durationSec": 1810,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 18
+        },
+        {
+          "id": "JiqXuVC7y_o",
+          "title": "바다 탐험대 옥토넛 - 🌊 세계 바다의 날 🌎 - 모음집",
+          "displayTitle": "세계 바다의 날",
+          "durationSec": 10762,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 19
+        },
+        {
+          "id": "k7hkToeni44",
+          "title": "바다 탐험대 옥토넛 - 🔍 사라진 옥토포드 🕵️  - 30분+ 편집 - 모음집",
+          "displayTitle": "사라진 옥토포드",
+          "durationSec": 1810,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 20
+        },
+        {
+          "id": "7Cx3KIG6O9E",
+          "title": "바다 탐험대 옥토넛 - 🫶 친구와 함께라면 🪸 - 180분+ 편집 - 모음집",
+          "displayTitle": "친구와 함께라면",
+          "durationSec": 11358,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 21
+        },
+        {
+          "id": "Bj1ywxydH1g",
+          "title": "바다 탐험대 옥토넛 - 🌊 바다의 속삭임 🐚 - 30분+ 편집 - 모음집",
+          "displayTitle": "바다의 속삭임",
+          "durationSec": 1810,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 22
+        },
+        {
+          "id": "vCSMbIoAjk0",
+          "title": "바다 탐험대 옥토넛 - 💦  첨벙첨벙 바다 생물을 만나 봐요! 🦑 - 180분+ 편집 - 모음집",
+          "displayTitle": "첨벙첨벙 바다 생물을 만나 봐요!",
+          "durationSec": 11359,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 23
+        },
+        {
+          "id": "NzKax-3NvJ0",
+          "title": "바다 탐험대 옥토넛 - 🐙 친구를 구해라 🫶 - 30분+ 편집 - 모음집",
+          "displayTitle": "친구를 구해라",
+          "durationSec": 1809,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 24
+        },
+        {
+          "id": "sPQ9dyaDBYE",
+          "title": "바다 탐험대 옥토넛 -🐻‍❄️😼🐧 해양 생물 구조대 출동! 🛟 - 180분+ 편집 - 모음집",
+          "displayTitle": "해양 생물 구조대 출동!",
+          "durationSec": 10884,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 25
+        },
+        {
+          "id": "ZxzxYqWaD3Q",
+          "title": "바다 탐험대 옥토넛 - 🦦 주니어 요원 🦺 - 30분+ 편집 - 모음집",
+          "displayTitle": "주니어 요원",
+          "durationSec": 1810,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 26
+        },
+        {
+          "id": "0AkvO6T3D_U",
+          "title": "바다 탐험대 옥토넛 - 🧑‍🍼 우리 엄마가 바다 최고 🌸 - 160분+ 봄 편집 - 모음집",
+          "displayTitle": "우리 엄마가 바다 최고",
+          "durationSec": 7427,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 27
+        },
+        {
+          "id": "ziGknsQrjF0",
+          "title": "바다 탐험대 옥토넛 - 🕵️ 바다의 명탐정 🔍  - 30분+ 편집 - 모음집",
+          "displayTitle": "바다의 명탐정",
+          "durationSec": 1810,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 28
+        },
+        {
+          "id": "lBM_Mk9ewMU",
+          "title": "바다 탐험대 옥토넛 - 🪬 신기한 바다 생물들 🦑 - 150분+ 편집 - 모음집",
+          "displayTitle": "신기한 바다 생물들",
+          "durationSec": 9095,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 29
+        }
+      ]
+    }
+  ]
+}

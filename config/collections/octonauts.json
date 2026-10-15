@@ -1,0 +1,55 @@
+{
+  "id": "octonauts",
+  "displayName": "옥토넛",
+  "enabled": true,
+  "channels": [
+    "UCKEGG4zVP3CGS_YSQOf654w"
+  ],
+  "coverVideoId": null,
+  "groupLabel": "시즌",
+  "groups": [
+    {
+      "id": "s1",
+      "label": "시즌 1",
+      "playlistId": "PL0exdpL1RDQpBQdHHzOFMpBqfqDZ0tqcG"
+    },
+    {
+      "id": "s2",
+      "label": "시즌 2",
+      "playlistId": "PL0exdpL1RDQo-ImviMMHShLVtxEKRE4tH"
+    },
+    {
+      "id": "s3",
+      "label": "시즌 3",
+      "playlistId": "PL0exdpL1RDQriZnrBAsIjOLgB9b-JdCah"
+    },
+    {
+      "id": "mix",
+      "label": "모음집",
+      "kind": "free",
+      "uploads": {
+        "minSec": 1800,
+        "latest": 30
+      }
+    }
+  ],
+  "excludeShorts": true,
+  "titleExcludePatterns": [
+    "생방송"
+  ],
+  "titleStripPatterns": [
+    "^바다\\s*탐험대\\s*옥토넛\\s*-\\s*",
+    "\\s*\\(시즌\\s*\\d+\\s*에피소드[^)]*\\)",
+    "\\s*\\(더블\\s*에피소드\\)",
+    "\\s*-\\s*\\d+\\s*분\\+.*$",
+    "\\s*-\\s*모음집$",
+    "\\s*-\\s*전체\\s*에피소드$",
+    "\\s*[\\p{Extended_Pictographic}\\u{FE0F}\\u{200D}]+",
+    "\\s*[\\p{Extended_Pictographic}\\u{FE0F}\\u{200D}]+",
+    "\\s*[\\p{Extended_Pictographic}\\u{FE0F}\\u{200D}]+",
+    "\\s*[\\p{Extended_Pictographic}\\u{FE0F}\\u{200D}]+",
+    "^\\s*\\|\\s*",
+    "^새로운\\s*시즌\\s*\\d+!\\s*-\\s*",
+    "\\s*\\|.*$"
+  ]
+}

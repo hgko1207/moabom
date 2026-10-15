@@ -1,0 +1,37 @@
+{
+  "id": "colourblocks",
+  "displayName": "컬러블록스",
+  "enabled": true,
+  "channels": [
+    "UCQkuKPaVlYK7QCIVTb0lV2Q"
+  ],
+  "coverVideoId": null,
+  "groupLabel": "시즌",
+  "groups": [
+    {
+      "id": "s1",
+      "label": "시즌 1",
+      "playlistId": "PLNlJG0d7KqJvg1Lxjm33FsYBpZHRS5o2H"
+    },
+    {
+      "id": "s2",
+      "label": "시즌 2",
+      "playlistId": "PLNlJG0d7KqJtAQCRPYDhiPexEYH0Nc5uH"
+    },
+    {
+      "id": "mix",
+      "label": "모음집",
+      "kind": "free",
+      "uploads": {
+        "minSec": 901,
+        "latest": 30
+      }
+    }
+  ],
+  "excludeShorts": true,
+  "titleExcludePatterns": [],
+  "titleStripPatterns": [
+    "\\s*\\|.*$",
+    "\\s*#\\S+"
+  ]
+}

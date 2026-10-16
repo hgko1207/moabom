@@ -1178,3 +1178,18 @@ body.night {
   font-size: 16px;
   font-weight: 700;
 }
+
+/* Home screen 이어 보기 card (reuses the hero layout) */
+.home-continue {
+  margin-bottom: var(--s3);
+}
+
+.settings h3 {
+  font-size: 18px;
+  margin: var(--s3) 0 var(--s1);
+}
+
+.shown.switch {
+  width: 100%;
+  padding: var(--s1) var(--s2);
+}

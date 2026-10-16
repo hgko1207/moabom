@@ -16,6 +16,8 @@ export interface CollectionProgress {
   /** videoId -> last playback position (s), so long compilations continue where they stopped */
   position: Record<string, number>;
   last: string | null;
+  /** When `last` was last played (ms); picks the home screen's 이어 보기 across collections. */
+  lastAt?: number;
 }
 
 export interface TodayState {
@@ -37,6 +39,8 @@ export interface DeviceSettings {
   hidden?: string[];
   /** Collection order chosen by a parent; collections not listed follow in config order. */
   order?: string[];
+  /** The home screen's 이어 보기 card; missing means on. */
+  homeContinue?: boolean;
   /** Home screen title; empty or missing means the profile name from config. */
   title?: string;
 }
@@ -102,6 +106,7 @@ export function createStore(kv: KV) {
         failed: p?.failed ?? {},
         position: p?.position ?? {},
         last: p?.last ?? null,
+        ...(p?.lastAt ? { lastAt: p.lastAt } : {}),
       };
     },
     saveProgress(profileId: string, collectionId: string, value: CollectionProgress): void {

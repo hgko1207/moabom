@@ -42,6 +42,13 @@ export function nextToWatch(data: CollectionData, p: CollectionProgress, startGr
   return rotated.find((v) => !(v.id in p.watched) && !(v.id in p.failed)) ?? null;
 }
 
+/** The collection played most recently (for the home screen's 이어 보기), or null if none was played yet. */
+export function mostRecentCollection(entries: { id: string; lastAt?: number }[]): string | null {
+  let best: { id: string; lastAt: number } | null = null;
+  for (const e of entries) if ((e.lastAt ?? 0) > (best?.lastAt ?? 0)) best = { id: e.id, lastAt: e.lastAt! };
+  return best?.id ?? null;
+}
+
 export interface HeroPick {
   video: VideoRecord;
   /** True when it continues from a saved position ("이어 보기"). */
@@ -189,13 +196,13 @@ export function recordProgress(
   sec: number,
   now: number,
 ): { progress: CollectionProgress; completed: boolean } {
-  if (video.id in p.watched) return { progress: { ...p, last: video.id }, completed: false };
+  if (video.id in p.watched) return { progress: { ...p, last: video.id, lastAt: now }, completed: false };
   const played = (p.progress[video.id] ?? 0) + sec;
   const { [video.id]: _, ...rest } = p.progress;
   if (video.durationSec > 0 && played >= video.durationSec * WATCHED_FRACTION) {
-    return { progress: { ...p, progress: rest, watched: { ...p.watched, [video.id]: now }, last: video.id }, completed: true };
+    return { progress: { ...p, progress: rest, watched: { ...p.watched, [video.id]: now }, last: video.id, lastAt: now }, completed: true };
   }
-  return { progress: { ...p, progress: { ...rest, [video.id]: played }, last: video.id }, completed: false };
+  return { progress: { ...p, progress: { ...rest, [video.id]: played }, last: video.id, lastAt: now }, completed: false };
 }
 
 export function recordFailed(p: CollectionProgress, videoId: string, now: number): CollectionProgress {

@@ -14,6 +14,7 @@ import {
   isStale,
   limitReached,
   localDate,
+  mostRecentCollection,
   moveCollection,
   orderCollectionIds,
   profileGate,
@@ -260,13 +261,19 @@ function renderProfiles(allowed: Set<string>): void {
 
 function renderCollections(profile: Profile, collections: Collection[], showBack: boolean): void {
   if (showBack) onBack = () => backTo({});
-  app.innerHTML = `<main class="screen"><div class="bar">${showBack ? backButton() : ''}<h1>${esc(homeTitle(profile.name, store.settings()))}</h1>${gearButton()}</div>
+  const settings = store.settings();
+  const views = new Map(collections.map((c) => [c.config.id, collectionView(profile, c)]));
+  app.innerHTML = `<main class="screen"><div class="bar">${showBack ? backButton() : ''}<h1>${esc(homeTitle(profile.name, settings))}</h1>${gearButton()}</div>
     ${offlineNotice()}
+    ${settings?.homeContinue === false ? '' : homeContinueHtml(collections, views)}
     <nav class="tiles" aria-label="컬렉션">${collections
       .map((c) => {
         const cover = c.config.coverVideoId ?? c.data.groups[0]?.videos[0]?.id ?? '';
+        // A character with a video in progress shows how far it got, like the cards inside.
+        const view = views.get(c.config.id)!;
+        const bar = view.resume && view.highlight ? progressBar(startPosition(view.progress, view.highlight), view.highlight.durationSec) : '';
         return `<button class="tile" data-collection="${esc(c.config.id)}" aria-label="${esc(c.config.displayName)}">
-          ${thumb(cover, c.config.displayName.slice(0, 1), '', true)}<span class="label">${esc(c.config.displayName)}</span></button>`;
+          ${thumb(cover, c.config.displayName.slice(0, 1), bar, true)}<span class="label">${esc(c.config.displayName)}</span></button>`;
       })
       .join('')}</nav>${installHint()}${staleNote()}</main>`;
   bindBack();
@@ -275,6 +282,32 @@ function renderCollections(profile: Profile, collections: Collection[], showBack
   app.querySelectorAll<HTMLButtonElement>('.tile').forEach((b) =>
     b.addEventListener('click', () => go({ profile: profile.id, collection: b.dataset.collection! })),
   );
+  app.querySelector<HTMLButtonElement>('[data-continue]')?.addEventListener('click', (e) => {
+    const b = e.currentTarget as HTMLButtonElement;
+    go({ profile: profile.id, collection: b.dataset.continue!, video: b.dataset.video! });
+  });
+}
+
+/**
+ * The home screen's 이어 보기: what the most recently watched character would offer on its own screen
+ * (O3b, or the resumable episode after the daily limit). Hidden until something was watched.
+ */
+function homeContinueHtml(collections: Collection[], views: Map<string, CollectionView>): string {
+  const id = mostRecentCollection(collections.map((c) => ({ id: c.config.id, lastAt: views.get(c.config.id)!.progress.lastAt })));
+  const c = collections.find((x) => x.config.id === id);
+  const view = c && views.get(c.config.id);
+  const v = view?.highlight;
+  if (!c || !view || !v) return '';
+  const group = c.config.groups.find((g) => g.id === v.group)?.label ?? '';
+  const at = view.resume ? startPosition(view.progress, v) : 0;
+  const what = view.resume ? '이어 보기' : '다음 편';
+  const when = view.resume ? `${duration(at)}부터` : duration(v.durationSec);
+  return `<button class="hero home-continue" data-continue="${esc(c.config.id)}" data-video="${esc(v.id)}"
+      aria-label="${what}: ${esc(c.config.displayName)} ${esc(group)} ${v.order}편 ${esc(v.displayTitle)}">
+    ${thumb(v.id, String(v.order), `<span class="play" aria-hidden="true">${icon('play', 48)}</span>${progressBar(at, v.durationSec)}`, true)}
+    <div><div class="chip">${icon(view.resume ? 'again' : 'play', 20)}${what}</div><div class="title">${esc(v.displayTitle)}</div>
+      <div class="sub">${esc(c.config.displayName)} · ${esc(group)} ${v.order}편 · ${when}</div></div>
+  </button>`;
 }
 
 interface CollectionView {
@@ -751,8 +784,12 @@ function renderSettings(profile: Profile, available: Collection[], home: Route):
         .join('')}</div>
       <p class="hint">누르면 보이기·숨기기, 화살표로 홈 화면 순서를 바꿔요. 끈 캐릭터는 아이 화면에서 사라지고, 본 기록은 그대로 남아요.</p>
     </section>
-    <section class="panel" aria-labelledby="name-title">
-      <h2 id="name-title">홈 화면 이름</h2>
+    <section class="panel" aria-labelledby="home-title-h">
+      <h2 id="home-title-h">홈 화면</h2>
+      <button class="shown switch" role="switch" aria-checked="${current.homeContinue !== false}" data-action="home-continue">
+        <span class="name">맨 위 "이어 보기" 칸</span><span class="state">${current.homeContinue !== false ? '켜짐' : '꺼짐'}</span></button>
+      <p class="hint">가장 최근에 본 캐릭터에서 보던 영상(다 봤으면 다음 편)을 한 번에 이어 봐요.</p>
+      <h3 id="name-title">이름</h3>
       <form class="title-form" data-action="title">
         <input id="home-title" name="title" maxlength="${TITLE_MAX}" value="${esc(homeTitle(profile.name, current))}" aria-labelledby="name-title" autocomplete="off">
         <button class="secondary" type="submit">저장</button>
@@ -824,6 +861,11 @@ function renderSettings(profile: Profile, available: Collection[], home: Route):
       (same && !same.disabled ? same : app.querySelector<HTMLButtonElement>(`[data-move="${-step}"][data-id="${CSS.escape(id)}"]`))?.focus();
     }),
   );
+  app.querySelector('[data-action="home-continue"]')?.addEventListener('click', () => {
+    store.saveSettings({ ...current, homeContinue: current.homeContinue === false });
+    render();
+    app.querySelector<HTMLElement>('[data-action="home-continue"]')?.focus();
+  });
   app.querySelector<HTMLFormElement>('[data-action="title"]')?.addEventListener('submit', (e) => {
     e.preventDefault();
     const input = app.querySelector<HTMLInputElement>('#home-title')!;

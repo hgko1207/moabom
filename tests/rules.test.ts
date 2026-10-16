@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { CollectionData, Profile } from '../src/config.ts';
 import {
+  mostRecentCollection,
   heroPick,
   moveCollection,
   orderCollectionIds,
@@ -333,5 +334,17 @@ describe('heroPick (O3b)', () => {
 
   it('returns null when every series episode is watched and nothing is in progress', () => {
     expect(heroPick(data, cfg, progress(['a', 'b'], [], 'b'))).toBeNull();
+  });
+});
+
+describe('mostRecentCollection (home 이어 보기)', () => {
+  it('picks the collection played last, ignoring ones never played', () => {
+    expect(mostRecentCollection([{ id: 'a', lastAt: 5 }, { id: 'b', lastAt: 9 }, { id: 'c' }])).toBe('b');
+    expect(mostRecentCollection([{ id: 'a' }, { id: 'b', lastAt: 0 }])).toBeNull();
+  });
+  it('is fed by recordProgress, which stamps when the last video was played', () => {
+    const v = { id: 'a', durationSec: 300 };
+    expect(recordProgress(progress(), v, 10, 1234).progress.lastAt).toBe(1234);
+    expect(recordProgress(progress(['a']), v, 10, 99).progress.lastAt).toBe(99);
   });
 });

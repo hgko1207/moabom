@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { CollectionData, Profile } from '../src/config.ts';
 import {
+  withToday,
   progressRecency,
   recentDays,
   recordHistory,
@@ -397,5 +398,29 @@ describe('progressRecency (home 이어 보기 for progress saved before lastAt)'
   it('lets old progress still pick a collection for the home card', () => {
     const old = { id: 'bluey', lastAt: progressRecency({ watched: { a: 300 }, last: 'a' }) };
     expect(mostRecentCollection([{ id: 'nb', lastAt: progressRecency(progress()) }, old])).toBe('bluey');
+  });
+});
+
+describe('withToday (H4: history never shows less than 설정 → 오늘)', () => {
+  const day = (over: Partial<TodayState>): TodayState => ({ date: '2026-10-16', started: [], finished: [], playedToday: {}, seconds: 0, stopped: [], ...over });
+  const where = (id: string) => (id === 'unknown' ? null : 'bluey');
+
+  it('fills an empty log from today, keeping finished marks', () => {
+    const h = withToday({}, day({ playedToday: { a: 600, b: 420 }, finished: ['a'], seconds: 1020 }), where);
+    expect(h['2026-10-16']).toEqual({ seconds: 1020, videos: { a: { c: 'bluey', sec: 600, done: true }, b: { c: 'bluey', sec: 420 } } });
+  });
+
+  it('adds earlier unlogged videos before the logged ones and raises short entries', () => {
+    const logged = recordHistory({}, '2026-10-16', 'octonauts', 'c', 30);
+    const h = withToday(logged, day({ playedToday: { a: 600, c: 90 }, seconds: 690 }), where);
+    expect(Object.keys(h['2026-10-16']!.videos)).toEqual(['a', 'c']);
+    expect(h['2026-10-16']!.videos.c).toEqual({ c: 'octonauts', sec: 90 });
+    expect(h['2026-10-16']!.seconds).toBe(690);
+  });
+
+  it('changes nothing when the log already covers today, and skips videos no longer in any collection', () => {
+    const logged = recordHistory({}, '2026-10-16', 'bluey', 'a', 100);
+    expect(withToday(logged, day({ playedToday: { a: 100 }, seconds: 100 }), where)).toBe(logged);
+    expect(withToday({}, day({ playedToday: { unknown: 50 }, seconds: 50 }), where)['2026-10-16']!.videos).toEqual({});
   });
 });

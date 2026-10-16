@@ -20,6 +20,7 @@ import {
   recentDays,
   recordHistory,
   recordHistoryDone,
+  withToday,
   mostRecentCollection,
   progressRecency,
   moveCollection,
@@ -129,6 +130,21 @@ window.addEventListener('online', () => {
 });
 window.addEventListener('offline', () => {
   if (!activePlayer) render();
+});
+
+// After a deploy, an app left open (a home screen app often is, for days) keeps running the old code until it is
+// restarted, so new features and fixes seem missing. When the app comes back to the foreground, compare our build
+// with the published one and reload if it changed; never during playback. No-op in dev (no hashed bundle).
+const runningBuild = document.querySelector<HTMLScriptElement>('script[type="module"][src*="/assets/index-"]')?.src;
+document.addEventListener('visibilitychange', async () => {
+  if (document.visibilityState !== 'visible' || activePlayer || !runningBuild) return;
+  try {
+    const html = await (await fetch(location.pathname, { cache: 'no-store' })).text();
+    const latest = /src="([^"]*\/assets\/index-[^"]+\.js)"/.exec(html)?.[1];
+    if (latest && !runningBuild.endsWith(latest)) location.reload();
+  } catch {
+    // offline or blocked: try again next time
+  }
 });
 onInstallChange(() => {
   if (!activePlayer) render();
@@ -540,7 +556,7 @@ function renderPlayer(profile: Profile, c: Collection, videoId: string, listRout
   const limits = limitsFor(profile);
   if (!canStart(today, limits, video.id)) return replace({ ...listRoute, today: true });
   let progress = store.progress(profile.id, c.config.id);
-  let history = store.history(profile.id);
+  let history = withToday(store.history(profile.id), today, collectionOfVideo);
   const groupLabels = new Map(c.config.groups.map((g) => [g.id, g.label]));
   // Free groups (compilations, clips) play on inside their own tab; series groups walk the episodes.
   const scope = upNextScope(c.data, c.config, video);
@@ -991,6 +1007,16 @@ function renderSettings(profile: Profile, available: Collection[], home: Route):
 
 // ---------- viewing history (H) ----------
 
+let videoCollections: Map<string, string> | null = null;
+
+/** Which collection a video belongs to (for back-filling history from today's counters). */
+function collectionOfVideo(videoId: string): string | null {
+  videoCollections ??= new Map(
+    [...appData.collections.values()].flatMap((c) => viewingOrder(c.data).map((v) => [v.id, c.config.id] as const)),
+  );
+  return videoCollections.get(videoId) ?? null;
+}
+
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
 
 function dayLabel(date: string, today: string): string {
@@ -1010,7 +1036,9 @@ function playedTime(sec: number): string {
 /** H3: the last 7 days on this device — minutes per day, then what was watched each day. */
 function renderHistory(profile: Profile): void {
   const today = localDate(new Date());
-  const days = recentDays(store.history(profile.id), today, 7);
+  const merged = withToday(store.history(profile.id), store.today(profile.id, today), collectionOfVideo);
+  store.saveHistory(profile.id, merged);
+  const days = recentDays(merged, today, 7);
   const total = days.reduce((n, d) => n + d.seconds, 0);
   const max = Math.max(...days.map((d) => d.seconds), 1);
   const find = (cid: string, vid: string) => {

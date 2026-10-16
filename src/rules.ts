@@ -52,6 +52,31 @@ export function recordHistoryDone(h: History, date: string, videoId: string): Hi
   return { ...h, [date]: { ...day, videos: { ...day.videos, [videoId]: { ...entry, done: true } } } };
 }
 
+/**
+ * H4: fill today's history from today's limit counters, which have been kept longer. Playback before the history
+ * log existed, or on an app still running older code, shows up in 설정 → 오늘 but not in the log; this makes the log
+ * never show less than that. Back-filled videos go first (they were watched before the logged ones).
+ */
+export function withToday(h: History, today: TodayState, collectionOf: (videoId: string) => string | null): History {
+  const day = h[today.date] ?? { seconds: 0, videos: {} };
+  const added: History[string]['videos'] = {};
+  const videos = { ...day.videos };
+  for (const [id, sec] of Object.entries(today.playedToday)) {
+    const e = videos[id];
+    if (e) {
+      if (sec > e.sec) videos[id] = { ...e, sec };
+    } else {
+      const c = collectionOf(id);
+      if (c) added[id] = { c, sec };
+    }
+  }
+  const merged = { ...added, ...videos };
+  for (const id of today.finished) if (merged[id] && !merged[id].done) merged[id] = { ...merged[id], done: true };
+  const seconds = Math.max(day.seconds, today.seconds);
+  const unchanged = seconds === day.seconds && JSON.stringify(merged) === JSON.stringify(day.videos);
+  return unchanged ? h : { ...h, [today.date]: { seconds, videos: merged } };
+}
+
 /** The last `n` dates ending today, newest first, with that day's log (empty when nothing was watched). */
 export function recentDays(h: History, today: string, n: number): { date: string; seconds: number; videos: [string, History[string]['videos'][string]][] }[] {
   return Array.from({ length: n }, (_, i) => {

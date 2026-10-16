@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { CollectionData, Profile } from '../src/config.ts';
 import {
+  progressRecency,
   recentDays,
   recordHistory,
   recordHistoryDone,
@@ -383,5 +384,18 @@ describe('viewing history (H)', () => {
     const days = recentDays(h, '2026-10-16', 3);
     expect(days.map((d) => [d.date, d.seconds])).toEqual([['2026-10-16', 90], ['2026-10-15', 0], ['2026-10-14', 0]]);
     expect(days[0]!.videos.map(([id]) => id)).toEqual(['b', 'a']);
+  });
+});
+
+describe('progressRecency (home 이어 보기 for progress saved before lastAt)', () => {
+  it('uses lastAt, else the newest finish time, else a token value when something was started', () => {
+    expect(progressRecency({ ...progress(['a']), lastAt: 500 })).toBe(500);
+    expect(progressRecency({ watched: { a: 100, b: 300 }, last: 'b' })).toBe(300);
+    expect(progressRecency(progress([], [], 'a'))).toBe(1);
+    expect(progressRecency(progress())).toBe(0);
+  });
+  it('lets old progress still pick a collection for the home card', () => {
+    const old = { id: 'bluey', lastAt: progressRecency({ watched: { a: 300 }, last: 'a' }) };
+    expect(mostRecentCollection([{ id: 'nb', lastAt: progressRecency(progress()) }, old])).toBe('bluey');
   });
 });

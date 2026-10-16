@@ -20,6 +20,7 @@ import {
   recordHistory,
   recordHistoryDone,
   mostRecentCollection,
+  progressRecency,
   moveCollection,
   orderCollectionIds,
   profileGate,
@@ -301,7 +302,7 @@ function renderCollections(profile: Profile, collections: Collection[], showBack
  * (O3b, or the resumable episode after the daily limit). Hidden until something was watched.
  */
 function homeContinueHtml(collections: Collection[], views: Map<string, CollectionView>): string {
-  const id = mostRecentCollection(collections.map((c) => ({ id: c.config.id, lastAt: views.get(c.config.id)!.progress.lastAt })));
+  const id = mostRecentCollection(collections.map((c) => ({ id: c.config.id, lastAt: progressRecency(views.get(c.config.id)!.progress) })));
   const c = collections.find((x) => x.config.id === id);
   const view = c && views.get(c.config.id);
   const v = view?.highlight;

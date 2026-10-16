@@ -82,6 +82,16 @@ export function nextToWatch(data: CollectionData, p: CollectionProgress, startGr
   return rotated.find((v) => !(v.id in p.watched) && !(v.id in p.failed)) ?? null;
 }
 
+/**
+ * When a collection was last played. Progress saved before `lastAt` existed (before 2026-10-16) falls back to its
+ * newest finish time, and a collection that was only started gets a token 1 so it still counts as played.
+ */
+export function progressRecency(p: Pick<CollectionProgress, 'watched' | 'last' | 'lastAt'>): number {
+  if (p.lastAt) return p.lastAt;
+  const finished = Math.max(0, ...Object.values(p.watched));
+  return finished || (p.last ? 1 : 0);
+}
+
 /** The collection played most recently (for the home screen's 이어 보기), or null if none was played yet. */
 export function mostRecentCollection(entries: { id: string; lastAt?: number }[]): string | null {
   let best: { id: string; lastAt: number } | null = null;

@@ -1296,3 +1296,48 @@ body.night {
     grid-template-columns: 96px 1fr;
   }
 }
+
+/* Settings review (2026-10-16): limit choices on one row, today's use, collapsed paste box */
+.settings .choices {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 480px;
+}
+
+.settings .choice {
+  padding: 0 var(--s1);
+}
+
+.today-usage {
+  font-size: 18px;
+}
+
+.today-usage b {
+  font-size: 22px;
+}
+
+details.paste {
+  margin-top: var(--s2);
+}
+
+details.paste summary {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+details.paste summary::before {
+  content: '▸';
+  margin-right: 8px;
+  transition: transform var(--rise);
+}
+
+details.paste[open] summary::before {
+  transform: rotate(90deg);
+}
+
+details.paste summary::-webkit-details-marker {
+  display: none;
+}

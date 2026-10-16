@@ -3,6 +3,7 @@ import './styles.css';
 import type { Profile, VideoRecord } from './config.ts';
 import { loadAppData, type Collection } from './data.ts';
 import { icon } from './icons.ts';
+import { SETTINGS_PARAM, settingsFromText, settingsLink } from './share.ts';
 import { canPromptInstall, currentPlatform, onInstallChange, promptInstall, STEPS } from './install.ts';
 import { createPlayer, type PlayerHandle } from './player.ts';
 import {
@@ -138,6 +139,41 @@ onInstallChange(() => {
   const pin = new URLSearchParams(location.search).get('profile');
   if (pin && appData.profiles.some((p) => p.id === pin)) store.savePinned(pin);
   if (pin !== null) history.replaceState(history.state, '', location.pathname + location.hash);
+}
+
+// A settings link from another device (?settings=<code>): confirm, apply, then drop it from the address.
+{
+  const params = new URLSearchParams(location.search);
+  const code = params.get(SETTINGS_PARAM);
+  if (code !== null) {
+    params.delete(SETTINGS_PARAM);
+    const rest = params.toString();
+    history.replaceState(history.state, '', location.pathname + (rest ? `?${rest}` : '') + location.hash);
+    const incoming = settingsFromText(code);
+    if (incoming) applyIncomingSettings(incoming);
+    else alert('설정 링크가 올바르지 않아서 적용하지 않았어요.');
+  }
+}
+
+/** What a settings link would set, in words, so a parent can check before applying it. */
+function describeSettings(s: DeviceSettings): string {
+  const profile = appData.profiles[0];
+  const ids = profile ? profile.collections.filter((id) => appData.collections.has(id)) : [];
+  const shown = visibleCollectionIds(orderCollectionIds(ids, s), s).map((id) => appData.collections.get(id)!.config.displayName);
+  const limit = s.limit.mode === 'minutes' ? `하루 ${s.limit.value}분` : s.limit.mode === 'episodes' ? `하루 ${s.limit.value}편` : '없음';
+  return [
+    `하루 제한: ${limit}`,
+    `보여 줄 캐릭터: ${shown.join(', ')}`,
+    `홈 화면 이름: ${s.title?.trim() || profile?.name || ''}`,
+    `맨 위 이어 보기 칸: ${s.homeContinue === false ? '꺼짐' : '켜짐'}`,
+  ].join('\n');
+}
+
+/** Asks first; returns true when applied. Progress and history on this device are untouched. */
+function applyIncomingSettings(s: DeviceSettings): boolean {
+  if (!confirm(`다른 기기의 설정을 이 기기에 적용할까요?\n\n${describeSettings(s)}\n\n본 기록과 시청 기록은 그대로예요.`)) return false;
+  store.saveSettings(s);
+  return true;
 }
 
 // ---------- helpers ----------
@@ -760,6 +796,14 @@ function renderSettings(profile: Profile, available: Collection[], home: Route):
   const spec = LIMIT_STEP[mode];
   const hidden = new Set(current.hidden ?? []);
   const shownCount = available.filter((c) => !hidden.has(c.config.id)).length;
+  const watchedMin = Math.floor(today.seconds / 60);
+  // Show today's use against the limit when there is one, so a parent sees how much is left.
+  const todayUsage =
+    mode === 'minutes'
+      ? `본 시간 <b>${watchedMin}분</b> / 하루 ${value}분`
+      : mode === 'episodes'
+        ? `시작한 영상 <b>${today.started.length}편</b> / 하루 ${value}편 · 본 시간 ${watchedMin}분`
+        : `본 시간 <b>${watchedMin}분</b> · 시작한 영상 ${today.started.length}편`;
   const option = (m: LimitMode, label: string) =>
     `<button class="choice" role="radio" aria-checked="${m === mode}" data-mode="${m}">${label}</button>`;
 
@@ -780,6 +824,14 @@ function renderSettings(profile: Profile, available: Collection[], home: Route):
         </div>
         <p class="hint">${mode === 'minutes' ? '15분이 넘는 모음집은 시간이 되면 멈추고, 다음 날 그 자리부터 이어 봐요.' : '보던 편은 끝까지 보고, 다음 편부터 막혀요.'}</p>`
       }
+    </section>
+    <section class="panel" aria-labelledby="today-title">
+      <h2 id="today-title">오늘</h2>
+      <p class="today-usage">${todayUsage}</p>
+      <div class="row-actions">
+        <button class="secondary" data-action="history">시청 기록 보기</button>
+        ${mode === 'none' ? '' : '<button class="secondary" data-action="reset-today">오늘 기록 초기화 (한 번 더 보기)</button>'}
+      </div>
     </section>
     <section class="panel" aria-labelledby="shown-title">
       <h2 id="shown-title">보여 줄 캐릭터</h2>
@@ -810,14 +862,20 @@ function renderSettings(profile: Profile, available: Collection[], home: Route):
         <input id="home-title" name="title" maxlength="${TITLE_MAX}" value="${esc(homeTitle(profile.name, current))}" aria-labelledby="name-title" autocomplete="off">
         <button class="secondary" type="submit">저장</button>
       </form>
+      <p class="hint" id="title-msg" role="status"></p>
     </section>
-    <section class="panel" aria-labelledby="today-title">
-      <h2 id="today-title">오늘</h2>
-      <p>본 시간 ${Math.floor(today.seconds / 60)}분 · 시작한 영상 ${today.started.length}편</p>
-      <div class="row-actions">
-        <button class="secondary" data-action="history">시청 기록 보기</button>
-        <button class="secondary" data-action="reset-today">오늘 기록 초기화 (한 번 더 보기)</button>
-      </div>
+    <section class="panel" aria-labelledby="sync-title">
+      <h2 id="sync-title">다른 기기와 맞추기</h2>
+      <p class="hint">이 화면의 설정(하루 제한, 보여 줄 캐릭터와 순서, 홈 화면)을 다른 기기에 그대로 적용해요. 본 기록은 옮겨지지 않아요.</p>
+      <button class="secondary" data-action="share-settings">이 설정 보내기</button>
+      <details class="paste">
+        <summary id="paste-title">받은 링크 붙여넣기</summary>
+        <form class="title-form" data-action="paste-settings">
+          <input id="settings-link" name="link" placeholder="https://moabom.hgko.dev/?settings=…" aria-labelledby="paste-title" autocomplete="off" inputmode="url">
+          <button class="secondary" type="submit">적용</button>
+        </form>
+        <p class="hint" id="paste-msg" role="status">아이폰 홈 화면 앱은 링크를 눌러도 적용되지 않아요. 링크를 길게 눌러 복사한 뒤 여기에 붙여넣어 주세요.</p>
+      </details>
     </section>
     <section class="panel" aria-labelledby="install-title">
       <h2 id="install-title">홈 화면에 추가</h2>
@@ -827,7 +885,7 @@ function renderSettings(profile: Profile, available: Collection[], home: Route):
           : '<button class="secondary" data-action="install-guide">설치 방법 보기</button>'
       }
     </section>
-    <p class="hint">설정은 이 기기에만 저장돼요.</p>
+    <p class="hint">설정은 기기마다 따로 저장돼요. 다른 기기에도 같게 하려면 "이 설정 보내기"를 쓰세요.</p>
   </main>`;
   bindBack();
   app.querySelector('[data-action="install-guide"]')?.addEventListener('click', () => go({ profile: profile.id, install: true }));
@@ -880,19 +938,54 @@ function renderSettings(profile: Profile, available: Collection[], home: Route):
       (same && !same.disabled ? same : app.querySelector<HTMLButtonElement>(`[data-move="${-step}"][data-id="${CSS.escape(id)}"]`))?.focus();
     }),
   );
+  app.querySelector<HTMLButtonElement>('[data-action="share-settings"]')?.addEventListener('click', async (e) => {
+    const b = e.currentTarget as HTMLButtonElement;
+    const url = settingsLink(location.origin, location.pathname, current);
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: '모아봄 설정', text: '이 링크를 열면 모아봄 설정이 그 기기에 적용돼요.', url });
+        return;
+      }
+    } catch (err) {
+      if ((err as DOMException)?.name === 'AbortError') return; // closed the share sheet
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      b.textContent = '링크를 복사했어요. 카톡 등으로 보내 주세요';
+    } catch {
+      prompt('이 링크를 복사해서 보내 주세요', url);
+    }
+  });
+  app.querySelector<HTMLFormElement>('[data-action="paste-settings"]')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const text = app.querySelector<HTMLInputElement>('#settings-link')!.value;
+    const incoming = settingsFromText(text);
+    if (!incoming) {
+      app.querySelector('#paste-msg')!.textContent = '설정 링크가 아니에요. "이 설정 보내기"로 만든 링크를 붙여넣어 주세요.';
+      return;
+    }
+    if (applyIncomingSettings(incoming)) render();
+  });
   app.querySelector('[data-action="history"]')?.addEventListener('click', () => go({ profile: profile.id, history: true }));
   app.querySelector('[data-action="home-continue"]')?.addEventListener('click', () => {
     store.saveSettings({ ...current, homeContinue: current.homeContinue === false });
     render();
     app.querySelector<HTMLElement>('[data-action="home-continue"]')?.focus();
   });
+  // The title saves on 저장 and also when the field loses focus, so leaving without pressing 저장 keeps it.
+  const titleInput = app.querySelector<HTMLInputElement>('#home-title')!;
+  const saveTitle = () => {
+    const title = titleInput.value.trim().slice(0, TITLE_MAX);
+    const latest = store.settings() ?? current;
+    store.saveSettings({ ...latest, title: title === profile.name ? undefined : title || undefined });
+    titleInput.value = title || profile.name;
+    app.querySelector('#title-msg')!.textContent = `"${titleInput.value}"(으)로 저장했어요.`;
+  };
+  titleInput.addEventListener('change', saveTitle);
   app.querySelector<HTMLFormElement>('[data-action="title"]')?.addEventListener('submit', (e) => {
     e.preventDefault();
-    const input = app.querySelector<HTMLInputElement>('#home-title')!;
-    const title = input.value.trim().slice(0, TITLE_MAX);
-    store.saveSettings({ ...current, title: title === profile.name ? undefined : title || undefined });
-    render();
-    app.querySelector<HTMLInputElement>('#home-title')?.blur();
+    saveTitle();
+    titleInput.blur();
   });
 }
 

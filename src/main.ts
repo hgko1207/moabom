@@ -8,13 +8,13 @@ import { createPlayer, type PlayerHandle } from './player.ts';
 import {
   canStart,
   effectiveLimits,
+  heroPick,
   homeTitle,
   initialGroup,
   isStale,
   limitReached,
   localDate,
   moveCollection,
-  nextToWatch,
   orderCollectionIds,
   profileGate,
   recordFailed,
@@ -281,8 +281,10 @@ interface CollectionView {
   progress: CollectionProgress;
   today: TodayState;
   limited: boolean;
-  /** The card that gets the ▶ highlight: next to watch, or the resumable episode after the limit (R7). */
+  /** The card that gets the ▶ highlight: what to continue or watch next (O3b), or the resumable episode after the limit (R7). */
   highlight: VideoRecord | null;
+  /** The highlight continues from a saved position. */
+  resume: boolean;
 }
 
 function collectionView(profile: Profile, c: Collection): CollectionView {
@@ -291,19 +293,24 @@ function collectionView(profile: Profile, c: Collection): CollectionView {
   const limited = limitReached(today, limitsFor(profile));
   const all = viewingOrder(c.data);
   const resumable = resumableAfterLimit(today);
-  const highlight = limited
-    ? (all.find((v) => v.id === resumable) ?? null)
-    : nextToWatch(seriesOnly(c.data, c.config), progress, profile.startGroup?.[c.config.id]);
-  return { progress, today, limited, highlight };
+  if (limited) {
+    const highlight = all.find((v) => v.id === resumable) ?? null;
+    return { progress, today, limited, highlight, resume: highlight !== null && startPosition(progress, highlight) > 0 };
+  }
+  const pick = heroPick(c.data, c.config, progress, profile.startGroup?.[c.config.id]);
+  return { progress, today, limited, highlight: pick?.video ?? null, resume: pick?.resume ?? false };
 }
 
 function heroHtml(view: CollectionView, first: VideoRecord | undefined, groupLabels: Map<string, string>): string {
   const next = view.highlight;
   if (next) {
     const label = groupLabels.get(next.group) ?? '';
-    return `<button class="hero" data-video="${esc(next.id)}" aria-label="오늘 볼 영상: ${esc(label)} ${next.order}편 ${esc(next.displayTitle)}">
-      ${thumb(next.id, String(next.order), `<span class="play" aria-hidden="true">${icon('play', 48)}</span>`, true)}
-      <div><div class="title">${esc(next.displayTitle)}</div><div class="sub">${esc(label)} · ${next.order}편 · ${duration(next.durationSec)}</div></div>
+    const at = view.resume ? startPosition(view.progress, next) : 0;
+    const what = view.resume ? '이어 보기' : '오늘 볼 영상';
+    const when = view.resume ? `${duration(at)}부터 / ${duration(next.durationSec)}` : duration(next.durationSec);
+    return `<button class="hero" data-video="${esc(next.id)}" aria-label="${what}: ${esc(label)} ${next.order}편 ${esc(next.displayTitle)}">
+      ${thumb(next.id, String(next.order), `<span class="play" aria-hidden="true">${icon('play', 48)}</span>${progressBar(at, next.durationSec)}`, true)}
+      <div>${view.resume ? `<div class="chip">${icon('again', 20)}이어 보기</div>` : ''}<div class="title">${esc(next.displayTitle)}</div><div class="sub">${esc(label)} · ${next.order}편 · ${when}</div></div>
     </button>`;
   }
   if (view.limited) {
@@ -319,6 +326,13 @@ function heroHtml(view: CollectionView, first: VideoRecord | undefined, groupLab
     ${thumb(first.id, '1', `<span class="play" aria-hidden="true">${icon('again', 48)}</span><span class="badge state done" aria-hidden="true">${icon('check', 24)}</span>`, true)}
     <div><div class="title" aria-hidden="true">${icon('check', 40)}</div><div class="sub">처음부터 다시 보기</div></div>
   </button>`;
+}
+
+/** A thin bar showing how far a video got, like a resume marker. Empty when it starts from the beginning. */
+function progressBar(at: number, total: number): string {
+  if (at <= 0 || total <= 0) return '';
+  const pct = Math.min(100, Math.max(2, Math.round((at / total) * 100)));
+  return `<span class="resume-bar" aria-hidden="true"><span style="width:${pct}%"></span></span>`;
 }
 
 function cardHtml(v: VideoRecord, view: CollectionView): string {
@@ -344,7 +358,7 @@ function cardHtml(v: VideoRecord, view: CollectionView): string {
           : '';
   const cls = ['card', isNext ? 'next' : '', failed ? 'failed' : '', locked ? 'locked' : ''].filter(Boolean).join(' ');
   return `<button class="${cls}" data-video="${esc(v.id)}" tabindex="-1" aria-label="${v.order}편 ${esc(v.displayTitle)}${status}">
-    ${thumb(v.id, String(v.order), `<span class="badge num" aria-hidden="true">${v.order}</span><span class="badge len" aria-hidden="true">${duration(v.durationSec)}</span>${state}`)}
+    ${thumb(v.id, String(v.order), `<span class="badge num" aria-hidden="true">${v.order}</span><span class="badge len" aria-hidden="true">${duration(v.durationSec)}</span>${state}${locked ? '' : progressBar(startPosition(view.progress, v), v.durationSec)}`)}
     <span class="title" aria-hidden="true">${esc(v.displayTitle)}</span></button>`;
 }
 
@@ -609,7 +623,7 @@ function renderTodayDone(profile: Profile, c: Collection, listRoute: Route): voi
   const progress = store.progress(profile.id, c.config.id);
   // A compilation cut off by the limit is what continues tomorrow; otherwise the next episode.
   const cut = [...today.stopped].reverse().flatMap((id) => all.find((v) => v.id === id) ?? [])[0];
-  const tomorrow = cut ?? nextToWatch(seriesOnly(c.data, c.config), progress, profile.startGroup?.[c.config.id]);
+  const tomorrow = cut ?? heroPick(c.data, c.config, progress, profile.startGroup?.[c.config.id])?.video ?? null;
   const resumable = resumableAfterLimit(today);
 
   document.body.classList.add('night');

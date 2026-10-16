@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { CollectionData, Profile } from '../src/config.ts';
 import {
+  heroPick,
   moveCollection,
   orderCollectionIds,
   homeTitle,
@@ -305,5 +306,32 @@ describe('orderCollectionIds / moveCollection', () => {
     expect(moveCollection(['a', 'b', 'c'], 'a', 1)).toEqual(['b', 'a', 'c']);
     expect(moveCollection(['a', 'b', 'c'], 'a', -1)).toEqual(['a', 'b', 'c']);
     expect(moveCollection(['a', 'b', 'c'], 'c', 1)).toEqual(['a', 'b', 'c']);
+  });
+});
+
+describe('heroPick (O3b)', () => {
+  // lv1 = series (a, b), lv2 = free compilations (c, d); every video is 300 s long.
+  const cfg = { groups: [{ id: 'lv1', label: '1' }, { id: 'lv2', label: '2', kind: 'free' as const }] };
+  const at = (p: CollectionProgress, id: string, sec: number): CollectionProgress => ({ ...p, position: { ...p.position, [id]: sec } });
+
+  it('continues the video they were in the middle of, even a compilation in a free group', () => {
+    expect(heroPick(data, cfg, at(progress([], [], 'd'), 'd', 120))).toMatchObject({ video: { id: 'd' }, resume: true });
+  });
+
+  it('after finishing an episode, offers the one after it rather than an earlier skipped one', () => {
+    const p = progress(['b'], [], 'b');
+    expect(heroPick(data, { groups: [{ id: 'lv1', label: '1' }, { id: 'lv2', label: '2' }] }, p)).toMatchObject({ video: { id: 'c' }, resume: false });
+  });
+
+  it('falls back to the next series episode, marking a half-watched one as resume', () => {
+    expect(heroPick(data, cfg, progress())).toMatchObject({ video: { id: 'a' }, resume: false });
+    expect(heroPick(data, cfg, at(progress(), 'a', 60))).toMatchObject({ video: { id: 'a' }, resume: true });
+    // Barely started (under 5 s) is not worth resuming; a finished compilation does not stay on top.
+    expect(heroPick(data, cfg, at(progress([], [], 'd'), 'd', 3))).toMatchObject({ video: { id: 'a' } });
+    expect(heroPick(data, cfg, progress(['d'], [], 'd'))).toMatchObject({ video: { id: 'a' } });
+  });
+
+  it('returns null when every series episode is watched and nothing is in progress', () => {
+    expect(heroPick(data, cfg, progress(['a', 'b'], [], 'b'))).toBeNull();
   });
 });

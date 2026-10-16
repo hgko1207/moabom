@@ -1145,3 +1145,36 @@ body.night {
 .settings p {
   word-break: keep-all;
 }
+
+/* O3b: "이어 보기" — how far a video got, on the hero and on cards */
+.resume-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 6px;
+  background: rgb(0 0 0 / 0.35);
+}
+
+.resume-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+
+.hero .resume-bar {
+  height: 10px;
+}
+
+.hero .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: var(--s1);
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+}

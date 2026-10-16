@@ -42,6 +42,39 @@ export function nextToWatch(data: CollectionData, p: CollectionProgress, startGr
   return rotated.find((v) => !(v.id in p.watched) && !(v.id in p.failed)) ?? null;
 }
 
+export interface HeroPick {
+  video: VideoRecord;
+  /** True when it continues from a saved position ("이어 보기"). */
+  resume: boolean;
+}
+
+/**
+ * O3b: what the collection screen offers first.
+ * 1. The video the kids were last in the middle of, in any group (a compilation too), from where they stopped.
+ * 2. After finishing a series episode, the next unwatched one after it (not an earlier skipped one).
+ * 3. Otherwise O3's next to watch.
+ */
+export function heroPick(
+  data: CollectionData,
+  config: Pick<CollectionConfig, 'groups'>,
+  p: CollectionProgress,
+  startGroup?: string,
+): HeroPick | null {
+  const open = (v: VideoRecord) => !(v.id in p.watched) && !(v.id in p.failed);
+  const last = p.last ? viewingOrder(data).find((v) => v.id === p.last) : undefined;
+  if (last && open(last) && startPosition(p, last) > 0) return { video: last, resume: true };
+
+  const series = seriesOnly(data, config);
+  if (last && last.id in p.watched) {
+    const order = viewingOrder(series);
+    const i = order.findIndex((v) => v.id === last.id);
+    const after = i < 0 ? undefined : [...order.slice(i + 1), ...order.slice(0, i)].find(open);
+    if (after) return { video: after, resume: startPosition(p, after) > 0 };
+  }
+  const next = nextToWatch(series, p, startGroup);
+  return next ? { video: next, resume: startPosition(p, next) > 0 } : null;
+}
+
 /** O3a: the tab to open first. */
 export function initialGroup(data: CollectionData, p: CollectionProgress, startGroup?: string): string | null {
   const next = nextToWatch(data, p, startGroup);

@@ -1,7 +1,7 @@
 // Pure viewing rules (SPEC §8). No DOM, no storage: everything is passed in so it can be unit-tested.
 
 import { groupKind, type CollectionConfig, type CollectionData, type Profile, type VideoRecord } from './config.ts';
-import type { CollectionProgress, DeviceSettings, DeviceToday, TodayState } from './storage.ts';
+import type { CollectionProgress, DeviceSettings, DeviceToday, History, TodayState } from './storage.ts';
 
 export const STALE_DAYS = 30;
 /** L1: seconds of playback today before a video counts toward the daily episode limit. */
@@ -19,6 +19,46 @@ export function localDate(now: Date): string {
   const m = String(now.getMonth() + 1).padStart(2, '0');
   const d = String(now.getDate()).padStart(2, '0');
   return `${y}-${m}-${d}`;
+}
+
+/** A YYYY-MM-DD date moved by whole days (calendar arithmetic, no time zone involved). */
+export function shiftDate(date: string, days: number): string {
+  const [y, m, d] = date.split('-').map(Number);
+  return new Date(Date.UTC(y!, m! - 1, d! + days)).toISOString().slice(0, 10);
+}
+
+// ---------- viewing history (H) ----------
+
+export const HISTORY_DAYS = 30;
+
+/** H1: add played seconds for a video on a day; days older than HISTORY_DAYS are dropped. */
+export function recordHistory(h: History, date: string, collectionId: string, videoId: string, sec: number): History {
+  const day = h[date] ?? { seconds: 0, videos: {} };
+  const entry = day.videos[videoId] ?? { c: collectionId, sec: 0 };
+  const next: History = {
+    ...h,
+    [date]: { seconds: day.seconds + sec, videos: { ...day.videos, [videoId]: { ...entry, sec: entry.sec + sec } } },
+  };
+  const oldest = shiftDate(date, -(HISTORY_DAYS - 1));
+  for (const d of Object.keys(next)) if (d < oldest) delete next[d];
+  return next;
+}
+
+/** H2: mark a video finished on a day (only if it was played that day). */
+export function recordHistoryDone(h: History, date: string, videoId: string): History {
+  const day = h[date];
+  const entry = day?.videos[videoId];
+  if (!day || !entry || entry.done) return h;
+  return { ...h, [date]: { ...day, videos: { ...day.videos, [videoId]: { ...entry, done: true } } } };
+}
+
+/** The last `n` dates ending today, newest first, with that day's log (empty when nothing was watched). */
+export function recentDays(h: History, today: string, n: number): { date: string; seconds: number; videos: [string, History[string]['videos'][string]][] }[] {
+  return Array.from({ length: n }, (_, i) => {
+    const date = shiftDate(today, -i);
+    const day = h[date];
+    return { date, seconds: day?.seconds ?? 0, videos: day ? Object.entries(day.videos).reverse() : [] };
+  });
 }
 
 export function isStale(fetchedAt: string, now: Date): boolean {

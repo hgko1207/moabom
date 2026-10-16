@@ -1193,3 +1193,106 @@ body.night {
   width: 100%;
   padding: var(--s1) var(--s2);
 }
+
+/* Viewing history (H3) */
+.row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s1);
+}
+
+.history .muted {
+  color: var(--ink-2);
+  font-weight: 600;
+}
+
+.week,
+.watched {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.week li {
+  display: grid;
+  grid-template-columns: 7.5em 1fr 6em;
+  align-items: center;
+  gap: var(--s2);
+  padding: 6px 0;
+  font-size: 16px;
+}
+
+.week .time {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.week .meter {
+  height: 12px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.week .meter > span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+.watched li {
+  display: grid;
+  grid-template-columns: 128px 1fr;
+  gap: var(--s2);
+  align-items: center;
+  padding: var(--s1) 0;
+}
+
+.watched li + li {
+  border-top: 1px solid var(--line);
+}
+
+.watched .thumb {
+  border-radius: 8px;
+}
+
+.watched .badge.state {
+  top: 4px;
+  right: 4px;
+  width: 26px;
+  height: 26px;
+}
+
+.watched .badge.state .icon {
+  width: 16px;
+  height: 16px;
+}
+
+.watched .sub {
+  word-break: keep-all;
+}
+
+.watched .title {
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.watched .sub {
+  color: var(--ink-2);
+  font-size: 15px;
+  margin-top: 4px;
+}
+
+@media (max-width: 520px) {
+  .week li {
+    grid-template-columns: 6.5em 1fr 5em;
+    gap: var(--s1);
+    font-size: 15px;
+  }
+
+  .watched li {
+    grid-template-columns: 96px 1fr;
+  }
+}

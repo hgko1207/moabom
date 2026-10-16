@@ -45,6 +45,25 @@ export interface DeviceSettings {
   title?: string;
 }
 
+/** One video on one day of the viewing history. */
+export interface HistoryEntry {
+  /** collection id */
+  c: string;
+  /** seconds played that day */
+  sec: number;
+  /** finished (90% or the end) that day */
+  done?: boolean;
+}
+
+export interface DayLog {
+  seconds: number;
+  /** videoId -> entry, in the order first played that day */
+  videos: Record<string, HistoryEntry>;
+}
+
+/** local date (YYYY-MM-DD) -> that day's viewing; kept for HISTORY_DAYS days. */
+export type History = Record<string, DayLog>;
+
 export interface DeviceToday {
   date: string;
   profileId: string;
@@ -142,6 +161,12 @@ export function createStore(kv: KV) {
     },
     saveSettings(value: DeviceSettings): void {
       write('device:settings', value);
+    },
+    history(profileId: string): History {
+      return read<History>(`${profileId}:history`) ?? {};
+    },
+    saveHistory(profileId: string, value: History): void {
+      write(`${profileId}:history`, value);
     },
     pinned(): string | null {
       return read<string>('device:pinned');

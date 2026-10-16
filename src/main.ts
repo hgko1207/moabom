@@ -14,6 +14,11 @@ import {
   isStale,
   limitReached,
   localDate,
+  shiftDate,
+  HISTORY_DAYS,
+  recentDays,
+  recordHistory,
+  recordHistoryDone,
   mostRecentCollection,
   moveCollection,
   orderCollectionIds,
@@ -52,6 +57,7 @@ interface Route {
   today?: boolean;
   settings?: boolean;
   install?: boolean;
+  history?: boolean;
   group?: string;
 }
 
@@ -61,7 +67,7 @@ function parseHash(): Route {
   const route: Route = {};
   for (let i = 0; i < parts.length; i++) {
     const key = parts[i];
-    if (key === 'today' || key === 'settings' || key === 'install') {
+    if (key === 'today' || key === 'settings' || key === 'install' || key === 'history') {
       route[key] = true;
       continue;
     }
@@ -81,6 +87,7 @@ function href(r: Route): string {
   if (r.profile) h += `p/${encodeURIComponent(r.profile)}`;
   if (r.profile && r.settings) return `${h}/settings`;
   if (r.profile && r.install) return `${h}/install`;
+  if (r.profile && r.history) return `${h}/history`;
   if (r.profile && r.collection) {
     h += `/c/${encodeURIComponent(r.collection)}`;
     if (r.video) h += `/v/${encodeURIComponent(r.video)}`;
@@ -220,6 +227,7 @@ function render(): void {
   const home: Route = collections.length > 1 || showPicker ? { profile: profile.id } : { profile: profile.id, collection: collections[0]?.config.id };
   if (route.settings) return renderSettings(profile, available, home);
   if (route.install) return renderInstall(home);
+  if (route.history) return renderHistory(profile);
 
   if (!route.collection) {
     if (collections.length === 1) return replace({ profile: profile.id, collection: collections[0]!.config.id });
@@ -495,6 +503,7 @@ function renderPlayer(profile: Profile, c: Collection, videoId: string, listRout
   const limits = limitsFor(profile);
   if (!canStart(today, limits, video.id)) return replace({ ...listRoute, today: true });
   let progress = store.progress(profile.id, c.config.id);
+  let history = store.history(profile.id);
   const groupLabels = new Map(c.config.groups.map((g) => [g.id, g.label]));
   // Free groups (compilations, clips) play on inside their own tab; series groups walk the episodes.
   const scope = upNextScope(c.data, c.config, video);
@@ -522,6 +531,7 @@ function renderPlayer(profile: Profile, c: Collection, videoId: string, listRout
   const save = () => {
     store.saveToday(profile.id, today);
     store.saveProgress(profile.id, c.config.id, progress);
+    store.saveHistory(profile.id, history);
   };
   const openNext = (id: string) => replace({ ...listRoute, video: id });
   const openToday = () => replace({ ...listRoute, today: true });
@@ -581,7 +591,11 @@ function renderPlayer(profile: Profile, c: Collection, videoId: string, listRout
       today = recordPlay(today, video.id, delta);
       const r = recordProgress(progress, video, delta, Date.now());
       progress = recordPosition(r.progress, video.id, current);
-      if (r.completed) today = recordFinished(today, video.id);
+      history = recordHistory(history, today.date, c.config.id, video.id, delta);
+      if (r.completed) {
+        today = recordFinished(today, video.id);
+        history = recordHistoryDone(history, today.date, video.id);
+      }
       if (shouldCutAtLimit(today, limits, video)) {
         // A compilation stops at the limit and continues tomorrow from this position.
         player?.stop();
@@ -603,6 +617,7 @@ function renderPlayer(profile: Profile, c: Collection, videoId: string, listRout
     },
     onEnded() {
       today = recordFinished(today, video.id);
+      history = recordHistoryDone(history, today.date, video.id);
       progress = recordPosition(progress, video.id, null);
       save();
       const u = upNext(scope, video, today, limits, 0);
@@ -798,7 +813,10 @@ function renderSettings(profile: Profile, available: Collection[], home: Route):
     <section class="panel" aria-labelledby="today-title">
       <h2 id="today-title">오늘</h2>
       <p>본 시간 ${Math.floor(today.seconds / 60)}분 · 시작한 영상 ${today.started.length}편</p>
-      <button class="secondary" data-action="reset-today">오늘 기록 초기화 (한 번 더 보기)</button>
+      <div class="row-actions">
+        <button class="secondary" data-action="history">시청 기록 보기</button>
+        <button class="secondary" data-action="reset-today">오늘 기록 초기화 (한 번 더 보기)</button>
+      </div>
     </section>
     <section class="panel" aria-labelledby="install-title">
       <h2 id="install-title">홈 화면에 추가</h2>
@@ -861,6 +879,7 @@ function renderSettings(profile: Profile, available: Collection[], home: Route):
       (same && !same.disabled ? same : app.querySelector<HTMLButtonElement>(`[data-move="${-step}"][data-id="${CSS.escape(id)}"]`))?.focus();
     }),
   );
+  app.querySelector('[data-action="history"]')?.addEventListener('click', () => go({ profile: profile.id, history: true }));
   app.querySelector('[data-action="home-continue"]')?.addEventListener('click', () => {
     store.saveSettings({ ...current, homeContinue: current.homeContinue === false });
     render();
@@ -874,6 +893,70 @@ function renderSettings(profile: Profile, available: Collection[], home: Route):
     render();
     app.querySelector<HTMLInputElement>('#home-title')?.blur();
   });
+}
+
+// ---------- viewing history (H) ----------
+
+const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
+
+function dayLabel(date: string, today: string): string {
+  if (date === today) return '오늘';
+  if (date === shiftDate(today, -1)) return '어제';
+  const [y, m, d] = date.split('-').map(Number);
+  return `${m}월 ${d}일 (${WEEKDAYS[new Date(Date.UTC(y!, m! - 1, d!)).getUTCDay()]})`;
+}
+
+function playedTime(sec: number): string {
+  const min = Math.round(sec / 60);
+  if (min < 1) return sec > 0 ? '1분 미만' : '0분';
+  const h = Math.floor(min / 60);
+  return h ? `${h}시간${min % 60 ? ` ${min % 60}분` : ''}` : `${min}분`;
+}
+
+/** H3: the last 7 days on this device — minutes per day, then what was watched each day. */
+function renderHistory(profile: Profile): void {
+  const today = localDate(new Date());
+  const days = recentDays(store.history(profile.id), today, 7);
+  const total = days.reduce((n, d) => n + d.seconds, 0);
+  const max = Math.max(...days.map((d) => d.seconds), 1);
+  const find = (cid: string, vid: string) => {
+    const c = appData.collections.get(cid);
+    return { c, v: c && viewingOrder(c.data).find((x) => x.id === vid) };
+  };
+
+  onBack = () => backTo({ profile: profile.id, settings: true });
+  app.innerHTML = `<main class="screen settings history"><div class="bar">${backButton()}<h1>시청 기록</h1></div>
+    <section class="panel" aria-labelledby="week-title">
+      <h2 id="week-title">최근 7일 · ${playedTime(total)}</h2>
+      <ul class="week">${days
+        .map(
+          (d) => `<li><span class="day">${dayLabel(d.date, today)}</span>
+          <span class="meter" aria-hidden="true"><span style="width:${Math.round((d.seconds / max) * 100)}%"></span></span>
+          <span class="time">${playedTime(d.seconds)}</span></li>`,
+        )
+        .join('')}</ul>
+    </section>
+    ${days
+      .filter((d) => d.videos.length)
+      .map(
+        (d) => `<section class="panel" aria-label="${dayLabel(d.date, today)}">
+      <h2>${dayLabel(d.date, today)} <span class="muted">· ${playedTime(d.seconds)}</span></h2>
+      <ul class="watched">${d.videos
+        .map(([vid, e]) => {
+          const { c, v } = find(e.c, vid);
+          const title = v?.displayTitle ?? '지금은 목록에 없는 영상';
+          const group = v ? c!.config.groups.find((g) => g.id === v.group)?.label ?? '' : '';
+          return `<li>${thumb(vid, v ? String(v.order) : '?', e.done ? `<span class="badge state done" aria-hidden="true">${icon('check', 20)}</span>` : '')}
+            <div><div class="title">${esc(title)}</div>
+            <div class="sub">${esc(c?.config.displayName ?? '')}${group ? ` · ${esc(group)} ${v!.order}편` : ''} · ${playedTime(e.sec)}${e.done ? ' · 다 봤어요' : ''}</div></div></li>`;
+        })
+        .join('')}</ul>
+    </section>`,
+      )
+      .join('') || '<p class="hint">아직 기록이 없어요. 영상을 보면 여기에 날짜별로 쌓여요.</p>'}
+    <p class="hint">이 기기에서 본 것만 보여요. 최근 ${HISTORY_DAYS}일까지 보관해요.</p>
+  </main>`;
+  bindBack();
 }
 
 // ---------- home-screen install ----------

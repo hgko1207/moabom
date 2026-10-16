@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import type { CollectionData, Profile } from '../src/config.ts';
 import {
+  recentDays,
+  recordHistory,
+  recordHistoryDone,
+  shiftDate,
   mostRecentCollection,
   heroPick,
   moveCollection,
@@ -346,5 +350,38 @@ describe('mostRecentCollection (home 이어 보기)', () => {
     const v = { id: 'a', durationSec: 300 };
     expect(recordProgress(progress(), v, 10, 1234).progress.lastAt).toBe(1234);
     expect(recordProgress(progress(['a']), v, 10, 99).progress.lastAt).toBe(99);
+  });
+});
+
+describe('viewing history (H)', () => {
+  it('shifts calendar dates across month and year ends', () => {
+    expect(shiftDate('2026-10-01', -1)).toBe('2026-09-30');
+    expect(shiftDate('2026-12-31', 1)).toBe('2027-01-01');
+    expect(shiftDate('2028-03-01', -1)).toBe('2028-02-29');
+  });
+
+  it('adds seconds per day and per video, and marks a finished video', () => {
+    let h = recordHistory({}, '2026-10-16', 'bluey', 'a', 1);
+    h = recordHistory(h, '2026-10-16', 'bluey', 'a', 2);
+    h = recordHistory(h, '2026-10-16', 'octonauts', 'b', 5);
+    h = recordHistoryDone(h, '2026-10-16', 'a');
+    expect(h['2026-10-16']).toEqual({ seconds: 8, videos: { a: { c: 'bluey', sec: 3, done: true }, b: { c: 'octonauts', sec: 5 } } });
+    // Finishing a video that was not played that day changes nothing.
+    expect(recordHistoryDone(h, '2026-10-15', 'a')).toBe(h);
+  });
+
+  it('keeps only the last 30 days', () => {
+    let h = recordHistory({}, '2026-09-01', 'c', 'a', 1);
+    h = recordHistory(h, '2026-09-17', 'c', 'a', 1);
+    h = recordHistory(h, '2026-10-16', 'c', 'a', 1);
+    expect(Object.keys(h).sort()).toEqual(['2026-09-17', '2026-10-16']);
+  });
+
+  it('lists the last n days newest first, latest-played video first, with empty days included', () => {
+    let h = recordHistory({}, '2026-10-16', 'c', 'a', 60);
+    h = recordHistory(h, '2026-10-16', 'c', 'b', 30);
+    const days = recentDays(h, '2026-10-16', 3);
+    expect(days.map((d) => [d.date, d.seconds])).toEqual([['2026-10-16', 90], ['2026-10-15', 0], ['2026-10-14', 0]]);
+    expect(days[0]!.videos.map(([id]) => id)).toEqual(['b', 'a']);
   });
 });

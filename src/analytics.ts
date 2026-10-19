@@ -27,27 +27,7 @@ export function countUrl(name: string, rnd: number): string {
   return `${COUNT_URL}?p=${encodeURIComponent(name)}&e=true&rnd=${rnd}`;
 }
 
-// ---------- what the app does at startup ----------
-
-export interface BootFlags {
-  /** the inline script is moving this page to a real browser (window.__moabomEscaping) */
-  escaping: boolean;
-}
-
-export interface BootPlan {
-  /** apply ?settings= from another device */
-  applySettings: boolean;
-  /** pin ?profile= on this device */
-  pinProfile: boolean;
-  /** send any count from this page */
-  sendStats: boolean;
-}
-
-/** A page that is being handed to a real browser does nothing the new page will do again (R9). */
-export function bootActions(f: BootFlags): BootPlan {
-  const go = !f.escaping;
-  return { applySettings: go, pinProfile: go, sendStats: go };
-}
+// ---------- startup ----------
 
 /** The query string without the given parameters ('' or '?a=b'), for history.replaceState (R19). */
 export function withoutParams(search: string, names: readonly string[]): string {
@@ -65,7 +45,7 @@ export interface SessionKV {
 }
 
 export interface AnalyticsDeps {
-  /** true when this device turned stats off, or the page is escaping */
+  /** true when this device turned stats off */
   muted(): boolean;
   /** sessionStorage (or a stand-in): the ref and the once-per-session marks */
   session: SessionKV;
@@ -102,8 +82,8 @@ export function createAnalytics(deps: AnalyticsDeps) {
     },
     ref,
     /**
-     * Once per session: the app was opened. `webview` marks an in-app browser that stays open (iOS apps other
-     * than KakaoTalk cannot hand the page to Safari), counted apart as visit.<ref>.webview (R8).
+     * Once per session: the app was opened. `webview` marks a page opened inside an in-app browser (KakaoTalk,
+     * Instagram …), counted apart as visit.<ref>.webview; a tap on the bar there opens a real browser (R8).
      */
     visit(webview = false): void {
       if (!deps.muted() && once('visit')) count(webview ? eventName('visit', ref(), 'webview') : eventName('visit', ref()));

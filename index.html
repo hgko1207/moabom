@@ -66,19 +66,21 @@
       }
     </style>
     <script>
-      // In-app browsers (KakaoTalk, Instagram, Naver, Band …) cannot install the app and handle video poorly, so hand
-      // the page to a real browser (design P1-2, eng D4/R8/R9/R11). Runs before the app module:
-      // - Android: Chrome intent, with S.browser_fallback_url (+ esc=1) when Chrome is missing.
-      // - iOS KakaoTalk: KakaoTalk's external-open scheme (widely used, not officially documented).
-      // - iOS other apps: no way out by script; a bar offers to copy the address for Safari.
-      // A page that moves away sets __moabomEscaping so the app skips what the new page will do again, and counts
-      // inapp_escape (not visit). The count address and the opt-out key equal src/analytics.ts (tests/inapp.test.ts).
+      // In-app browsers (KakaoTalk, Instagram, Naver, Band …) play the videos but cannot install the app to the home
+      // screen. Nothing moves by itself (2026-10-19, like video-cards): a bar at the top offers the real browser, and
+      // the page works as usual below it. Runs before the app module:
+      // - Android: [Chrome으로 열기] → Chrome intent, with S.browser_fallback_url when Chrome is missing.
+      // - iOS KakaoTalk: [Safari로 열기] → KakaoTalk's external-open scheme (widely used, not officially documented).
+      // - iOS other apps: no way out by script; [주소 복사] for Safari, plus the app's own menu path.
+      // A tap counts inapp_escape.<app>. The count address and the opt-out key equal src/analytics.ts
+      // (tests/inapp.test.ts); the app counts the visit itself as visit.<ref>.webview (__moabomInApp).
       (function () {
         var COUNT_URL = 'https://moabom.goatcounter.com/count';
         var OPT_OUT_KEY = 'moabom:v1:device:analytics';
         var APPS = [
           [/KAKAOTALK/i, 'kakao', '카카오톡'],
           [/Instagram/, 'insta', '인스타그램'],
+          [/Barcelona|Threads/, 'threads', '스레드'],
           [/NAVER/, 'naver', '네이버'],
           [/BAND\//, 'band', '밴드'],
           [/FBAN|FBAV/, 'facebook', '페이스북'],
@@ -98,33 +100,25 @@
         window.__moabomInApp = app[1];
 
         var android = /Android/i.test(ua);
-        var kakao = app[1] === 'kakao';
-        var params = new URLSearchParams(location.search);
-        // esc=1: Chrome was missing and the fallback opened here again; do not move again (R11).
-        var returned = params.get('esc') === '1';
-        params.delete('esc');
-        var query = params.toString();
-        var url = location.origin + location.pathname + (query ? '?' + query : ''); // the hash would break the intent
+        var url = location.origin + location.pathname + location.search; // the hash would break the intent
         var target = null;
+        var label = '';
         if (android) {
-          var fallback = location.origin + location.pathname + '?' + (query ? query + '&' : '') + 'esc=1';
           target =
             'intent://' + url.replace(/^https?:\/\//, '') +
-            '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(fallback) + ';end';
-        } else if (kakao) {
+            '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(url) + ';end';
+          label = 'Chrome으로 열기';
+        } else if (app[1] === 'kakao') {
           target = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(url);
+          label = 'Safari로 열기';
         }
 
-        var optedOut = false;
-        try {
-          optedOut = localStorage.getItem(OPT_OUT_KEY) === '"off"';
-        } catch (e) {}
-
-        if (target && !returned) {
-          window.__moabomEscaping = true;
-          if (!optedOut) new Image().src = COUNT_URL + '?p=' + encodeURIComponent('inapp_escape.' + app[1]) + '&e=true&rnd=' + Math.floor(Math.random() * 1e9);
-          location.href = target;
-        }
+        var count = function () {
+          try {
+            if (localStorage.getItem(OPT_OUT_KEY) === '"off"') return;
+          } catch (e) {}
+          new Image().src = COUNT_URL + '?p=' + encodeURIComponent('inapp_escape.' + app[1]) + '&e=true&rnd=' + Math.floor(Math.random() * 1e9);
+        };
 
         window.addEventListener('DOMContentLoaded', function () {
           var bar = document.createElement('div');
@@ -133,19 +127,22 @@
           bar.setAttribute('aria-label', '브라우저로 열기');
           if (target) {
             bar.innerHTML =
-              '<p></p><button type="button" data-escape="open">브라우저로 열기</button>' +
+              '<p></p><button type="button" data-escape="open"></button>' +
               '<p>브라우저에서 열렸다면 이 창은 닫아도 돼요</p>';
-            bar.querySelector('p').textContent = app[2] + ' 안에서는 영상과 설치가 잘 안 돼요. ' + (android ? 'Chrome' : 'Safari') + '에서 열어 주세요.';
-            bar.querySelector('[data-escape="open"]').addEventListener('click', function () {
+            bar.querySelector('p').textContent = app[2] + ' 안에서는 홈 화면에 설치가 안 돼요. 브라우저에서 열면 앱처럼 설치할 수 있어요.';
+            var open = bar.querySelector('[data-escape="open"]');
+            open.textContent = label;
+            open.addEventListener('click', function () {
+              count();
               location.href = target;
             });
           } else {
             // iOS, not KakaoTalk (DR12): copy the address for Safari, or select it by hand when copying is blocked.
-            var menu = app[1] === 'insta' ? '오른쪽 위 ⋯ → 외부 브라우저에서 열기를 눌러도 돼요.' : '메뉴(⋯)에서 Safari로 열기를 찾아도 돼요.';
+            var menu = app[1] === 'insta' || app[1] === 'threads' ? '오른쪽 위 ⋯ → 외부 브라우저에서 열기를 눌러도 돼요.' : '메뉴(⋯)에서 Safari로 열기를 찾아도 돼요.';
             bar.innerHTML =
               '<p></p><button type="button" data-escape="copy">주소 복사</button>' +
               '<p class="escape-msg" aria-live="polite"></p>';
-            bar.querySelector('p').textContent = app[2] + ' 안에서는 앱 설치가 안 돼요. 주소를 복사해 Safari에 붙여 넣어 주세요. ' + menu;
+            bar.querySelector('p').textContent = app[2] + ' 안에서는 홈 화면에 설치가 안 돼요. 주소를 복사해 Safari에 붙여 넣어 주세요. ' + menu;
             var msg = bar.querySelector('.escape-msg');
             var showUrl = function () {
               msg.textContent = '';
@@ -155,6 +152,7 @@
               msg.appendChild(span);
             };
             bar.querySelector('[data-escape="copy"]').addEventListener('click', function () {
+              count();
               try {
                 navigator.clipboard.writeText(url).then(
                   function () {

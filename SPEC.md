@@ -154,16 +154,16 @@ src/icons.ts, src/styles.css   아이콘·디자인 토큰
 
 ### 익명 통계 (A, src/analytics.ts, 1단계)
 - GoatCounter(사이트 코드 `moabom`) 픽셀 `https://moabom.goatcounter.com/count?p=<이름>&e=true&rnd=<수>`. 외부 스크립트·쿠키 없음. 필드는 이름에 점으로 이어 붙임.
-- 이벤트: `visit.<ref>`(세션당 1회, iOS의 카톡 외 인앱은 `visit.<ref>.webview`), `first_play.<ref>.<컬렉션>`(세션당 1회), `play_start.<컬렉션>`, `limit_reached.<minutes|episodes>`(세션당 1회), `video_error.<영상>.<코드>`, `collection_open.<컬렉션>`, `request_click`, `inapp_escape.<앱>`(인라인 스크립트, 탈출하는 페이지만).
-- ref는 허용 목록(insta, naver, kakao, band, blog)만 그대로, 그 밖은 `other`, 없으면 `direct`. 첫 방문 때 sessionStorage에 담고 주소에서는 지운다(`ref`, `esc`, `profile`, `settings`를 읽은 뒤 지움, 다른 쿼리는 그대로).
+- 이벤트: `visit.<ref>`(세션당 1회, 인앱 브라우저 안이면 `visit.<ref>.webview`), `first_play.<ref>.<컬렉션>`(세션당 1회), `play_start.<컬렉션>`, `limit_reached.<minutes|episodes>`(세션당 1회), `video_error.<영상>.<코드>`, `collection_open.<컬렉션>`, `request_click`, `inapp_escape.<앱>`(인라인 스크립트, 탈출 띠의 버튼을 눌렀을 때).
+- ref는 허용 목록(insta, naver, kakao, band, blog)만 그대로, 그 밖은 `other`, 없으면 `direct`. 첫 방문 때 sessionStorage에 담고 주소에서는 지운다(`ref`, `profile`, `settings`를 읽은 뒤 지움, 다른 쿼리는 그대로).
 - 설정 "익명 통계 보내기"(기본 켬)를 끈 기기는 아무것도 보내지 않는다. 우리 집 기기는 꺼 둔다.
 - 아이 이름, 설정 내용, 시청 기록은 보내지 않는다.
 
 ### 인앱 브라우저 탈출 (E, index.html 인라인, 1단계)
-- 대상: KAKAOTALK, Instagram, NAVER, BAND/, FBAN·FBAV, DaumApps, Line/, everytimeApp. Chrome·삼성 인터넷·Safari·CriOS·웨일은 대상이 아니다.
-- 안드로이드: Chrome `intent://`(쿼리 유지, 해시 제외) + `S.browser_fallback_url`(같은 주소 + `esc=1`). `esc=1`이면 다시 옮기지 않고 띠만 보여 준다(무한 이동 방지).
-- iOS 카카오톡: `kakaotalk://web/openExternal`. iOS 그 밖의 앱: 자동 이동 없이 띠에 "주소 복사"(막히면 주소를 글자로 보여 줌)와 앱별 메뉴 안내.
-- 자동으로 옮기는 페이지는 `window.__moabomEscaping`을 세워, 앱이 설정 링크 적용·프로필 고정·통계를 건너뛴다(새 페이지가 다시 함). `inapp_escape`만 보낸다.
+- 대상: KAKAOTALK, Instagram, Threads(Barcelona), NAVER, BAND/, FBAN·FBAV, DaumApps, Line/, everytimeApp. Chrome·삼성 인터넷·Safari·CriOS·웨일은 대상이 아니다.
+- **스스로 옮기지 않는다**(2026-10-19 변경, 영상 카드 방식): 인앱 안에서도 영상은 잘 나오고 안 되는 것은 홈 화면 설치뿐이라, 맨 위 띠에 "○○ 안에서는 홈 화면에 설치가 안 돼요"와 버튼만 둔다. 앱은 그 아래에서 그대로 쓸 수 있다.
+- 안드로이드: [Chrome으로 열기] → Chrome `intent://`(쿼리 유지, 해시 제외) + `S.browser_fallback_url`(같은 주소). iOS 카카오톡: [Safari로 열기] → `kakaotalk://web/openExternal`. iOS 그 밖의 앱: [주소 복사](막히면 주소를 글자로 보여 줌)와 앱별 메뉴 안내.
+- 버튼을 누르면 `inapp_escape.<앱>`을 센다. 인앱에서 연 방문은 앱이 `visit.<ref>.webview`로 따로 센다.
 - 실기기 확인표(홍보 전에 채움, eng T10):
 
 | 앱 | 안드로이드 | iOS |

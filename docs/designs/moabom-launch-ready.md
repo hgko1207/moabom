@@ -2021,6 +2021,9 @@ No new TODO candidates: every delta item is phase-1 work (tasks above) or alread
 - Parallelization: 8 steps; after the split, 4 parallel lanes, then wiring, then logo/og
 - Lake Score: 13/13 answers chose the recommended option (R18's recommendation was B, keep scope)
 
+## Change after phase-1 deploy (2026-10-19)
+- In-app escape is **button only** (user decision after comparing video-cards): no automatic move; the bar says installing to the home screen does not work in the app and offers [Chrome으로 열기] / [Safari로 열기] / [주소 복사]. Supersedes the automatic part of eng D4 (R2), and makes R9 (escaping flag, bootActions) and R11 (esc=1 loop guard) unnecessary; both were removed. inapp_escape now counts button taps; in-app visits count as visit.<ref>.webview. SPEC §8 E updated.
+
 ## GSTACK REVIEW REPORT
 
 | Review | Trigger | Why | Runs | Status | Findings |

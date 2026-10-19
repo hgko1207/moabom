@@ -16,6 +16,7 @@ const UA = {
   bandAndroid: 'Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0 Mobile Safari/537.36 BAND/15.0.0',
   facebookIos: 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [FBAN/FBIOS;FBAV/480.0]',
   daumAndroid: 'Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0 Mobile Safari/537.36 DaumApps/8.0',
+  threadsIos: 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Barcelona 350.0.0',
   lineIos: 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Safari Line/14.0.0',
   everytime: 'Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0 Mobile Safari/537.36 everytimeApp',
   chromeAndroid: 'Mozilla/5.0 (Linux; Android 14; SM-S918N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36',
@@ -96,7 +97,7 @@ function run(ua: string, opts: { search?: string; optedOut?: boolean } = {}) {
 
 describe('in-app browser escape (index.html)', () => {
   it('catches in-app browsers', () => {
-    for (const ua of [UA.kakaoAndroid, UA.kakaoIos, UA.instaAndroid, UA.instaIos, UA.naverIos, UA.bandAndroid, UA.facebookIos, UA.daumAndroid, UA.lineIos, UA.everytime]) {
+    for (const ua of [UA.kakaoAndroid, UA.kakaoIos, UA.instaAndroid, UA.instaIos, UA.naverIos, UA.bandAndroid, UA.facebookIos, UA.daumAndroid, UA.lineIos, UA.everytime, UA.threadsIos]) {
       expect(run(ua).window.__moabomInApp, ua).toBeTypeOf('string');
     }
   });
@@ -110,48 +111,51 @@ describe('in-app browser escape (index.html)', () => {
     }
   });
 
-  it('moves Android in-app pages to Chrome, keeping ?ref= and adding a fallback with esc=1', () => {
+  it('never moves the page by itself, and counts nothing on load', () => {
+    for (const ua of [UA.kakaoAndroid, UA.kakaoIos, UA.instaAndroid, UA.instaIos, UA.bandAndroid]) {
+      const r = run(ua, { search: '?ref=insta' });
+      expect(r.location.href, ua).toBe('https://moabom.hgko.dev/');
+      expect(r.images, ua).toEqual([]);
+      expect(r.bar, ua).toBeDefined();
+    }
+  });
+
+  it('opens Chrome from the Android button, keeping ?ref= and falling back to the same address', () => {
     const r = run(UA.instaAndroid, { search: '?ref=insta' });
-    expect(r.window.__moabomEscaping).toBe(true);
+    const open = r.bar!.querySelector('[data-escape="open"]');
+    expect(open.textContent).toBe('Chrome으로 열기');
+    expect(r.bar!.querySelector('p').textContent).toContain('인스타그램 안에서는 홈 화면에 설치가 안 돼요');
+    open.listeners.click!();
     expect(r.location.href).toBe(
       'intent://moabom.hgko.dev/?ref=insta#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' +
-        encodeURIComponent('https://moabom.hgko.dev/?ref=insta&esc=1') +
+        encodeURIComponent('https://moabom.hgko.dev/?ref=insta') +
         ';end',
     );
     expect(r.images).toEqual([expect.stringMatching(/^https:\/\/moabom\.goatcounter\.com\/count\?p=inapp_escape\.insta&e=true&rnd=\d+$/)]);
-    expect(r.bar!.innerHTML).toContain('브라우저로 열기');
   });
 
-  it('uses the KakaoTalk scheme on iOS', () => {
+  it('opens Safari from the iOS KakaoTalk button', () => {
     const r = run(UA.kakaoIos, { search: '?ref=kakao' });
-    expect(r.window.__moabomEscaping).toBe(true);
+    const open = r.bar!.querySelector('[data-escape="open"]');
+    expect(open.textContent).toBe('Safari로 열기');
+    open.listeners.click!();
     expect(r.location.href).toBe(`kakaotalk://web/openExternal?url=${encodeURIComponent('https://moabom.hgko.dev/?ref=kakao')}`);
   });
 
-  it('does not move again when the Android fallback came back here (esc=1)', () => {
-    const r = run(UA.kakaoAndroid, { search: '?ref=kakao&esc=1' });
-    expect(r.window.__moabomEscaping).toBeUndefined();
-    expect(r.location.href).toBe('https://moabom.hgko.dev/');
-    expect(r.images).toEqual([]);
-    // the bar's button still offers the move, without esc in the main address
-    expect(r.bar!.innerHTML).toContain('브라우저로 열기');
-    r.bar!.querySelector('[data-escape="open"]').listeners.click!();
-    expect(r.location.href).toMatch(/^intent:\/\/moabom\.hgko\.dev\/\?ref=kakao#Intent;/);
-  });
-
-  it('keeps iOS pages of other apps open with a copy button, no escape count (R8)', () => {
+  it('offers to copy the address in other iOS apps, counting the tap', () => {
     const r = run(UA.instaIos, { search: '?ref=insta' });
     expect(r.window.__moabomInApp).toBe('insta');
-    expect(r.window.__moabomEscaping).toBeUndefined();
-    expect(r.location.href).toBe('https://moabom.hgko.dev/');
-    expect(r.images).toEqual([]);
     expect(r.bar!.innerHTML).toContain('주소 복사');
     expect(r.bar!.querySelector('p').textContent).toContain('외부 브라우저에서 열기');
+    r.bar!.querySelector('[data-escape="copy"]').listeners.click!();
+    expect(r.location.href).toBe('https://moabom.hgko.dev/');
+    expect(r.images).toEqual([expect.stringContaining('p=inapp_escape.insta&')]);
   });
 
   it('sends nothing from a device that turned stats off', () => {
     const r = run(UA.kakaoAndroid, { optedOut: true });
-    expect(r.window.__moabomEscaping).toBe(true);
+    r.bar!.querySelector('[data-escape="open"]').listeners.click!();
+    expect(r.location.href).toMatch(/^intent:/);
     expect(r.images).toEqual([]);
   });
 

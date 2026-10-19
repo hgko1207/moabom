@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { bootActions, countUrl, createAnalytics, eventName, normalizeRef, withoutParams } from '../src/analytics.ts';
+import { countUrl, createAnalytics, eventName, normalizeRef, withoutParams } from '../src/analytics.ts';
 
 function fakeSession() {
   const m = new Map<string, string>();
@@ -92,16 +92,6 @@ describe('createAnalytics', () => {
     a.rememberRef('insta');
     a.visit();
     expect(sent).toHaveLength(1);
-  });
-});
-
-describe('bootActions', () => {
-  it('does everything on a normal page', () => {
-    expect(bootActions({ escaping: false })).toEqual({ applySettings: true, pinProfile: true, sendStats: true });
-  });
-
-  it('does nothing twice on a page being handed to a real browser', () => {
-    expect(bootActions({ escaping: true })).toEqual({ applySettings: false, pinProfile: false, sendStats: false });
   });
 });
 

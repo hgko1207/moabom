@@ -3,7 +3,7 @@ import './styles.css';
 import type { Profile, VideoRecord } from './config.ts';
 import type { Collection } from './data.ts';
 import { icon } from './icons.ts';
-import { bootActions, withoutParams } from './analytics.ts';
+import { withoutParams } from './analytics.ts';
 import { lockRemaining, parentRouteDecision, UNLOCK_MS } from './gate.ts';
 import { SETTINGS_PARAM, settingsFromText } from './share.ts';
 import { onInstallChange } from './install.ts';
@@ -53,7 +53,6 @@ import {
   collectionView,
   duration,
   esc,
-  escaping,
   gearButton,
   go,
   href,
@@ -104,25 +103,23 @@ onInstallChange(() => {
 });
 
 // Startup: read what the address carries, then drop it so a shared link does not carry it on (R19).
-// A page the inline script is handing to a real browser does none of this; the new page will (R9).
 {
-  const plan = bootActions({ escaping });
   const params = new URLSearchParams(location.search);
   // The promo source (?ref=insta) goes with every count of this session (design P1-7).
   analytics.rememberRef(params.get('ref'));
   // A device opened once with ?profile=<id> stays on that profile (SPEC L5).
   const pin = params.get('profile');
-  if (plan.pinProfile && pin && appData.profiles.some((p) => p.id === pin)) store.savePinned(pin);
-  const rest = withoutParams(location.search, ['profile', SETTINGS_PARAM, 'ref', 'esc']);
+  if (pin && appData.profiles.some((p) => p.id === pin)) store.savePinned(pin);
+  const rest = withoutParams(location.search, ['profile', SETTINGS_PARAM, 'ref']);
   if (rest !== location.search) history.replaceState(history.state, '', location.pathname + rest + location.hash);
   // A settings link from another device (?settings=<code>): confirm, then apply.
   const code = params.get(SETTINGS_PARAM);
-  if (plan.applySettings && code !== null) {
+  if (code !== null) {
     const incoming = settingsFromText(code);
     if (incoming) applyIncomingSettings(incoming);
     else alert('설정 링크가 올바르지 않아서 적용하지 않았어요.');
   }
-  if (plan.sendStats) analytics.visit(window.__moabomInApp !== undefined);
+  analytics.visit(window.__moabomInApp !== undefined);
 }
 
 // Broken thumbnails swap to the profile color with the episode number. Offline images fire `error`;

@@ -28,14 +28,10 @@ export const store = createStore(browserKV());
 /** Set by the inline script in index.html before this module runs. */
 declare global {
   interface Window {
-    /** this page is being handed to a real browser (Android, iOS KakaoTalk) */
-    __moabomEscaping?: boolean;
     /** the in-app browser's name when the page runs inside one (kakao, insta, naver, …) */
     __moabomInApp?: string;
   }
 }
-
-export const escaping = window.__moabomEscaping === true;
 
 function sessionKV(): SessionKV {
   try {
@@ -47,7 +43,7 @@ function sessionKV(): SessionKV {
 }
 
 export const analytics = createAnalytics({
-  muted: () => escaping || store.analytics() === 'off',
+  muted: () => store.analytics() === 'off',
   session: sessionKV(),
   send: (url) => {
     new Image().src = url;

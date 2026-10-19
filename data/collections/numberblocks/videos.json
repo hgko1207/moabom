@@ -1,6 +1,6 @@
 {
   "collectionId": "numberblocks",
-  "fetchedAt": "2026-10-12T23:54:27.083Z",
+  "fetchedAt": "2026-10-19T21:48:53.164Z",
   "groups": [
     {
       "id": "lv1",
@@ -1111,13 +1111,31 @@
       "id": "mix",
       "videos": [
         {
+          "id": "X4GOj1z_LWE",
+          "title": "숫자 나라에 외계인이? | 어린이용 할로윈 수학 모음  | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "숫자 나라에 외계인이?",
+          "durationSec": 4551,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 1
+        },
+        {
+          "id": "3YVgzmJkCAQ",
+          "title": "으스스한 숫자 7! | 어린이용 할로윈 수학 모음 | 세는 법을 배우다 | 넘버블록스",
+          "displayTitle": "으스스한 숫자 7!",
+          "durationSec": 3767,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 2
+        },
+        {
           "id": "9BjJoNebRFI",
           "title": "넘버 원 👻 – 으스스한 숫자 세기 모험! | 넘버블록스 만화",
           "displayTitle": "넘버 원 👻 – 으스스한 숫자 세기 모험!",
           "durationSec": 3998,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 1
+          "order": 3
         },
         {
           "id": "0nYfWaJKSf4",
@@ -1126,7 +1144,7 @@
           "durationSec": 4565,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 2
+          "order": 4
         },
         {
           "id": "IcAsZCa-g7Y",
@@ -1135,7 +1153,7 @@
           "durationSec": 4566,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 3
+          "order": 5
         },
         {
           "id": "y0nu-xLRxS8",
@@ -1144,7 +1162,7 @@
           "durationSec": 5112,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 4
+          "order": 6
         },
         {
           "id": "ab6aPi_rhdc",
@@ -1153,7 +1171,7 @@
           "durationSec": 3772,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 5
+          "order": 7
         },
         {
           "id": "W7c1bYLrvuo",
@@ -1162,7 +1180,7 @@
           "durationSec": 3219,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 6
+          "order": 8
         },
         {
           "id": "uWHvc0vUrNk",
@@ -1171,7 +1189,7 @@
           "durationSec": 4303,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 7
+          "order": 9
         },
         {
           "id": "NTCdopieWEk",
@@ -1180,7 +1198,7 @@
           "durationSec": 3430,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 8
+          "order": 10
         },
         {
           "id": "Nw_9R_KJWQU",
@@ -1189,7 +1207,7 @@
           "durationSec": 4047,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 9
+          "order": 11
         },
         {
           "id": "Mf-04vZwMpY",
@@ -1198,7 +1216,7 @@
           "durationSec": 3781,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 10
+          "order": 12
         },
         {
           "id": "AU4EpTakxCQ",
@@ -1207,7 +1225,7 @@
           "durationSec": 4039,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 11
+          "order": 13
         },
         {
           "id": "1uJYWfogCwY",
@@ -1216,7 +1234,7 @@
           "durationSec": 1244,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 12
+          "order": 14
         },
         {
           "id": "J_iW5LlKCJw",
@@ -1225,7 +1243,7 @@
           "durationSec": 2426,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 13
+          "order": 15
         },
         {
           "id": "SV1VRkpyC-M",
@@ -1234,7 +1252,7 @@
           "durationSec": 2971,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 14
+          "order": 16
         },
         {
           "id": "dZ1OotK9kIg",
@@ -1243,7 +1261,7 @@
           "durationSec": 3757,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 15
+          "order": 17
         },
         {
           "id": "2z3yJX1B7lM",
@@ -1252,7 +1270,7 @@
           "durationSec": 3217,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 16
+          "order": 18
         },
         {
           "id": "R_tLJgI9_58",
@@ -1261,7 +1279,7 @@
           "durationSec": 3484,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 17
+          "order": 19
         },
         {
           "id": "Ed3vPG8kLHI",
@@ -1270,7 +1288,7 @@
           "durationSec": 6172,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 18
+          "order": 20
         },
         {
           "id": "jDMN6O7qsM0",
@@ -1279,7 +1297,7 @@
           "durationSec": 1299,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 19
+          "order": 21
         },
         {
           "id": "vGkO3RwPF2c",
@@ -1288,7 +1306,7 @@
           "durationSec": 3746,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 20
+          "order": 22
         },
         {
           "id": "gRzJ4siPRrw",
@@ -1297,7 +1315,7 @@
           "durationSec": 4028,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 21
+          "order": 23
         },
         {
           "id": "hyzvMs2hY1c",
@@ -1306,7 +1324,7 @@
           "durationSec": 3759,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 22
+          "order": 24
         },
         {
           "id": "EHIHEblOXcI",
@@ -1315,7 +1333,7 @@
           "durationSec": 4041,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 23
+          "order": 25
         },
         {
           "id": "WluV0IyCq9U",
@@ -1324,7 +1342,7 @@
           "durationSec": 3772,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 24
+          "order": 26
         },
         {
           "id": "9HsVgRziqwU",
@@ -1333,7 +1351,7 @@
           "durationSec": 3782,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 25
+          "order": 27
         },
         {
           "id": "KoyoaCD-LKY",
@@ -1342,7 +1360,7 @@
           "durationSec": 3780,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 26
+          "order": 28
         },
         {
           "id": "87q8Oiw6Ceo",
@@ -1351,31 +1369,13 @@
           "durationSec": 4308,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 27
+          "order": 29
         },
         {
           "id": "BH1fb6EalXQ",
           "title": "🎵 나는 숫자 4야 | 어린이를 위한 수학 노래 | 세는 법을 배우다 | 넘버블록스",
           "displayTitle": "🎵 나는 숫자 4야",
           "durationSec": 3770,
-          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
-          "group": "mix",
-          "order": 28
-        },
-        {
-          "id": "GKghYPb976s",
-          "title": "🎓 숫자 아카데미 | 어린이를 위한 수학 배우기 | 숫자 공부 애니메이션 | 세는 법을 배우다 | 넘버블록스",
-          "displayTitle": "🎓 숫자 아카데미",
-          "durationSec": 3775,
-          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
-          "group": "mix",
-          "order": 29
-        },
-        {
-          "id": "XPDsU2qR4wA",
-          "title": "무지개로 숫자 배우기 🌈 | 어린이를 위한 숫자 교육 | 세는 법을 배우다 | 넘버블록스",
-          "displayTitle": "무지개로 숫자 배우기 🌈",
-          "durationSec": 4314,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
           "order": 30

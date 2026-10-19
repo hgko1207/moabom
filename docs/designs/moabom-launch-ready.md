@@ -127,7 +127,7 @@ Related: khkkh-unknown-design-20261009-180406.md (v1 설계. 지금 기준은 �
 - **P1-2 인앱 브라우저 탈출 확대** [R1-1, R1-2]
   - **인앱 브라우저만** 잡는 정규식을 새로 만든다: KAKAOTALK, Instagram, NAVER, Line/, FBAN/FBAV, DaumApps, BAND, everytimeApp 등. iOS와 안드로이드에 같이 쓴다.
   - 설치 안내용 "iOS의 Safari가 아닌 브라우저" 판별(`IOS_NOT_SAFARI`)과는 분리한다. Chrome·Firefox·웨일 같은 진짜 브라우저는 탈출 대상이 아니다.
-  - 정규식은 `src/inapp.ts` 한 곳에 둔다. `index.html`의 인라인 스크립트는 모듈보다 먼저 동기로 돌아야 하므로, Vite `transformIndexHtml` 플러그인으로 **빌드할 때 인라인 스크립트에 주입**한다.
+  - ~~정규식은 `src/inapp.ts` 한 곳에 둔다. `index.html`의 인라인 스크립트는 모듈보다 먼저 동기로 돌아야 하므로, Vite `transformIndexHtml` 플러그인으로 **빌드할 때 인라인 스크립트에 주입**한다.~~ [superseded by eng D2: 정규식은 index.html 인라인 스크립트에만 두고, tests/inapp.test.ts가 그 스크립트를 직접 실행해 검사한다]
   - 탈출 동작
     - 카톡: 지금처럼 `kakaotalk://web/openExternal`
     - 안드로이드: Chrome `intent://`로 열고, `S.browser_fallback_url`을 붙인다(Chrome이 없을 때 대비).
@@ -152,7 +152,7 @@ Related: khkkh-unknown-design-20261009-180406.md (v1 설계. 지금 기준은 �
     - 날짜가 바뀌면 초기화한다. 설정 보내기 링크에는 넣지 않는다.
   - 잠긴 동안에는 "N초 뒤에 다시 할 수 있어요"를 보여 준다. 부모의 복구 경로는 "최대 5분 기다리기"뿐이고, 사이트 데이터 삭제는 기록까지 지우므로 안내하지 않는다.
   - 틀림 표시는 흔들림 없이 "다시 해 보세요" 한 줄(디자인 리뷰 DR7).
-  - 쓰는 곳: 설정 열기, "오늘만 더"(P2-3), 외부로 나가는 모든 링크(P1-5, P1-6)
+  - 쓰는 곳: 설정 열기, "오늘만 더"(P2-3), ~~외부로 나가는 모든 링크(P1-5, P1-6)~~ [superseded by DR10: 외부 링크는 모두 설정 안(이미 엄마 문 뒤)에 있어 다시 묻지 않는다]
 - **P1-5 이용 안내·개인정보** [R1-7, R1-8]
   - **설정 안(엄마 문 뒤)**에 앱 안의 안내 화면(`#/p/{pid}/about`)으로 둔다. 첫 화면 같은 아이 화면에는 외부 링크를 두지 않는다.
   - 내용은 실제 데이터 흐름대로 쓴다.
@@ -310,11 +310,11 @@ Related: khkkh-unknown-design-20261009-180406.md (v1 설계. 지금 기준은 �
 
 ## Open Questions
 - "모아봄" 상표 등록 여부. KIPRIS에서 직접 확인해야 한다(웹 검색으로는 같은 이름의 앱이 나오지 않았다).
-- 홍보용 주소: 지금 서브도메인(moabom.hgko.dev)을 쓸지, 따로 도메인을 살지.
+- ~~홍보용 주소: 지금 서브도메인(moabom.hgko.dev)을 쓸지, 따로 도메인을 살지.~~ eng R10으로 1단계 시작 조건이 됨: moabom.hgko.dev로 확정, SPEC §1에 기록(2026-10-19).
 - 로고 글꼴 후보와 라이선스(상업적 이용 가능 여부).
 - 요청 창구: 구글 폼으로 할지, 다른 방식으로 할지.
 - GoatCounter 무료 호스팅의 사용 조건과 한도.
-- 엄마 문 숫자 범위(두 자리 또는 세 자리)와 잠금 시간.
+- ~~엄마 문 숫자 범위(두 자리 또는 세 자리)와 잠금 시간.~~ P1-4(세 자리)와 eng R15·R16(3번마다 30초→1→2→4→5분, 맞히면 처음부터)으로 확정.
 - ~~카테고리 이름과 처음 나누는 방식(P1-8)의 최종 확인.~~ 디자인 리뷰 DR29로 확정(세 줄).
 - 편 라벨을 어디서 가져올지: 지금 `order`와 그룹 이름으로 만들지, 제목 패턴에서 뽑을지.
 
@@ -324,7 +324,7 @@ Related: khkkh-unknown-design-20261009-180406.md (v1 설계. 지금 기준은 �
   - 카톡·인스타·네이버·밴드 인앱에서 열어도 Chrome이나 Safari로 나가거나 안내가 뜬다.
   - 6세가 10번 시도해도 설정에 들어가지 못한다.
   - GoatCounter에 P1-7의 이벤트들이 ref별로 들어온다. "익명 통계 보내기"를 끈 기기에서는 하나도 들어오지 않는다.
-  - 아이 화면(홈, 컬렉션, 플레이어, 달 화면)에 엄마 문 없이 앱 밖으로 나가는 링크가 없다.
+  - 앱이 만든 링크·버튼 중 엄마 문 없이 앱 밖으로 나가는 것이 없다(아이 화면: 홈, 컬렉션, 플레이어, 달 화면). 유튜브 플레이어 자체의 로고·제목 링크는 SPEC P2(다른 영상 감지)와 TODOS strictPlayer가 맡는다(eng R14).
   - `npm test`와 `npm run typecheck`가 통과한다.
 - **홍보 후 2주**
   - 유입 경로별 "방문 → 첫 재생" 전환율을 볼 수 있다. 목표는 30% 이상이다. 30% 미만이고 요청이 방문의 1% 미만이면 전제 1을 다시 연다.
@@ -337,7 +337,7 @@ Related: khkkh-unknown-design-20261009-180406.md (v1 설계. 지금 기준은 �
 ## Next Steps
 1. 이 문서로 `/plan-eng-review`를 돌린다. 1단계의 카테고리 스키마, 엄마 문 상태, 통계 이벤트, 화면 분리 경계, 테스트 계획을 확정한다.
 2. `/design-consultation`으로 로고, 워드마크, og.png, 카테고리 색 시안을 만든다.
-3. 1단계를 구현하고 배포한다(P1-1 → P1-2 → P1-3 → P1-5 → P1-7 → P1-6 → P1-4 → P1-8 → P1-9).
+3. 1단계를 구현하고 배포한다(P1-1 → P1-2 → P1-3 → P1-5 → P1-7 → P1-6 → P1-4 → P1-8 → P1-9). [superseded: 순서는 eng delta의 작업 순서표(주소 확정 → 화면 분리 → 순수 모듈 → 연결 → 로고·og)를 따른다]
 4. 홍보를 시작하고, 2주 동안 통계를 본다.
 5. 2단계, 3단계를 진행한다. 3단계 채널은 하나씩 확인받으며 넣는다.
 6. SPEC.md를 v5로 고친다: 카테고리, 엄마 문, 재생 버튼, 오늘만 더, 구간 카드, 짝, 통계와 개인정보 고지, §10 색 규칙(P2-6).
@@ -1028,31 +1028,31 @@ Synthesized from this review's findings. Each task derives from a specific findi
   - Surfaced by: Section 1 — [P3] absolute og:image/og:url; design P1-1
   - Files: index.html, public/og.png
   - Verify: KakaoTalk share debugger / link preview shows title, description, image; clear Kakao cache if the domain changes
-- [ ] **T2 (P1, human: ~3h / CC: ~20min)** — index.html — In-app escape for KakaoTalk/Instagram/Naver/Line/FB/Daum/Band: auto attempt + "브라우저로 열기" button, Android S.browser_fallback_url, keep ?query
+- [x] **T2 (P1, human: ~3h / CC: ~20min)** — index.html — In-app escape for KakaoTalk/Instagram/Naver/Line/FB/Daum/Band: auto attempt + "브라우저로 열기" button, Android S.browser_fallback_url, keep ?query
   - Surfaced by: Section 1 — D4; Scope — D2
   - Files: index.html, tests/inapp.test.ts
   - Verify: `npm test` (UA match/no-match, intent string); device matrix (T10)
-- [ ] **T3 (P1, human: ~3h / CC: ~20min)** — src/ui.ts, src/screens — Extract shared state/router/helpers to src/ui.ts; move settings/history and home to src/screens/settings.ts, src/screens/home.ts
+- [x] **T3 (P1, human: ~3h / CC: ~20min)** — src/ui.ts, src/screens — Extract shared state/router/helpers to src/ui.ts; move settings/history and home to src/screens/settings.ts, src/screens/home.ts
   - Surfaced by: Section 2 — D6; Section 3 — D7
   - Files: src/ui.ts, src/screens/settings.ts, src/screens/home.ts, src/main.ts
   - Verify: `npm test`, `npm run typecheck`, D7 headless pass before and after (R5 list)
-- [ ] **T4 (P1, human: ~4h / CC: ~30min)** — src/gate.ts — Parent gate: Korean three-digit problem, keypad, failure lock (30 s → max 5 min, saved, reset next day), memory unlock 5 min; guard settings/history/about in render()
+- [x] **T4 (P1, human: ~4h / CC: ~30min)** — src/gate.ts — Parent gate: Korean three-digit problem, keypad, failure lock (30 s → max 5 min, saved, reset next day), memory unlock 5 min; guard settings/history/about in render()
   - Surfaced by: Section 1 — D3; design P1-4
   - Files: src/gate.ts, src/storage.ts, src/main.ts (render guard), src/styles.css, tests/gate.test.ts, tests/storage.test.ts
   - Verify: `npm test` (number words 100/101/110/111/200/999, lock bounds, route decision); headless: forward into settings shows gate
-- [ ] **T5 (P1, human: ~1h / CC: ~10min)** — src/screens/settings.ts — About/privacy screen `#/p/{pid}/about` behind the gate with the exact data-flow text and field list
+- [x] **T5 (P1, human: ~1h / CC: ~10min)** — src/screens/settings.ts — About/privacy screen `#/p/{pid}/about` behind the gate with the exact data-flow text and field list
   - Surfaced by: design P1-5; Section 1 — D5 (field list)
   - Files: src/screens/settings.ts, src/main.ts (route)
   - Verify: headless: about reachable only through the gate; no external link on child screens
-- [ ] **T6 (P1, human: ~2h / CC: ~15min)** — src/analytics.ts — Pixel sender `count?p=<name>&e=true&rnd=`, events visit/first_play once per session, play_start, limit_reached, video_error, collection_open, request_click; ref allowlist; opt-out flag; inline escape ping
+- [x] **T6 (P1, human: ~2h / CC: ~15min)** — src/analytics.ts — Pixel sender `count?p=<name>&e=true&rnd=`, events visit/first_play once per session, play_start, limit_reached, video_error, collection_open, request_click; ref allowlist; opt-out flag; inline escape ping
   - Surfaced by: Section 1 — D5; design P1-7
   - Files: src/analytics.ts, src/main.ts and screens (calls), index.html (ping), tests/analytics.test.ts
   - Verify: `npm test` (name builder, opt-out, once-per-session); browser network panel shows requests only when opt-out is off
-- [ ] **T7 (P2, human: ~2h / CC: ~15min)** — config/news.json — News file + validation + settings top card with per-device read state; request form link inside settings only
+- [x] **T7 (P2, human: ~2h / CC: ~15min)** — config/news.json — News file + validation + settings top card with per-device read state; request form link inside settings only
   - Surfaced by: design P1-6
   - Files: config/news.json, src/config.ts, src/data.ts, src/screens/settings.ts, src/storage.ts, tests/config.test.ts
   - Verify: `npm test`; headless: news card shows once, then read
-- [ ] **T8 (P2, human: ~3h / CC: ~20min)** — config/categories.json — Categories {id,label,icon,color}, required collection.category, validation, groupByCategory in rules.ts, home rows, grouped settings list, add-character skill step
+- [x] **T8 (P2, human: ~3h / CC: ~20min)** — config/categories.json — Categories {id,label,icon,color}, required collection.category, validation, groupByCategory in rules.ts, home rows, grouped settings list, add-character skill step
   - Surfaced by: design P1-8; Section 3 edge cases
   - Files: config/categories.json, config/collections/*.json, src/config.ts, src/data.ts, src/rules.ts, src/icons.ts, src/screens/home.ts, src/screens/settings.ts, .claude/skills/add-character/SKILL.md, tests/config.test.ts, tests/rules.test.ts
   - Verify: `npm test`; headless: rows order, empty row hidden, single category flat
@@ -1068,7 +1068,7 @@ Synthesized from this review's findings. Each task derives from a specific findi
   - Surfaced by: design P1-4 test procedure
   - Files: src/gate.ts (only if switching)
   - Verify: result noted in SPEC
-- [ ] **T12 (P3, human: ~30min / CC: ~10min)** — SPEC.md — Record phase-1 contracts (gate route guard, escape, analytics events/opt-out, categories, news, about, SVG logo)
+- [x] **T12 (P3, human: ~30min / CC: ~10min)** — SPEC.md — Record phase-1 contracts (gate route guard, escape, analytics events/opt-out, categories, news, about, SVG logo)
   - Surfaced by: design Next Steps 6 (phase-1 part)
   - Files: SPEC.md
   - Verify: SPEC matches shipped behaviour
@@ -1167,23 +1167,23 @@ Target: this file, 1단계 (P1-1~P1-9) new UI only. No DESIGN.md: tokens come fr
 ### Design review — Implementation Tasks
 Each derives from a decision above; they extend the eng tasks T1–T12 in place.
 
-- [ ] **DT1 (P1, human: ~3h / CC: ~20min)** — src/gate.ts + gate screen — Build the gate screen per DR1, DR6–DR10, DR25, DR26
+- [x] **DT1 (P1, human: ~3h / CC: ~20min)** — src/gate.ts + gate screen — Build the gate screen per DR1, DR6–DR10, DR25, DR26
   - Surfaced by: Pass 1/2/6 — DR1, DR6, DR7, DR8, DR9, DR10, DR25, DR26 (with eng T4)
   - Files: src/gate.ts, src/main.ts (route guard), src/styles.css, tests/gate.test.ts
   - Verify: headless: wrong → "다시 해 보세요" no shake; 3 wrong → lock screen with countdown, keypad back after; ◀ goes home; keyboard 0-9/Backspace; phone landscape two columns
-- [ ] **DT2 (P1, human: ~2h / CC: ~15min)** — settings — "모아봄" panel, news card states, switch wording, pill fix
+- [x] **DT2 (P1, human: ~2h / CC: ~15min)** — settings — "모아봄" panel, news card states, switch wording, pill fix
   - Surfaced by: Pass 1/2/4/5 — DR4, DR11, DR19, DR22 (with eng T5–T7)
   - Files: src/screens/settings.ts, src/styles.css, config/news.json
   - Verify: headless: news card only when unread, × marks read; panel order; switch reads "익명 통계 보내기"; `.shown .state` and `.hero .chip` at 12px
-- [ ] **DT3 (P1, human: ~1h / CC: ~10min)** — about screen — h1 + four h2 sections, 64px link rows, edit date
+- [x] **DT3 (P1, human: ~1h / CC: ~10min)** — about screen — h1 + four h2 sections, 64px link rows, edit date
   - Surfaced by: Pass 1 — DR5 (with eng T5)
   - Files: src/screens/settings.ts, src/styles.css
   - Verify: headless: four headings, links open outside, reachable only through the gate
-- [ ] **DT4 (P1, human: ~2h / CC: ~15min)** — index.html — Escape banner style, iOS copy button, "창을 닫아도 돼요"
+- [x] **DT4 (P1, human: ~2h / CC: ~15min)** — index.html — Escape banner style, iOS copy button, "창을 닫아도 돼요"
   - Surfaced by: Pass 2/6 — DR12, DR13, DR27 (with eng T2)
   - Files: index.html, tests/inapp.test.ts
   - Verify: device matrix (eng T10) incl. iOS Instagram copy path and copy-blocked fallback
-- [ ] **DT5 (P1, human: ~1h / CC: ~10min)** — home — First-visit intro card and gear short-press hint
+- [x] **DT5 (P1, human: ~1h / CC: ~10min)** — home — First-visit intro card and gear short-press hint
   - Surfaced by: Pass 3 — DR16, DR17
   - Files: src/screens/home.ts, src/storage.ts, src/styles.css
   - Verify: headless: intro card once per device, not together with the install hint; short gear tap shows "2초 동안 누르세요" for 2 s
@@ -1191,7 +1191,7 @@ Each derives from a decision above; they extend the eng tasks T1–T12 in place.
   - Surfaced by: Pass 3 — DR18 (with eng T1)
   - Files: index.html, public/og.png
   - Verify: KakaoTalk/Instagram preview shows the tagline; square crop keeps the centre 630×630 content
-- [ ] **DT7 (P2, human: ~2h / CC: ~15min)** — home and settings — Category rows, headings, single-tile rows, grouped settings list
+- [x] **DT7 (P2, human: ~2h / CC: ~15min)** — home and settings — Category rows, headings, single-tile rows, grouped settings list
   - Surfaced by: Pass 1/2/5/7 — DR2, DR3, DR14, DR15, DR20, DR29 (with eng T8)
   - Files: src/screens/home.ts, src/screens/settings.ts, src/rules.ts, config/categories.json, src/styles.css, tests/rules.test.ts
   - Verify: headless: order 이어 보기 → rows → hints; rows wrap; arrows stay within a group; icon stroke contrast check in config validation
@@ -1199,7 +1199,7 @@ Each derives from a decision above; they extend the eng tasks T1–T12 in place.
   - Surfaced by: Pass 5/6/7 — DR21, DR24, DR28 (with eng T9)
   - Files: src/screens/home.ts, src/screens/settings.ts, src/styles.css
   - Verify: headless at 375px: "하늘이네 모아봄" wraps by word in two lines, ◀/gear stay 64px
-- [ ] **DT9 (P2, human: ~30min / CC: ~10min)** — icons and SPEC — Add Lucide external-link, delete, category icons; SPEC §10 icon list → "src/icons.ts is the allowlist"
+- [x] **DT9 (P2, human: ~30min / CC: ~10min)** — icons and SPEC — Add Lucide external-link, delete, category icons; SPEC §10 icon list → "src/icons.ts is the allowlist"
   - Surfaced by: Pass 5 — DR23
   - Files: src/icons.ts, SPEC.md
   - Verify: `npm run typecheck`; category icon names validated against src/icons.ts
@@ -1959,43 +1959,43 @@ Conflict flags: index.html (A) and F (og meta) are sequential; tests/ shared wit
 ## Implementation Tasks — delta (2026-10-19)
 Added to T1–T12 and DT1–DT9. Each task derives from a delta finding or R-decision above.
 
-- [ ] **T0 (P1, human: ~10min / CC: —)** — SPEC.md §1 — Fix the promo domain before T1 and the first promo link; default moabom.hgko.dev
+- [x] **T0 (P1, human: ~10min / CC: —)** — SPEC.md §1 — Fix the promo domain before T1 and the first promo link; default moabom.hgko.dev
   - Surfaced by: R10 (D3)
   - Files: SPEC.md
   - Verify: SPEC §1 names the domain; Open Questions item replaced
-- [ ] **T13 (P1, human: ~1h / CC: ~10min)** — index.html — `window.__moabomEscaping` on auto escape (Android, iOS KakaoTalk); `esc=1` in the Android fallback URL disables the auto move and shows the banner only
+- [x] **T13 (P1, human: ~1h / CC: ~10min)** — index.html — `window.__moabomEscaping` on auto escape (Android, iOS KakaoTalk); `esc=1` in the Android fallback URL disables the auto move and shows the banner only
   - Surfaced by: R9 (D2), R11 (D4)
   - Files: index.html, tests/inapp.test.ts
   - Verify: `npm test` (vm: escaping flag set/unset per UA; esc=1 → no redirect, banner shown)
-- [ ] **T14 (P1, human: ~30min / CC: ~5min)** — tests/inapp.test.ts — Assert inline GoatCounter code and storage key equal src/analytics.ts / src/storage.ts constants
+- [x] **T14 (P1, human: ~30min / CC: ~5min)** — tests/inapp.test.ts — Assert inline GoatCounter code and storage key equal src/analytics.ts / src/storage.ts constants
   - Surfaced by: OV15
   - Files: tests/inapp.test.ts
   - Verify: `npm test`
-- [ ] **T15 (P1, human: ~1h / CC: ~10min)** — src/gate.ts — Pure `parentRouteDecision(route, now, lockState)` (no DOM); lock steps every 3 wrong: 30 s → 1 → 2 → 4 → 5 min, per day; reset on success; clamp remaining to 5 min; expiry checked on render only; install neutral
+- [x] **T15 (P1, human: ~1h / CC: ~10min)** — src/gate.ts — Pure `parentRouteDecision(route, now, lockState)` (no DOM); lock steps every 3 wrong: 30 s → 1 → 2 → 4 → 5 min, per day; reset on success; clamp remaining to 5 min; expiry checked on render only; install neutral
   - Surfaced by: OV5, R15 (D8), R16 (D9), E4, R20 (D13), E3
   - Files: src/gate.ts, tests/gate.test.ts
   - Verify: `npm test` (step table, reset after success, clock rollback, expired + move → gate, install neutral)
-- [ ] **T16 (P1, human: ~1h / CC: ~10min)** — src/main.ts — Pure `bootActions(flags)`: skip ?settings=, ?profile= pinning and all stats while escaping; strip `ref`/`esc` with replaceState after reading
+- [x] **T16 (P1, human: ~1h / CC: ~10min)** — src/main.ts — Pure `bootActions(flags)`: skip ?settings=, ?profile= pinning and all stats while escaping; strip `ref`/`esc` with replaceState after reading
   - Surfaced by: R9 (D2), R19 (D12)
   - Files: src/main.ts (or src/ui.ts), tests/boot.test.ts
   - Verify: `npm test` (flags → actions; URL cleanup keeps other params)
-- [ ] **T17 (P1, human: ~30min / CC: ~5min)** — src/ui.ts — Teardown list run at the top of render(): countdown interval (DR8), document keydown (DR25), hint timer (DR17); `setRenderer(render)` injection
+- [x] **T17 (P1, human: ~30min / CC: ~5min)** — src/ui.ts — Teardown list run at the top of render(): countdown interval (DR8), document keydown (DR25), hint timer (DR17); `setRenderer(render)` injection
   - Surfaced by: E1, OV6
   - Files: src/ui.ts, src/main.ts
   - Verify: D7 headless pass: lock screen → home → no gate redraw, digits ignored
-- [ ] **T18 (P2, human: ~30min / CC: ~5min)** — src/analytics.ts — `visit.<ref>.webview` for iOS non-Kakao in-app (no inapp_escape there); `device:analytics = 'off' | null`
+- [x] **T18 (P2, human: ~30min / CC: ~5min)** — src/analytics.ts — `visit.<ref>.webview` for iOS non-Kakao in-app (no inapp_escape there); `device:analytics = 'off' | null`
   - Surfaced by: R8 (D1), E6
   - Files: src/analytics.ts, index.html, tests/analytics.test.ts
   - Verify: `npm test` (name builder rows)
-- [ ] **T19 (P2, human: ~1h / CC: ~10min)** — public/privacy.html — Static privacy page, same text as the about screen, same tokens, no app JS; linked from about and promo posts, never from child screens
+- [x] **T19 (P2, human: ~1h / CC: ~10min)** — public/privacy.html — Static privacy page, same text as the about screen, same tokens, no app JS; linked from about and promo posts, never from child screens
   - Surfaced by: R17 (D10)
   - Files: public/privacy.html, src/screens/settings.ts (about link)
   - Verify: headless: /privacy.html loads without the app; child screens have no link to it
-- [ ] **T20 (P2, human: ~30min / CC: ~5min)** — src/rules.ts — Category-aware `moveCollection`; news items require a unique `id`
+- [x] **T20 (P2, human: ~30min / CC: ~5min)** — src/rules.ts — Category-aware `moveCollection`; news items require a unique `id`
   - Surfaced by: E2, E5
   - Files: src/rules.ts, src/config.ts, config/news.json, tests/rules.test.ts, tests/config.test.ts
   - Verify: `npm test` (category edge row, duplicate news id rejected)
-- [ ] **T21 (P3, human: ~15min / CC: ~5min)** — this file + SPEC — Success criterion "no app-made link leaves the app without the gate" (R14); mark superseded body text (OV13)
+- [x] **T21 (P3, human: ~15min / CC: ~5min)** — this file + SPEC — Success criterion "no app-made link leaves the app without the gate" (R14); mark superseded body text (OV13)
   - Surfaced by: R14 (D7), OV13
   - Files: docs/designs/moabom-launch-ready.md, SPEC.md
   - Verify: no stale `src/inapp.ts` / transformIndexHtml / outbound-gate text without a "superseded" mark

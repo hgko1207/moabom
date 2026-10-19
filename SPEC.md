@@ -8,6 +8,7 @@
 
 ## 1. 이름 규칙
 - 표시명 **모아봄**, 저장소·패키지 `moabom`, 배포 https://moabom.hgko.dev (GitHub Pages 사용자 지정 도메인, 2026-10-13부터. 예전 주소 hgko1207.github.io/moabom 은 GitHub가 새 주소로 넘겨 줌)
+- **홍보 주소 확정 (2026-10-19, 1단계 시작 조건 R10)**: https://moabom.hgko.dev 로 홍보한다. 링크 미리보기(og 태그)와 첫 홍보 글 뒤에는 바꾸지 않는다(카카오톡이 미리보기를 주소별로 오래 기억함). 홍보 링크에는 경로 표시를 붙인다: `?ref=insta`, `?ref=naver`, `?ref=kakao`, `?ref=band`, `?ref=blog`.
 - 묶음 단위는 **컬렉션(collection)**. "시리즈" 금지.
 - 저장소는 **공개**. `profiles.json`의 이름은 **별칭만**(실명 금지).
 
@@ -49,6 +50,7 @@ src/icons.ts, src/styles.css   아이콘·디자인 토큰
 {
   "id": "numberblocks",
   "displayName": "넘버블록스",
+  "category": "numbers-letters",
   "enabled": true,
   "channels": ["UCR9zv3dquE6GURdKGJkVz-g"],
   "coverVideoId": null,
@@ -67,6 +69,8 @@ src/icons.ts, src/styles.css   아이콘·디자인 토큰
 - `excludeShorts`를 켜면 180초 이하를 제외하고 경고 로그를 남김(기본 false).
 - `titleStripPatterns`로 원제목에서 접두어·접미어를 지워 `displayTitle`을 만듦.
 - `id`는 `^[a-z0-9-]+$`. 채널이 비어 있으면 fetch를 거부.
+- `category`(필수, 1단계): `config/categories.json`의 id. 카테고리 파일은 순서 있는 목록 `{ "categories": [{ "id", "label", "icon", "color" }] }`이고 홈 줄 순서가 된다. 새 카테고리는 이 파일에 한 줄을 더한다. 소식은 `config/news.json`의 `{ "items": [{ "id", "date", "title", "body" }] }`(id는 겹치지 않게).
+- `category`(필수, 1단계): `config/categories.json`의 id. 카테고리 파일은 순서 있는 목록 `{ "categories": [{ "id", "label", "icon", "color" }] }`이고, 홈 줄 순서가 된다. 새 카테고리는 이 파일에 한 줄을 더한다.
 
 ### 5-1. 단계 종류와 자동 단계 (2026-10-12 추가)
 - `kind`: `"series"`(기본, 정식 편: "오늘 볼 영상"·✔ 진행·다음 화가 이 순서를 따름) 또는 `"free"`(모음집·클립: 탭에서 자유롭게 고르고, 다음 화는 같은 탭 안에서만).
@@ -135,6 +139,39 @@ src/icons.ts, src/styles.css   아이콘·디자인 토큰
 - `moabom:v1:{profileId}:{collectionId}` → `{ watched: {id: ts}, progress: {id: sec}, failed: {id: ts}, last }`
 - `moabom:v1:{profileId}:today` → `{ date, started: [id], finished: [id], playedToday: {id: sec}, seconds }`
 - `moabom:v1:device:today` → `{ date, profileId }`, `moabom:v1:device:pinned` → `profileId`
+- 1단계 추가(설정 보내기 링크에는 넣지 않음): `device:gateLock` → `{ date, wrong, locks, until }`(엄마 문 실패 잠금), `device:analytics` → `"off"` 또는 없음(익명 통계 끔), `device:newsRead` → `[newsId]`, `device:intro` → `false`(첫 방문 카드 닫음)
+
+### 엄마 문 (G, src/gate.ts, 1단계)
+- **G1** 설정·기록·안내(`settings`, `history`, `about`) 주소는 `render()`가 그리기 전에 확인한다. 톱니(2초 누름), 브라우저 앞으로 가기, 직접 친 주소 모두 같은 문을 만난다. 설치 안내(`install`)는 중립: 묻지도, 해제를 끝내지도 않는다. 그 밖의 화면으로 가면 해제가 끝난다.
+- **G2** 문제: 한글로 쓴 세 자리 수(100~999, 예: 삼백이십칠)를 숫자판으로 누른다. 세 번째 숫자에서 바로 검사, 틀리면 칸을 비우고 새 문제와 "다시 해 보세요". 실제 키보드 0~9, Backspace도 된다.
+- **G3** 해제는 메모리에만(새로고침하면 다시 잠김), 5분. 5분은 화면을 옮길 때만 확인한다(열려 있는 설정 화면에서 튕기지 않음).
+- **G4** 실패 잠금: 3번 틀릴 때마다 30초 → 1분 → 2분 → 4분 → 5분(최대). 하루 단위(날짜가 바뀌면 처음부터), 맞히면 처음부터. 저장되므로 새로고침해도 풀리지 않는다. 기기 시계를 되돌려도 남은 시간은 5분을 넘지 않는다.
+- **G5** 출시 전 시험: 6세에게 10번 시도하게 해서 한 번이라도 통과하면 한글 덧셈 문제(예: 십칠 더하기 이십오)로 바꾸고 다시 시험한다. 결과를 아래 표에 적는다.
+
+| 날짜 | 문제 | 시도 | 통과 | 결과 |
+|---|---|---|---|---|
+| | 세 자리 수 | 10 | | |
+
+### 익명 통계 (A, src/analytics.ts, 1단계)
+- GoatCounter(사이트 코드 `moabom`) 픽셀 `https://moabom.goatcounter.com/count?p=<이름>&e=true&rnd=<수>`. 외부 스크립트·쿠키 없음. 필드는 이름에 점으로 이어 붙임.
+- 이벤트: `visit.<ref>`(세션당 1회, iOS의 카톡 외 인앱은 `visit.<ref>.webview`), `first_play.<ref>.<컬렉션>`(세션당 1회), `play_start.<컬렉션>`, `limit_reached.<minutes|episodes>`(세션당 1회), `video_error.<영상>.<코드>`, `collection_open.<컬렉션>`, `request_click`, `inapp_escape.<앱>`(인라인 스크립트, 탈출하는 페이지만).
+- ref는 허용 목록(insta, naver, kakao, band, blog)만 그대로, 그 밖은 `other`, 없으면 `direct`. 첫 방문 때 sessionStorage에 담고 주소에서는 지운다(`ref`, `esc`, `profile`, `settings`를 읽은 뒤 지움, 다른 쿼리는 그대로).
+- 설정 "익명 통계 보내기"(기본 켬)를 끈 기기는 아무것도 보내지 않는다. 우리 집 기기는 꺼 둔다.
+- 아이 이름, 설정 내용, 시청 기록은 보내지 않는다.
+
+### 인앱 브라우저 탈출 (E, index.html 인라인, 1단계)
+- 대상: KAKAOTALK, Instagram, NAVER, BAND/, FBAN·FBAV, DaumApps, Line/, everytimeApp. Chrome·삼성 인터넷·Safari·CriOS·웨일은 대상이 아니다.
+- 안드로이드: Chrome `intent://`(쿼리 유지, 해시 제외) + `S.browser_fallback_url`(같은 주소 + `esc=1`). `esc=1`이면 다시 옮기지 않고 띠만 보여 준다(무한 이동 방지).
+- iOS 카카오톡: `kakaotalk://web/openExternal`. iOS 그 밖의 앱: 자동 이동 없이 띠에 "주소 복사"(막히면 주소를 글자로 보여 줌)와 앱별 메뉴 안내.
+- 자동으로 옮기는 페이지는 `window.__moabomEscaping`을 세워, 앱이 설정 링크 적용·프로필 고정·통계를 건너뛴다(새 페이지가 다시 함). `inapp_escape`만 보낸다.
+- 실기기 확인표(홍보 전에 채움, eng T10):
+
+| 앱 | 안드로이드 | iOS |
+|---|---|---|
+| 카카오톡 | | |
+| 인스타그램 | | |
+| 네이버 | | |
+| 밴드 | | |
 
 ## 9. 화면
 1. **프로필 선택**: 색 원 + 별칭. 오늘 이 기기에서 이미 다른 프로필을 썼다면 나머지는 흐리게(L5). 고정된 기기는 건너뜀.
@@ -144,15 +181,21 @@ src/icons.ts, src/styles.css   아이콘·디자인 토큰
 5. **오늘은 여기까지**: 어두운 배경, 큰 달, 오늘 본 편 ✔ 줄, 내일 볼 편 + 자물쇠. 출구는 ◀ 하나.
 6. **다 봤어요**: 큰 카드 자리에 ✔ 배지 + 첫 편 썸네일 + ↻(처음부터).
 - 상태: 설정과 videos.json은 빌드에 포함되므로 목록 로딩·실패 상태는 없음. 썸네일 실패(오프라인 오류 또는 유튜브의 120×90 회색 대체 이미지) = 프로필 색 + 큰 편 번호, 오프라인 = 와이파이 끊김 아이콘 + ↻(online 이벤트 시 다시 그림). 서비스 워커 캐시 없음.
-- 길찾기: 모든 화면 왼쪽 위 64px ◀. 해시 라우팅 `#/p/{pid}`, `#/p/{pid}/c/{cid}`, `#/p/{pid}/c/{cid}/v/{vid}`.
+- 길찾기: 모든 화면 왼쪽 위 64px ◀. 해시 라우팅 `#/p/{pid}`, `#/p/{pid}/c/{cid}`, `#/p/{pid}/c/{cid}/v/{vid}`, 부모 화면 `#/p/{pid}/settings`·`/history`·`/about`(엄마 문 뒤), `#/p/{pid}/install`.
 - 데이터가 30일보다 오래되면 첫 화면 구석에 "데이터 갱신 필요".
+- **1단계 추가 (2026-10-19)**
+  - 홈: 머리(제목 + 톱니) → 이어 보기 칸 → 카테고리 줄(`config/categories.json` 순서, 줄 안은 부모가 정한 순서, 보이는 캐릭터가 없는 줄은 숨김, 보이는 줄이 1개면 줄 없이 한 그리드) → 첫 방문 소개 카드 또는 설치 안내(하나만). 제목은 기기 설정의 이름 그대로, 없으면 "{profiles.json 이름} 모아봄". 톱니를 2초보다 짧게 누르면 "2초 동안 누르세요".
+  - 설정: 맨 위에 읽지 않은 최신 소식 하나(`config/news.json`, × 닫으면 읽음). 보여 줄 캐릭터는 카테고리별로 묶고 화살표는 같은 카테고리 안에서만. 맨 아래 "모아봄" 패널: 캐릭터·영상 추천하기(구글 폼, 주소를 넣기 전까지 숨김), 이용 안내·개인정보, "익명 통계 보내기" 스위치.
+  - 이용 안내(`#/p/{pid}/about`): 저장되는 것 / YouTube / 익명 통계 / 만든 사람, 지난 소식, 고친 날짜. 같은 글을 엄마 문 없이 볼 수 있게 `/privacy.html`(앱 스크립트 없음)로도 둔다. 아이 화면에는 이 페이지로 가는 링크가 없다.
+  - 앱이 만든 링크·버튼 중 엄마 문 없이 앱 밖으로 나가는 것은 없다. 유튜브 플레이어 자체의 로고·제목 링크는 P2(다른 영상 감지)와 TODOS의 strictPlayer가 맡는다(R14).
 
 ## 10. 디자인 토큰 (`src/styles.css` :root)
 - 글꼴 Pretendard(자체 호스팅). 본문 최소 18px, 카드 제목 18/24 600, 탭 숫자 32 700, 화면 제목 28 700.
 - 색 `--bg #F4F6FA`, `--surface #FFFFFF`, `--ink #1B2230`, `--ink-2 #4A5568`, `--done #1F9D55`, `--night #1E2340`, `--night-ink #E8EAF6`. 강조색은 프로필 색 하나(테두리·채움에만, 본문 글자색 금지).
 - 간격 8의 배수, 카드 사이 16px, 모서리 12px(알약형 금지), 그림자 없음, 포커스 링 4px 프로필 색.
 - 모션 두 가지: 누름 scale 0.97 100ms, 20초 카드 등장 200ms ease-out. `prefers-reduced-motion`이면 끔.
-- 아이콘 Lucide(ISC) 10개 인라인: chevron-left, play, maximize, check, moon, lock, rotate-ccw, wifi-off, unplug, triangle-alert.
+- 아이콘 Lucide(ISC) 인라인. 허용 목록은 `src/icons.ts`이고, `config/categories.json`의 아이콘도 이 목록에서만 고른다. 다른 아이콘 세트와 이모지는 쓰지 않는다.
+- 카테고리 색은 아이콘 선에만 쓰고(채움·테두리·글자 금지), `--bg` 대비 3:1 이상이어야 한다(설정 검증).
 - 접근성: 모든 조작은 `<button>` + 한국어 `aria-label`, 랜드마크, 그리드 방향키(roving tabindex), 대비 4.5:1, 터치 타깃 64px.
 
 ## 11. 배포

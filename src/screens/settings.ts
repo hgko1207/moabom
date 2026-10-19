@@ -326,8 +326,8 @@ function playedTime(sec: number): string {
 /** H3: the last 7 days on this device — minutes per day, then what was watched each day. */
 // ---------- 이용 안내·개인정보 (design P1-5, DR5; public/privacy.html carries the same text) ----------
 
-/** The Google Form for character and video requests; the row stays hidden until it is set. */
-const REQUEST_FORM_URL = '';
+/** The Google Form for character and video requests (respondent link, no login needed); the row hides when empty. */
+const REQUEST_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScKS_JOU0xznBZ_NMsMN2g9RXixgC1y7jwo13bkfUUpAhCJmQ/viewform';
 const ABOUT_EDITED = '2026-10-19';
 
 function linkRow(url: string, label: string): string {

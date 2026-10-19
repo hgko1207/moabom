@@ -196,6 +196,8 @@ src/icons.ts, src/styles.css   아이콘·디자인 토큰
 - 모션 두 가지: 누름 scale 0.97 100ms, 20초 카드 등장 200ms ease-out. `prefers-reduced-motion`이면 끔.
 - 아이콘 Lucide(ISC) 인라인. 허용 목록은 `src/icons.ts`이고, `config/categories.json`의 아이콘도 이 목록에서만 고른다. 다른 아이콘 세트와 이모지는 쓰지 않는다.
 - 카테고리 색은 아이콘 선에만 쓰고(채움·테두리·글자 금지), `--bg` 대비 3:1 이상이어야 한다(설정 검증).
+- 로고(2026-10-19): 두 잎 위에서 재생 버튼이 돋아나는 표시(모아 + 봄). 직접 그린 SVG 하나(`src/logo.ts`)를 홈 머리(--ink 단색, 40px, 400px 미만 32px), `public/logo.svg`(파비콘), 앱 아이콘, `public/og.png`에 같이 쓴다. 브랜드 색 `#2E9E6B`는 앱 아이콘·og.png·파비콘에만. 이미지는 `scripts/brand.html`을 헤드리스 브라우저로 찍어 다시 만든다. 워드마크는 Pretendard ExtraBold(OFL)를 이미지로 찍은 것이라 글꼴 파일을 싣지 않는다.
+- 한 줄 소개: "공식 채널 영상만, 순서대로. 고를 필요 없어요"(og:description, manifest).
 - 접근성: 모든 조작은 `<button>` + 한국어 `aria-label`, 랜드마크, 그리드 방향키(roving tabindex), 대비 4.5:1, 터치 타깃 64px.
 
 ## 11. 배포

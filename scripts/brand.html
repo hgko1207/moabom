@@ -1,0 +1,103 @@
+<!doctype html>
+<!--
+  Renders the brand images from the mark in src/logo.ts (same paths; tests/brand.test.ts keeps them equal).
+  Open with a headless browser at the exact size and screenshot the viewport:
+    #icon-512 512x512 → public/icon-512.png      #icon-192 192x192 → public/icon-192.png
+    #maskable 512x512 → public/icon-maskable-512.png   #apple 180x180 → public/apple-touch-icon.png
+    #og 1200x630 → public/og.png
+-->
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face {
+        font-family: P;
+        src: url('../node_modules/pretendard/dist/public/static/Pretendard-ExtraBold.otf');
+        font-weight: 800;
+      }
+      @font-face {
+        font-family: P;
+        src: url('../node_modules/pretendard/dist/public/static/Pretendard-Bold.otf');
+        font-weight: 700;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
+      body {
+        display: grid;
+        place-items: center;
+        font-family: P, sans-serif;
+      }
+      .icon {
+        background: #2e9e6b;
+        color: #fff;
+      }
+      .icon svg {
+        width: 72vw;
+        height: 72vw;
+      }
+      /* maskable: keep the mark inside the 80% safe circle */
+      .maskable svg {
+        width: 52vw;
+        height: 52vw;
+      }
+      .og {
+        background: #f4f6fa;
+        color: #1b2230;
+      }
+      /* everything inside the centre 630×630, so a square crop keeps it (design DR18) */
+      .og main {
+        width: 630px;
+        display: grid;
+        justify-items: center;
+        gap: 36px;
+        text-align: center;
+      }
+      .og .word {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        font-size: 150px;
+        font-weight: 800;
+        letter-spacing: -3px;
+        line-height: 1;
+      }
+      .og .word svg {
+        width: 160px;
+        height: 160px;
+        color: #2e9e6b;
+      }
+      .og p {
+        margin: 0;
+        font-size: 48px;
+        font-weight: 700;
+        line-height: 1.35;
+        letter-spacing: -1px;
+        word-break: keep-all;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      var MARK =
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="currentColor">' +
+        '<path d="M30.5 58C15.5 58 6 47 6 32c14 0 24.5 8.5 24.5 26z"/>' +
+        '<path d="M33.5 58C48.5 58 58 47 58 32c-14 0-24.5 8.5-24.5 26z"/>' +
+        '<path d="M25 6.6v23.8a2.6 2.6 0 0 0 4 2.2l18.6-11.9a2.6 2.6 0 0 0 0-4.4L29 4.4a2.6 2.6 0 0 0-4 2.2z"/>' +
+        '</svg>';
+      var mode = location.hash.slice(1) || 'icon-512';
+      if (mode === 'og') {
+        document.body.className = 'og';
+        document.body.innerHTML =
+          '<main><div class="word">' + MARK + '모아봄</div><p>공식 채널 영상만, 순서대로.<br>고를 필요 없어요</p></main>';
+      } else {
+        document.body.className = 'icon' + (mode === 'maskable' ? ' maskable' : '');
+        document.body.innerHTML = MARK;
+      }
+    </script>
+  </body>
+</html>

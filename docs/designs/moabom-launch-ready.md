@@ -1024,7 +1024,7 @@ Conflict flags: src/storage.ts touched by C and read by E; tests/ shared (separa
 ## Implementation Tasks
 Synthesized from this review's findings. Each task derives from a specific finding above. Run with Claude Code or Codex; checkbox as you ship.
 
-- [ ] **T1 (P1, human: ~1h / CC: ~10min)** — index.html — Add OG/Twitter meta and public/og.png
+- [x] **T1 (P1, human: ~1h / CC: ~10min)** — index.html — Add OG/Twitter meta and public/og.png
   - Surfaced by: Section 1 — [P3] absolute og:image/og:url; design P1-1
   - Files: index.html, public/og.png
   - Verify: KakaoTalk share debugger / link preview shows title, description, image; clear Kakao cache if the domain changes
@@ -1056,7 +1056,7 @@ Synthesized from this review's findings. Each task derives from a specific findi
   - Surfaced by: design P1-8; Section 3 edge cases
   - Files: config/categories.json, config/collections/*.json, src/config.ts, src/data.ts, src/rules.ts, src/icons.ts, src/screens/home.ts, src/screens/settings.ts, .claude/skills/add-character/SKILL.md, tests/config.test.ts, tests/rules.test.ts
   - Verify: `npm test`; headless: rows order, empty row hidden, single category flat
-- [ ] **T9 (P2, human: ~1h / CC: ~10min, after /design-consultation)** — src/screens/home.ts — Outlined-SVG wordmark + symbol in the header with the title rule; og.png and icons from the same SVG
+- [x] **T9 (P2, human: ~1h / CC: ~10min, after /design-consultation)** — src/screens/home.ts — Outlined-SVG wordmark + symbol in the header with the title rule; og.png and icons from the same SVG
   - Surfaced by: Section 4 — D8; design P1-9
   - Files: src/screens/home.ts, src/icons.ts or public/, public/icon-*.png, public/manifest.webmanifest, public/og.png
   - Verify: headless: header shows logo + "{title}" or "{name} 모아봄"; no new font request in the network panel
@@ -1187,7 +1187,7 @@ Each derives from a decision above; they extend the eng tasks T1–T12 in place.
   - Surfaced by: Pass 3 — DR16, DR17
   - Files: src/screens/home.ts, src/storage.ts, src/styles.css
   - Verify: headless: intro card once per device, not together with the install hint; short gear tap shows "2초 동안 누르세요" for 2 s
-- [ ] **DT6 (P1, human: ~30min / CC: ~5min)** — og.png and meta — Tagline and image layout
+- [x] **DT6 (P1, human: ~30min / CC: ~5min)** — og.png and meta — Tagline and image layout
   - Surfaced by: Pass 3 — DR18 (with eng T1)
   - Files: index.html, public/og.png
   - Verify: KakaoTalk/Instagram preview shows the tagline; square crop keeps the centre 630×630 content
@@ -1195,7 +1195,7 @@ Each derives from a decision above; they extend the eng tasks T1–T12 in place.
   - Surfaced by: Pass 1/2/5/7 — DR2, DR3, DR14, DR15, DR20, DR29 (with eng T8)
   - Files: src/screens/home.ts, src/screens/settings.ts, src/rules.ts, config/categories.json, src/styles.css, tests/rules.test.ts
   - Verify: headless: order 이어 보기 → rows → hints; rows wrap; arrows stay within a group; icon stroke contrast check in config validation
-- [ ] **DT8 (P2, human: ~1h / CC: ~10min, after /design-consultation)** — home header — Logo symbol (--ink), phone sizing, title hint
+- [x] **DT8 (P2, human: ~1h / CC: ~10min, after /design-consultation)** — home header — Logo symbol (--ink), phone sizing, title hint
   - Surfaced by: Pass 5/6/7 — DR21, DR24, DR28 (with eng T9)
   - Files: src/screens/home.ts, src/screens/settings.ts, src/styles.css
   - Verify: headless at 375px: "하늘이네 모아봄" wraps by word in two lines, ◀/gear stay 64px

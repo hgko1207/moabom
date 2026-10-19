@@ -1578,3 +1578,34 @@ details.paste summary::-webkit-details-marker {
 .past-news li + li {
   margin-top: var(--s2);
 }
+
+/* Home header with the mark (design DR21, DR24) */
+.home-bar {
+  gap: var(--s1);
+}
+
+.home-bar .logo {
+  flex: none;
+  color: var(--ink);
+}
+
+.home-bar h1 {
+  min-width: 0;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 399px) {
+  .home-bar .logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .home-bar h1 {
+    font-size: 24px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}

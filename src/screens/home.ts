@@ -2,6 +2,7 @@
 import type { Profile } from '../config.ts';
 import type { Collection } from '../data.ts';
 import { icon, isIconName } from '../icons.ts';
+import { logo } from '../logo.ts';
 import { groupByCategory, homeTitle, mostRecentCollection, progressRecency, startPosition } from '../rules.ts';
 import {
   analytics,
@@ -79,7 +80,8 @@ export function renderCollections(profile: Profile, collections: Collection[], s
           .join('');
   // One card at a time at the bottom: the first-visit intro comes before the install hint (DR16).
   const intro = store.introDismissed() ? '' : introCard();
-  app.innerHTML = `<main class="screen"><div class="bar">${showBack ? backButton() : ''}<h1>${esc(homeTitle(profile.name, settings))}</h1>${gearButton()}</div>
+  // The mark always shows, whatever the title says (design DR28); in --ink, never the brand colour (DR21).
+  app.innerHTML = `<main class="screen"><div class="bar home-bar">${showBack ? backButton() : ''}${logo(40)}<h1>${esc(homeTitle(profile.name, settings))}</h1>${gearButton()}</div>
     ${offlineNotice()}
     ${settings?.homeContinue === false ? '' : homeContinueHtml(collections, views)}
     ${body}${intro || installHint()}${staleNote()}</main>`;

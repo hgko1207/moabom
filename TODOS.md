@@ -56,4 +56,18 @@
 **Priority:** P3
 **Depends on:** v1 태블릿·폰 안정화, 집 TV 실기기
 
+## Testing
+
+### 화면 회귀 자동 테스트 (jsdom)
+
+**What:** jsdom을 개발 의존성으로 넣고, 홈·설정·기록 화면을 그려 버튼을 누른 뒤 저장값과 이동을 확인하는 vitest 화면 테스트를 만든다.
+
+**Why:** 지금 테스트는 순수 함수만 본다. 화면 코드를 옮기면(1단계 설정·홈, 2단계 컬렉션·플레이어) 버튼 연결이 빠져도 `npm test`와 타입 검사가 잡지 못한다.
+
+**Context:** 2026-10-18 eng review D7에서 1단계는 헤드리스 브라우저 점검(분리 전후 `npm run build && npm run preview`, 목록은 docs/designs/moabom-launch-ready.md의 R5)을 골랐다. 그 목록을 그대로 자동 테스트의 기대값으로 옮기면 된다. YouTube IFrame과 localStorage는 테스트용 대체물이 필요하다(storage.test.ts의 mapKV 참고).
+
+**Effort:** M
+**Priority:** P3
+**Depends on:** 헤드리스 점검을 3번 돌렸거나, 화면 회귀가 배포까지 나갔을 때 시작
+
 ## Completed

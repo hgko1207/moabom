@@ -9,6 +9,8 @@ import {
   shiftDate,
   mostRecentCollection,
   heroPick,
+  canMoveCollection,
+  groupByCategory,
   moveCollection,
   orderCollectionIds,
   homeTitle,
@@ -307,6 +309,23 @@ describe('orderCollectionIds / moveCollection', () => {
     expect(orderCollectionIds(['a', 'b', 'c'], null)).toEqual(['a', 'b', 'c']);
     expect(orderCollectionIds(['a', 'b', 'c', 'new'], { limit, order: ['c', 'a', 'b'] })).toEqual(['c', 'a', 'b', 'new']);
     expect(orderCollectionIds(['a', 'c'], { limit, order: ['c', 'removed', 'a'] })).toEqual(['c', 'a']);
+  });
+  it('moves only inside the same category and stops at its edges', () => {
+    const cat = (id: string) => ({ a: 'x', b: 'y', c: 'x', d: 'y' })[id]!;
+    expect(moveCollection(['a', 'b', 'c', 'd'], 'c', -1, cat)).toEqual(['c', 'b', 'a', 'd']);
+    expect(moveCollection(['a', 'b', 'c', 'd'], 'b', 1, cat)).toEqual(['a', 'd', 'c', 'b']);
+    expect(moveCollection(['a', 'b', 'c', 'd'], 'a', -1, cat)).toEqual(['a', 'b', 'c', 'd']);
+    expect(moveCollection(['a', 'b', 'c', 'd'], 'c', 1, cat)).toEqual(['a', 'b', 'c', 'd']);
+    expect(canMoveCollection(['a', 'b', 'c', 'd'], 'c', 1, cat)).toBe(false);
+    expect(canMoveCollection(['a', 'b', 'c', 'd'], 'c', -1, cat)).toBe(true);
+  });
+  it('groups into category rows in categories order, leaving out empty ones', () => {
+    const cats = [{ id: 'x' }, { id: 'y' }, { id: 'z' }];
+    const cat = (id: string) => ({ a: 'z', b: 'x', c: 'z' })[id]!;
+    expect(groupByCategory(['a', 'b', 'c'], cat, cats)).toEqual([
+      { category: 'x', items: ['b'] },
+      { category: 'z', items: ['a', 'c'] },
+    ]);
   });
   it('moves one step and ignores moves past either end', () => {
     expect(moveCollection(['a', 'b', 'c'], 'c', -1)).toEqual(['a', 'c', 'b']);

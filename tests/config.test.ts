@@ -1,10 +1,12 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { validateCollection, validateProfiles } from '../src/config.ts';
+import { contrastRatio, validateCategories, validateCollection, validateNews, validateProfiles } from '../src/config.ts';
+import { ICON_NAMES } from '../src/icons.ts';
 
 const collection = () => ({
   id: 'numberblocks',
   displayName: '넘버블럭스',
+  category: 'numbers-letters',
   enabled: true,
   channels: ['UC_official'],
   coverVideoId: null,
@@ -147,14 +149,82 @@ describe('validateProfiles', () => {
     ]);
   });
 
-  it('keeps every checked-in collection config and profiles.json valid', () => {
-    const repoProfiles = JSON.parse(readFileSync('config/profiles.json', 'utf8'));
+  it('keeps every checked-in config valid (collections, profiles, categories, news)', () => {
+    const read = (path: string) => JSON.parse(readFileSync(path, 'utf8'));
+    const categories = validateCategories(read('config/categories.json'), ICON_NAMES);
+    expect(errorsOf(categories)).toEqual([]);
+    const categoryIds = new Set(categories.ok ? categories.value.map((c) => c.id) : []);
     const groups: Record<string, string[]> = {};
     for (const file of readdirSync('config/collections').filter((f) => f.endsWith('.json'))) {
-      const c = JSON.parse(readFileSync(`config/collections/${file}`, 'utf8'));
-      expect(errorsOf(validateCollection(c, file.replace(/\.json$/, '')))).toEqual([]);
+      const c = read(`config/collections/${file}`);
+      expect(errorsOf(validateCollection(c, file.replace(/\.json$/, ''), categoryIds))).toEqual([]);
       groups[c.id] = c.groups.map((g: { id: string }) => g.id);
     }
-    expect(errorsOf(validateProfiles(repoProfiles, groups))).toEqual([]);
+    expect(errorsOf(validateProfiles(read('config/profiles.json'), groups))).toEqual([]);
+    expect(errorsOf(validateNews(read('config/news.json')))).toEqual([]);
+  });
+});
+
+describe('collection category', () => {
+  it('is required and must name a category from categories.json', () => {
+    const { category: _, ...noCategory } = collection();
+    expect(errorsOf(validateCollection(noCategory))).toEqual([expect.stringContaining('category is required')]);
+    expect(errorsOf(validateCollection({ ...collection(), category: 'cartoons' }, undefined, new Set(['stories'])))).toEqual([
+      expect.stringContaining('category "cartoons" is not in config/categories.json'),
+    ]);
+  });
+});
+
+describe('validateCategories', () => {
+  const ok = { id: 'stories', label: '이야기', icon: 'book-open', color: '#C2410C' };
+
+  it('accepts icons from src/icons.ts and dark enough colours', () => {
+    expect(validateCategories({ categories: [ok] }, ICON_NAMES)).toEqual({ ok: true, value: [ok] });
+  });
+
+  it('reports unknown icons, bad colours, light colours and duplicate ids together', () => {
+    const res = validateCategories(
+      {
+        categories: [
+          ok,
+          { ...ok, icon: 'rocket' },
+          { ...ok, id: 'a', color: 'orange' },
+          { ...ok, id: 'b', color: '#FFD966' },
+        ],
+      },
+      ICON_NAMES,
+    );
+    expect(errorsOf(res)).toEqual([
+      expect.stringContaining('categories[1].id "stories" is duplicated'),
+      expect.stringContaining('categories[1].icon must be one of src/icons.ts'),
+      expect.stringContaining('categories[2].color must be #RRGGBB'),
+      expect.stringContaining('categories[3].color #FFD966 is too light'),
+    ]);
+  });
+
+  it('rejects an empty list', () => {
+    expect(errorsOf(validateCategories({ categories: [] }, ICON_NAMES))).toHaveLength(1);
+  });
+
+  it('measures contrast like WCAG', () => {
+    expect(contrastRatio('#000000', '#FFFFFF')).toBeCloseTo(21, 1);
+    expect(contrastRatio('#FFFFFF', '#FFFFFF')).toBe(1);
+  });
+});
+
+describe('validateNews', () => {
+  const item = { id: 'launch', date: '2026-10-19', title: '시작', body: '모아봄을 시작했어요' };
+
+  it('accepts an empty list', () => {
+    expect(validateNews({ items: [] })).toEqual({ ok: true, value: [] });
+  });
+
+  it('needs a unique id, a date, a title and a body', () => {
+    expect(errorsOf(validateNews({ items: [item, { ...item, date: '10/19', title: '', body: undefined }] }))).toEqual([
+      expect.stringContaining('items[1].id "launch" is duplicated'),
+      expect.stringContaining('items[1].date must be YYYY-MM-DD'),
+      expect.stringContaining('items[1].title is required'),
+      expect.stringContaining('items[1].body is required'),
+    ]);
   });
 });

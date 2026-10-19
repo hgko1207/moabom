@@ -1,0 +1,7 @@
+{
+  "categories": [
+    { "id": "numbers-letters", "label": "숫자·글자·색", "icon": "blocks", "color": "#2563EB" },
+    { "id": "stories", "label": "이야기", "icon": "book-open", "color": "#C2410C" },
+    { "id": "life", "label": "생활·동화", "icon": "sprout", "color": "#15803D" }
+  ]
+}

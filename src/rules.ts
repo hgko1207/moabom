@@ -199,14 +199,41 @@ export function orderCollectionIds(ids: string[], settings: DeviceSettings | nul
   return [...ids].sort((a, b) => rank(a) - rank(b));
 }
 
-/** The new full order after moving one collection a step up (-1) or down (+1). */
-export function moveCollection(ordered: string[], id: string, step: -1 | 1): string[] {
+/** Where a collection would go one step up (-1) or down (+1) inside its own category; -1 when it cannot move. */
+function moveTarget(ordered: string[], id: string, step: -1 | 1, categoryOf: (id: string) => string): number {
   const from = ordered.indexOf(id);
-  const to = from + step;
-  if (from < 0 || to < 0 || to >= ordered.length) return ordered;
+  if (from < 0) return -1;
+  for (let to = from + step; to >= 0 && to < ordered.length; to += step) {
+    if (categoryOf(ordered[to]!) === categoryOf(id)) return to;
+  }
+  return -1;
+}
+
+/**
+ * The new full order after moving one collection a step up (-1) or down (+1), swapping with its nearest
+ * neighbour in the same category (the home screen shows one row per category, design DR14).
+ */
+export function moveCollection(ordered: string[], id: string, step: -1 | 1, categoryOf: (id: string) => string = () => ''): string[] {
+  const from = ordered.indexOf(id);
+  const to = moveTarget(ordered, id, step, categoryOf);
+  if (to < 0) return ordered;
   const next = [...ordered];
   [next[from], next[to]] = [next[to]!, next[from]!];
   return next;
+}
+
+export function canMoveCollection(ordered: string[], id: string, step: -1 | 1, categoryOf: (id: string) => string = () => ''): boolean {
+  return moveTarget(ordered, id, step, categoryOf) >= 0;
+}
+
+/**
+ * Home rows (design P1-8): one per category in categories.json order, items in the given (parent) order,
+ * categories with nothing to show left out.
+ */
+export function groupByCategory<T>(items: T[], categoryOf: (item: T) => string, categories: readonly { id: string }[]): { category: string; items: T[] }[] {
+  return categories
+    .map((c) => ({ category: c.id, items: items.filter((i) => categoryOf(i) === c.id) }))
+    .filter((row) => row.items.length > 0);
 }
 
 export const TITLE_MAX = 12;

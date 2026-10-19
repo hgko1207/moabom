@@ -1,6 +1,7 @@
 {
   "id": "colourblocks",
   "displayName": "컬러블록스",
+  "category": "numbers-letters",
   "enabled": true,
   "channels": [
     "UCQkuKPaVlYK7QCIVTb0lV2Q"

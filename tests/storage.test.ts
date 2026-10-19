@@ -61,3 +61,33 @@ describe('createStore', () => {
     expect(store.progress('home', 'nb').watched).toEqual({});
   });
 });
+
+describe('device keys added for phase 1', () => {
+  it('keeps the gate lock, stats switch, read news and intro card per device', () => {
+    const kv = mapKV();
+    const store = createStore(kv);
+    expect(store.gateLock()).toBeNull();
+    expect(store.analytics()).toBeNull();
+    expect(store.newsRead()).toEqual([]);
+    expect(store.introDismissed()).toBe(false);
+    store.saveGateLock({ date: '2026-10-19', wrong: 3, locks: 1, until: 30_000 });
+    store.saveAnalytics('off');
+    store.saveNewsRead(['launch']);
+    store.dismissIntro();
+    const again = createStore(kv);
+    expect(again.gateLock()).toEqual({ date: '2026-10-19', wrong: 3, locks: 1, until: 30_000 });
+    expect(again.analytics()).toBe('off');
+    expect(again.newsRead()).toEqual(['launch']);
+    expect(again.introDismissed()).toBe(true);
+    expect(kv.data.get('moabom:v1:device:analytics')).toBe('"off"');
+  });
+
+  it('reads junk in the new keys as their defaults', () => {
+    const kv = mapKV();
+    kv.data.set('moabom:v1:device:analytics', '"maybe"');
+    kv.data.set('moabom:v1:device:newsRead', '{"a":1}');
+    const store = createStore(kv);
+    expect(store.analytics()).toBeNull();
+    expect(store.newsRead()).toEqual([]);
+  });
+});

@@ -1,6 +1,7 @@
 {
   "id": "numberblocks",
   "displayName": "넘버블록스",
+  "category": "numbers-letters",
   "enabled": true,
   "channels": [
     "UCR9zv3dquE6GURdKGJkVz-g"

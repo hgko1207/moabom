@@ -1,6 +1,7 @@
 {
   "id": "alphablocks",
   "displayName": "알파블록스",
+  "category": "numbers-letters",
   "enabled": true,
   "channels": [
     "UC_qs3c0ehDvZkbiEbOj6Drg"

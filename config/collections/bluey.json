@@ -1,6 +1,7 @@
 {
   "id": "bluey",
   "displayName": "블루이",
+  "category": "stories",
   "enabled": true,
   "channels": [
     "UCUwa4WCAEfUqy4HWMDkx6Mg"

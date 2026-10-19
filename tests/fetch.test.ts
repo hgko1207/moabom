@@ -15,6 +15,7 @@ import { ApiError, createClient, parseDuration, type VideoDetails, type YouTubeC
 const config = (over: Partial<CollectionConfig> = {}): CollectionConfig => ({
   id: 'numberblocks',
   displayName: '넘버블럭스',
+  category: 'numbers-letters',
   enabled: true,
   channels: ['UC_official'],
   coverVideoId: null,

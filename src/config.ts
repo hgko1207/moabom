@@ -38,6 +38,8 @@ export function groupKind(g: Pick<CollectionGroup, 'kind'>): 'series' | 'free' {
 export interface CollectionConfig {
   id: string;
   displayName: string;
+  /** id from config/categories.json; the home screen groups collections by it */
+  category: string;
   enabled: boolean;
   channels: string[];
   coverVideoId: string | null;
@@ -116,7 +118,8 @@ function isLimit(v: unknown): v is number | null {
   return v === null || (typeof v === 'number' && Number.isInteger(v) && v >= 0);
 }
 
-export function validateCollection(raw: unknown, fileId?: string): Validated<CollectionConfig> {
+/** `categoryIds`, when given, are the ids in config/categories.json. */
+export function validateCollection(raw: unknown, fileId?: string, categoryIds?: ReadonlySet<string>): Validated<CollectionConfig> {
   const errors: string[] = [];
   if (!isObj(raw)) return { ok: false, errors: ['collection config must be a JSON object'] };
 
@@ -124,6 +127,8 @@ export function validateCollection(raw: unknown, fileId?: string): Validated<Col
   if (!isStr(id) || !ID_RE.test(id)) errors.push('id must match ^[a-z0-9-]+$');
   else if (fileId !== undefined && id !== fileId) errors.push(`id "${id}" does not match file name "${fileId}"`);
   if (!isStr(raw.displayName)) errors.push('displayName is required');
+  if (!isStr(raw.category)) errors.push('category is required (an id from config/categories.json)');
+  else if (categoryIds && !categoryIds.has(raw.category)) errors.push(`category "${raw.category}" is not in config/categories.json`);
   if (typeof raw.enabled !== 'boolean') errors.push('enabled must be true or false');
   if (!isStrArray(raw.channels) || raw.channels.length === 0 || raw.channels.some((c) => !isStr(c))) {
     errors.push('channels must list at least one confirmed official channel ID (run find-channel first)');
@@ -228,4 +233,90 @@ export function validateProfiles(
   });
 
   return errors.length ? { ok: false, errors } : { ok: true, value: raw as unknown as ProfilesConfig };
+}
+
+// ---------- categories (home rows) and news (settings card) ----------
+
+export interface Category {
+  id: string;
+  label: string;
+  /** a name from src/icons.ts */
+  icon: string;
+  /** #RRGGBB, used only for the icon's stroke */
+  color: string;
+}
+
+export interface NewsItem {
+  id: string;
+  /** YYYY-MM-DD */
+  date: string;
+  title: string;
+  body: string;
+}
+
+/** The page background (--bg) the category icons are drawn on. */
+export const CATEGORY_BG = '#F4F6FA';
+/** Non-text contrast for an icon stroke (WCAG 1.4.11). */
+export const ICON_CONTRAST = 3;
+
+function luminance(hex: string): number {
+  const [r, g, b] = [1, 3, 5].map((i) => {
+    const c = parseInt(hex.slice(i, i + 2), 16) / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r! + 0.7152 * g! + 0.0722 * b!;
+}
+
+/** WCAG contrast ratio of two #RRGGBB colours. */
+export function contrastRatio(a: string, b: string): number {
+  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  return (hi! + 0.05) / (lo! + 0.05);
+}
+
+/** `iconNames` is the allowlist from src/icons.ts. */
+export function validateCategories(raw: unknown, iconNames: readonly string[]): Validated<Category[]> {
+  const errors: string[] = [];
+  if (!isObj(raw) || !Array.isArray(raw.categories) || raw.categories.length === 0) {
+    return { ok: false, errors: ['categories must be a JSON object with a non-empty "categories" list'] };
+  }
+  const seen = new Set<string>();
+  raw.categories.forEach((c, i) => {
+    const at = `categories[${i}]`;
+    if (!isObj(c)) {
+      errors.push(`${at} must be an object`);
+      return;
+    }
+    if (!isStr(c.id) || !ID_RE.test(c.id)) errors.push(`${at}.id must match ^[a-z0-9-]+$`);
+    else if (seen.has(c.id)) errors.push(`${at}.id "${c.id}" is duplicated`);
+    else seen.add(c.id);
+    if (!isStr(c.label)) errors.push(`${at}.label is required`);
+    if (typeof c.icon !== 'string' || !iconNames.includes(c.icon)) errors.push(`${at}.icon must be one of src/icons.ts: ${iconNames.join(', ')}`);
+    if (typeof c.color !== 'string' || !COLOR_RE.test(c.color)) errors.push(`${at}.color must be #RRGGBB`);
+    else if (contrastRatio(c.color, CATEGORY_BG) < ICON_CONTRAST) {
+      errors.push(`${at}.color ${c.color} is too light on the page background (needs ${ICON_CONTRAST}:1)`);
+    }
+  });
+  return errors.length ? { ok: false, errors } : { ok: true, value: raw.categories as Category[] };
+}
+
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+export function validateNews(raw: unknown): Validated<NewsItem[]> {
+  const errors: string[] = [];
+  if (!isObj(raw) || !Array.isArray(raw.items)) return { ok: false, errors: ['news must be a JSON object with an "items" list'] };
+  const seen = new Set<string>();
+  raw.items.forEach((n, i) => {
+    const at = `items[${i}]`;
+    if (!isObj(n)) {
+      errors.push(`${at} must be an object`);
+      return;
+    }
+    if (!isStr(n.id) || !ID_RE.test(n.id)) errors.push(`${at}.id must match ^[a-z0-9-]+$`);
+    else if (seen.has(n.id)) errors.push(`${at}.id "${n.id}" is duplicated`);
+    else seen.add(n.id);
+    if (typeof n.date !== 'string' || !DATE_RE.test(n.date)) errors.push(`${at}.date must be YYYY-MM-DD`);
+    if (!isStr(n.title)) errors.push(`${at}.title is required`);
+    if (!isStr(n.body)) errors.push(`${at}.body is required`);
+  });
+  return errors.length ? { ok: false, errors } : { ok: true, value: raw.items as NewsItem[] };
 }

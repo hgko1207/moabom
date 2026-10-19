@@ -1,6 +1,8 @@
 // localStorage wrapper. Every access is guarded: private browsing, blocked storage or a full quota
 // must never break the screen, so failures fall back to an in-memory map for the session.
 
+import type { LockState } from './gate.ts';
+
 export interface KV {
   getItem(key: string): string | null;
   setItem(key: string, value: string): void;
@@ -179,6 +181,35 @@ export function createStore(kv: KV) {
     },
     dismissInstallHint(): void {
       write('device:installHint', false);
+    },
+    /** The parent gate's failure lock (gate.ts); not part of settings links. */
+    gateLock(): LockState | null {
+      return read<LockState>('device:gateLock');
+    },
+    saveGateLock(value: LockState): void {
+      write('device:gateLock', value);
+    },
+    /** 'off' when a parent turned off anonymous stats on this device; missing means on. */
+    analytics(): 'off' | null {
+      return read<string>('device:analytics') === 'off' ? 'off' : null;
+    },
+    saveAnalytics(value: 'off' | null): void {
+      write('device:analytics', value);
+    },
+    /** ids of news items closed on this device */
+    newsRead(): string[] {
+      const ids = read<unknown>('device:newsRead');
+      return Array.isArray(ids) ? ids.filter((x): x is string => typeof x === 'string') : [];
+    },
+    saveNewsRead(ids: string[]): void {
+      write('device:newsRead', ids);
+    },
+    /** The first-visit intro card on the home screen. */
+    introDismissed(): boolean {
+      return read<boolean>('device:intro') === false;
+    },
+    dismissIntro(): void {
+      write('device:intro', false);
     },
   };
 }

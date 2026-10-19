@@ -1,6 +1,7 @@
 {
   "id": "octonauts",
   "displayName": "옥토넛",
+  "category": "stories",
   "enabled": true,
   "channels": [
     "UCKEGG4zVP3CGS_YSQOf654w"

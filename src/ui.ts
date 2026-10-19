@@ -7,6 +7,7 @@ import { canPromptInstall, currentPlatform, promptInstall } from './install.ts';
 import {
   effectiveLimits,
   heroPick,
+  homeTitle,
   isStale,
   limitReached,
   localDate,
@@ -17,11 +18,41 @@ import {
   visibleCollectionIds,
   type Limits,
 } from './rules.ts';
+import { createAnalytics, type SessionKV } from './analytics.ts';
 import { browserKV, createStore, type CollectionProgress, type DeviceSettings, type TodayState } from './storage.ts';
 
 export const app = document.getElementById('app')!;
 export const appData = loadAppData();
 export const store = createStore(browserKV());
+
+/** Set by the inline script in index.html before this module runs. */
+declare global {
+  interface Window {
+    /** this page is being handed to a real browser (Android, iOS KakaoTalk) */
+    __moabomEscaping?: boolean;
+    /** the in-app browser's name when the page runs inside one (kakao, insta, naver, …) */
+    __moabomInApp?: string;
+  }
+}
+
+export const escaping = window.__moabomEscaping === true;
+
+function sessionKV(): SessionKV {
+  try {
+    return window.sessionStorage;
+  } catch {
+    const m = new Map<string, string>();
+    return { getItem: (k) => m.get(k) ?? null, setItem: (k, v) => void m.set(k, v) };
+  }
+}
+
+export const analytics = createAnalytics({
+  muted: () => escaping || store.analytics() === 'off',
+  session: sessionKV(),
+  send: (url) => {
+    new Image().src = url;
+  },
+});
 
 // ---------- routing: #/p/{profile}/c/{collection}[/v/{video} | /today][?g={group}] ----------
 
@@ -33,6 +64,7 @@ export interface Route {
   settings?: boolean;
   install?: boolean;
   history?: boolean;
+  about?: boolean;
   group?: string;
 }
 
@@ -42,7 +74,7 @@ export function parseHash(): Route {
   const route: Route = {};
   for (let i = 0; i < parts.length; i++) {
     const key = parts[i];
-    if (key === 'today' || key === 'settings' || key === 'install' || key === 'history') {
+    if (key === 'today' || key === 'settings' || key === 'install' || key === 'history' || key === 'about') {
       route[key] = true;
       continue;
     }
@@ -63,6 +95,7 @@ export function href(r: Route): string {
   if (r.profile && r.settings) return `${h}/settings`;
   if (r.profile && r.install) return `${h}/install`;
   if (r.profile && r.history) return `${h}/history`;
+  if (r.profile && r.about) return `${h}/about`;
   if (r.profile && r.collection) {
     h += `/c/${encodeURIComponent(r.collection)}`;
     if (r.video) h += `/v/${encodeURIComponent(r.video)}`;
@@ -103,6 +136,22 @@ export function replace(r: Route): void {
 export function backTo(parent: Route): void {
   if (depth() > 0) history.back();
   else replace(parent);
+}
+
+// ---------- per-screen cleanup ----------
+
+let teardown: (() => void)[] = [];
+
+/** Something a screen started outside its own DOM (a timer, a document listener); undone before the next screen. */
+export function onLeave(fn: () => void): void {
+  teardown.push(fn);
+}
+
+/** render() runs this first, so a countdown or key listener never acts on the next screen. */
+export function leaveScreen(): void {
+  const fns = teardown;
+  teardown = [];
+  for (const fn of fns) fn();
 }
 
 // ---------- the ◀ button ----------
@@ -217,7 +266,7 @@ function describeSettings(s: DeviceSettings): string {
   return [
     `하루 제한: ${limit}`,
     `보여 줄 캐릭터: ${shown.join(', ')}`,
-    `홈 화면 이름: ${s.title?.trim() || profile?.name || ''}`,
+    `홈 화면 이름: ${profile ? homeTitle(profile.name, s) : ''}`,
     `맨 위 이어 보기 칸: ${s.homeContinue === false ? '꺼짐' : '켜짐'}`,
   ].join('\n');
 }
@@ -237,15 +286,26 @@ export function gearButton(): string {
   return `<button class="gear" data-action="gear" aria-label="설정 (2초 동안 누르기)">${icon('settings', 28)}<span class="hold" aria-hidden="true"></span></button>`;
 }
 
-/** Opens settings only after a 2 s press (pointer or Enter/Space), so a child's tap does nothing. */
+/**
+ * Opens settings only after a 2 s press (pointer or Enter/Space), so a child's tap does nothing. A shorter
+ * press shows "2초 동안 누르세요" under the gear for 2 s (design DR17).
+ */
 export function bindGear(profileId: string): void {
   const gear = app.querySelector<HTMLButtonElement>('[data-action="gear"]');
   if (!gear) return;
   let timer = 0;
+  let hintTimer = 0;
+  let pressed = false;
+  onLeave(() => {
+    window.clearTimeout(timer);
+    window.clearTimeout(hintTimer);
+  });
   const start = () => {
     window.clearTimeout(timer);
+    pressed = true;
     gear.classList.add('holding');
     timer = window.setTimeout(() => {
+      pressed = false;
       gear.classList.remove('holding');
       go({ profile: profileId, settings: true });
     }, HOLD_MS);
@@ -253,6 +313,12 @@ export function bindGear(profileId: string): void {
   const cancel = () => {
     window.clearTimeout(timer);
     gear.classList.remove('holding');
+    if (!pressed) return;
+    pressed = false;
+    gear.parentElement?.querySelector('.gear-hint')?.remove();
+    gear.insertAdjacentHTML('afterend', '<p class="gear-hint" role="status">2초 동안 누르세요</p>');
+    window.clearTimeout(hintTimer);
+    hintTimer = window.setTimeout(() => gear.parentElement?.querySelector('.gear-hint')?.remove(), HOLD_MS);
   };
   gear.addEventListener('pointerdown', start);
   for (const ev of ['pointerup', 'pointerleave', 'pointercancel', 'blur']) gear.addEventListener(ev, cancel);

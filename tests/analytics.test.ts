@@ -48,6 +48,14 @@ describe('createAnalytics', () => {
     expect(names()).toEqual(['visit.insta', 'first_play.insta.numberblocks', 'play_start.numberblocks', 'play_start.bluey']);
   });
 
+  it('counts a visit from an in-app browser that stays open apart, as webview', () => {
+    const { a, names } = setup();
+    a.rememberRef('insta');
+    a.visit(true);
+    a.visit();
+    expect(names()).toEqual(['visit.insta.webview']);
+  });
+
   it('counts the limit once per session and mode', () => {
     const { a, names } = setup();
     a.limitReached('minutes');

@@ -238,9 +238,9 @@ export function groupByCategory<T>(items: T[], categoryOf: (item: T) => string, 
 
 export const TITLE_MAX = 12;
 
-/** Home screen title: the parent's title on this device, else the profile name. */
+/** Home screen title (design P1-9): the parent's title on this device as written, else "{profile name} 모아봄". */
 export function homeTitle(profileName: string, settings: DeviceSettings | null): string {
-  return settings?.title?.trim().slice(0, TITLE_MAX) || profileName;
+  return settings?.title?.trim().slice(0, TITLE_MAX) || `${profileName} 모아봄`;
 }
 
 /** L3: no new episode may start. Both limits null means unlimited. */

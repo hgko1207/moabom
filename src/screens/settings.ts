@@ -1,12 +1,25 @@
-// Parent screens: settings, viewing history and the home-screen install guide.
-import type { Profile } from '../config.ts';
+// Parent screens: settings, about (이용 안내), viewing history and the home-screen install guide.
+import type { NewsItem, Profile } from '../config.ts';
 import type { Collection } from '../data.ts';
 import { icon } from '../icons.ts';
 import { settingsFromText, settingsLink } from '../share.ts';
 import { canPromptInstall, currentPlatform, promptInstall, STEPS } from '../install.ts';
-import { HISTORY_DAYS, homeTitle, localDate, moveCollection, recentDays, shiftDate, TITLE_MAX, viewingOrder, withToday } from '../rules.ts';
+import {
+  canMoveCollection,
+  groupByCategory,
+  HISTORY_DAYS,
+  homeTitle,
+  localDate,
+  moveCollection,
+  recentDays,
+  shiftDate,
+  TITLE_MAX,
+  viewingOrder,
+  withToday,
+} from '../rules.ts';
 import type { DeviceSettings, LimitMode } from '../storage.ts';
 import {
+  analytics,
   app,
   appData,
   applyIncomingSettings,
@@ -54,9 +67,24 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
         : `본 시간 <b>${watchedMin}분</b> · 시작한 영상 ${today.started.length}편`;
   const option = (m: LimitMode, label: string) =>
     `<button class="choice" role="radio" aria-checked="${m === mode}" data-mode="${m}">${label}</button>`;
+  const ids = available.map((c) => c.config.id);
+  const categoryOf = (id: string) => appData.collections.get(id)?.config.category ?? '';
+  const categoryLabel = new Map(appData.categories.map((c) => [c.id, c.label]));
+  const news = unreadNews();
+  const statsOn = store.analytics() !== 'off';
 
   setBack(() => backTo(home));
   app.innerHTML = `<main class="screen settings"><div class="bar">${backButton()}<h1>설정</h1></div>
+    ${
+      news
+        ? `<section class="panel news" aria-labelledby="news-title">
+      <p class="news-date">${esc(news.date)}</p>
+      <h2 id="news-title">${esc(news.title)}</h2>
+      <p>${esc(news.body)}</p>
+      <button class="close" data-action="news-close" data-news="${esc(news.id)}" aria-label="소식 닫기">${icon('close', 24)}</button>
+    </section>`
+        : ''
+    }
     <section class="panel" aria-labelledby="limit-title">
       <h2 id="limit-title">하루 시청 제한</h2>
       <div class="choices" role="radiogroup" aria-labelledby="limit-title">
@@ -83,21 +111,29 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
     </section>
     <section class="panel" aria-labelledby="shown-title">
       <h2 id="shown-title">보여 줄 캐릭터</h2>
-      <div class="shown-list">${available
-        .map((c, i) => {
+      ${groupByCategory(available, (c) => c.config.category, appData.categories)
+        .map(
+          (row) => `<h3 class="shown-group">${esc(categoryLabel.get(row.category) ?? row.category)}</h3>
+      <div class="shown-list">${row.items
+        .map((c) => {
           const on = !hidden.has(c.config.id);
           const cover = c.config.coverVideoId ?? c.data.groups[0]?.videos[0]?.id ?? '';
           // The last visible one cannot be turned off: the home screen must never be empty.
           const locked = on && shownCount === 1;
           const id = esc(c.config.id);
           const name = esc(c.config.displayName);
+          // Arrows move inside the category only, like the home rows (DR14).
+          const up = canMoveCollection(ids, c.config.id, -1, categoryOf);
+          const down = canMoveCollection(ids, c.config.id, 1, categoryOf);
           return `<div class="shown-row"><button class="shown" role="switch" aria-checked="${on}" data-shown="${id}"${locked ? ' aria-disabled="true"' : ''}>
             <img src="${thumbUrl(cover)}" alt="" width="96" height="72" loading="lazy">
             <span class="name">${name}</span><span class="state">${on ? '보여요' : '숨김'}</span></button>
-            <button class="move" data-move="-1" data-id="${id}" aria-label="${name} 위로"${i === 0 ? ' disabled' : ''}>${icon('up', 28)}</button>
-            <button class="move" data-move="1" data-id="${id}" aria-label="${name} 아래로"${i === available.length - 1 ? ' disabled' : ''}>${icon('down', 28)}</button></div>`;
+            <button class="move" data-move="-1" data-id="${id}" aria-label="${name} 위로"${up ? '' : ' disabled'}>${icon('up', 28)}</button>
+            <button class="move" data-move="1" data-id="${id}" aria-label="${name} 아래로"${down ? '' : ' disabled'}>${icon('down', 28)}</button></div>`;
         })
-        .join('')}</div>
+        .join('')}</div>`,
+        )
+        .join('')}
       <p class="hint">누르면 보이기·숨기기, 화살표로 홈 화면 순서를 바꿔요. 끈 캐릭터는 아이 화면에서 사라지고, 본 기록은 그대로 남아요.</p>
     </section>
     <section class="panel" aria-labelledby="home-title-h">
@@ -107,9 +143,10 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
       <p class="hint">가장 최근에 본 캐릭터에서 보던 영상(다 봤으면 다음 편)을 한 번에 이어 봐요.</p>
       <h3 id="name-title">이름</h3>
       <form class="title-form" data-action="title">
-        <input id="home-title" name="title" maxlength="${TITLE_MAX}" value="${esc(homeTitle(profile.name, current))}" aria-labelledby="name-title" autocomplete="off">
+        <input id="home-title" name="title" maxlength="${TITLE_MAX}" value="${esc(homeTitle(profile.name, current))}" placeholder="예: 하늘이네 모아봄" aria-labelledby="name-title" aria-describedby="title-hint" autocomplete="off">
         <button class="secondary" type="submit">저장</button>
       </form>
+      <p class="hint" id="title-hint">끝에 모아봄을 붙이면 좋아요</p>
       <p class="hint" id="title-msg" role="status"></p>
     </section>
     <section class="panel" aria-labelledby="sync-title">
@@ -132,6 +169,19 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
           ? `<p class="installed">${icon('check', 24)}앱으로 열려 있어요</p>`
           : '<button class="secondary" data-action="install-guide">설치 방법 보기</button>'
       }
+    </section>
+    <section class="panel" aria-labelledby="moabom-title">
+      <h2 id="moabom-title">모아봄</h2>
+      ${
+        REQUEST_FORM_URL
+          ? `<a class="link-row" href="${esc(REQUEST_FORM_URL)}" target="_blank" rel="noopener" data-action="request">
+        <span>캐릭터·영상 추천하기</span>${icon('external-link', 24)}</a>`
+          : ''
+      }
+      <button class="link-row" data-action="about"><span>이용 안내·개인정보</span>${icon('chevron-right', 24)}</button>
+      <button class="shown switch" role="switch" aria-checked="${statsOn}" data-action="stats" aria-describedby="stats-hint">
+        <span class="name">익명 통계 보내기</span><span class="state">${statsOn ? '켜짐' : '꺼짐'}</span></button>
+      <p class="hint" id="stats-hint">아이 이름·기록은 보내지 않아요 · <button class="text-link" data-action="about">자세히</button></p>
     </section>
     <p class="hint">설정은 기기마다 따로 저장돼요. 다른 기기에도 같게 하려면 "이 설정 보내기"를 쓰세요.</p>
   </main>`;
@@ -183,7 +233,7 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
     b.addEventListener('click', () => {
       const id = b.dataset.id!;
       const step = Number(b.dataset.move) as -1 | 1;
-      store.saveSettings({ ...latest(), order: moveCollection(available.map((c) => c.config.id), id, step) });
+      store.saveSettings({ ...latest(), order: moveCollection(ids, id, step, categoryOf) });
       render();
       // Keep focus on the moved item's arrow; fall back to the other arrow at the ends.
       const same = app.querySelector<HTMLButtonElement>(`[data-move="${step}"][data-id="${CSS.escape(id)}"]`);
@@ -228,8 +278,8 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
   const titleInput = app.querySelector<HTMLInputElement>('#home-title')!;
   const saveTitle = () => {
     const title = titleInput.value.trim().slice(0, TITLE_MAX);
-    store.saveSettings({ ...latest(), title: title === profile.name ? undefined : title || undefined });
-    titleInput.value = title || profile.name;
+    store.saveSettings({ ...latest(), title: title === homeTitle(profile.name, null) ? undefined : title || undefined });
+    titleInput.value = title || homeTitle(profile.name, null);
     app.querySelector('#title-msg')!.textContent = `"${titleInput.value}"(으)로 저장했어요.`;
   };
   titleInput.addEventListener('change', saveTitle);
@@ -238,6 +288,23 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
     saveTitle();
     titleInput.blur();
   });
+  app.querySelector<HTMLButtonElement>('[data-action="news-close"]')?.addEventListener('click', (e) => {
+    store.saveNewsRead([...store.newsRead(), (e.currentTarget as HTMLButtonElement).dataset.news!]);
+    app.querySelector('.panel.news')?.remove();
+  });
+  app.querySelectorAll('[data-action="about"]').forEach((b) => b.addEventListener('click', () => go({ profile: profile.id, about: true })));
+  app.querySelector('[data-action="request"]')?.addEventListener('click', () => analytics.requestClick());
+  app.querySelector('[data-action="stats"]')?.addEventListener('click', () => {
+    store.saveAnalytics(store.analytics() === 'off' ? null : 'off');
+    render();
+    app.querySelector<HTMLElement>('[data-action="stats"]')?.focus();
+  });
+}
+
+/** The newest news item this device has not closed yet (design DR11). */
+function unreadNews(): NewsItem | undefined {
+  const read = new Set(store.newsRead());
+  return appData.news.find((n) => !read.has(n.id));
 }
 
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
@@ -257,6 +324,56 @@ function playedTime(sec: number): string {
 }
 
 /** H3: the last 7 days on this device — minutes per day, then what was watched each day. */
+// ---------- 이용 안내·개인정보 (design P1-5, DR5; public/privacy.html carries the same text) ----------
+
+/** The Google Form for character and video requests; the row stays hidden until it is set. */
+const REQUEST_FORM_URL = '';
+const ABOUT_EDITED = '2026-10-19';
+const EVENTS = ['visit', 'first_play', 'play_start', 'limit_reached', 'video_error', 'collection_open', 'request_click', 'inapp_escape'];
+
+function linkRow(url: string, label: string): string {
+  return `<a class="link-row" href="${esc(url)}" target="_blank" rel="noopener"><span>${esc(label)}</span>${icon('external-link', 24)}</a>`;
+}
+
+export function renderAbout(profile: Profile): void {
+  const read = new Set(store.newsRead());
+  const past = appData.news.filter((n) => read.has(n.id));
+  setBack(() => backTo({ profile: profile.id, settings: true }));
+  app.innerHTML = `<main class="screen settings about"><div class="bar">${backButton()}<h1>이용 안내</h1></div>
+    <section class="panel" aria-labelledby="about-stored">
+      <h2 id="about-stored">저장되는 것</h2>
+      <p>시청 기록, 진도, 설정은 이 기기의 브라우저에만 저장되고 어디로도 보내지 않아요. 다른 기기로 옮기려면 설정의 "이 설정 보내기"를 직접 눌러야 해요.</p>
+    </section>
+    <section class="panel" aria-labelledby="about-youtube">
+      <h2 id="about-youtube">YouTube</h2>
+      <p>영상은 YouTube가 재생해요(youtube.com 플레이어). 이 기기에서 YouTube에 로그인해 있으면 YouTube가 시청 정보를 받을 수 있어요.</p>
+      ${linkRow('https://www.youtube.com/t/terms', 'YouTube 이용약관')}
+      ${linkRow('https://policies.google.com/privacy', 'Google 개인정보처리방침')}
+    </section>
+    <section class="panel" aria-labelledby="about-stats">
+      <h2 id="about-stats">익명 통계</h2>
+      <p>어떤 홍보 글에서 왔는지, 영상을 몇 번 틀었는지 같은 숫자만 GoatCounter로 보내요. 쿠키는 쓰지 않고, 아이 이름·설정·기록은 보내지 않아요. 설정의 "익명 통계 보내기"를 끄면 이 기기는 아무것도 보내지 않아요.</p>
+      <p>보내는 것: 이벤트 이름(${EVENTS.join(', ')})과, 그 안에 붙는 홍보 경로(insta 같은 짧은 이름)·캐릭터 이름·영상 번호·오류 번호.</p>
+      ${linkRow('https://www.goatcounter.com/help/privacy', 'GoatCounter 개인정보 정책 (IP 처리)')}
+    </section>
+    <section class="panel" aria-labelledby="about-maker">
+      <h2 id="about-maker">만든 사람</h2>
+      <p>각 채널(제작사)의 공식 서비스가 아닌, 아이 둘을 키우는 부모가 만든 무료 도구예요.</p>
+      ${linkRow('/privacy.html', '이 안내를 따로 보기')}
+    </section>
+    ${
+      past.length
+        ? `<section class="panel" aria-labelledby="about-news">
+      <h2 id="about-news">지난 소식</h2>
+      <ul class="past-news">${past.map((n) => `<li><span class="news-date">${esc(n.date)}</span> <b>${esc(n.title)}</b><p>${esc(n.body)}</p></li>`).join('')}</ul>
+    </section>`
+        : ''
+    }
+    <p class="hint">고친 날짜: ${ABOUT_EDITED}</p>
+  </main>`;
+  bindBack();
+}
+
 export function renderHistory(profile: Profile): void {
   const today = localDate(new Date());
   const merged = withToday(store.history(profile.id), store.today(profile.id, today), collectionOfVideo);

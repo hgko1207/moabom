@@ -295,10 +295,10 @@ describe('visibleCollectionIds', () => {
 
 describe('homeTitle', () => {
   const limit = { mode: 'none' as const, value: 0 };
-  it('uses the parent title on this device, else the profile name', () => {
-    expect(homeTitle('우리집', null)).toBe('우리집');
+  it('uses the parent title on this device as written, else "{profile name} 모아봄"', () => {
+    expect(homeTitle('우리집', null)).toBe('우리집 모아봄');
     expect(homeTitle('우리집', { limit, title: '  지우네 극장 ' })).toBe('지우네 극장');
-    expect(homeTitle('우리집', { limit, title: '   ' })).toBe('우리집');
+    expect(homeTitle('우리집', { limit, title: '   ' })).toBe('우리집 모아봄');
     expect(homeTitle('우리집', { limit, title: '가'.repeat(20) })).toHaveLength(12);
   });
 });

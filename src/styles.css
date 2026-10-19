@@ -1024,7 +1024,7 @@ body.night {
 
 .shown .state {
   padding: 4px 12px;
-  border-radius: 999px;
+  border-radius: var(--radius);
   background: var(--accent);
   color: #fff;
   font-size: 15px;
@@ -1172,7 +1172,7 @@ body.night {
   gap: 6px;
   margin-bottom: var(--s1);
   padding: 4px 12px;
-  border-radius: 999px;
+  border-radius: var(--radius);
   background: var(--accent);
   color: #fff;
   font-size: 16px;
@@ -1340,4 +1340,241 @@ details.paste[open] summary::before {
 
 details.paste summary::-webkit-details-marker {
   display: none;
+}
+
+/* Parent gate (design DR1, DR6–DR8, DR25, DR26) */
+.gate-body {
+  display: grid;
+  justify-items: center;
+  gap: var(--s3);
+}
+
+.gate-ask {
+  display: grid;
+  justify-items: center;
+  gap: var(--s2);
+}
+
+.gate .problem {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  word-break: keep-all;
+  text-align: center;
+}
+
+.cells {
+  display: flex;
+  gap: var(--s1);
+}
+
+.cell {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 3px solid var(--line);
+  font-size: 32px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.cell.current {
+  border-color: var(--accent);
+}
+
+.gate-msg {
+  margin: 0;
+  min-height: 1.5em;
+  font-size: 18px;
+  color: var(--ink-2);
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 80px);
+  gap: var(--s1);
+}
+
+.key {
+  width: 80px;
+  height: 80px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius);
+  border: 3px solid var(--line);
+  background: var(--surface);
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.gate-locked {
+  display: grid;
+  justify-items: center;
+  gap: var(--s1);
+  margin-top: var(--s4);
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.gate-locked p {
+  margin: 0;
+  word-break: keep-all;
+}
+
+.gate-locked .wait {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Phone landscape: problem on the left, keypad on the right (DR26) */
+@media (max-height: 559px) and (orientation: landscape) {
+  .gate-body {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+
+  .keypad {
+    grid-template-columns: repeat(3, 64px);
+  }
+
+  .key {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+/* Gear: a short press says how to open settings (DR17) */
+.bar {
+  position: relative;
+}
+
+.gear-hint {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin: 0;
+  padding: 4px var(--s1);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink-2);
+  font-size: 16px;
+  z-index: 1;
+}
+
+/* Home category rows (DR3, DR15, DR20) */
+.category + .category {
+  margin-top: var(--s4);
+}
+
+.category h2 {
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
+  margin: 0 0 var(--s2);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.category-icon {
+  display: inline-flex;
+}
+
+/* Settings: grouped characters (DR14), news card (DR11), the 모아봄 panel (DR4) */
+.settings h3.shown-group {
+  margin: var(--s2) 0 var(--s1);
+}
+
+.settings h3.shown-group:first-of-type {
+  margin-top: 0;
+}
+
+.panel.news {
+  position: relative;
+  padding-right: calc(var(--target) + var(--s2));
+}
+
+.panel.news h2 {
+  font-size: 18px;
+  margin: 0 0 var(--s1);
+}
+
+.panel.news p {
+  margin: 0;
+  word-break: keep-all;
+}
+
+.news-date {
+  color: var(--ink-2);
+  font-size: 16px;
+}
+
+.panel.news .news-date {
+  margin-bottom: 4px;
+}
+
+.panel.news .close {
+  position: absolute;
+  top: var(--s1);
+  right: var(--s1);
+  width: var(--target);
+  height: var(--target);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--ink-2);
+}
+
+.link-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s2);
+  width: 100%;
+  min-height: var(--target);
+  padding: 0 var(--s1);
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: left;
+}
+
+.link-row .icon {
+  flex: none;
+  color: var(--ink-2);
+}
+
+.panel .link-row + .shown.switch {
+  margin-top: var(--s2);
+}
+
+.text-link {
+  min-height: 0;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+}
+
+/* About (DR5) */
+.about .panel p {
+  font-size: 18px;
+  line-height: 1.55;
+  word-break: keep-all;
+}
+
+.past-news {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.past-news li + li {
+  margin-top: var(--s2);
 }

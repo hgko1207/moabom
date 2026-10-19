@@ -101,9 +101,12 @@ export function createAnalytics(deps: AnalyticsDeps) {
       if (raw !== null && safe(() => deps.session.getItem(SESSION_REF), null) === null) safe(() => deps.session.setItem(SESSION_REF, raw), undefined);
     },
     ref,
-    /** Once per session: the app was opened. */
-    visit(): void {
-      if (!deps.muted() && once('visit')) count(eventName('visit', ref()));
+    /**
+     * Once per session: the app was opened. `webview` marks an in-app browser that stays open (iOS apps other
+     * than KakaoTalk cannot hand the page to Safari), counted apart as visit.<ref>.webview (R8).
+     */
+    visit(webview = false): void {
+      if (!deps.muted() && once('visit')) count(webview ? eventName('visit', ref(), 'webview') : eventName('visit', ref()));
     },
     /** Every video start; the first of the session also counts first_play with the ref. */
     playStart(collectionId: string): void {

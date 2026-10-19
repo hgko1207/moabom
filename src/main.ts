@@ -3,6 +3,8 @@ import './styles.css';
 import type { Profile, VideoRecord } from './config.ts';
 import type { Collection } from './data.ts';
 import { icon } from './icons.ts';
+import { bootActions, withoutParams } from './analytics.ts';
+import { lockRemaining, parentRouteDecision, UNLOCK_MS } from './gate.ts';
 import { SETTINGS_PARAM, settingsFromText } from './share.ts';
 import { onInstallChange } from './install.ts';
 import { createPlayer, type PlayerHandle } from './player.ts';
@@ -35,8 +37,10 @@ import {
   type UpNext,
 } from './rules.ts';
 import { renderCollections, renderProfiles } from './screens/home.ts';
-import { renderHistory, renderInstall, renderSettings } from './screens/settings.ts';
+import { renderGate } from './screens/gate.ts';
+import { renderAbout, renderHistory, renderInstall, renderSettings } from './screens/settings.ts';
 import {
+  analytics,
   app,
   appData,
   applyIncomingSettings,
@@ -49,10 +53,12 @@ import {
   collectionView,
   duration,
   esc,
+  escaping,
   gearButton,
   go,
   href,
   installHint,
+  leaveScreen,
   limitsFor,
   offlineNotice,
   parseHash,
@@ -97,25 +103,26 @@ onInstallChange(() => {
   if (!activePlayer) render();
 });
 
-// A device opened once with ?profile=<id> stays on that profile (SPEC L5).
+// Startup: read what the address carries, then drop it so a shared link does not carry it on (R19).
+// A page the inline script is handing to a real browser does none of this; the new page will (R9).
 {
-  const pin = new URLSearchParams(location.search).get('profile');
-  if (pin && appData.profiles.some((p) => p.id === pin)) store.savePinned(pin);
-  if (pin !== null) history.replaceState(history.state, '', location.pathname + location.hash);
-}
-
-// A settings link from another device (?settings=<code>): confirm, apply, then drop it from the address.
-{
+  const plan = bootActions({ escaping });
   const params = new URLSearchParams(location.search);
+  // The promo source (?ref=insta) goes with every count of this session (design P1-7).
+  analytics.rememberRef(params.get('ref'));
+  // A device opened once with ?profile=<id> stays on that profile (SPEC L5).
+  const pin = params.get('profile');
+  if (plan.pinProfile && pin && appData.profiles.some((p) => p.id === pin)) store.savePinned(pin);
+  const rest = withoutParams(location.search, ['profile', SETTINGS_PARAM, 'ref', 'esc']);
+  if (rest !== location.search) history.replaceState(history.state, '', location.pathname + rest + location.hash);
+  // A settings link from another device (?settings=<code>): confirm, then apply.
   const code = params.get(SETTINGS_PARAM);
-  if (code !== null) {
-    params.delete(SETTINGS_PARAM);
-    const rest = params.toString();
-    history.replaceState(history.state, '', location.pathname + (rest ? `?${rest}` : '') + location.hash);
+  if (plan.applySettings && code !== null) {
     const incoming = settingsFromText(code);
     if (incoming) applyIncomingSettings(incoming);
     else alert('설정 링크가 올바르지 않아서 적용하지 않았어요.');
   }
+  if (plan.sendStats) analytics.visit(window.__moabomInApp !== undefined);
 }
 
 // Broken thumbnails swap to the profile color with the episode number. Offline images fire `error`;
@@ -131,8 +138,13 @@ app.addEventListener('load', markBroken, true);
 // ---------- screens ----------
 
 let activePlayer: PlayerHandle | null = null;
+/** The parent gate's unlock: memory only, so a reload locks again (design P1-4). */
+let unlockedUntil: number | null = null;
+/** The address drawn last, to tell a redraw of the open screen from a move (R20). */
+let drawnHash: string | null = null;
 
 function render(): void {
+  leaveScreen();
   setBack(null);
   activePlayer?.destroy();
   activePlayer = null;
@@ -163,9 +175,30 @@ function render(): void {
   const showPicker = gate.kind === 'choose';
 
   const home: Route = collections.length > 1 || showPicker ? { profile: profile.id } : { profile: profile.id, collection: collections[0]?.config.id };
+
+  // The parent gate stands in front of every parent screen however it was reached: the gear, the browser's
+  // forward button, or a typed address (R1).
+  const now = Date.now();
+  const access = parentRouteDecision({
+    kind: route.settings || route.history || route.about ? 'parent' : route.install ? 'neutral' : 'child',
+    sameScreen: location.hash === drawnHash,
+    now,
+    unlockedUntil,
+    lockMs: lockRemaining(store.gateLock(), now, today),
+  });
+  unlockedUntil = access.unlockedUntil;
+  drawnHash = location.hash;
+  if (access.draw !== 'screen') {
+    return renderGate(home, () => {
+      unlockedUntil = Date.now() + UNLOCK_MS;
+      render();
+    });
+  }
+
   if (route.settings) return renderSettings(profile, available, home);
   if (route.install) return renderInstall(home);
   if (route.history) return renderHistory(profile);
+  if (route.about) return renderAbout(profile);
 
   if (!route.collection) {
     if (collections.length === 1) return replace({ profile: profile.id, collection: collections[0]!.config.id });
@@ -364,6 +397,7 @@ function renderPlayer(profile: Profile, c: Collection, videoId: string, listRout
   const overlay = app.querySelector<HTMLElement>('.overlay')!;
   const slot = app.querySelector<HTMLElement>('.upnext-slot')!;
   let shownUpNext = '';
+  let counted = false;
   let player: PlayerHandle | null = null;
 
   const save = () => {
@@ -426,6 +460,10 @@ function renderPlayer(profile: Profile, c: Collection, videoId: string, listRout
 
   createPlayer(app.querySelector<HTMLElement>('#yt')!, video.id, {
     onPlaying(delta, current, total) {
+      if (!counted) {
+        counted = true;
+        analytics.playStart(c.config.id);
+      }
       today = recordPlay(today, video.id, delta);
       const r = recordProgress(progress, video, delta, Date.now());
       progress = recordPosition(r.progress, video.id, current);
@@ -462,8 +500,9 @@ function renderPlayer(profile: Profile, c: Collection, videoId: string, listRout
       if (u.kind === 'limit') return openToday();
       showOverlay(`${upNextCardHtml(u, groupLabels)}${listButton}`);
     },
-    onError() {
+    onError(code) {
       // P4: never counted, never marked watched; remembered so O3 skips it on this device.
+      analytics.videoError(video.id, code);
       progress = recordFailed(progress, video.id, Date.now());
       store.saveProgress(profile.id, c.config.id, progress);
       const u = upNext(scope, video, today, limits, 0);
@@ -503,7 +542,9 @@ function renderPlayer(profile: Profile, c: Collection, videoId: string, listRout
 
 function renderTodayDone(profile: Profile, c: Collection, listRoute: Route): void {
   const today = store.today(profile.id, localDate(new Date()));
-  if (!limitReached(today, limitsFor(profile))) return replace(listRoute);
+  const limits = limitsFor(profile);
+  if (!limitReached(today, limits)) return replace(listRoute);
+  analytics.limitReached(limits.dailyMinutes !== null && today.seconds >= limits.dailyMinutes * 60 ? 'minutes' : 'episodes');
   const all = viewingOrder(c.data);
   const seen = today.started.flatMap((id) => all.find((v) => v.id === id) ?? []);
   const progress = store.progress(profile.id, c.config.id);

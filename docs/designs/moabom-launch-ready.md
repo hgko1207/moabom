@@ -2024,17 +2024,326 @@ No new TODO candidates: every delta item is phase-1 work (tasks above) or alread
 ## Change after phase-1 deploy (2026-10-19)
 - In-app escape is **button only** (user decision after comparing video-cards): no automatic move; the bar says installing to the home screen does not work in the app and offers [Chrome으로 열기] / [Safari로 열기] / [주소 복사]. Supersedes the automatic part of eng D4 (R2), and makes R9 (escaping flag, bootActions) and R11 (esc=1 loop guard) unnecessary; both were removed. inapp_escape now counts button taps; in-app visits count as visit.<ref>.webview. SPEC §8 E updated.
 
+## Eng Review — phase 2 (/plan-eng-review, 2026-10-19)
+
+Target: this file, 2단계 only (P2-1~P2-7). Phase 1 shipped (main 1c74836). Prior decisions D1~D13 and the button-only escape stay as they are.
+
+### Phase 2 scope record
+feature answers: none proposed (phase 2 feature list kept as approved in office-hours D5); structure: A) Original arrangement (D1 of phase-2 review, 2026-10-19); accepted scope: P2-1~P2-7 as written, with src/screens/collection.ts (collection list + moon screen) and src/screens/player.ts (player screen), shared helpers in src/ui.ts, rules in src/rules.ts, player control in src/player.ts, descriptions loaded by src/data.ts; pending remedies: S1 (moon-screen 오늘만 더 and the gate), S3 (episode label source).
+
+### Phase 2 decision ledger
+
+### R21: 달 화면의 '오늘만 더'를 엄마 문과 어떻게 잇는지 (S1)
+Finding: S1, P2, confidence 9/10, plan P2-3 "엄마 문 뒤의 달 화면과 설정의 "오늘" 칸에 둔다" vs src/main.ts:180 `kind: route.settings || route.history || route.about ? 'parent' : route.install ? 'neutral' : 'child'`, reviewer: Claude (phase-2 Scope Challenge)
+Plan baseline: P2-3 as written: buttons on the moon screen "behind the gate" and in settings' 오늘 panel; entry path unspecified
+Runtime evidence: the today (moon) route is a child route, so no gate stands in front of it; settings is gated in render() (R1)
+Comparison grid:
+| Choice | Current | A | B | C |
+|---|---|---|---|---|
+| R21 moon-screen entry | unspecified | a button on the moon screen opens settings' 오늘 panel (`go({settings})`), so the existing route gate asks; +1·+2·+3편 / +10·+20·+30분 live only in settings; ◀ from settings returns to the moon screen, which moves on to the list once the limit is lifted | a new parent route `#/p/{pid}/c/{cid}/today/more` gated like settings; the choices appear on the moon screen itself after the gate | no moon-screen button; 오늘만 더 only in settings' 오늘 panel |
+| R21 tests | — | parentRouteDecision already covers settings; headless: moon button → gate → settings, +1편 → back → list | route parse/href unit rows + parentRouteDecision row for the new route; headless same flow | headless: settings +1편 only |
+Question D2:
+D2 — 달 화면의 '오늘만 더'를 어떻게 엄마 문 뒤에 둘까요?
+Project/branch/task: main, 2단계 P2-3 오늘만 더. 달 화면은 아이 화면이라 엄마 문이 없습니다(src/main.ts:180).
+ELI10: 하루 제한에 닿으면 아이에게 달 화면이 나옵니다. 계획은 여기에 '오늘만 더'를 두되 엄마 문 뒤에 두라고 했는데, 지금 엄마 문은 설정·기록·안내 주소에만 서 있습니다. 달 화면의 버튼이 설정의 '오늘' 칸으로 보내면 이미 있는 엄마 문을 그대로 쓰고, 달 화면에 새 주소를 만들면 그 자리에서 고를 수 있지만 엄마 문이 서는 곳이 하나 더 늘어납니다.
+Stakes if we pick wrong: 엄마 문 없이 고를 수 있게 되면 아이가 혼자 '오늘만 더'를 눌러 제한이 무의미해집니다.
+Recommendation: A because 이미 검사된 엄마 문 길을 그대로 쓰고, 새 주소를 만들지 않아 아이가 우회할 틈이 생기지 않습니다.
+Note: options differ in kind, not coverage — no completeness score.
+Pros / cons:
+A) 설정 '오늘' 칸으로 보냄 (recommended) (human: ~1h / CC: ~10min)
+  ✅ 1단계에서 검사한 엄마 문(설정 주소)을 그대로 거쳐서 새로 막을 곳이 생기지 않아요
+  ✅ 고르는 화면이 설정 한 곳뿐이라 버튼 동작과 테스트도 한 곳에서 끝나요
+  ❌ 엄마가 설정 화면까지 갔다가 ◀로 돌아와야 해서 한 번 더 눌러야 해요
+B) 달 화면 새 주소
+  ✅ 엄마 문을 풀면 달 화면 그 자리에서 +1편 같은 버튼을 바로 고를 수 있어요
+  ✅ 아이에게 보이는 화면 흐름이 끊기지 않고 달 화면에서 바로 이어 봐요
+  ❌ 엄마 문이 서는 주소가 하나 늘어서 주소 판정과 테스트를 새로 더해야 해요
+C) 설정에만 둠
+  ✅ 달 화면에 아무것도 더하지 않아 아이 화면이 지금 그대로 단순해요
+  ✅ 코드가 가장 적고, 엄마 문은 기존 설정 주소만 거쳐요
+  ❌ 엄마가 달 화면에서 설정으로 가는 길(톱니 2초)을 직접 찾아야 해요
+Net: 검증된 길 재사용 vs 그 자리에서 고르기.
+Header: 오늘만 더
+Options:
+A) 설정 '오늘' 칸으로 보냄 (recommended)
+달 화면에 '오늘만 더' 버튼을 두고, 누르면 설정의 '오늘' 칸으로 갑니다(엄마 문이 먼저 물음). +1·+2·+3편 / +10·+20·+30분은 설정에만 있고, ◀로 돌아오면 제한이 풀린 만큼 목록으로 넘어갑니다. 테스트: 헤드리스로 달 → 문 → 설정 → +1편 → 목록. (CC: ~10min)
+B) 달 화면 새 주소
+엄마 문이 서는 새 주소 #/p/{pid}/c/{cid}/today/more를 만들고, 문을 풀면 달 화면에서 바로 고릅니다. 테스트: 주소 단위 테스트 + parentRouteDecision 줄 + 헤드리스. (CC: ~20min)
+C) 설정에만 둠
+달 화면에는 버튼을 두지 않고, 설정의 '오늘' 칸에서만 고릅니다. 테스트: 헤드리스로 설정 +1편. (CC: ~5min)
+
+State: approved
+Actual answer: A) 설정 '오늘' 칸으로 보냄 (D2 of phase-2 review, 2026-10-19)
+Accepted scope: 달 화면에 '오늘만 더' 버튼, 누르면 go({settings}) → 기존 엄마 문 → 설정 '오늘' 칸. +1·+2·+3편 / +10·+20·+30분은 설정에만. ◀로 돌아오면 제한이 풀린 만큼 목록으로. 버튼은 톱니와 같은 2초 누름(bindGear 방식)으로 한다: 사용자가 2026-10-19에 '2초 + 번호 둘 다' 유지를 고른 이유(아이가 톡 눌러 잠금을 거는 것 방지)를 그대로 따른다. 테스트: 헤드리스 달 → 문 → 설정 → +1편 → 목록.
+History: none
+
+### R22: 편 라벨("12화", "시즌 2·5화")을 어디서 가져올지 (S3)
+Finding: S3, P2, confidence 9/10, plan P2-2 "카드: 편 라벨(예: "12화", "시즌 2·5화") + displayTitle" and Open Questions "편 라벨을 어디서 가져올지: 지금 `order`와 그룹 이름으로 만들지, 제목 패턴에서 뽑을지", reviewer: Claude (phase-2 Scope Challenge)
+Plan baseline: label source unresolved (open question)
+Runtime evidence: raw titles [measured: data/collections/*/videos.json]: numberblocks lv2 order 1 = "16. 전체 에피소드" (real 16화, group+order gives 2단계 1화); octonauts s2 order 2 = "시즌2 에피소드3" (double episode shifts the order); alphablocks/colourblocks "S1 E2" = group+order; bluey/kebikids carry no numbers. Current cards show `order` as a badge (src/main.ts cardHtml)
+Comparison grid:
+| Choice | Current | A | B | C |
+|---|---|---|---|---|
+| R22 label source | unresolved | "{그룹 이름} {order}화" for series groups; free groups show the group name only | optional per-collection `episodeLabel: { pattern, format }` in config (e.g. numberblocks `^(\d+)` → "{1}화", octonauts `시즌\s*(\d+)\s*에피소드\s*0*(\d+)` → "시즌 {1}·{2}화"), applied at fetch to a stored `label`; no pattern or no match → A's fallback | no number: group name only |
+| R22 tests | — | rules unit rows: series label, free label | fetch unit rows: pattern match, no match → fallback, bad regex rejected by config validation; real-config test | rules row |
+Question D3:
+D3 — 카드의 편 라벨("16화", "시즌 2·3화")을 어디서 가져올까요?
+Project/branch/task: main, 2단계 P2-2 제목·소제목. 계획의 Open Questions에 남아 있던 항목입니다.
+ELI10: 카드와 재생 화면에 "16화"처럼 몇 번째 편인지 보여 주려고 합니다. 앱이 그룹 안 순서로 세면 간단하지만, 넘버블록스는 실제 16화가 "2단계 1화"로 나오고 옥토넛은 더블 에피소드 때문에 한 편씩 밀립니다. 채널마다 제목에서 번호를 뽑는 규칙을 설정에 적어 두면 실제 번호가 나오고, 규칙이 없는 채널은 그룹 순서로 대신합니다.
+Stakes if we pick wrong: 부모가 아는 편 번호와 카드 번호가 달라서 "16화 틀어 줘"를 찾지 못합니다.
+Recommendation: B because 실제 편 번호를 보여 주면서, 번호가 없는 채널(블루이·깨비키즈)은 그룹 순서로 자연스럽게 대신합니다.
+Completeness: A=6/10, B=9/10, C=4/10
+Pros / cons:
+A) 그룹 이름 + 순서
+  ✅ 설정을 더하지 않아도 모든 채널에 바로 라벨이 붙어요
+  ✅ 제목 형식이 바뀌어도 라벨이 깨질 일이 없어요
+  ❌ 넘버블록스는 16화가 "2단계 1화"로, 옥토넛은 한 편씩 밀린 번호로 나와요
+B) 제목 패턴 + 대체 (recommended) (human: ~3h / CC: ~20min)
+  ✅ 넘버블록스 16화, 옥토넛 시즌 2·3화처럼 부모가 아는 실제 번호가 나와요
+  ✅ 패턴이 없거나 안 맞는 영상은 그룹 이름 + 순서로 자동 대체돼 빈칸이 없어요
+  ❌ 새 캐릭터를 넣을 때 제목을 보고 패턴을 한 줄 적어야 해요(/add-character에 단계 추가)
+C) 번호 없이 그룹만
+  ✅ 가장 단순하고 틀린 번호를 보여 줄 일이 없어요
+  ✅ 카드에 글자가 줄어 아이 화면이 깔끔해요
+  ❌ "몇 화인지" 보여 달라는 요청(제목·소제목)을 채우지 못해요
+Net: 정확한 번호 vs 설정 한 줄.
+Header: 편 라벨
+Options:
+A) 그룹 이름 + 순서
+연속 그룹은 "{그룹 이름} {순서}화", 자유 그룹(모음집 등)은 그룹 이름만 보여 줍니다. 테스트: rules 단위 테스트 줄. (CC: ~10min)
+B) 제목 패턴 + 대체 (recommended)
+컬렉션 설정에 선택 항목 episodeLabel { pattern, format }을 두고 fetch 때 원제목에서 뽑아 label로 저장합니다(넘버블록스 "16화", 옥토넛 "시즌 2·3화"). 패턴이 없거나 안 맞으면 A와 같은 대체. 설정 검증이 잘못된 정규식을 막고, /add-character에 패턴 적기 단계를 넣습니다. 테스트: fetch 단위 테스트(맞음·안 맞음·대체) + 실제 설정 검증. (CC: ~20min)
+C) 번호 없이 그룹만
+번호를 보여 주지 않고 그룹 이름만 둡니다. 테스트: rules 단위 테스트 줄. (CC: ~5min)
+
+State: approved
+Actual answer: A) 그룹 이름 + 순서 (D3 of phase-2 review, 2026-10-19)
+Accepted scope: 연속 그룹은 "{그룹 이름} {순서}화", 자유 그룹(모음집 등)은 그룹 이름만 보여 준다. 테스트: rules 단위 테스트 줄(연속·자유). 한계: 넘버블록스·옥토넛은 실제 화수와 다를 수 있음(제목 패턴 B는 부모가 실제 번호를 원할 때 다시 연다).
+History: none
+
+### R23: 목록·재생·달 화면을 옮길 때의 회귀 계약 (P2-7)
+Finding: T1, P1 (regression), confidence 9/10, plan P2-7 "2단계에서 고치는 컬렉션 화면과 플레이어 화면을 나눈다" moves src/main.ts renderCollection (:244), renderPlayer (:336), renderTodayDone (:540); reviewer: Claude (phase-2 Section 3)
+Plan baseline: P2-7 split, no regression contract; phase-1 contracts R5/R12 covered settings and home only
+Runtime evidence: no automated test touches these screens (tests/ has no DOM tests; jsdom deferred in TODOS); the headless scripts used in phase 1 cover home/settings/gate only
+Comparison grid:
+| Choice | Current | A | B |
+|---|---|---|---|
+| R23 order | — | split first as its own behaviour-identical commit (like R12), then phase-2 features | split and features together |
+| R23 regression proof | none | headless pass before and after the split on `npm run build && npm run preview`: list opens with hero + tabs + cards; tab switch keeps the list in history; card opens the player; up-next card appears in the last 20 s; end overlay shows next/list; daily limit (episodes) → moon screen; moon ◀ → list; foreign-video overlay via a forced load; same results both runs | `npm test` + typecheck only, plus a manual look on a phone |
+Question D4:
+D4 — 목록·재생·달 화면을 옮길 때 지금 동작을 어떻게 지킬까요?
+Project/branch/task: main, 2단계 P2-7 화면 분리(2차). 옮길 함수: src/main.ts renderCollection·renderPlayer·renderTodayDone.
+ELI10: 1단계에서는 설정·홈 화면을 옮기기 전과 후에 브라우저 점검을 똑같이 돌려서 아무것도 안 바뀐 것을 확인했습니다. 이번에는 아이가 실제로 쓰는 목록·재생·달 화면을 옮기는데, 이 화면들은 자동 테스트가 하나도 없습니다. 옮기기만 하는 커밋을 따로 만들고 그 앞뒤로 같은 점검을 돌리면, 무언가 깨졌을 때 기능 추가 전에 바로 알 수 있습니다.
+Stakes if we pick wrong: 재생 화면이 조용히 깨지면 아이가 영상을 못 보거나 하루 제한이 안 걸린 채로 배포됩니다.
+Recommendation: A because 아이가 매일 쓰는 화면이라 옮기기와 기능 추가를 섞으면 깨진 원인을 찾기 어렵습니다.
+Completeness: A=9/10, B=5/10
+Pros / cons:
+A) 따로 옮기고 앞뒤 점검 (recommended) (human: ~3h / CC: ~20min)
+  ✅ 옮기기만 한 커밋 앞뒤로 같은 점검을 돌려 아무것도 안 바뀐 것을 확인해요
+  ✅ 1단계(R12)와 같은 방식이라 점검 스크립트를 이어서 쓸 수 있어요
+  ❌ 커밋이 하나 더 생기고, 재생 점검 스크립트를 새로 써야 해요
+B) 같이 하고 테스트만
+  ✅ 커밋이 하나 줄고 바로 기능을 만들 수 있어요
+  ✅ 규칙 쪽은 단위 테스트가 그대로 지켜 줘요
+  ❌ 화면이 깨져도 자동으로 알 방법이 없어, 폰으로 직접 보기 전까지 모를 수 있어요
+Net: 커밋 하나 + 점검 스크립트 vs 깨짐을 늦게 발견할 위험.
+Header: 회귀 계약
+Options:
+A) 따로 옮기고 앞뒤 점검 (recommended)
+옮기기만 하는 커밋을 먼저 만들고, npm run build && npm run preview에서 헤드리스 점검을 앞뒤로 돌립니다: 목록(큰 카드·탭·카드), 탭 전환, 카드 → 재생, 마지막 20초 다음 화 카드, 끝 화면, 편 제한 → 달 화면, 달 ◀ → 목록, 다른 영상 감지 화면. 앞뒤 결과가 같아야 합니다. (CC: ~20min)
+B) 같이 하고 테스트만
+옮기기와 기능을 함께 하고 npm test·타입 검사와 폰으로 직접 보기만 합니다. (CC: ~5min)
+
+State: approved
+Actual answer: A) 따로 옮기고 앞뒤 점검 (D4 of phase-2 review, 2026-10-19)
+Accepted scope: 옮기기만 하는 커밋(renderCollection·renderPlayer·renderTodayDone → src/screens/collection.ts·player.ts)을 먼저 만들고, npm run build && npm run preview에서 헤드리스 점검을 앞뒤로 돌린다: 목록(큰 카드·탭·카드), 탭 전환(기록 유지), 카드 → 재생, 마지막 20초 다음 화 카드, 끝 화면, 편 제한 → 달 화면, 달 ◀ → 목록, 다른 영상 감지 화면. 앞뒤 결과가 같아야 한다. 그 다음에 2단계 기능을 얹는다.
+History: none
+
+Approval readiness: PASS — checked phase-2 structure (D1, scope record), R21 (D2), R22 (D3, accepted shortcut dec-d8077efe), R23 (D4, regression contract), TODO (D5); every other item below is required implementation or proof of the approved P2-1~P2-7 text or of these answers; no accepted remedy without its own answer.
+
+### Phase 2 findings and dispositions
+- Scope Challenge: complexity gate tripped (≈17 changed files [estimated], 2 new screen modules) → D1 Original arrangement; S1 → R21 (D2); S2 required (share.ts parse); S3 → R22 (D3); S4 factual alignment (styles.css :921 `.primary`, :1029 `.shown .state`, :1177 `.hero .chip`); S5 ordering (the 자막 button waits for the device spike, the other buttons do not). Result: scope accepted as-is.
+- Section 1 Architecture
+  - [P2] (confidence: 9/10) src/storage.ts:137-147 `today()` rebuilds fields and drops `extraEpisodes`/`extraSeconds` → required for P2-3 (read with default 0, storage test row).
+  - [P2] (confidence: 8/10) P2-4 visibility listener joins the onLeave() teardown; src/main.ts:86 build-check listener already skips while a player is active → implementation note.
+  - [P2] (confidence: 8/10) P2-5 pending list must survive auto-advanced player screens (each is a fresh render) → module state in src/screens/player.ts, dropped when render() leaves player routes (reading of "다음 영상이 정상 재생되면").
+  - [P2] (confidence: 8/10) P2-6 render() paints only the profile colour (`setAccent(profile.color)`) → collection/player screens override, home resets.
+  - [P3] (confidence: 8/10) hasCaptions exists only after the next fetch (scripts/youtube.ts:160 already requests contentDetails, no extra quota) → run the manual refresh after deploy; until then the 자막 button stays hidden.
+- Section 2 Code quality
+  - [P2] (confidence: 9/10) S2 share.ts + describeSettings list the four buttons.
+  - [P2] (confidence: 8/10) R21's 2 s hold reuses src/ui.ts bindGear logic as a small `bindHold(button, action)` with two callers (gear, moon button).
+  - [P3] (confidence: 7/10) descriptions: shape validation + real-config test that every key is a video in data.
+  - [P3] (confidence: 8/10) label code carries `gstack-shortcut(dec-d8077efe)`.
+- Section 3 Tests: 26 planned paths, 0 covered (all new); regression contract R23 (D4); Test Plan artifact ~/.gstack/projects/moa-bom/khkkh-main-eng-review-test-plan-20261019-224056.md.
+- Section 4 Performance: no issues (descriptions ≈80 KB raw if every video is filled [estimated]; one more listener; poll unchanged).
+- Outside voice: unavailable (Codex not installed; native Plan reviewer gave no complete report within five minutes, stopped).
+
+### Phase 2 — NOT in scope
+- 3단계 (P3-1~P3-3) and v2 candidates: reviewed before they start.
+- Real episode numbers in labels: TODOS.md "실제 화수 라벨" (D5), decision d8077efe.
+- jsdom screen tests: TODOS.md (phase-1 D9); this phase uses the headless pass (R23).
+
+### Phase 2 — What already exists
+- Daily limit rules `limitReached`, `canStart`, `resumableAfterLimit` (src/rules.ts:247-271): extras extend them; next/prev/auto-advance reuse `canStart`.
+- Up-next `upNext`/`upNextScope`/`nextInOrder` (src/rules.ts:336-374): 다음 편 and error skip reuse them; 이전 편 adds the mirror `prevInOrder`.
+- Failure record `recordFailed` (src/rules.ts:310): the pending list confirms into it.
+- Foreign-video detection (src/player.ts:88-143): the captions fallback rebuild relies on its `armed` reset.
+- Settings link `encodeSettings`/`decodeSettings` (src/share.ts): extended for the buttons.
+- Parent gate (src/gate.ts, src/screens/gate.ts) and route guard in render(): 오늘만 더 goes through it (R21).
+- `contrastRatio` (src/config.ts): reused for profile and collection colours.
+- `bindGear` (src/ui.ts): becomes `bindHold`.
+
+### Phase 2 diagrams
+```
+Player buttons and the daily limit (P2-1, P2-3)
+ [이전] [한 번 더] [다음] [자막]   each shown only if switched on in settings
+   │        │         │       └─ hasCaptions? → toggle (spike result: module API, else rebuild at current time)
+   │        │         └─ upNext(scope) → canStart(today+extras)? → open : moon screen
+   │        └─ canReplay(today) (false after the limit) → seek 0, no new episode count, minutes count
+   └─ prevInOrder(scope) → canStart(today+extras)? → open : moon screen
+
+Error flow (P2-5, pure errorStep in rules.ts)
+ onError(code) ─┬─ 100/101/150 → failed now ─────────────┐
+                └─ 2/5 or offline → pending              │
+                       ├─ next video plays → confirm failed
+                       └─ 3× in a row or offline → drop pending + "인터넷 연결을 확인해 주세요" (stop)
+ then: upNext → canStart? → 3 s → next episode : current overlay (end / limit)
+
+Auto-resume (P2-4, pure autoResume in rules.ts)
+ hidden: remember wasPlaying, time; PAUSED while hidden (or ≤1 s after) → osPaused
+ visible: wasPlaying && osPaused && hiddenMs < 60 000 && !userPaused → playVideo()
+          not PLAYING after 1 s → big ▶ button
+```
+Inline diagrams needed in code: src/rules.ts errorStep and autoResume (state as above).
+
+### Phase 2 — Failure modes
+| Path | Realistic failure | Test / handling | User sees |
+|---|---|---|---|
+| Extras | stored extras lost on reload | storage test (today() reads them) | limit stays lifted after reload |
+| Next/prev | a new path skips canStart | rules tests + headless | moon screen at the limit |
+| Replay | shown after the limit | canReplay test | button hidden |
+| Captions | undocumented API ignored on iPad | device spike before shipping; fallback rebuild | button works or is not shipped |
+| Captions fallback | rebuild counted as a new episode | rule: same id, no recount; headless | count unchanged |
+| Auto-resume | resumes after a parent locks the phone | 60 s bound + userPaused, unit tests | stays paused |
+| Auto-resume | iOS blocks playVideo | big ▶ after 1 s | tap to continue |
+| Errors | Wi-Fi blip marks good videos ⚠ | pending list + offline drop, unit tests | connection notice, no ⚠ |
+| Errors | every video broken → endless skipping | upNext ends at the collection end → overlay | end overlay |
+| Colours | collection colour unreadable | config validation fails npm test | blocked before deploy |
+| Settings link | buttons dropped on the other device | share round-trip test | same buttons |
+| Split | lost binding in the move | R23 headless pass before/after | caught before commit |
+
+Critical gaps (no test AND no handling AND silent): 0.
+
+### Phase 2 — Worktree parallelization strategy
+| Step | Modules touched | Depends on |
+|------|----------------|------------|
+| S. Behaviour-identical split (U1, R23) | src/screens/, src/main.ts, src/ui.ts | — |
+| A. Rules (U2 rules, U3 prev/replay, U6 autoResume, U7 errorStep, U5 label) | src/rules.ts, tests/rules.test.ts | — |
+| B. Data (U5 descriptions, U8 colours, U4 hasCaptions) | src/config.ts, src/data.ts, scripts/, config/, tests/config.test.ts, tests/fetch.test.ts | — |
+| C. Storage + link (U2 extras, U3 switches) | src/storage.ts, src/share.ts, tests/storage.test.ts, tests/share.test.ts | — |
+| D. Player wiring (U2 UI, U3 UI, U4, U6, U7, U8 accent) | src/screens/player.ts, src/screens/collection.ts, src/screens/settings.ts, src/player.ts, src/styles.css | S, A, B, C |
+
+Parallel lanes: S | A | B | C together (disjoint modules); merge; then D.
+Conflict flags: tests/ shared with separate files per lane; src/ui.ts touched by S (helpers) and D (bindHold) in sequence.
+Branch: all on `phase2`, merged to main once after tests, typecheck, the R23 pass and the captions device spike (or with the 자막 switch hidden if the spike is pending).
+
+## Implementation Tasks — phase 2
+Synthesized from this review's findings and answers. Checkbox as you ship.
+
+- [ ] **U1 (P1, human: ~3h / CC: ~20min)** — src/screens — Move renderCollection/renderTodayDone to src/screens/collection.ts and renderPlayer to src/screens/player.ts, behaviour-identical, own commit
+  - Surfaced by: D1; R23 (D4)
+  - Files: src/main.ts, src/screens/collection.ts, src/screens/player.ts, src/ui.ts
+  - Verify: `npm test`, `npm run typecheck`, headless player pass before and after (R23 list), same results
+- [ ] **U2 (P1, human: ~4h / CC: ~25min)** — 오늘만 더 — today.extraEpisodes/extraSeconds in limitReached/canStart/upNext; storage.today() reads them; settings 오늘 panel +1·+2·+3편 / +10·+20·+30분 (hidden with no limit); moon-screen button with a 2 s hold → settings (bindHold)
+  - Surfaced by: P2-3; R21 (D2); Section 1 storage finding
+  - Files: src/rules.ts, src/storage.ts, src/ui.ts, src/screens/settings.ts, src/screens/collection.ts, tests/rules.test.ts, tests/storage.test.ts
+  - Verify: `npm test`; headless: moon button tap → hint, hold → gate → settings → +1편 → ◀ → list plays
+- [ ] **U3 (P1, human: ~4h / CC: ~25min)** — player buttons — DeviceSettings.player {prev,next,replay,captions} all false by default; settings switches; share.ts parse + describeSettings; prevInOrder, canReplay; buttons on the player through canStart
+  - Surfaced by: P2-1; S2
+  - Files: src/storage.ts, src/share.ts, src/ui.ts, src/rules.ts, src/screens/settings.ts, src/screens/player.ts, src/styles.css, tests/share.test.ts, tests/rules.test.ts
+  - Verify: `npm test`; headless: no buttons by default; switch on → shown; next at the limit → moon; replay hidden after the limit
+- [ ] **U4 (P2, human: ~2h + device time / CC: ~20min)** — 자막 — device spike (iPad Safari, Android Chrome) first; fetch stores hasCaptions from contentDetails.caption; button hidden when false; module API or the rebuild fallback per the spike
+  - Surfaced by: P2-1 captions; S5; Section 1 hasCaptions finding
+  - Files: scripts/youtube.ts, scripts/fetch.ts, src/config.ts (VideoRecord), src/player.ts, src/screens/player.ts, tests/fetch.test.ts
+  - Verify: spike result noted in SPEC; `npm test`; manual run of the refresh workflow after deploy
+- [ ] **U5 (P2, human: ~3h / CC: ~20min)** — labels and descriptions — card and player label "{그룹} {순서}화" (free: group only, `gstack-shortcut(dec-d8077efe)`); config/descriptions/{id}.json validated; player shows title + label + one line (hidden when missing); first fill for 넘버블록스
+  - Surfaced by: P2-2; R22 (D3); Section 2 descriptions finding
+  - Files: src/rules.ts, src/config.ts, src/data.ts, config/descriptions/numberblocks.json, src/screens/collection.ts, src/screens/player.ts, tests/rules.test.ts, tests/config.test.ts
+  - Verify: `npm test` (label rows, description validation, real keys exist); headless: label on cards, description line
+- [ ] **U6 (P2, human: ~3h / CC: ~20min)** — auto-resume — pure autoResume in rules.ts; player tracks in-app pause and OS pause; listener via onLeave; big ▶ when playVideo is blocked
+  - Surfaced by: P2-4; Section 1 listener finding
+  - Files: src/rules.ts, src/player.ts, src/screens/player.ts, tests/rules.test.ts
+  - Verify: `npm test` (each condition false, 60 s boundary, user pause); manual on a phone
+- [ ] **U7 (P1, human: ~3h / CC: ~20min)** — error flow — pure errorStep (100/101/150 now, 2/5 pending, confirm, drop on 3× or offline, no notice for 100s); 3 s auto-advance through upNext + canStart; pending state in screens/player.ts
+  - Surfaced by: P2-5; Section 1 pending-list finding
+  - Files: src/rules.ts, src/screens/player.ts, tests/rules.test.ts
+  - Verify: `npm test`; headless: forced error code → ⚠ + next after 3 s; offline → notice, no ⚠
+- [ ] **U8 (P2, human: ~2h / CC: ~15min)** — colours — optional collection `color`; contrast validation for profile, collection, category colours (white small text 4.5:1, large 3:1, fills/borders 3:1 on --bg and --surface); .primary/.shown .state/.hero .chip text → --ink; collection screens set --accent
+  - Surfaced by: P2-6; S4; Section 1 accent finding
+  - Files: src/config.ts, src/styles.css, src/screens/collection.ts, src/screens/player.ts, src/screens/home.ts, tests/config.test.ts
+  - Verify: `npm test` (colour rows, real configs pass); headless: collection colour on tabs, home back to profile colour
+- [ ] **U9 (P3, human: ~30min / CC: ~10min)** — SPEC — Record phase-2 rules (buttons, extras, labels, auto-resume, error flow, colours) and the captions spike result; §10 accent rule
+  - Surfaced by: design Next Steps 6
+  - Files: SPEC.md
+  - Verify: SPEC matches shipped behaviour
+
+JSONL task artifact: not written (jq is not installed on this machine).
+
+### Phase 2 — Unresolved decisions
+None in this review.
+
+### Phase 2 — Reality rows
+| premise | claim | file:line receipt | verdict |
+|---|---|---|---|
+| P1 | settings link keeps only known fields | src/share.ts:46 | TRUE |
+| P2 | the moon screen is a child route | src/main.ts:180 | TRUE |
+| P3 | today() rebuilds stored fields | src/storage.ts:137 | TRUE |
+| P4 | fetch already requests contentDetails | scripts/youtube.ts:160 | TRUE |
+| P5 | three white-text spots on the accent | src/styles.css:921, :1029, :1177 | TRUE |
+| P6 | #4C8BF5 is 3.32:1 on white, 4.79:1 with --ink, 3.07:1 on --bg | src/config.ts contrastRatio [measured] | TRUE |
+| P7 | label source was an open question | docs/designs/moabom-launch-ready.md:319 | TRUE |
+| P8 | captions toggling is undocumented | web search (FLUID-6317, SitePoint) | TRUE (no official doc found) |
+| P9 | iOS may block playVideo after a background pause | — | unverified (device) |
+| P10 | loadModule/setOption captions work on iPad Safari | — | unverified (spike U4) |
+
+unverified=2
+
+REALITY: premise-table pass 10 claims, unverified=2 src/share.ts:46
+REALITY: already-done pass git log since 2026-10-17 on src/player.ts and src/main.ts shows only phase-1 commits (1c74836, d133793, f563af2) src/player.ts:1
+REALITY: surface-check finding loadModule/setOption are not in the YTPlayer interface and not in the official API docs (spike U4) src/player.ts:5
+REALITY: binding-decisions pass gstack-decision-search shows phase-1 decisions only; phase-2 choices D1-D5 recorded here docs/designs/moabom-launch-ready.md:1
+REALITY: numbers pass 1,067 videos [measured: data/collections/*/videos.json], 0 with hasCaptions [measured], 17 files [estimated] data/collections/numberblocks/videos.json:1
+REALITY: deferred-asks pass user asks covered: player buttons default off (P2-1), title/subtitle (P2-2, labels per D3); real episode numbers deferred to TODOS (D5) TODOS.md:1
+REALITY: pr-count pass no .gstack/ship-policy.json, one branch (phase2) merged once package.json:1
+
+### Phase 2 — Completion summary
+- Step 0: Scope Challenge — scope accepted as-is (D1 smaller-file choice kept the original arrangement)
+- Reality rows: 7/7 applicable rows emitted (`PLAN_REALITY: phase=eng rows=7/7 missing=none unverified=2 verdict=complete`), 2 unverified premises
+- Architecture Review: 5 issues found
+- Code Quality Review: 4 issues found
+- Test Review: diagram produced, 26 gaps identified
+- Performance Review: 0 issues found
+- NOT in scope: written
+- What already exists: written
+- TODOS.md updates: 1 item proposed to user (accepted, D5)
+- Failure modes: 0 critical gaps flagged
+- Unresolved decisions: 0 in this review
+- Outside voice: codex unavailable (not installed); native Claude Plan fallback gave no complete report within five minutes (stopped)
+- Parallelization: 5 steps, 4 parallel / 1 sequential
+- Lake Score: 1/2 = answers picking a 10/10-leaning option / answers scored for Completeness (D3 chose A at 6/10, D4 chose A at 9/10)
+
+
 ## GSTACK REVIEW REPORT
 
 | Review | Trigger | Why | Runs | Status | Findings |
 |--------|---------|-----|------|--------|----------|
 | CEO Review | `/plan-ceo-review` | Scope & strategy | 0 | — | — |
-| Outside Review | codex via `/plan-eng-review` outside voice | Independent 2nd opinion | 2 | unavailable | Codex not installed (both runs); run 2 native Claude Plan subagent in-host, 16 findings, all resolved (R8–R20, OV5/6/8/13/15) |
-| Eng Review | `/plan-eng-review` | Architecture & tests (required) | 2 | ISSUES OPEN | 15 issues, 0 critical gaps (delta run; all mapped to D1–D13 and tasks T0, T13–T21; run 1: 37 issues → T1–T12) |
-| Design Review | `/plan-design-review` | UI/UX gaps | 1 | CLEAR | score: 3/10 → 8/10, 29 decisions |
+| Outside Review | codex via `/plan-eng-review` outside voice | Independent 2nd opinion | 3 | unavailable | Codex not installed (all runs). Run 2: native Claude Plan reviewer in-host, 16 findings, resolved. Run 3 (phase 2): native reviewer gave no complete report within five minutes |
+| Eng Review | `/plan-eng-review` | Architecture & tests (required) | 3 | ISSUES OPEN | 35 issues, 0 critical gaps (phase-2 run; all mapped to D1-D5 and tasks U1-U9). Earlier runs: phase 1 (37), phase-1 delta (15), shipped |
+| Design Review | `/plan-design-review` | UI/UX gaps | 1 | CLEAR | score: 3/10 → 8/10, 29 decisions (phase 1) |
 | DX Review | `/plan-devex-review` | Developer experience gaps | 0 | — | — |
 
-- **OUTSIDE COVERAGE:** codex, plan-review phase (eng), unavailable (CLI not installed), 0 findings, both runs. Native Claude subagents completed in-host for design (25 findings) and eng delta (16 findings); native coverage does not count as outside coverage.
-- **VERDICT:** DESIGN CLEARED (1단계) — Eng Review issues are mapped implementation work with no open decisions; eng review required. Entry condition: domain fixed (T0) before T1.
+- **OUTSIDE COVERAGE:** codex, plan-review phase (eng), unavailable (CLI not installed), 0 findings, all three runs. Native Claude subagents: design (25 findings) and phase-1 delta (16 findings) completed in-host; phase-2 native attempt incomplete within five minutes. Native coverage does not count as outside coverage.
+- **VERDICT:** DESIGN CLEARED (phase 1) — Eng Review issues for phase 2 are mapped implementation work with no open decisions; eng review required. Phase-2 UI (buttons, labels, 오늘만 더) has no design review yet.
 
 NO UNRESOLVED DECISIONS

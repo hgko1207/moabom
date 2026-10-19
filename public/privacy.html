@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#F4F6FA" />
+    <link rel="icon" type="image/png" href="/icon-192.png" />
+    <title>모아봄 이용 안내</title>
+    <!-- Same text as the app's 이용 안내 screen (src/screens/settings.ts renderAbout); keep both in step. No app script. -->
+    <style>
+      :root {
+        --bg: #f4f6fa;
+        --surface: #ffffff;
+        --ink: #1b2230;
+        --ink-2: #4a5568;
+        --line: #dde2ea;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 18px/1.55 'Pretendard Variable', Pretendard, -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+        word-break: keep-all;
+      }
+      main {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: max(16px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+      }
+      h1 {
+        font-size: 28px;
+        margin: 16px 0 24px;
+      }
+      section {
+        background: var(--surface);
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 16px;
+      }
+      h2 {
+        font-size: 22px;
+        margin: 0 0 16px;
+      }
+      p {
+        margin: 0 0 12px;
+      }
+      a {
+        display: flex;
+        align-items: center;
+        min-height: 64px;
+        border-bottom: 1px solid var(--line);
+        color: var(--ink);
+        font-weight: 600;
+      }
+      a:focus-visible {
+        outline: 4px solid #4c8bf5;
+        outline-offset: 2px;
+      }
+      .hint {
+        color: var(--ink-2);
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>모아봄 이용 안내</h1>
+      <section>
+        <h2>저장되는 것</h2>
+        <p>시청 기록, 진도, 설정은 이 기기의 브라우저에만 저장되고 어디로도 보내지 않아요. 다른 기기로 옮기려면 설정의 "이 설정 보내기"를 직접 눌러야 해요.</p>
+      </section>
+      <section>
+        <h2>YouTube</h2>
+        <p>영상은 YouTube가 재생해요(youtube.com 플레이어). 이 기기에서 YouTube에 로그인해 있으면 YouTube가 시청 정보를 받을 수 있어요.</p>
+        <a href="https://www.youtube.com/t/terms" rel="noopener">YouTube 이용약관</a>
+        <a href="https://policies.google.com/privacy" rel="noopener">Google 개인정보처리방침</a>
+      </section>
+      <section>
+        <h2>익명 통계</h2>
+        <p>어떤 홍보 글에서 왔는지, 영상을 몇 번 틀었는지 같은 숫자만 GoatCounter로 보내요. 쿠키는 쓰지 않고, 아이 이름·설정·기록은 보내지 않아요. 설정의 "익명 통계 보내기"를 끄면 이 기기는 아무것도 보내지 않아요.</p>
+        <p>보내는 것: 이벤트 이름(visit, first_play, play_start, limit_reached, video_error, collection_open, request_click, inapp_escape)과, 그 안에 붙는 홍보 경로(insta 같은 짧은 이름)·캐릭터 이름·영상 번호·오류 번호.</p>
+        <a href="https://www.goatcounter.com/help/privacy" rel="noopener">GoatCounter 개인정보 정책 (IP 처리)</a>
+      </section>
+      <section>
+        <h2>만든 사람</h2>
+        <p>각 채널(제작사)의 공식 서비스가 아닌, 아이 둘을 키우는 부모가 만든 무료 도구예요.</p>
+        <a href="/">모아봄 열기</a>
+      </section>
+      <p class="hint">고친 날짜: 2026-10-19</p>
+    </main>
+  </body>
+</html>

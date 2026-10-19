@@ -329,7 +329,6 @@ function playedTime(sec: number): string {
 /** The Google Form for character and video requests; the row stays hidden until it is set. */
 const REQUEST_FORM_URL = '';
 const ABOUT_EDITED = '2026-10-19';
-const EVENTS = ['visit', 'first_play', 'play_start', 'limit_reached', 'video_error', 'collection_open', 'request_click', 'inapp_escape'];
 
 function linkRow(url: string, label: string): string {
   return `<a class="link-row" href="${esc(url)}" target="_blank" rel="noopener"><span>${esc(label)}</span>${icon('external-link', 24)}</a>`;
@@ -353,7 +352,7 @@ export function renderAbout(profile: Profile): void {
     <section class="panel" aria-labelledby="about-stats">
       <h2 id="about-stats">익명 통계</h2>
       <p>어떤 홍보 글에서 왔는지, 영상을 몇 번 틀었는지 같은 숫자만 GoatCounter로 보내요. 쿠키는 쓰지 않고, 아이 이름·설정·기록은 보내지 않아요. 설정의 "익명 통계 보내기"를 끄면 이 기기는 아무것도 보내지 않아요.</p>
-      <p>보내는 것: 이벤트 이름(${EVENTS.join(', ')})과, 그 안에 붙는 홍보 경로(insta 같은 짧은 이름)·캐릭터 이름·영상 번호·오류 번호.</p>
+      <p>보내는 것: 이벤트 이름(visit, first_play, play_start, limit_reached, video_error, collection_open, request_click, inapp_escape)과, 그 안에 붙는 홍보 경로(insta 같은 짧은 이름)·캐릭터 이름·영상 번호·오류 번호.</p>
       ${linkRow('https://www.goatcounter.com/help/privacy', 'GoatCounter 개인정보 정책 (IP 처리)')}
     </section>
     <section class="panel" aria-labelledby="about-maker">

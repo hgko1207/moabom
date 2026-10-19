@@ -12,25 +12,144 @@
     <link rel="icon" type="image/png" href="/icon-192.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <title>모아봄</title>
+    <style>
+      /* In-app browser escape bar (design DR27): in the page flow above the app, no close button. */
+      .escape-bar {
+        padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) 16px max(16px, env(safe-area-inset-left));
+        background: #1b2230;
+        color: #fff;
+        font: 16px/1.5 'Pretendard Variable', Pretendard, sans-serif;
+        word-break: keep-all;
+      }
+      .escape-bar p {
+        margin: 0 0 12px;
+      }
+      .escape-bar p:last-child {
+        margin: 12px 0 0;
+      }
+      .escape-bar button {
+        min-height: 64px;
+        padding: 0 24px;
+        border: 0;
+        border-radius: 12px;
+        background: #fff;
+        color: #1b2230;
+        font: 700 18px 'Pretendard Variable', Pretendard, sans-serif;
+        cursor: pointer;
+      }
+      .escape-bar button:focus-visible {
+        outline: 4px solid #fff;
+        outline-offset: 4px;
+      }
+      .escape-bar .url {
+        user-select: all;
+        -webkit-user-select: all;
+        overflow-wrap: anywhere;
+      }
+    </style>
     <script>
-      // KakaoTalk's in-app browser cannot install the app and handles video poorly: hand off to a real browser.
-      // Android opens Chrome directly; iOS uses KakaoTalk's external-open scheme (widely used, not officially documented).
+      // In-app browsers (KakaoTalk, Instagram, Naver, Band …) cannot install the app and handle video poorly, so hand
+      // the page to a real browser (design P1-2, eng D4/R8/R9/R11). Runs before the app module:
+      // - Android: Chrome intent, with S.browser_fallback_url (+ esc=1) when Chrome is missing.
+      // - iOS KakaoTalk: KakaoTalk's external-open scheme (widely used, not officially documented).
+      // - iOS other apps: no way out by script; a bar offers to copy the address for Safari.
+      // A page that moves away sets __moabomEscaping so the app skips what the new page will do again, and counts
+      // inapp_escape (not visit). The count address and the opt-out key equal src/analytics.ts (tests/inapp.test.ts).
       (function () {
+        var COUNT_URL = 'https://moabom.goatcounter.com/count';
+        var OPT_OUT_KEY = 'moabom:v1:device:analytics';
+        var APPS = [
+          [/KAKAOTALK/i, 'kakao', '카카오톡'],
+          [/Instagram/, 'insta', '인스타그램'],
+          [/NAVER/, 'naver', '네이버'],
+          [/BAND\//, 'band', '밴드'],
+          [/FBAN|FBAV/, 'facebook', '페이스북'],
+          [/DaumApps/, 'daum', '다음'],
+          [/Line\//, 'line', '라인'],
+          [/everytimeApp/i, 'everytime', '에브리타임'],
+        ];
         var ua = navigator.userAgent;
-        if (!/KAKAOTALK/i.test(ua)) return;
-        var url = location.origin + location.pathname + location.search; // the hash would break the intent URL
-        if (/Android/i.test(ua)) {
-          location.href = 'intent://' + url.replace(/^https?:\/\//, '') + '#Intent;scheme=https;package=com.android.chrome;end';
-        } else {
-          location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(url);
+        var app = null;
+        for (var i = 0; i < APPS.length; i++) {
+          if (APPS[i][0].test(ua)) {
+            app = APPS[i];
+            break;
+          }
         }
+        if (!app) return;
+        window.__moabomInApp = app[1];
+
+        var android = /Android/i.test(ua);
+        var kakao = app[1] === 'kakao';
+        var params = new URLSearchParams(location.search);
+        // esc=1: Chrome was missing and the fallback opened here again; do not move again (R11).
+        var returned = params.get('esc') === '1';
+        params.delete('esc');
+        var query = params.toString();
+        var url = location.origin + location.pathname + (query ? '?' + query : ''); // the hash would break the intent
+        var target = null;
+        if (android) {
+          var fallback = location.origin + location.pathname + '?' + (query ? query + '&' : '') + 'esc=1';
+          target =
+            'intent://' + url.replace(/^https?:\/\//, '') +
+            '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(fallback) + ';end';
+        } else if (kakao) {
+          target = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(url);
+        }
+
+        var optedOut = false;
+        try {
+          optedOut = localStorage.getItem(OPT_OUT_KEY) === '"off"';
+        } catch (e) {}
+
+        if (target && !returned) {
+          window.__moabomEscaping = true;
+          if (!optedOut) new Image().src = COUNT_URL + '?p=' + encodeURIComponent('inapp_escape.' + app[1]) + '&e=true&rnd=' + Math.floor(Math.random() * 1e9);
+          location.href = target;
+        }
+
         window.addEventListener('DOMContentLoaded', function () {
-          var note = document.createElement('p');
-          note.className = 'kakao-note';
-          note.textContent = /Android/i.test(ua)
-            ? 'Chrome으로 열리지 않으면 오른쪽 아래 ⋮ → 다른 브라우저로 열기를 눌러 주세요.'
-            : 'Safari로 열리지 않으면 오른쪽 아래 공유 → Safari로 열기를 눌러 주세요.';
-          document.body.prepend(note);
+          var bar = document.createElement('div');
+          bar.className = 'escape-bar';
+          bar.setAttribute('role', 'region');
+          bar.setAttribute('aria-label', '브라우저로 열기');
+          if (target) {
+            bar.innerHTML =
+              '<p></p><button type="button" data-escape="open">브라우저로 열기</button>' +
+              '<p>브라우저에서 열렸다면 이 창은 닫아도 돼요</p>';
+            bar.querySelector('p').textContent = app[2] + ' 안에서는 영상과 설치가 잘 안 돼요. ' + (android ? 'Chrome' : 'Safari') + '에서 열어 주세요.';
+            bar.querySelector('[data-escape="open"]').addEventListener('click', function () {
+              location.href = target;
+            });
+          } else {
+            // iOS, not KakaoTalk (DR12): copy the address for Safari, or select it by hand when copying is blocked.
+            var menu = app[1] === 'insta' ? '오른쪽 위 ⋯ → 외부 브라우저에서 열기를 눌러도 돼요.' : '메뉴(⋯)에서 Safari로 열기를 찾아도 돼요.';
+            bar.innerHTML =
+              '<p></p><button type="button" data-escape="copy">주소 복사</button>' +
+              '<p class="escape-msg" aria-live="polite"></p>';
+            bar.querySelector('p').textContent = app[2] + ' 안에서는 앱 설치가 안 돼요. 주소를 복사해 Safari에 붙여 넣어 주세요. ' + menu;
+            var msg = bar.querySelector('.escape-msg');
+            var showUrl = function () {
+              msg.textContent = '';
+              var span = document.createElement('span');
+              span.className = 'url';
+              span.textContent = url;
+              msg.appendChild(span);
+            };
+            bar.querySelector('[data-escape="copy"]').addEventListener('click', function () {
+              try {
+                navigator.clipboard.writeText(url).then(
+                  function () {
+                    msg.textContent = '복사했어요. Safari에 붙여 넣어 주세요';
+                  },
+                  showUrl,
+                );
+              } catch (e) {
+                showUrl();
+              }
+            });
+          }
+          document.body.prepend(bar);
         });
       })();
       // Android Chrome can fire this before the app module loads; keep it for the install guide's one-tap button.

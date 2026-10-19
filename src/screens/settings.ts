@@ -138,6 +138,10 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
   bindBack();
   app.querySelector('[data-action="install-guide"]')?.addEventListener('click', () => go({ profile: profile.id, install: true }));
 
+  // Save from what is stored now, not from this render: the title saves without a redraw, so a later
+  // change on the same screen must not drop it.
+  const latest = (): DeviceSettings => store.settings() ?? current;
+
   // render() rather than renderSettings(): hiding collections can change where "home" is.
   const save = (next: DeviceSettings) => {
     store.saveSettings(next);
@@ -147,13 +151,13 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
   app.querySelectorAll<HTMLButtonElement>('[data-mode]').forEach((b) =>
     b.addEventListener('click', () => {
       const m = b.dataset.mode as LimitMode;
-      if (m !== mode) save({ ...current, limit: { mode: m, value: LIMIT_STEP[m].initial } });
+      if (m !== mode) save({ ...latest(), limit: { mode: m, value: LIMIT_STEP[m].initial } });
     }),
   );
   app.querySelectorAll<HTMLButtonElement>('[data-step]').forEach((b) =>
     b.addEventListener('click', () => {
       const next = Math.min(spec.max, Math.max(spec.min, value + Number(b.dataset.step) * spec.step));
-      store.saveSettings({ ...current, limit: { mode, value: next } });
+      store.saveSettings({ ...latest(), limit: { mode, value: next } });
       render();
       app.querySelector<HTMLButtonElement>(`[data-step="${b.dataset.step}"]`)?.focus();
     }),
@@ -170,7 +174,7 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
       const next = new Set(hidden);
       if (next.has(id)) next.delete(id);
       else next.add(id);
-      store.saveSettings({ ...current, hidden: [...next] });
+      store.saveSettings({ ...latest(), hidden: [...next] });
       render();
       app.querySelector<HTMLElement>(`[data-shown="${CSS.escape(id)}"]`)?.focus();
     }),
@@ -179,7 +183,7 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
     b.addEventListener('click', () => {
       const id = b.dataset.id!;
       const step = Number(b.dataset.move) as -1 | 1;
-      store.saveSettings({ ...current, order: moveCollection(available.map((c) => c.config.id), id, step) });
+      store.saveSettings({ ...latest(), order: moveCollection(available.map((c) => c.config.id), id, step) });
       render();
       // Keep focus on the moved item's arrow; fall back to the other arrow at the ends.
       const same = app.querySelector<HTMLButtonElement>(`[data-move="${step}"][data-id="${CSS.escape(id)}"]`);
@@ -188,7 +192,7 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
   );
   app.querySelector<HTMLButtonElement>('[data-action="share-settings"]')?.addEventListener('click', async (e) => {
     const b = e.currentTarget as HTMLButtonElement;
-    const url = settingsLink(location.origin, location.pathname, current);
+    const url = settingsLink(location.origin, location.pathname, latest());
     try {
       if (navigator.share) {
         await navigator.share({ title: '모아봄 설정', text: '이 링크를 열면 모아봄 설정이 그 기기에 적용돼요.', url });
@@ -216,7 +220,7 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
   });
   app.querySelector('[data-action="history"]')?.addEventListener('click', () => go({ profile: profile.id, history: true }));
   app.querySelector('[data-action="home-continue"]')?.addEventListener('click', () => {
-    store.saveSettings({ ...current, homeContinue: current.homeContinue === false });
+    store.saveSettings({ ...latest(), homeContinue: latest().homeContinue === false });
     render();
     app.querySelector<HTMLElement>('[data-action="home-continue"]')?.focus();
   });
@@ -224,8 +228,7 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
   const titleInput = app.querySelector<HTMLInputElement>('#home-title')!;
   const saveTitle = () => {
     const title = titleInput.value.trim().slice(0, TITLE_MAX);
-    const latest = store.settings() ?? current;
-    store.saveSettings({ ...latest, title: title === profile.name ? undefined : title || undefined });
+    store.saveSettings({ ...latest(), title: title === profile.name ? undefined : title || undefined });
     titleInput.value = title || profile.name;
     app.querySelector('#title-msg')!.textContent = `"${titleInput.value}"(으)로 저장했어요.`;
   };

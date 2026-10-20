@@ -20,15 +20,17 @@ import {
   analytics,
   app,
   appData,
-  applyIncomingSettings,
   esc,
   leaveScreen,
   parseHash,
+  pendingSettings,
+  receiveSettings,
   replace,
   setAccent,
   setActivePlayer,
   setBack,
   setRenderer,
+  settlePendingSettings,
   store,
   type Route,
 } from './ui.ts';
@@ -62,6 +64,9 @@ onInstallChange(() => {
   if (!activePlayer()) render();
 });
 
+/** A settings link arrived: the first screen drawn is 다른 기기와 맞추기, once (leaving it drops the link). */
+let openSyncOnce = false;
+
 // Startup: read what the address carries, then drop it so a shared link does not carry it on (R19).
 {
   const params = new URLSearchParams(location.search);
@@ -72,12 +77,11 @@ onInstallChange(() => {
   if (pin && appData.profiles.some((p) => p.id === pin)) store.savePinned(pin);
   const rest = withoutParams(location.search, ['profile', SETTINGS_PARAM, 'ref']);
   if (rest !== location.search) history.replaceState(history.state, '', location.pathname + rest + location.hash);
-  // A settings link from another device (?settings=<code>): confirm, then apply.
+  // A settings link from another device (?settings=<code>): shown on 다른 기기와 맞추기 for a parent to apply.
   const code = params.get(SETTINGS_PARAM);
   if (code !== null) {
-    const incoming = settingsFromText(code);
-    if (incoming) applyIncomingSettings(incoming);
-    else alert('설정 링크가 올바르지 않아서 적용하지 않았어요.');
+    receiveSettings(settingsFromText(code));
+    openSyncOnce = true;
   }
   analytics.visit(window.__moabomInApp !== undefined);
 }
@@ -131,6 +135,13 @@ function render(): void {
   const showPicker = gate.kind === 'choose';
 
   const home: Route = collections.length > 1 || showPicker ? { profile: profile.id } : { profile: profile.id, collection: collections[0]?.config.id };
+
+  if (openSyncOnce) {
+    openSyncOnce = false;
+    if (!(route.settings && route.section === 'sync')) return replace({ profile: profile.id, settings: true, section: 'sync' });
+  }
+  // A link that was not applied does not wait around once the parent has gone elsewhere.
+  if (pendingSettings() && !(route.settings && route.section === 'sync')) settlePendingSettings(false);
 
   // The parent gate stands in front of every parent screen however it was reached: the gear, the browser's
   // forward button, or a typed address (R1).

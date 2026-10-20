@@ -30,15 +30,18 @@ import {
   analytics,
   app,
   appData,
-  applyIncomingSettings,
   backButton,
   backTo,
   bindBack,
   collectionOfVideo,
+  describeSettings,
   esc,
   go,
+  pendingSettings,
+  receiveSettings,
   render,
   setBack,
+  settlePendingSettings,
   store,
   thumb,
   thumbUrl,
@@ -95,7 +98,7 @@ function menuRow(attrs: string, label: string, value = '', end = icon('chevron-r
 
 /** A switch row; the state text stays for screen readers and the track shows on/off. */
 function switchRow(attrs: string, on: boolean, label: string, sub = '', lead = ''): string {
-  return `<button class="menu-row" role="switch" aria-checked="${on}" ${attrs}>${lead}<span class="label">${label}${sub ? `<small>${sub}</small>` : ''}</span><span class="state">${on ? '켜짐' : '꺼짐'}</span></button>`;
+  return `<button class="menu-row" role="switch" aria-checked="${on}" ${attrs}>${lead}<span class="label">${label}${sub ? `<small>${sub}</small>` : ''}</span><span class="state" aria-hidden="true">${on ? '켜짐' : '꺼짐'}</span></button>`;
 }
 
 /** The small square icon at the start of a row on a detail screen. */
@@ -111,8 +114,8 @@ function preview(caption: string, body: string): string {
   return `<figure class="preview" aria-hidden="true"><figcaption>${caption}</figcaption>${body}</figure>`;
 }
 
-function coverOf(c: Collection): string {
-  return thumbUrl(c.config.coverVideoId ?? c.data.groups[0]?.videos[0]?.id ?? '');
+function coverOf(c: Collection, size: 'hq' | 'mq' = 'hq'): string {
+  return thumbUrl(c.config.coverVideoId ?? c.data.groups[0]?.videos[0]?.id ?? '', size);
 }
 
 function visibleOf(available: Collection[], current: DeviceSettings): Collection[] {
@@ -127,6 +130,7 @@ function visibleOf(available: Collection[], current: DeviceSettings): Collection
  */
 export function renderSettings(profile: Profile, available: Collection[], home: Route, section?: SettingsSection): void {
   const current = deviceSettings(profile);
+  if (section !== 'sync') syncNote = '';
   if (!section) {
     reordering = false;
     setBack(() => backTo(home));
@@ -262,7 +266,7 @@ function limitBody(current: DeviceSettings): string {
   const { mode, value } = current.limit;
   const spec = LIMIT_STEP[mode];
   const option = (m: LimitMode, label: string) =>
-    `<button class="segment" role="radio" aria-checked="${m === mode}" data-mode="${m}">${label}</button>`;
+    `<button class="segment" role="radio" aria-checked="${m === mode}" tabindex="${m === mode ? 0 : -1}" data-mode="${m}">${label}</button>`;
   const choices = `<div class="segmented" role="radiogroup" aria-label="하루 시청 제한">
       ${option('none', '제한 없음')}${option('minutes', '시간으로')}${option('episodes', '편 수로')}
     </div>`;
@@ -283,9 +287,19 @@ function limitBody(current: DeviceSettings): string {
     <p class="hint">${mode === 'minutes' ? '15분이 넘는 모음집은 시간이 되면 멈추고, 다음 날 그 자리부터 이어 봐요.' : '보던 편은 끝까지 보고, 다음 편부터 막혀요.'}</p>`;
 }
 
+const LIMIT_MODES: LimitMode[] = ['none', 'minutes', 'episodes'];
+
 function bindLimit(current: DeviceSettings, latest: () => DeviceSettings): void {
   const { mode, value } = current.limit;
   const spec = LIMIT_STEP[mode];
+  app.querySelector('.segmented')?.addEventListener('keydown', (e) => {
+    const key = (e as KeyboardEvent).key;
+    const step = key === 'ArrowRight' || key === 'ArrowDown' ? 1 : key === 'ArrowLeft' || key === 'ArrowUp' ? -1 : 0;
+    const to = key === 'Home' ? 0 : key === 'End' ? LIMIT_MODES.length - 1 : (LIMIT_MODES.indexOf(mode) + step + LIMIT_MODES.length) % LIMIT_MODES.length;
+    if (!step && key !== 'Home' && key !== 'End') return;
+    e.preventDefault();
+    app.querySelector<HTMLButtonElement>(`[data-mode="${LIMIT_MODES[to]}"]`)?.click();
+  });
   app.querySelectorAll<HTMLButtonElement>('[data-mode]').forEach((b) =>
     b.addEventListener('click', () => {
       const m = b.dataset.mode as LimitMode;
@@ -320,7 +334,7 @@ function charactersBody(available: Collection[], current: DeviceSettings): strin
         .map((c) => {
           const on = !hidden.has(c.config.id);
           const cover = c.config.coverVideoId ?? c.data.groups[0]?.videos[0]?.id ?? '';
-          const img = `<img src="${thumbUrl(cover)}" alt="" width="72" height="44" loading="lazy">`;
+          const img = `<img src="${thumbUrl(cover, 'mq')}" alt="" width="72" height="44" loading="lazy">`;
           const id = esc(c.config.id);
           const name = esc(c.config.displayName);
           if (reordering) {
@@ -331,9 +345,9 @@ function charactersBody(available: Collection[], current: DeviceSettings): strin
             <button class="move" data-move="-1" data-id="${id}" aria-label="${name} 위로"${up ? '' : ' disabled'}>${icon('up', 28)}</button>
             <button class="move" data-move="1" data-id="${id}" aria-label="${name} 아래로"${down ? '' : ' disabled'}>${icon('down', 28)}</button></div>`;
           }
-          // The last visible one cannot be turned off: the home screen must never be empty.
+          // The last visible one cannot be turned off: the home screen must never be empty. Say so on the row.
           const locked = on && shownCount === 1;
-          return `<button class="menu-row char" role="switch" aria-checked="${on}" data-shown="${id}"${locked ? ' aria-disabled="true"' : ''}>${img}<span class="label">${name}</span><span class="state">${on ? '보여요' : '숨김'}</span></button>`;
+          return `<button class="menu-row char" role="switch" aria-checked="${on}" data-shown="${id}"${locked ? ' aria-disabled="true"' : ''}>${img}<span class="label">${name}${locked ? '<small>하나는 남겨 둬야 해요</small>' : ''}</span><span class="state" aria-hidden="true">${on ? '보여요' : '숨김'}</span></button>`;
         })
         .join('')}</div>`,
     )
@@ -417,7 +431,7 @@ function homeBody(profile: Profile, available: Collection[], current: DeviceSett
     '홈 화면 미리 보기',
     `<div class="mini-home"><p class="mini-title"><span id="preview-title">${esc(homeTitle(profile.name, current))}</span>${icon('settings', 20)}</p>
       ${on && shown[0] ? `<div class="mini-hero"><img src="${coverOf(shown[0])}" alt="" width="320" height="180"><span class="mini-chip">${icon('again', 14)}이어 보기</span></div>` : ''}
-      <div class="mini-tiles">${tiles.map((c) => `<span><img src="${coverOf(c)}" alt="" width="160" height="90"><b>${esc(c.config.displayName)}</b></span>`).join('')}</div></div>`,
+      <div class="mini-tiles">${tiles.map((c) => `<span><img src="${coverOf(c, 'mq')}" alt="" width="160" height="90"><b>${esc(c.config.displayName)}</b></span>`).join('')}</div></div>`,
   )}
     <h2 class="menu-group" id="name-title">이름</h2>
     <form class="title-form" data-action="title">
@@ -457,9 +471,34 @@ function bindHome(profile: Profile, latest: () => DeviceSettings): void {
 
 // ---------- 다른 기기와 맞추기 ----------
 
+/** What happened to the last received link, shown once on this screen. */
+let syncNote = '';
+
+function incomingCard(): string {
+  const pending = pendingSettings();
+  if (pending === 'invalid') {
+    return `<section class="panel incoming" role="alert" aria-labelledby="incoming-title">
+      <h2 id="incoming-title">설정 링크를 읽지 못했어요</h2>
+      <p>링크가 잘렸거나 다른 링크예요. 보낸 기기에서 "이 설정 보내기"로 다시 만들어 달라고 해 주세요.</p>
+      <button class="secondary" data-action="incoming-drop">닫기</button>
+    </section>`;
+  }
+  if (!pending) return syncNote ? `<p class="sync-note" role="status" tabindex="-1">${icon('check', 24)}${esc(syncNote)}</p>` : '';
+  return `<section class="panel incoming" aria-labelledby="incoming-title">
+      <h2 id="incoming-title">받은 설정</h2>
+      <p>다른 기기에서 보낸 설정이에요. 적용하면 이 기기의 설정이 아래처럼 바뀌어요.</p>
+      <ul class="checklist">${describeSettings(pending).map((line) => `<li>${icon('check', 20)}${esc(line)}</li>`).join('')}</ul>
+      <p class="hint">본 기록과 시청 기록은 그대로예요.</p>
+      <div class="incoming-actions">
+        <button class="primary" data-action="incoming-apply">이 기기에 적용</button>
+        <button class="secondary" data-action="incoming-drop">적용 안 함</button>
+      </div>
+    </section>`;
+}
+
 function syncBody(): string {
   const moves = ['하루 시청 제한', '보여 줄 캐릭터와 순서', '재생 화면 버튼', '홈 화면 이름과 이어 보기 칸'];
-  return `<div class="menu">
+  return `${incomingCard()}<div class="menu">
       <button class="menu-row" data-action="share-settings">${lead('send')}<span class="label"><span class="say">이 설정 보내기</span><small>카톡 등으로 링크를 보내요</small></span>${icon('chevron-right', 24)}</button>
       <details class="paste">
         <summary class="menu-row">${lead('link')}<span class="label" id="paste-title">받은 링크 붙여넣기<small>다른 기기에서 보낸 링크를 이 기기에 적용해요</small></span>${icon('down', 24)}</summary>
@@ -494,8 +533,25 @@ function bindSync(latest: () => DeviceSettings): void {
       b.querySelector('.say')!.textContent = '링크를 복사했어요';
       b.querySelector('small')!.textContent = '카톡 등으로 보내 주세요';
     } catch {
-      prompt('이 링크를 복사해서 보내 주세요', url);
+      // No share sheet and no clipboard: show the link in the row itself, selected, for a long-press copy.
+      b.querySelector('small')!.textContent = '아래 링크를 길게 눌러 복사해 주세요';
+      if (!app.querySelector('#share-url')) {
+        b.insertAdjacentHTML('afterend', `<div class="paste-body"><input id="share-url" readonly value="${esc(url)}" aria-label="보낼 설정 링크"></div>`);
+      }
+      app.querySelector<HTMLInputElement>('#share-url')?.select();
     }
+  });
+  app.querySelector('[data-action="incoming-apply"]')?.addEventListener('click', () => {
+    settlePendingSettings(true);
+    syncNote = '받은 설정을 이 기기에 적용했어요.';
+    render();
+    app.querySelector<HTMLElement>('.sync-note')?.focus();
+  });
+  app.querySelector('[data-action="incoming-drop"]')?.addEventListener('click', () => {
+    settlePendingSettings(false);
+    syncNote = '';
+    render();
+    app.querySelector<HTMLElement>('[data-action="share-settings"]')?.focus();
   });
   app.querySelector<HTMLFormElement>('[data-action="paste-settings"]')?.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -505,7 +561,10 @@ function bindSync(latest: () => DeviceSettings): void {
       app.querySelector('#paste-msg')!.textContent = '설정 링크가 아니에요. "이 설정 보내기"로 만든 링크를 붙여넣어 주세요.';
       return;
     }
-    if (applyIncomingSettings(incoming)) render();
+    receiveSettings(incoming);
+    syncNote = '';
+    render();
+    app.querySelector<HTMLElement>('[data-action="incoming-apply"]')?.focus();
   });
 }
 

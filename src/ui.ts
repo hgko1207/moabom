@@ -200,8 +200,9 @@ export function duration(sec: number): string {
   return `${m}:${s}`;
 }
 
-export function thumbUrl(id: string): string {
-  return `https://i.ytimg.com/vi/${encodeURIComponent(id)}/hqdefault.jpg`;
+/** YouTube thumbnails: hq (480x360) for cards and the player, mq (320x180) for small rows and miniatures. */
+export function thumbUrl(id: string, size: 'hq' | 'mq' = 'hq'): string {
+  return `https://i.ytimg.com/vi/${encodeURIComponent(id)}/${size}default.jpg`;
 }
 
 export function thumb(id: string, fallback: string, extra = '', eager = false): string {
@@ -274,7 +275,7 @@ export function collectionOfVideo(videoId: string): string | null {
 // ---------- settings links from another device ----------
 
 /** What a settings link would set, in words, so a parent can check before applying it. */
-function describeSettings(s: DeviceSettings): string {
+export function describeSettings(s: DeviceSettings): string[] {
   const profile = appData.profiles[0];
   const ids = profile ? profile.collections.filter((id) => appData.collections.has(id)) : [];
   const shown = visibleCollectionIds(orderCollectionIds(ids, s), s).map((id) => appData.collections.get(id)!.config.displayName);
@@ -285,21 +286,35 @@ function describeSettings(s: DeviceSettings): string {
     `홈 화면 이름: ${profile ? homeTitle(profile.name, s) : ''}`,
     `맨 위 이어 보기 칸: ${s.homeContinue === false ? '꺼짐' : '켜짐'}`,
     `재생 화면 버튼: ${playerButtonNames(s.player).join(', ') || '없음'}`,
-  ].join('\n');
+  ];
 }
 
-const BUTTON_NAMES = { prev: '이전 편', next: '다음 편', replay: '한 번 더' } as const;
+/** In the player's order (이전 편 · 한 번 더 · 다음 편). */
+const BUTTON_NAMES = { prev: '이전 편', replay: '한 번 더', next: '다음 편' } as const;
 
 /** The player buttons switched on, in words (P2-1). */
 export function playerButtonNames(p: PlayerButtons | undefined): string[] {
   return (Object.keys(BUTTON_NAMES) as (keyof typeof BUTTON_NAMES)[]).filter((k) => playerButtonOn(p, k)).map((k) => BUTTON_NAMES[k]);
 }
 
-/** Asks first; returns true when applied. Progress and history on this device are untouched. */
-export function applyIncomingSettings(s: DeviceSettings): boolean {
-  if (!confirm(`다른 기기의 설정을 이 기기에 적용할까요?\n\n${describeSettings(s)}\n\n본 기록과 시청 기록은 그대로예요.`)) return false;
-  store.saveSettings(s);
-  return true;
+/**
+ * A settings link waiting for a parent on the 다른 기기와 맞추기 screen, where it is shown as a card with
+ * 적용 / 적용 안 함 (no browser dialog). 'invalid' when the link could not be read. Kept in memory only.
+ */
+let incoming: DeviceSettings | 'invalid' | null = null;
+
+export function receiveSettings(s: DeviceSettings | null): void {
+  incoming = s ?? 'invalid';
+}
+
+export function pendingSettings(): DeviceSettings | 'invalid' | null {
+  return incoming;
+}
+
+/** Applies (or drops) the waiting link. Progress and history on this device are untouched. */
+export function settlePendingSettings(apply: boolean): void {
+  if (apply && incoming && incoming !== 'invalid') store.saveSettings(incoming);
+  incoming = null;
 }
 
 // ---------- parent settings gear (long press) ----------

@@ -1,0 +1,45 @@
+{
+  "id": "super-simple-songs",
+  "displayName": "슈퍼 심플 송",
+  "category": "english-songs",
+  "enabled": true,
+  "channels": [
+    "UCLsooMJoIpl_7ux2jvdPB-Q",
+    "UCp5Nhw2YMCMUemXC1oWTkkA"
+  ],
+  "coverVideoId": null,
+  "groupLabel": "모음",
+  "groups": [
+    {
+      "id": "nursery",
+      "label": "동요",
+      "playlistId": "PLdkj6XH8GYPSMCsoD5Z55LxK-VLTwAgOA"
+    },
+    {
+      "id": "abc",
+      "label": "알파벳",
+      "playlistId": "PLA97C586F2A087980"
+    },
+    {
+      "id": "long",
+      "label": "모음집",
+      "kind": "free",
+      "uploads": {
+        "minSec": 1800,
+        "latest": 30
+      }
+    }
+  ],
+  "excludeShorts": false,
+  "titleExcludePatterns": [
+    "#shorts",
+    "Livestream",
+    "🔴"
+  ],
+  "titleStripPatterns": [
+    "\\u200B+",
+    "^Alphabet Surprise\\s*\\|\\s*Turn (&|And) Learn ABCs\\s*\\|\\s*",
+    "^The Sounds of the Alphabet\\s*\\|\\s*",
+    "\\s*\\|.*$"
+  ]
+}

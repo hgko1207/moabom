@@ -86,7 +86,6 @@ export function selectVideos(
       channelId: v.channelId,
       group: group.id,
       order: out.length + 1,
-      ...(v.hasCaptions ? { hasCaptions: true } : {}),
     });
   }
   return out;

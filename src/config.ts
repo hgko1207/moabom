@@ -75,8 +75,6 @@ export interface VideoRecord {
   group: string;
   /** 1-based position inside its group (playlist order). */
   order: number;
-  /** YouTube lists captions for this video (videos.list contentDetails.caption); missing before the first fetch with it. */
-  hasCaptions?: boolean;
 }
 
 export interface CollectionData {
@@ -319,21 +317,6 @@ export function validateCategories(raw: unknown, iconNames: readonly string[]): 
     }
   });
   return errors.length ? { ok: false, errors } : { ok: true, value: raw.categories as Category[] };
-}
-
-/** One line under the player title (P2-2). */
-export const DESCRIPTION_MAX = 80;
-
-/** config/descriptions/{collectionId}.json: videoId → one sentence a parent checked. */
-export function validateDescriptions(raw: unknown): Validated<Record<string, string>> {
-  if (!isObj(raw)) return { ok: false, errors: ['descriptions must be a JSON object of videoId → sentence'] };
-  const errors: string[] = [];
-  for (const [id, text] of Object.entries(raw)) {
-    if (!/^[A-Za-z0-9_-]{11}$/.test(id)) errors.push(`"${id}" is not a YouTube video ID`);
-    if (!isStr(text)) errors.push(`${id}: the sentence is empty`);
-    else if (text.length > DESCRIPTION_MAX) errors.push(`${id}: the sentence is longer than ${DESCRIPTION_MAX} characters`);
-  }
-  return errors.length ? { ok: false, errors } : { ok: true, value: raw as Record<string, string> };
 }
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;

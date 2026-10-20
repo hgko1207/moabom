@@ -39,7 +39,7 @@ describe('settings share code', () => {
   it('carries the player buttons (P2-1) and rejects non-boolean values', () => {
     const enc = (o: unknown) => 's1.' + Buffer.from(JSON.stringify(o)).toString('base64url');
     const limit = { mode: 'none' as const, value: 0 };
-    const withButtons = { limit, player: { next: true, replay: false, captions: true } };
+    const withButtons = { limit, player: { prev: true, next: true, replay: false } };
     expect(decodeSettings(encodeSettings(withButtons))).toEqual(withButtons);
     expect(decodeSettings(enc({ limit, player: { next: 'yes' } }))).toBeNull();
     expect(decodeSettings(enc({ limit, player: ['next'] }))).toBeNull();

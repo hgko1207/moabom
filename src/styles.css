@@ -1635,12 +1635,6 @@ details.paste summary::-webkit-details-marker {
   color: var(--ink-2);
 }
 
-.player-info .description {
-  margin-top: 4px;
-  font-size: 18px;
-  line-height: 1.5;
-}
-
 /* Player buttons (P2-1): 64px targets in one row */
 .controls {
   display: flex;

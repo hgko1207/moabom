@@ -1,11 +1,10 @@
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import {
   accentProblems,
   contrastRatio,
   validateCategories,
   validateCollection,
-  validateDescriptions,
   validateNews,
   validateProfiles,
 } from '../src/config.ts';
@@ -238,33 +237,6 @@ describe('accent colours (P2-6)', () => {
     const p = profiles();
     p.profiles[0] = { ...p.profiles[0]!, color: '#7048E8' };
     expect(errorsOf(validateProfiles(p, { numberblocks: ['lv1', 'lv2'] }))).toEqual([expect.stringContaining('profiles[0].color #7048E8 is too dark')]);
-  });
-});
-
-describe('validateDescriptions (P2-2)', () => {
-  it('maps video IDs to one short sentence', () => {
-    expect(validateDescriptions({ dQw4w9WgXcQ: '숫자 1이 처음 나와요.' }).ok).toBe(true);
-  });
-
-  it('reports bad IDs, empty and long sentences', () => {
-    expect(errorsOf(validateDescriptions({ short: '문장', dQw4w9WgXcQ: '', abcdefghijk: '가'.repeat(81) }))).toEqual([
-      expect.stringContaining('"short" is not a YouTube video ID'),
-      expect.stringContaining('dQw4w9WgXcQ: the sentence is empty'),
-      expect.stringContaining('abcdefghijk: the sentence is longer than 80'),
-    ]);
-  });
-
-  it('keeps every checked-in description on a video the collection has', () => {
-    const dir = 'config/descriptions';
-    const files = existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith('.json')) : [];
-    for (const file of files) {
-      const id = file.replace(/\.json$/, '');
-      const raw = JSON.parse(readFileSync(`${dir}/${file}`, 'utf8'));
-      expect(errorsOf(validateDescriptions(raw)), file).toEqual([]);
-      const data = JSON.parse(readFileSync(`data/collections/${id}/videos.json`, 'utf8')) as { groups: { videos: { id: string }[] }[] };
-      const known = new Set(data.groups.flatMap((g) => g.videos.map((v) => v.id)));
-      expect(Object.keys(raw).filter((v) => !known.has(v)), file).toEqual([]);
-    }
   });
 });
 

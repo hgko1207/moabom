@@ -12,10 +12,6 @@ interface YTPlayer {
   getPlayerState(): number;
   getVideoUrl(): string;
   getVideoData?(): { video_id?: string };
-  // Captions module: not in the official reference (design P2-1 spike); every call is guarded.
-  loadModule?(name: string): void;
-  unloadModule?(name: string): void;
-  setOption?(module: string, option: string, value: unknown): void;
   destroy(): void;
 }
 
@@ -71,8 +67,6 @@ export interface PlayerHandle {
   /** From the start of the same video (한 번 더). */
   restart(): void;
   isPlaying(): boolean;
-  /** Turns captions on or off; false when this device's player has no captions module (P2-1 spike). */
-  setCaptions(on: boolean): boolean;
   destroy(): void;
 }
 
@@ -185,21 +179,6 @@ export async function createPlayer(
     isPlaying() {
       try {
         return player.getPlayerState() === PLAYING;
-      } catch {
-        return false;
-      }
-    },
-    setCaptions(on) {
-      if (typeof player.loadModule !== 'function' || typeof player.setOption !== 'function') return false;
-      try {
-        if (on) {
-          player.loadModule('captions');
-          player.setOption('captions', 'track', { languageCode: 'ko' });
-        } else {
-          player.setOption('captions', 'track', {});
-          player.unloadModule?.('captions');
-        }
-        return true;
       } catch {
         return false;
       }

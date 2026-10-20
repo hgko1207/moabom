@@ -35,7 +35,6 @@ import {
   activePlayer,
   analytics,
   app,
-  appData,
   backButton,
   backTo,
   bindBack,
@@ -93,13 +92,10 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   const buttons = store.settings()?.player ?? {};
   const prev = buttons.prev ? prevInOrder(scope, video.id) : null;
   const next = buttons.next ? nextInOrder(scope, video.id) : null;
-  const captions = buttons.captions && video.hasCaptions === true;
-  const description = appData.descriptions.get(c.config.id)?.[video.id];
   const controls = [
     prev ? `<button class="control" data-go="${esc(prev.id)}" aria-label="이전 편">${icon('skip-back', 32)}</button>` : '',
     buttons.replay ? `<button class="control" data-action="replay" aria-label="한 번 더"${canReplay(today, limits) ? '' : ' hidden'}>${icon('again', 32)}</button>` : '',
     next ? `<button class="control" data-go="${esc(next.id)}" aria-label="다음 편">${icon('skip-forward', 32)}</button>` : '',
-    captions ? `<button class="control" data-action="captions" aria-label="자막" aria-pressed="false">${icon('captions', 32)}</button>` : '',
   ].join('');
 
   setBack(() => backTo(listRoute));
@@ -113,7 +109,6 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     </div>
     <div class="player-info">
       <p class="episode-label">${esc(episodeLabel(c.config, video))}</p>
-      ${description ? `<p class="description">${esc(description)}</p>` : ''}
     </div>
     ${controls ? `<div class="controls" role="group" aria-label="재생 버튼">${controls}</div>` : ''}
     <p class="detect-off" hidden>감지 꺼짐</p>
@@ -186,11 +181,6 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     progress = recordPosition(progress, video.id, null);
     save();
     player?.restart();
-  });
-  app.querySelector<HTMLButtonElement>('[data-action="captions"]')?.addEventListener('click', (e) => {
-    const b = e.currentTarget as HTMLButtonElement;
-    const on = b.getAttribute('aria-pressed') !== 'true';
-    if (player?.setCaptions(on)) b.setAttribute('aria-pressed', String(on));
   });
 
   const bindOverlayActions = (root: HTMLElement) => {

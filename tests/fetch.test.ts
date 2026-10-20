@@ -77,11 +77,6 @@ describe('buildDisplayTitle', () => {
 });
 
 describe('selectVideos', () => {
-  it('keeps hasCaptions on records only when YouTube lists captions', () => {
-    const { kept } = run(config(), [video('a', { hasCaptions: true }), video('b', { hasCaptions: false })]);
-    expect(kept.map((v) => v.hasCaptions)).toEqual([true, undefined]);
-  });
-
   it('drops non-whitelisted channels with a warning and keeps official videos in playlist order', () => {
     const { kept, logs } = run(config(), [video('a'), video('b', { channelId: 'UC_reupload' }), video('c')]);
     expect(kept.map((v) => [v.id, v.order, v.displayTitle])).toEqual([
@@ -324,7 +319,7 @@ describe('createClient', () => {
           items: ids.map((id) => ({
             id,
             snippet: { title: id, channelId: 'UC' },
-            contentDetails: { duration: 'PT1M', caption: id === 'id0' ? 'true' : 'false' },
+            contentDetails: { duration: 'PT1M' },
             status: { embeddable: true, privacyStatus: 'public' },
           })),
         }),
@@ -333,10 +328,7 @@ describe('createClient', () => {
     const client = createClient(KEY, fakeFetch);
     expect((await client.playlistItems('PL1')).map((e) => e.videoId)).toEqual(['v0', 'v1', 'v2']);
     const many = Array.from({ length: 120 }, (_, i) => `id${i}`);
-    const details = await client.videos(many);
-    expect(details).toHaveLength(120);
-    // contentDetails.caption ("true"/"false") becomes hasCaptions (P2-1 자막 button)
-    expect(details.filter((v) => v.hasCaptions).map((v) => v.id)).toEqual(['id0']);
+    expect(await client.videos(many)).toHaveLength(120);
     expect(calls.filter((c) => c === 'videos')).toHaveLength(3);
   });
 

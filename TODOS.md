@@ -54,6 +54,18 @@
 **Priority:** P3
 **Depends on:** 부모가 라벨이 실제 화수와 다르다고 할 때
 
+### 자막 버튼
+
+**What:** 재생 화면 버튼 줄에 "자막"을 더한다(다른 버튼처럼 기본 꺼짐, 기기 설정에서 켬).
+
+**Why:** 2단계 계획(P2-1)에 있었지만 2026-10-20에 뺐다. YouTube 플레이어 안의 CC 버튼으로 이미 켤 수 있고, 앱에서 켜는 방법(`loadModule('captions')`, `setOption('captions','track',…)`)은 공식 문서에 없어 기기마다 확인이 필요하다.
+
+**Context:** 만들 때: fetch에서 videos.list `contentDetails.caption`을 `hasCaptions`로 저장해 자막 없는 영상에서는 버튼을 숨긴다. iPad Safari·안드로이드 Chrome에서 모듈 방식이 되는지 먼저 확인하고, 안 되면 `cc_load_policy`로 플레이어를 현재 시각에서 다시 만든다(같은 편이라 편수에 새로 세지 않음, 다른 영상 감지는 첫 재생까지 쉼). 구현 흔적은 git 05aa844(Wire phase 2 …)에 있다.
+
+**Effort:** S
+**Priority:** P3
+**Depends on:** 부모나 아이가 CC 버튼을 찾기 어렵다고 할 때
+
 ## Devices
 
 ### TV 대응

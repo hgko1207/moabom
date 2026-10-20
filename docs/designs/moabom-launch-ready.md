@@ -2262,11 +2262,11 @@ Synthesized from this review's findings and answers. Checkbox as you ship.
   - Surfaced by: P2-1; S2
   - Files: src/storage.ts, src/share.ts, src/ui.ts, src/rules.ts, src/screens/settings.ts, src/screens/player.ts, src/styles.css, tests/share.test.ts, tests/rules.test.ts
   - Verify: `npm test`; headless: no buttons by default; switch on → shown; next at the limit → moon; replay hidden after the limit
-- [ ] **U4 (P2, human: ~2h + device time / CC: ~20min)** — 자막 — device spike (iPad Safari, Android Chrome) first; fetch stores hasCaptions from contentDetails.caption; button hidden when false; module API or the rebuild fallback per the spike
+- [x] **U4 (P2, human: ~2h + device time / CC: ~20min)** — 자막 — device spike (iPad Safari, Android Chrome) first; fetch stores hasCaptions from contentDetails.caption; button hidden when false; module API or the rebuild fallback per the spike
   - Surfaced by: P2-1 captions; S5; Section 1 hasCaptions finding
   - Files: scripts/youtube.ts, scripts/fetch.ts, src/config.ts (VideoRecord), src/player.ts, src/screens/player.ts, tests/fetch.test.ts
   - Verify: spike result noted in SPEC; `npm test`; manual run of the refresh workflow after deploy
-- [ ] **U5 (P2, human: ~3h / CC: ~20min)** — labels and descriptions — card and player label "{그룹} {순서}화" (free: group only, `gstack-shortcut(dec-d8077efe)`); config/descriptions/{id}.json validated; player shows title + label + one line (hidden when missing); first fill for 넘버블록스
+- [x] **U5 (P2, human: ~3h / CC: ~20min)** — labels and descriptions — card and player label "{그룹} {순서}화" (free: group only, `gstack-shortcut(dec-d8077efe)`); config/descriptions/{id}.json validated; player shows title + label + one line (hidden when missing); first fill for 넘버블록스
   - Surfaced by: P2-2; R22 (D3); Section 2 descriptions finding
   - Files: src/rules.ts, src/config.ts, src/data.ts, config/descriptions/numberblocks.json, src/screens/collection.ts, src/screens/player.ts, tests/rules.test.ts, tests/config.test.ts
   - Verify: `npm test` (label rows, description validation, real keys exist); headless: label on cards, description line
@@ -2332,6 +2332,9 @@ REALITY: pr-count pass no .gstack/ship-policy.json, one branch (phase2) merged o
 - Parallelization: 5 steps, 4 parallel / 1 sequential
 - Lake Score: 1/2 = answers picking a 10/10-leaning option / answers scored for Completeness (D3 chose A at 6/10, D4 chose A at 9/10)
 
+
+## Change after phase-2 build (2026-10-20)
+- User dropped the 자막 button (YouTube's own CC button already turns captions on; the app-side API is undocumented) and the description line (title + episode label are enough). Code for both was removed before release; U4 and U5's description part are closed. The captions button is a TODO (TODOS.md "자막 버튼").
 
 ## GSTACK REVIEW REPORT
 

@@ -56,7 +56,6 @@ export interface PlayerButtons {
   prev?: boolean;
   next?: boolean;
   replay?: boolean;
-  captions?: boolean;
 }
 
 /** One video on one day of the viewing history. */

@@ -282,7 +282,7 @@ function describeSettings(s: DeviceSettings): string {
   ].join('\n');
 }
 
-const BUTTON_NAMES = { prev: '이전 편', next: '다음 편', replay: '한 번 더', captions: '자막' } as const;
+const BUTTON_NAMES = { prev: '이전 편', next: '다음 편', replay: '한 번 더' } as const;
 
 /** The player buttons switched on, in words (P2-1). */
 export function playerButtonNames(p: PlayerButtons | undefined): string[] {

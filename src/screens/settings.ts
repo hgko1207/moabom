@@ -44,7 +44,6 @@ const PLAYER_SWITCHES: [keyof PlayerButtons, string][] = [
   ['prev', '이전 편'],
   ['next', '다음 편'],
   ['replay', '한 번 더'],
-  ['captions', '자막'],
 ];
 
 const LIMIT_STEP: Record<LimitMode, { step: number; min: number; max: number; unit: string; initial: number }> = {
@@ -140,7 +139,7 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
         ([key, label]) => `<button class="shown switch" role="switch" aria-checked="${!!buttons[key]}" data-button="${key}">
         <span class="name">${label}</span><span class="state">${buttons[key] ? '켜짐' : '꺼짐'}</span></button>`,
       ).join('')}
-      <p class="hint">켜면 재생 화면 아래에 버튼이 생겨요. 이전·다음 편도 하루 제한을 지키고, 한 번 더는 제한에 닿으면 숨어요. 자막은 자막이 있는 영상에만 보여요.</p>
+      <p class="hint">켜면 재생 화면 아래에 버튼이 생겨요. 이전·다음 편도 하루 제한을 지키고, 한 번 더는 제한에 닿으면 숨어요.</p>
     </section>
     <section class="panel" aria-labelledby="shown-title">
       <h2 id="shown-title">보여 줄 캐릭터</h2>

@@ -19,6 +19,7 @@ import {
   type Limits,
 } from './rules.ts';
 import { createAnalytics, type SessionKV } from './analytics.ts';
+import type { PlayerHandle } from './player.ts';
 import { browserKV, createStore, type CollectionProgress, type DeviceSettings, type TodayState } from './storage.ts';
 
 export const app = document.getElementById('app')!;
@@ -132,6 +133,19 @@ export function replace(r: Route): void {
 export function backTo(parent: Route): void {
   if (depth() > 0) history.back();
   else replace(parent);
+}
+
+// ---------- the playing video ----------
+
+let player: PlayerHandle | null = null;
+
+/** The YouTube player on the current screen, if any; render() destroys it before drawing the next screen. */
+export function activePlayer(): PlayerHandle | null {
+  return player;
+}
+
+export function setActivePlayer(p: PlayerHandle | null): void {
+  player = p;
 }
 
 // ---------- per-screen cleanup ----------

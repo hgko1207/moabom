@@ -98,6 +98,12 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     playerButtonOn(buttons, 'replay') ? `<button class="control" data-action="replay" aria-label="한 번 더"${canReplay(today, limits) ? '' : ' hidden'}>${icon('again', 32)}</button>` : '',
     next ? `<button class="control" data-go="${esc(next.id)}" aria-label="다음 편">${icon('skip-forward', 32)}</button>` : '',
   ].join('');
+  // What plays next (direction A): the same episode, setting and daily limit as the 다음 편 button.
+  const preview =
+    next && canStart(today, limits, next.id)
+      ? `<button class="next-preview" data-go="${esc(next.id)}" aria-label="다음에 볼 편: ${esc(episodeLabel(c.config, next))} ${esc(next.displayTitle)}">
+      ${thumb(next.id, String(next.order))}<span><small>다음에 볼 편</small><b>${esc(episodeLabel(c.config, next))} · ${esc(next.displayTitle)}</b></span></button>`
+      : '';
 
   setBack(() => backTo(listRoute));
   app.innerHTML = `<main class="screen player-screen">
@@ -113,6 +119,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
       <h1 class="episode-title">${esc(video.displayTitle)}</h1>
     </div>
     ${controls ? `<div class="controls" role="group" aria-label="재생 버튼">${controls}</div>` : ''}
+    ${preview}
     <p class="detect-off" hidden>감지 꺼짐</p>
   </main>`;
   bindBack();

@@ -1,14 +1,15 @@
-/* Design tokens (SPEC §10). The profile color is the only accent and is set per screen as --accent. */
+/* Design tokens (SPEC §10, .impeccable.md "warm picture book", direction A 2026-10-20). The profile color is the only
+   accent and is set per screen as --accent. */
 :root {
-  --bg: #f4f6fa;
+  --bg: #f3f5ec;
   --surface: #ffffff;
-  --ink: #1b2230;
-  --ink-2: #4a5568;
-  --line: #dde2ea;
+  --ink: #18221e;
+  --ink-2: #5b6b62;
+  --line: #dfe6d6;
   --done: #1f9d55;
   --night: #1e2340;
   --night-ink: #e8eaf6;
-  --accent: #4c8bf5;
+  --accent: #2e9e6b;
 
   --s1: 8px;
   --s2: 16px;
@@ -993,69 +994,7 @@ body.night {
   color: var(--done);
 }
 
-/* Settings: which collections the kids see, and the home title */
-.shown-list {
-  display: grid;
-  gap: var(--s1);
-}
-
-.shown {
-  display: flex;
-  align-items: center;
-  gap: var(--s2);
-  min-height: var(--target);
-  padding: var(--s1);
-  border-radius: var(--radius);
-  border: 3px solid var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
-  text-align: left;
-}
-
-.shown img {
-  width: 96px;
-  height: 54px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.shown .name {
-  flex: 1;
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.shown .state {
-  padding: 4px 12px;
-  border-radius: var(--radius);
-  background: var(--accent);
-  color: var(--ink);
-  font-size: 15px;
-  font-weight: 700;
-}
-
-.shown[aria-checked='false'] {
-  border-color: var(--line);
-  background: var(--surface);
-}
-
-.shown[aria-checked='false'] img {
-  filter: grayscale(1);
-  opacity: 0.5;
-}
-
-.shown[aria-checked='false'] .name {
-  color: var(--ink-2);
-}
-
-.shown[aria-checked='false'] .state {
-  background: var(--line);
-  color: var(--ink-2);
-}
-
-.shown[aria-disabled='true'] {
-  cursor: default;
-}
-
+/* Settings: the home title */
 .title-form {
   display: flex;
   gap: var(--s1);
@@ -1078,18 +1017,7 @@ body.night {
   outline: none;
 }
 
-/* Settings: reorder collections with up/down arrows */
-.shown-row {
-  display: flex;
-  align-items: stretch;
-  gap: 6px;
-}
-
-.shown-row .shown {
-  flex: 1;
-  min-width: 0;
-}
-
+/* Settings: reorder collections with up/down arrows (shown after 순서 바꾸기) */
 .move {
   width: 52px;
   border-radius: var(--radius);
@@ -1102,45 +1030,6 @@ body.night {
 .move:disabled {
   opacity: 0.3;
   cursor: default;
-}
-
-.shown .name,
-.shown .state {
-  white-space: nowrap;
-}
-
-.shown .name {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-@media (max-width: 520px) {
-  .shown-row {
-    gap: 4px;
-  }
-
-  .shown {
-    gap: var(--s1);
-  }
-
-  .shown img {
-    width: 56px;
-    height: 32px;
-  }
-
-  .shown .name {
-    font-size: 16px;
-  }
-
-  .shown .state {
-    padding: 4px 8px;
-    font-size: 13px;
-  }
-
-  .move {
-    width: 44px;
-  }
 }
 
 .settings .hint,
@@ -1189,11 +1078,6 @@ body.night {
 .settings h3 {
   font-size: 18px;
   margin: var(--s3) 0 var(--s1);
-}
-
-.shown.switch {
-  width: 100%;
-  padding: var(--s1) var(--s2);
 }
 
 /* Viewing history (H3) */
@@ -1487,14 +1371,6 @@ details.paste summary::-webkit-details-marker {
 }
 
 /* Settings: grouped characters (DR14), news card (DR11), the 모아봄 panel (DR4) */
-.settings h3.shown-group {
-  margin: var(--s2) 0 var(--s1);
-}
-
-.settings h3.shown-group:first-of-type {
-  margin-top: 0;
-}
-
 .panel.news {
   position: relative;
   padding-right: calc(var(--target) + var(--s2));
@@ -1550,10 +1426,6 @@ details.paste summary::-webkit-details-marker {
 .link-row .icon {
   flex: none;
   color: var(--ink-2);
-}
-
-.panel .link-row + .shown.switch {
-  margin-top: var(--s2);
 }
 
 .text-link {
@@ -1723,14 +1595,7 @@ details.paste summary::-webkit-details-marker {
 /* Settings switches (design review 2026-10-20, FINDING-001): a neutral row with a real switch on the right.
    The state text stays in the button for screen readers; the track shows on/off. The track is round on
    purpose: a switch is a convention parents recognise, the one exception to "no pill shapes". */
-.shown,
-.shown[aria-checked='false'] {
-  border: 2px solid var(--line);
-  background: var(--surface);
-}
-
-.shown .state,
-.shown[aria-checked='false'] .state {
+.menu-row[role='switch'] .state {
   position: relative;
   flex: none;
   width: 52px;
@@ -1743,11 +1608,11 @@ details.paste summary::-webkit-details-marker {
   transition: background-color var(--rise) ease-out;
 }
 
-.shown[aria-checked='false'] .state {
+[role='switch'][aria-checked='false'] .state {
   background: #7d8697;
 }
 
-.shown .state::after {
+.menu-row[role='switch'] .state::after {
   content: '';
   position: absolute;
   top: 3px;
@@ -1760,11 +1625,11 @@ details.paste summary::-webkit-details-marker {
   transition: left var(--rise) ease-out;
 }
 
-.shown[aria-checked='false'] .state::after {
+[role='switch'][aria-checked='false'] .state::after {
   left: 3px;
 }
 
-.shown[aria-disabled='true'] .state {
+[role='switch'][aria-disabled='true'] .state {
   opacity: 0.5;
 }
 
@@ -1891,4 +1756,806 @@ body.night {
   .control {
     transition: none;
   }
+}
+
+/* ---------- Direction A: a picture-book page (chosen 2026-10-20) ----------
+   Sage paper ground, the brand green as the accent, pictures without boxes, a soft paper "ledge" under the
+   pictures and panels a child presses. */
+
+/* Home: the characters are pictures on the page, not cards. */
+.tile {
+  background: transparent;
+  padding: 0;
+  gap: 8px;
+}
+
+.tile .thumb {
+  border-radius: 16px;
+}
+
+.tile .label {
+  font-size: 18px;
+  padding: 0 2px;
+}
+
+.category h2 {
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.category h2::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  margin-left: var(--s1);
+  border-radius: 2px;
+  background: var(--line);
+}
+
+.category + .category {
+  margin-top: 28px;
+}
+
+/* Today's video (home 이어 보기 and the collection hero): a big rounded picture with a caption under it. */
+.hero:not(.night) {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  gap: 12px;
+}
+
+.hero:not(.night) .thumb {
+  border-radius: 22px;
+  box-shadow: 0 6px 0 var(--line);
+}
+
+.hero:not(.night) .play {
+  background: var(--surface);
+  color: var(--accent);
+  box-shadow: 0 4px 0 rgba(24, 34, 30, 0.12);
+}
+
+.hero:not(.night) .title {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+/* Episode cards: pictures too; the next one to watch gets the accent ring. */
+.card {
+  background: transparent;
+  padding: 0;
+  border: 0;
+}
+
+.card .thumb {
+  border-radius: 14px;
+}
+
+.card.next .thumb {
+  box-shadow: 0 0 0 4px var(--accent);
+}
+
+/* Small labels on the page take a deeper shade of the accent (readable at 4.5:1), never grey. */
+.player-info .episode-label,
+.card .ep {
+  color: color-mix(in srgb, var(--accent) 62%, var(--ink));
+}
+
+/* Player: the buttons sit together on one paper panel; 한 번 더 in the middle is the filled one. */
+.controls {
+  max-width: 440px;
+  margin: var(--s3) auto 0;
+  padding: 10px;
+  gap: 10px;
+  justify-content: stretch;
+  border-radius: 22px;
+  background: var(--surface);
+  box-shadow: 0 6px 0 var(--line);
+}
+
+.control {
+  flex: 1;
+  width: auto;
+  height: 76px;
+  border: 0;
+  border-radius: 16px;
+  background: var(--bg);
+}
+
+.control[data-action='replay'] {
+  background: var(--accent);
+  color: var(--surface);
+}
+
+/* What plays next, under the buttons. */
+.next-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 440px;
+  margin: var(--s3) auto 0;
+  text-align: left;
+}
+
+.next-preview .thumb {
+  flex: none;
+  width: 136px;
+  border-radius: 14px;
+}
+
+.next-preview small {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.next-preview b {
+  display: block;
+  margin-top: 2px;
+  font-size: 17px;
+  font-weight: 800;
+  word-break: keep-all;
+}
+
+.player-screen.big .next-preview {
+  display: none;
+}
+
+/* Phones: two pictures per row on the home page, as in the direction A mockup. */
+@media (max-width: 599px) {
+  .tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 12px;
+  }
+
+  .tile .label {
+    font-size: 16px;
+  }
+}
+
+/* ---------- Settings menu (2026-10-20 review, option A) ----------
+   Today on top, then quiet lists of rows; each row shows its current value and opens its own screen.
+   A new setting is one more row here (a switch row when it is a single on/off), never one more panel. */
+.settings .menu-group {
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
+  margin: var(--s3) 4px var(--s1);
+  font-size: 16px;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--accent) 62%, var(--ink));
+}
+
+.settings .menu-group::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--line);
+}
+
+.menu {
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: var(--s2);
+}
+
+.menu-row {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  width: 100%;
+  min-height: var(--target);
+  margin: 0;
+  padding: var(--s1) var(--s1) var(--s1) var(--s2);
+  color: var(--ink);
+  text-align: left;
+  text-decoration: none;
+}
+
+.menu > * + * {
+  border-top: 1px solid var(--line);
+}
+
+.menu-row .label {
+  flex: 1;
+  min-width: 0;
+  font-size: 18px;
+  font-weight: 700;
+  word-break: keep-all;
+}
+
+.menu-row .label small {
+  display: block;
+  margin-top: 2px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+.menu-row .now {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 55%;
+  overflow: hidden;
+  color: var(--ink-2);
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.menu-row > .icon {
+  flex: none;
+  color: var(--ink-2);
+}
+
+.menu-row.char {
+  padding-left: var(--s1);
+}
+
+.menu-row.char img {
+  flex: none;
+  width: 72px;
+  height: 44px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.menu-row.char .label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.menu-row.char[aria-checked='false'] img,
+.menu-row.char.off img {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
+.menu-row.char[aria-checked='false'] .label,
+.menu-row.char.off .label {
+  color: var(--ink-2);
+}
+
+.menu-row[aria-disabled='true'] {
+  cursor: default;
+}
+
+.menu-row .move {
+  flex: none;
+  width: 52px;
+  height: 52px;
+}
+
+.settings .reorder {
+  display: block;
+  margin: 0 auto;
+}
+
+.settings .reorder + .hint {
+  text-align: center;
+}
+
+.panel.today h2 {
+  margin-bottom: var(--s1);
+}
+
+.today-meter {
+  height: 10px;
+  margin: var(--s1) 0 0;
+  border-radius: 5px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.today-meter > span {
+  display: block;
+  height: 100%;
+  border-radius: 5px;
+  background: var(--accent);
+}
+
+/* The news card is one line until opened. */
+.panel.news {
+  padding: var(--s1) calc(var(--target) + var(--s1)) var(--s1) var(--s2);
+}
+
+.panel.news summary {
+  display: grid;
+  align-content: center;
+  min-height: 48px;
+  list-style: none;
+  cursor: pointer;
+}
+
+.panel.news summary::-webkit-details-marker {
+  display: none;
+}
+
+.panel.news summary .news-date {
+  font-size: 14px;
+}
+
+.panel.news summary b {
+  font-size: 17px;
+}
+
+.panel.news details p {
+  margin: var(--s1) 0;
+}
+
+.panel.news .close {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.panel.news:has(details[open]) .close {
+  top: var(--s1);
+  transform: none;
+}
+
+.panel > .hint:first-child {
+  margin-top: 0;
+}
+
+/* ---------- Settings detail screens (2026-10-20): a picture of the children's screen, then rows ---------- */
+.preview {
+  margin: 0 0 var(--s3);
+  padding: var(--s2);
+  border-radius: 22px;
+  background: var(--surface);
+  box-shadow: 0 6px 0 var(--line);
+}
+
+.preview figcaption {
+  margin: 0 0 var(--s1);
+  font-size: 14px;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--accent) 62%, var(--ink));
+}
+
+.menu-row .lead {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--bg);
+  color: color-mix(in srgb, var(--accent) 62%, var(--ink));
+}
+
+/* 하루 시청 제한: one segmented choice, one big number, the moon it leads to */
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  max-width: 480px;
+  margin-bottom: var(--s2);
+  padding: 4px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--line) 75%, var(--bg));
+}
+
+.segment {
+  min-height: 56px;
+  border-radius: 12px;
+  color: var(--ink-2);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.segment[aria-checked='true'] {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 2px 0 var(--line);
+}
+
+.stepper-card {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: var(--s2);
+}
+
+.stepper-card .step {
+  flex: none;
+  border: 0;
+  border-radius: 50%;
+  background: var(--bg);
+}
+
+.stepper-card .value {
+  flex: 1;
+  min-width: 0;
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.stepper-card .value small {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--ink-2);
+}
+
+.stepper-card .value span {
+  margin-left: 2px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.preview-moon {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: var(--s3) var(--s2);
+  border-radius: 16px;
+  background-color: var(--night);
+  background-image:
+    radial-gradient(2px 2px at 70% 22%, rgba(246, 240, 200, 0.9), transparent 70%),
+    radial-gradient(2px 2px at 86% 64%, rgba(246, 240, 200, 0.7), transparent 70%),
+    radial-gradient(1.5px 1.5px at 56% 80%, rgba(246, 240, 200, 0.7), transparent 70%);
+  color: var(--night-ink);
+}
+
+.preview-moon .icon {
+  flex: none;
+  color: #f6d365;
+}
+
+.preview-moon p {
+  margin: 0;
+  font-size: 15px;
+}
+
+.preview-moon b {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 20px;
+}
+
+/* 재생 화면 버튼: the player in miniature, in the player's order */
+.mini-player img,
+.mini-hero img,
+.mini-tiles img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.mini-player img {
+  border-radius: 14px;
+}
+
+.mini-controls {
+  display: flex;
+  gap: var(--s1);
+  margin-top: var(--s1);
+  padding: var(--s1);
+  border-radius: 16px;
+  background: var(--bg);
+}
+
+.mini-control {
+  flex: 1;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.mini-control.accent {
+  background: var(--accent);
+  color: #fff;
+}
+
+.mini-none {
+  flex: 1;
+  padding: 13px 0;
+  text-align: center;
+  color: var(--ink-2);
+  font-size: 15px;
+}
+
+/* 홈 화면: the title, the 이어 보기 card and two tiles */
+.mini-title {
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
+  margin: 0 0 var(--s1);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+.mini-title span {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.mini-title .icon {
+  flex: none;
+  color: var(--ink-2);
+}
+
+.mini-hero {
+  position: relative;
+}
+
+.mini-hero img {
+  border-radius: 14px;
+}
+
+.mini-chip {
+  position: absolute;
+  left: var(--s1);
+  bottom: var(--s1);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.mini-tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s1);
+  margin-top: var(--s1);
+}
+
+.mini-tiles img {
+  border-radius: 10px;
+}
+
+.mini-tiles b {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+}
+
+/* 다른 기기와 맞추기: two action rows, the paste form opens inside the second */
+.menu details.paste {
+  margin: 0;
+}
+
+.menu details.paste summary {
+  min-height: var(--target);
+  font-weight: inherit;
+}
+
+.menu details.paste summary::before {
+  content: none;
+}
+
+.menu details.paste summary > .icon {
+  flex: none;
+  color: var(--ink-2);
+  transition: transform var(--rise);
+}
+
+.menu details.paste[open] summary > .icon {
+  transform: rotate(180deg);
+}
+
+.paste-body {
+  padding: 0 var(--s2) var(--s2);
+}
+
+.paste-body .hint {
+  margin-bottom: 0;
+}
+
+.checklist {
+  list-style: none;
+  margin: 0;
+  padding: var(--s1) var(--s2);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.checklist li {
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
+  min-height: 44px;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.checklist .icon {
+  flex: none;
+  color: var(--done);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu details.paste summary > .icon {
+    transition: none;
+  }
+}
+
+/* On tablets the miniatures stay phone-sized, centred in their card. */
+.mini-player,
+.mini-home {
+  max-width: 440px;
+  margin-inline: auto;
+}
+
+/* ---------- 홈 화면에 추가 (2026-10-20): one card per device, the device in hand first ---------- */
+.mini-homescreen {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px 12px;
+  max-width: 320px;
+  margin: 0 auto;
+  padding: var(--s2);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--accent) 16%, var(--bg));
+}
+
+.mini-homescreen .app {
+  aspect-ratio: 1;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+
+.mini-homescreen .app.ours {
+  position: relative;
+  background: none;
+}
+
+.mini-homescreen .ours img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  box-shadow: 0 3px 0 color-mix(in srgb, var(--accent) 35%, var(--line));
+}
+
+.mini-homescreen .ours b {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 2px);
+  transform: translateX(-50%);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.preview-note {
+  margin: var(--s2) 0 0;
+  font-size: 15px;
+  color: var(--ink-2);
+  text-align: center;
+}
+
+.guide {
+  margin-bottom: var(--s2);
+  padding: var(--s3) var(--s3) var(--s2);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.guide.mine {
+  box-shadow: inset 0 0 0 3px var(--accent);
+}
+
+.install .guide h2 {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s1);
+  margin: 0 0 var(--s2);
+  font-size: 20px;
+}
+
+.mine-tag {
+  padding: 2px 10px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.guide > p {
+  margin: 0 0 var(--s2);
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.install .steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 17px;
+}
+
+.install .steps li {
+  display: flex;
+  gap: var(--s2);
+  padding: var(--s2) 0;
+}
+
+.install .steps li + li {
+  margin-top: 0;
+  border-top: 1px solid var(--line);
+}
+
+.install .steps .n {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--bg);
+  color: color-mix(in srgb, var(--accent) 62%, var(--ink));
+  font-weight: 800;
+}
+
+.steps .menu-name {
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--accent) 16%, var(--surface));
+  font-weight: 700;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.install-now {
+  margin-bottom: var(--s1);
+}
+
+.copy-url {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: var(--s1) var(--s1) var(--s1) var(--s2);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+
+.copy-url .url {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}
+
+.copy-url .secondary {
+  flex: none;
+  background: var(--surface);
+}
+
+/* Final review (2026-10-20): no empty strip under 오늘 without a limit; the last link row has no rule under it. */
+.panel.today .today-usage {
+  margin: 0;
+}
+
+.panel.today > :last-child {
+  margin-bottom: 0;
+}
+
+.panel .link-row:last-child {
+  border-bottom: 0;
 }

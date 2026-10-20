@@ -30,7 +30,7 @@ import {
 } from '../ui.ts';
 
 export function renderProfiles(allowed: Set<string>): void {
-  setAccent(appData.profiles[0]?.color ?? '#4C8BF5');
+  setAccent(appData.profiles[0]?.color ?? '#2E9E6B');
   app.innerHTML = `<main class="screen"><h1 class="visually-hidden">누가 볼까요?</h1>
     <div class="profiles">${appData.profiles
       .map((p) => {

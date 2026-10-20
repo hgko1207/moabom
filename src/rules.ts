@@ -266,6 +266,38 @@ export function playerButtonOn(buttons: PlayerButtons | undefined, key: keyof Pl
   return buttons?.[key] !== false;
 }
 
+// ---------- settings menu (2026-10-20 review, option A: today + a menu of sub-screens) ----------
+
+/** Sub-screens of settings, `#/p/{pid}/settings/{section}`. A new setting joins one of them or adds a menu row. */
+export const SETTINGS_SECTIONS = ['limit', 'characters', 'buttons', 'home', 'sync'] as const;
+export type SettingsSection = (typeof SETTINGS_SECTIONS)[number];
+
+export function isSettingsSection(s: string | undefined): s is SettingsSection {
+  return (SETTINGS_SECTIONS as readonly (string | undefined)[]).includes(s);
+}
+
+/** The value a menu row shows for the daily limit: "제한 없음", "하루 60분", "하루 3편". */
+export function limitSummary(limit: DeviceSettings['limit']): string {
+  if (limit.mode === 'minutes') return `하루 ${limit.value}분`;
+  if (limit.mode === 'episodes') return `하루 ${limit.value}편`;
+  return '제한 없음';
+}
+
+/** The value a menu row shows for the player buttons: "모두 켜짐", "모두 꺼짐" or "3개 중 2개 켜짐". */
+export function buttonsSummary(buttons: PlayerButtons | undefined, keys: readonly (keyof PlayerButtons)[]): string {
+  const on = keys.filter((k) => playerButtonOn(buttons, k)).length;
+  if (on === keys.length) return '모두 켜짐';
+  if (on === 0) return '모두 꺼짐';
+  return `${keys.length}개 중 ${on}개 켜짐`;
+}
+
+/** How much of today's limit (with today's extras) is used, 0..1; null without a limit. */
+export function todayShare(limit: DeviceSettings['limit'], today: TodayState): number | null {
+  if (limit.mode === 'minutes') return Math.min(1, today.seconds / (limit.value * 60 + (today.extraSeconds ?? 0)));
+  if (limit.mode === 'episodes') return Math.min(1, today.started.length / (limit.value + (today.extraEpisodes ?? 0)));
+  return null;
+}
+
 /** 한 번 더 (P2-1): a same-day rewatch, hidden once the limit is reached (L3a opens only unfinished episodes). */
 export function canReplay(today: TodayState, limits: Limits): boolean {
   return !limitReached(today, limits);

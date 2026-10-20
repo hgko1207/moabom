@@ -262,9 +262,9 @@ export interface NewsItem {
 }
 
 /** The page background (--bg) the category icons are drawn on. */
-export const CATEGORY_BG = '#F4F6FA';
+export const CATEGORY_BG = '#F3F5EC';
 const SURFACE = '#FFFFFF';
-const INK = '#1B2230';
+const INK = '#18221E';
 
 /**
  * Profile and collection colours become --accent (P2-6): fills and borders on --bg and --surface need 3:1, and the

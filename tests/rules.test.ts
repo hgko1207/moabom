@@ -44,6 +44,10 @@ import {
   prevInOrder,
   shouldAutoResume,
   playerButtonOn,
+  buttonsSummary,
+  isSettingsSection,
+  limitSummary,
+  todayShare,
 } from '../src/rules.ts';
 import type { CollectionProgress, TodayState } from '../src/storage.ts';
 
@@ -583,5 +587,37 @@ describe('errorStep (P2-5)', () => {
     s = errorStep(s, err('b', 5)).state;
     s = errorStep(s, err('c', 100)).state;
     expect(errorStep(s, err('d', 5))).toMatchObject({ notice: false, advance: true });
+  });
+});
+
+describe('settings menu (option A, 2026-10-20)', () => {
+  const day = (extra: Partial<TodayState> = {}): TodayState => ({ date: '2026-10-20', started: [], finished: [], playedToday: {}, seconds: 0, stopped: [], ...extra });
+
+  it('knows its sub-screens and nothing else', () => {
+    expect(isSettingsSection('characters')).toBe(true);
+    expect(isSettingsSection('sync')).toBe(true);
+    expect(isSettingsSection('history')).toBe(false);
+    expect(isSettingsSection(undefined)).toBe(false);
+  });
+
+  it('summarises the daily limit for its menu row', () => {
+    expect(limitSummary({ mode: 'none', value: 0 })).toBe('제한 없음');
+    expect(limitSummary({ mode: 'minutes', value: 60 })).toBe('하루 60분');
+    expect(limitSummary({ mode: 'episodes', value: 3 })).toBe('하루 3편');
+  });
+
+  it('summarises the player buttons for its menu row', () => {
+    const keys = ['prev', 'next', 'replay'] as const;
+    expect(buttonsSummary(undefined, keys)).toBe('모두 켜짐');
+    expect(buttonsSummary({ prev: false, next: false, replay: false }, keys)).toBe('모두 꺼짐');
+    expect(buttonsSummary({ prev: false }, keys)).toBe('3개 중 2개 켜짐');
+  });
+
+  it("measures today's use against the limit plus today's extras", () => {
+    expect(todayShare({ mode: 'none', value: 0 }, day({ seconds: 600 }))).toBeNull();
+    expect(todayShare({ mode: 'minutes', value: 60 }, day({ seconds: 1800 }))).toBe(0.5);
+    expect(todayShare({ mode: 'minutes', value: 60 }, day({ seconds: 1800, extraSeconds: 1800 }))).toBeCloseTo(1 / 3);
+    expect(todayShare({ mode: 'episodes', value: 2 }, day({ started: ['a', 'b', 'c'] }))).toBe(1);
+    expect(todayShare({ mode: 'episodes', value: 2 }, day({ started: ['a'], extraEpisodes: 2 }))).toBe(0.25);
   });
 });

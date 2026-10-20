@@ -1,25 +1,29 @@
 // Parent screens: settings, about (이용 안내), viewing history and the home-screen install guide.
 import type { NewsItem, Profile } from '../config.ts';
 import type { Collection } from '../data.ts';
-import { icon } from '../icons.ts';
+import { icon, type IconName } from '../icons.ts';
 import { settingsFromText, settingsLink } from '../share.ts';
 import { canPromptInstall, currentPlatform, promptInstall, STEPS } from '../install.ts';
 import {
   addExtra,
+  buttonsSummary,
   canMoveCollection,
   EXTRA_EPISODES,
   EXTRA_MINUTES,
   groupByCategory,
   HISTORY_DAYS,
   homeTitle,
+  limitSummary,
   localDate,
   moveCollection,
   playerButtonOn,
   recentDays,
   shiftDate,
   TITLE_MAX,
+  todayShare,
   viewingOrder,
   withToday,
+  type SettingsSection,
 } from '../rules.ts';
 import type { DeviceSettings, LimitMode, PlayerButtons } from '../storage.ts';
 import {
@@ -41,11 +45,13 @@ import {
   type Route,
 } from '../ui.ts';
 
-const PLAYER_SWITCHES: [keyof PlayerButtons, string][] = [
-  ['prev', '이전 편'],
-  ['next', '다음 편'],
-  ['replay', '한 번 더'],
+/** In the player's order, with the player's icons, so the rows match the preview above them. */
+const PLAYER_SWITCHES: [keyof PlayerButtons, string, IconName][] = [
+  ['prev', '이전 편', 'skip-back'],
+  ['replay', '한 번 더', 'again'],
+  ['next', '다음 편', 'skip-forward'],
 ];
+const PLAYER_KEYS = PLAYER_SWITCHES.map(([key]) => key);
 
 const LIMIT_STEP: Record<LimitMode, { step: number; min: number; max: number; unit: string; initial: number }> = {
   none: { step: 0, min: 0, max: 0, unit: '', initial: 0 },
@@ -53,18 +59,105 @@ const LIMIT_STEP: Record<LimitMode, { step: number; min: number; max: number; un
   episodes: { step: 1, min: 1, max: 20, unit: '편', initial: 3 },
 };
 
-export function renderSettings(profile: Profile, available: Collection[], home: Route): void {
-  const current: DeviceSettings = store.settings() ?? {
-    limit:
-      profile.dailyMinutes !== null
-        ? { mode: 'minutes', value: profile.dailyMinutes }
-        : profile.dailyEpisodes !== null
-          ? { mode: 'episodes', value: profile.dailyEpisodes }
-          : { mode: 'none', value: 0 },
-  };
+const SECTION_TITLE: Record<SettingsSection, string> = {
+  limit: '하루 시청 제한',
+  characters: '보여 줄 캐릭터',
+  buttons: '재생 화면 버튼',
+  home: '홈 화면',
+  sync: '다른 기기와 맞추기',
+};
+
+/** The characters screen shows arrows only after 순서 바꾸기, so a row is one switch. The menu resets it. */
+let reordering = false;
+
+/** This device's settings, or the profile's defaults until a parent changes something. */
+function deviceSettings(profile: Profile): DeviceSettings {
+  return (
+    store.settings() ?? {
+      limit:
+        profile.dailyMinutes !== null
+          ? { mode: 'minutes', value: profile.dailyMinutes }
+          : profile.dailyEpisodes !== null
+            ? { mode: 'episodes', value: profile.dailyEpisodes }
+            : { mode: 'none', value: 0 },
+    }
+  );
+}
+
+function page(title: string, body: string, kind = ''): string {
+  return `<main class="screen settings${kind ? ` ${kind}` : ''}"><div class="bar">${backButton()}<h1>${title}</h1></div>${body}</main>`;
+}
+
+/** A menu row: label, the current value, and where it leads (a chevron by default). */
+function menuRow(attrs: string, label: string, value = '', end = icon('chevron-right', 24)): string {
+  return `<button class="menu-row" ${attrs}><span class="label">${label}</span>${value ? `<span class="now">${value}</span>` : ''}${end}</button>`;
+}
+
+/** A switch row; the state text stays for screen readers and the track shows on/off. */
+function switchRow(attrs: string, on: boolean, label: string, sub = '', lead = ''): string {
+  return `<button class="menu-row" role="switch" aria-checked="${on}" ${attrs}>${lead}<span class="label">${label}${sub ? `<small>${sub}</small>` : ''}</span><span class="state">${on ? '켜짐' : '꺼짐'}</span></button>`;
+}
+
+/** The small square icon at the start of a row on a detail screen. */
+function lead(name: IconName): string {
+  return `<span class="lead" aria-hidden="true">${icon(name, 24)}</span>`;
+}
+
+/**
+ * Every detail screen opens with a picture of what the children will see (design principle 1: pictures
+ * first), then the rows that change it. The picture is decoration for the parent; the rows carry the meaning.
+ */
+function preview(caption: string, body: string): string {
+  return `<figure class="preview" aria-hidden="true"><figcaption>${caption}</figcaption>${body}</figure>`;
+}
+
+function coverOf(c: Collection): string {
+  return thumbUrl(c.config.coverVideoId ?? c.data.groups[0]?.videos[0]?.id ?? '');
+}
+
+function visibleOf(available: Collection[], current: DeviceSettings): Collection[] {
+  const hidden = new Set(current.hidden ?? []);
+  return available.filter((c) => !hidden.has(c.config.id));
+}
+
+/**
+ * Settings (2026-10-20 review, option A): today on top, then a menu of sub-screens. A new setting goes in
+ * "아이 화면" when it changes what the children see, in "이 기기 · 모아봄" when it is about this device or the
+ * app; a single on/off is a switch row in the menu, anything more gets its own section.
+ */
+export function renderSettings(profile: Profile, available: Collection[], home: Route, section?: SettingsSection): void {
+  const current = deviceSettings(profile);
+  if (!section) {
+    reordering = false;
+    setBack(() => backTo(home));
+    return settingsMenu(profile, available, current);
+  }
+  setBack(() => backTo({ profile: profile.id, settings: true }));
+  // Save from what is stored now, not from this render: the title saves without a redraw, so a later
+  // change on the same screen must not drop it.
+  const latest = (): DeviceSettings => store.settings() ?? current;
+  const body =
+    section === 'limit'
+      ? limitBody(current)
+      : section === 'characters'
+        ? charactersBody(available, current)
+        : section === 'buttons'
+          ? buttonsBody(available, current)
+          : section === 'home'
+            ? homeBody(profile, available, current)
+            : syncBody();
+  app.innerHTML = page(SECTION_TITLE[section], body);
+  bindBack();
+  if (section === 'limit') bindLimit(current, latest);
+  else if (section === 'characters') bindCharacters(available, current, latest);
+  else if (section === 'buttons') bindButtons(latest);
+  else if (section === 'home') bindHome(profile, latest);
+  else bindSync(latest);
+}
+
+function settingsMenu(profile: Profile, available: Collection[], current: DeviceSettings): void {
   const today = store.today(profile.id, localDate(new Date()));
   const { mode, value } = current.limit;
-  const spec = LIMIT_STEP[mode];
   const hidden = new Set(current.hidden ?? []);
   const shownCount = available.filter((c) => !hidden.has(c.config.id)).length;
   const watchedMin = Math.floor(today.seconds / 60);
@@ -75,51 +168,31 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
       : mode === 'episodes'
         ? `시작한 영상 <b>${today.started.length}편</b> / 하루 ${value}편 · 본 시간 ${watchedMin}분`
         : `본 시간 <b>${watchedMin}분</b> · 시작한 영상 ${today.started.length}편`;
-  const option = (m: LimitMode, label: string) =>
-    `<button class="choice" role="radio" aria-checked="${m === mode}" data-mode="${m}">${label}</button>`;
-  const ids = available.map((c) => c.config.id);
-  const categoryOf = (id: string) => appData.collections.get(id)?.config.category ?? '';
-  const categoryLabel = new Map(appData.categories.map((c) => [c.id, c.label]));
+  const share = todayShare(current.limit, today);
   const news = unreadNews();
   const statsOn = store.analytics() !== 'off';
-  const buttons = current.player ?? {};
   const extraNote = today.extraEpisodes
     ? `오늘은 ${today.extraEpisodes}편 더 볼 수 있어요.`
     : today.extraSeconds
       ? `오늘은 ${Math.round(today.extraSeconds / 60)}분 더 볼 수 있어요.`
       : '오늘 하루만 제한을 늘려요. 내일은 원래대로예요.';
+  const sectionRow = (section: SettingsSection, value: string) => menuRow(`data-section="${section}"`, SECTION_TITLE[section], value);
 
-  setBack(() => backTo(home));
-  app.innerHTML = `<main class="screen settings"><div class="bar">${backButton()}<h1>설정</h1></div>
-    ${
+  app.innerHTML = page(
+    '설정',
+    `${
       news
-        ? `<section class="panel news" aria-labelledby="news-title">
-      <p class="news-date">${newsDate(news.date)}</p>
-      <h2 id="news-title">${esc(news.title)}</h2>
-      <p>${esc(news.body)}</p>
+        ? `<section class="panel news" aria-label="새 소식">
+      <details><summary><span class="news-date">${newsDate(news.date)} · 새 소식</span><b id="news-title">${esc(news.title)}</b></summary>
+      <p>${esc(news.body)}</p></details>
       <button class="close" data-action="news-close" data-news="${esc(news.id)}" aria-label="소식 닫기">${icon('close', 24)}</button>
     </section>`
         : ''
     }
-    <section class="panel" aria-labelledby="limit-title">
-      <h2 id="limit-title">하루 시청 제한</h2>
-      <div class="choices" role="radiogroup" aria-labelledby="limit-title">
-        ${option('none', '제한 없음')}${option('minutes', '시간으로')}${option('episodes', '편 수로')}
-      </div>
-      ${
-        mode === 'none'
-          ? ''
-          : `<div class="stepper">
-          <button class="step" data-step="-1" aria-label="줄이기"${value <= spec.min ? ' disabled' : ''}>−</button>
-          <output class="value" aria-live="polite">하루 ${value}${spec.unit}</output>
-          <button class="step" data-step="1" aria-label="늘리기"${value >= spec.max ? ' disabled' : ''}>+</button>
-        </div>
-        <p class="hint">${mode === 'minutes' ? '15분이 넘는 모음집은 시간이 되면 멈추고, 다음 날 그 자리부터 이어 봐요.' : '보던 편은 끝까지 보고, 다음 편부터 막혀요.'}</p>`
-      }
-    </section>
-    <section class="panel" aria-labelledby="today-title">
+    <section class="panel today" aria-labelledby="today-title">
       <h2 id="today-title">오늘</h2>
       <p class="today-usage">${todayUsage}</p>
+      ${share === null ? '' : `<div class="today-meter" aria-hidden="true"><span style="width:${Math.round(share * 100)}%"></span></div>`}
       ${
         mode === 'none'
           ? ''
@@ -129,111 +202,97 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
         .join('')}</div>
       <p class="hint" id="more-msg" role="status">${extraNote}</p>`
       }
-      <div class="row-actions">
-        <button class="secondary" data-action="history">시청 기록 보기</button>
-        ${mode === 'none' ? '' : '<button class="secondary" data-action="reset-today">오늘 기록 초기화 (한 번 더 보기)</button>'}
-      </div>
     </section>
-    <section class="panel" aria-labelledby="buttons-title">
-      <h2 id="buttons-title">재생 화면 버튼</h2>
-      ${PLAYER_SWITCHES.map(
-        ([key, label]) => `<button class="shown switch" role="switch" aria-checked="${playerButtonOn(buttons, key)}" data-button="${key}">
-        <span class="name">${label}</span><span class="state">${playerButtonOn(buttons, key) ? '켜짐' : '꺼짐'}</span></button>`,
-      ).join('')}
-      <p class="hint">재생 화면 아래 버튼이에요. 끄면 사라져요. 이전·다음 편도 하루 제한을 지키고, 한 번 더는 제한에 닿으면 숨어요.</p>
-    </section>
-    <section class="panel" aria-labelledby="shown-title">
-      <h2 id="shown-title">보여 줄 캐릭터</h2>
-      ${groupByCategory(available, (c) => c.config.category, appData.categories)
-        .map(
-          (row) => `<h3 class="shown-group">${esc(categoryLabel.get(row.category) ?? row.category)}</h3>
-      <div class="shown-list">${row.items
-        .map((c) => {
-          const on = !hidden.has(c.config.id);
-          const cover = c.config.coverVideoId ?? c.data.groups[0]?.videos[0]?.id ?? '';
-          // The last visible one cannot be turned off: the home screen must never be empty.
-          const locked = on && shownCount === 1;
-          const id = esc(c.config.id);
-          const name = esc(c.config.displayName);
-          // Arrows move inside the category only, like the home rows (DR14).
-          const up = canMoveCollection(ids, c.config.id, -1, categoryOf);
-          const down = canMoveCollection(ids, c.config.id, 1, categoryOf);
-          return `<div class="shown-row"><button class="shown" role="switch" aria-checked="${on}" data-shown="${id}"${locked ? ' aria-disabled="true"' : ''}>
-            <img src="${thumbUrl(cover)}" alt="" width="96" height="72" loading="lazy">
-            <span class="name">${name}</span><span class="state">${on ? '보여요' : '숨김'}</span></button>
-            <button class="move" data-move="-1" data-id="${id}" aria-label="${name} 위로"${up ? '' : ' disabled'}>${icon('up', 28)}</button>
-            <button class="move" data-move="1" data-id="${id}" aria-label="${name} 아래로"${down ? '' : ' disabled'}>${icon('down', 28)}</button></div>`;
-        })
-        .join('')}</div>`,
-        )
-        .join('')}
-      <p class="hint">누르면 보이기·숨기기, 화살표로 홈 화면 순서를 바꿔요. 끈 캐릭터는 아이 화면에서 사라지고, 본 기록은 그대로 남아요.</p>
-    </section>
-    <section class="panel" aria-labelledby="home-title-h">
-      <h2 id="home-title-h">홈 화면</h2>
-      <button class="shown switch" role="switch" aria-checked="${current.homeContinue !== false}" data-action="home-continue">
-        <span class="name">맨 위 "이어 보기" 칸</span><span class="state">${current.homeContinue !== false ? '켜짐' : '꺼짐'}</span></button>
-      <p class="hint">가장 최근에 본 캐릭터에서 보던 영상(다 봤으면 다음 편)을 한 번에 이어 봐요.</p>
-      <h3 id="name-title">이름</h3>
-      <form class="title-form" data-action="title">
-        <input id="home-title" name="title" maxlength="${TITLE_MAX}" value="${esc(homeTitle(profile.name, current))}" placeholder="예: 하늘이네 모아봄" aria-labelledby="name-title" aria-describedby="title-hint" autocomplete="off">
-        <button class="secondary" type="submit">저장</button>
-      </form>
-      <p class="hint" id="title-hint">끝에 모아봄을 붙이면 좋아요</p>
-      <p class="hint" id="title-msg" role="status"></p>
-    </section>
-    <section class="panel" aria-labelledby="sync-title">
-      <h2 id="sync-title">다른 기기와 맞추기</h2>
-      <p class="hint">이 화면의 설정(하루 제한, 보여 줄 캐릭터와 순서, 홈 화면)을 다른 기기에 그대로 적용해요. 본 기록은 옮겨지지 않아요.</p>
-      <button class="secondary" data-action="share-settings">이 설정 보내기</button>
-      <details class="paste">
-        <summary id="paste-title">받은 링크 붙여넣기</summary>
-        <form class="title-form" data-action="paste-settings">
-          <input id="settings-link" name="link" placeholder="https://moabom.hgko.dev/?settings=…" aria-labelledby="paste-title" autocomplete="off" inputmode="url">
-          <button class="secondary" type="submit">적용</button>
-        </form>
-        <p class="hint" id="paste-msg" role="status">아이폰 홈 화면 앱은 링크를 눌러도 적용되지 않아요. 링크를 길게 눌러 복사한 뒤 여기에 붙여넣어 주세요.</p>
-      </details>
-    </section>
-    <section class="panel" aria-labelledby="install-title">
-      <h2 id="install-title">홈 화면에 추가</h2>
+    <div class="menu">${menuRow('data-action="history"', '시청 기록', '최근 7일')}</div>
+    <h2 class="menu-group" id="kids-title">아이 화면</h2>
+    <div class="menu" role="group" aria-labelledby="kids-title">
+      ${sectionRow('limit', limitSummary(current.limit))}
+      ${sectionRow('characters', `${available.length}개 중 ${shownCount}개`)}
+      ${sectionRow('buttons', buttonsSummary(current.player, PLAYER_KEYS))}
+      ${sectionRow('home', esc(homeTitle(profile.name, current)))}
+    </div>
+    <h2 class="menu-group" id="device-title">이 기기 · 모아봄</h2>
+    <div class="menu" role="group" aria-labelledby="device-title">
+      ${sectionRow('sync', '')}
       ${
         currentPlatform() === 'standalone'
-          ? `<p class="installed">${icon('check', 24)}앱으로 열려 있어요</p>`
-          : '<button class="secondary" data-action="install-guide">설치 방법 보기</button>'
+          ? `<p class="menu-row"><span class="label">홈 화면에 추가</span><span class="now">${icon('check', 20)}앱으로 열려 있어요</span></p>`
+          : menuRow('data-action="install-guide"', '홈 화면에 추가', '설치 방법')
       }
-    </section>
-    <section class="panel" aria-labelledby="moabom-title">
-      <h2 id="moabom-title">모아봄</h2>
       ${
         REQUEST_FORM_URL
-          ? `<a class="link-row" href="${esc(REQUEST_FORM_URL)}" target="_blank" rel="noopener" data-action="request">
-        <span>캐릭터·영상 추천하기</span>${icon('external-link', 24)}</a>`
+          ? `<a class="menu-row" href="${esc(REQUEST_FORM_URL)}" target="_blank" rel="noopener" data-action="request"><span class="label">캐릭터·영상 추천하기</span>${icon('external-link', 24)}</a>`
           : ''
       }
-      <button class="link-row" data-action="about"><span>이용 안내·개인정보</span>${icon('chevron-right', 24)}</button>
-      <button class="shown switch" role="switch" aria-checked="${statsOn}" data-action="stats" aria-describedby="stats-hint">
-        <span class="name">익명 통계 보내기</span><span class="state">${statsOn ? '켜짐' : '꺼짐'}</span></button>
-      <p class="hint" id="stats-hint">아이 이름·기록은 보내지 않아요 · <button class="text-link" data-action="about">자세히</button></p>
-    </section>
-  </main>`;
+      ${menuRow('data-action="about"', '이용 안내·개인정보')}
+      ${switchRow('data-action="stats"', statsOn, '익명 통계 보내기', '아이 이름·기록은 보내지 않아요')}
+    </div>`,
+  );
   bindBack();
+  app.querySelectorAll<HTMLButtonElement>('[data-section]').forEach((b) =>
+    b.addEventListener('click', () => go({ profile: profile.id, settings: true, section: b.dataset.section as SettingsSection })),
+  );
+  app.querySelector('[data-action="history"]')?.addEventListener('click', () => go({ profile: profile.id, history: true }));
   app.querySelector('[data-action="install-guide"]')?.addEventListener('click', () => go({ profile: profile.id, install: true }));
-
-  // Save from what is stored now, not from this render: the title saves without a redraw, so a later
-  // change on the same screen must not drop it.
-  const latest = (): DeviceSettings => store.settings() ?? current;
-
-  // render() rather than renderSettings(): hiding collections can change where "home" is.
-  const save = (next: DeviceSettings) => {
-    store.saveSettings(next);
+  app.querySelector('[data-action="about"]')?.addEventListener('click', () => go({ profile: profile.id, about: true }));
+  app.querySelector('[data-action="request"]')?.addEventListener('click', () => analytics.requestClick());
+  app.querySelectorAll<HTMLButtonElement>('[data-extra]').forEach((b) =>
+    b.addEventListener('click', () => {
+      if (mode === 'none') return;
+      const day = store.today(profile.id, today.date);
+      store.saveToday(profile.id, addExtra(day, mode, Number(b.dataset.extra)));
+      render();
+      app.querySelector<HTMLElement>(`[data-extra="${b.dataset.extra}"]`)?.focus();
+    }),
+  );
+  app.querySelector('[data-action="stats"]')?.addEventListener('click', () => {
+    store.saveAnalytics(store.analytics() === 'off' ? null : 'off');
     render();
-    app.querySelector<HTMLElement>(`[data-mode="${next.limit.mode}"]`)?.focus();
-  };
+    app.querySelector<HTMLElement>('[data-action="stats"]')?.focus();
+  });
+  app.querySelector<HTMLButtonElement>('[data-action="news-close"]')?.addEventListener('click', (e) => {
+    store.saveNewsRead([...store.newsRead(), (e.currentTarget as HTMLButtonElement).dataset.news!]);
+    app.querySelector('.panel.news')?.remove();
+  });
+}
+
+// ---------- 하루 시청 제한 ----------
+
+function limitBody(current: DeviceSettings): string {
+  const { mode, value } = current.limit;
+  const spec = LIMIT_STEP[mode];
+  const option = (m: LimitMode, label: string) =>
+    `<button class="segment" role="radio" aria-checked="${m === mode}" data-mode="${m}">${label}</button>`;
+  const choices = `<div class="segmented" role="radiogroup" aria-label="하루 시청 제한">
+      ${option('none', '제한 없음')}${option('minutes', '시간으로')}${option('episodes', '편 수로')}
+    </div>`;
+  if (mode === 'none') {
+    return `${choices}
+    <p class="hint">시간이나 편 수에 상관없이 볼 수 있고, 달 화면이 뜨지 않아요. 오늘 본 시간은 설정 첫 화면에서 볼 수 있어요.</p>`;
+  }
+  return `${choices}
+    <section class="panel stepper-card" aria-label="하루에 볼 양">
+      <button class="step" data-step="-1" aria-label="줄이기"${value <= spec.min ? ' disabled' : ''}>−</button>
+      <output class="value" aria-live="polite"><small>하루</small> ${value}<span>${spec.unit}</span></output>
+      <button class="step" data-step="1" aria-label="늘리기"${value >= spec.max ? ' disabled' : ''}>+</button>
+    </section>
+    ${preview(
+      '아이에게는 이렇게 보여요',
+      `<div class="preview-moon">${icon('moon', 44)}<p><b>오늘은 여기까지</b>${value}${spec.unit}${mode === 'minutes' ? '을 보면' : '을 보고 나면'} 달이 떠요</p></div>`,
+    )}
+    <p class="hint">${mode === 'minutes' ? '15분이 넘는 모음집은 시간이 되면 멈추고, 다음 날 그 자리부터 이어 봐요.' : '보던 편은 끝까지 보고, 다음 편부터 막혀요.'}</p>`;
+}
+
+function bindLimit(current: DeviceSettings, latest: () => DeviceSettings): void {
+  const { mode, value } = current.limit;
+  const spec = LIMIT_STEP[mode];
   app.querySelectorAll<HTMLButtonElement>('[data-mode]').forEach((b) =>
     b.addEventListener('click', () => {
       const m = b.dataset.mode as LimitMode;
-      if (m !== mode) save({ ...latest(), limit: { mode: m, value: LIMIT_STEP[m].initial } });
+      if (m === mode) return;
+      store.saveSettings({ ...latest(), limit: { mode: m, value: LIMIT_STEP[m].initial } });
+      render();
+      app.querySelector<HTMLElement>(`[data-mode="${m}"]`)?.focus();
     }),
   );
   app.querySelectorAll<HTMLButtonElement>('[data-step]').forEach((b) =>
@@ -244,28 +303,54 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
       app.querySelector<HTMLButtonElement>(`[data-step="${b.dataset.step}"]`)?.focus();
     }),
   );
-  app.querySelectorAll<HTMLButtonElement>('[data-extra]').forEach((b) =>
-    b.addEventListener('click', () => {
-      if (mode === 'none') return;
-      const day = store.today(profile.id, today.date);
-      store.saveToday(profile.id, addExtra(day, mode, Number(b.dataset.extra)));
-      render();
-      app.querySelector<HTMLElement>(`[data-extra="${b.dataset.extra}"]`)?.focus();
-    }),
-  );
-  app.querySelectorAll<HTMLButtonElement>('[data-button]').forEach((b) =>
-    b.addEventListener('click', () => {
-      const key = b.dataset.button as keyof PlayerButtons;
-      const now = latest();
-      store.saveSettings({ ...now, player: { ...now.player, [key]: !playerButtonOn(now.player, key) } });
-      render();
-      app.querySelector<HTMLElement>(`[data-button="${key}"]`)?.focus();
-    }),
-  );
-  app.querySelector('[data-action="reset-today"]')?.addEventListener('click', () => {
-    if (!confirm('오늘 본 시간과 편 수를 0으로 되돌릴까요?')) return;
-    store.saveToday(profile.id, { date: today.date, started: [], finished: [], playedToday: {}, seconds: 0, stopped: [] });
+}
+
+// ---------- 보여 줄 캐릭터 ----------
+
+function charactersBody(available: Collection[], current: DeviceSettings): string {
+  const hidden = new Set(current.hidden ?? []);
+  const shownCount = available.filter((c) => !hidden.has(c.config.id)).length;
+  const ids = available.map((c) => c.config.id);
+  const categoryOf = (id: string) => appData.collections.get(id)?.config.category ?? '';
+  const categoryLabel = new Map(appData.categories.map((c) => [c.id, c.label]));
+  const rows = groupByCategory(available, (c) => c.config.category, appData.categories)
+    .map(
+      (row, i) => `<h2 class="menu-group" id="cat-${i}">${esc(categoryLabel.get(row.category) ?? row.category)}</h2>
+      <div class="menu" role="group" aria-labelledby="cat-${i}">${row.items
+        .map((c) => {
+          const on = !hidden.has(c.config.id);
+          const cover = c.config.coverVideoId ?? c.data.groups[0]?.videos[0]?.id ?? '';
+          const img = `<img src="${thumbUrl(cover)}" alt="" width="72" height="44" loading="lazy">`;
+          const id = esc(c.config.id);
+          const name = esc(c.config.displayName);
+          if (reordering) {
+            // Arrows move inside the category only, like the home rows (DR14).
+            const up = canMoveCollection(ids, c.config.id, -1, categoryOf);
+            const down = canMoveCollection(ids, c.config.id, 1, categoryOf);
+            return `<div class="menu-row char${on ? '' : ' off'}">${img}<span class="label">${name}</span>
+            <button class="move" data-move="-1" data-id="${id}" aria-label="${name} 위로"${up ? '' : ' disabled'}>${icon('up', 28)}</button>
+            <button class="move" data-move="1" data-id="${id}" aria-label="${name} 아래로"${down ? '' : ' disabled'}>${icon('down', 28)}</button></div>`;
+          }
+          // The last visible one cannot be turned off: the home screen must never be empty.
+          const locked = on && shownCount === 1;
+          return `<button class="menu-row char" role="switch" aria-checked="${on}" data-shown="${id}"${locked ? ' aria-disabled="true"' : ''}>${img}<span class="label">${name}</span><span class="state">${on ? '보여요' : '숨김'}</span></button>`;
+        })
+        .join('')}</div>`,
+    )
+    .join('');
+  return `${rows}
+    <button class="secondary reorder" data-action="reorder" aria-pressed="${reordering}">${reordering ? '다 했어요' : '순서 바꾸기'}</button>
+    <p class="hint">${reordering ? '화살표로 홈 화면 순서를 바꿔요. 같은 종류 안에서만 움직여요.' : '끄면 아이 화면에서만 사라지고, 본 기록은 그대로 남아요.'}</p>`;
+}
+
+function bindCharacters(available: Collection[], current: DeviceSettings, latest: () => DeviceSettings): void {
+  const hidden = new Set(current.hidden ?? []);
+  const ids = available.map((c) => c.config.id);
+  const categoryOf = (id: string) => appData.collections.get(id)?.config.category ?? '';
+  app.querySelector('[data-action="reorder"]')?.addEventListener('click', () => {
+    reordering = !reordering;
     render();
+    app.querySelector<HTMLElement>('[data-action="reorder"]')?.focus();
   });
   app.querySelectorAll<HTMLButtonElement>('[data-shown]').forEach((b) =>
     b.addEventListener('click', () => {
@@ -275,6 +360,7 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
       if (next.has(id)) next.delete(id);
       else next.add(id);
       store.saveSettings({ ...latest(), hidden: [...next] });
+      // render() rather than redrawing this screen: hiding collections can change where "home" is.
       render();
       app.querySelector<HTMLElement>(`[data-shown="${CSS.escape(id)}"]`)?.focus();
     }),
@@ -290,35 +376,61 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
       (same && !same.disabled ? same : app.querySelector<HTMLButtonElement>(`[data-move="${-step}"][data-id="${CSS.escape(id)}"]`))?.focus();
     }),
   );
-  app.querySelector<HTMLButtonElement>('[data-action="share-settings"]')?.addEventListener('click', async (e) => {
-    const b = e.currentTarget as HTMLButtonElement;
-    const url = settingsLink(location.origin, location.pathname, latest());
-    try {
-      if (navigator.share) {
-        await navigator.share({ title: '모아봄 설정', text: '이 링크를 열면 모아봄 설정이 그 기기에 적용돼요.', url });
-        return;
-      }
-    } catch (err) {
-      if ((err as DOMException)?.name === 'AbortError') return; // closed the share sheet
-    }
-    try {
-      await navigator.clipboard.writeText(url);
-      b.textContent = '링크를 복사했어요. 카톡 등으로 보내 주세요';
-    } catch {
-      prompt('이 링크를 복사해서 보내 주세요', url);
-    }
-  });
-  app.querySelector<HTMLFormElement>('[data-action="paste-settings"]')?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const text = app.querySelector<HTMLInputElement>('#settings-link')!.value;
-    const incoming = settingsFromText(text);
-    if (!incoming) {
-      app.querySelector('#paste-msg')!.textContent = '설정 링크가 아니에요. "이 설정 보내기"로 만든 링크를 붙여넣어 주세요.';
-      return;
-    }
-    if (applyIncomingSettings(incoming)) render();
-  });
-  app.querySelector('[data-action="history"]')?.addEventListener('click', () => go({ profile: profile.id, history: true }));
+}
+
+// ---------- 재생 화면 버튼 ----------
+
+function buttonsBody(available: Collection[], current: DeviceSettings): string {
+  const buttons = current.player ?? {};
+  const first = visibleOf(available, current)[0];
+  const controls = PLAYER_SWITCHES.filter(([key]) => playerButtonOn(buttons, key))
+    .map(([key, , name]) => `<span class="mini-control${key === 'replay' ? ' accent' : ''}">${icon(name, 24)}</span>`)
+    .join('');
+  return `${preview(
+    '재생 화면 미리 보기',
+    `<div class="mini-player">${first ? `<img src="${coverOf(first)}" alt="" width="320" height="180">` : ''}
+      <div class="mini-controls">${controls || '<span class="mini-none">버튼 없이 영상만 나와요</span>'}</div></div>`,
+  )}
+    <div class="menu">${PLAYER_SWITCHES.map(([key, label, name]) => switchRow(`data-button="${key}"`, playerButtonOn(buttons, key), label, '', lead(name))).join('')}</div>
+    <p class="hint">이전·다음 편도 하루 제한을 지키고, 한 번 더는 제한에 닿으면 숨어요.</p>`;
+}
+
+function bindButtons(latest: () => DeviceSettings): void {
+  app.querySelectorAll<HTMLButtonElement>('[data-button]').forEach((b) =>
+    b.addEventListener('click', () => {
+      const key = b.dataset.button as keyof PlayerButtons;
+      const now = latest();
+      store.saveSettings({ ...now, player: { ...now.player, [key]: !playerButtonOn(now.player, key) } });
+      render();
+      app.querySelector<HTMLElement>(`[data-button="${key}"]`)?.focus();
+    }),
+  );
+}
+
+// ---------- 홈 화면 ----------
+
+function homeBody(profile: Profile, available: Collection[], current: DeviceSettings): string {
+  const on = current.homeContinue !== false;
+  const shown = visibleOf(available, current);
+  const tiles = shown.slice(on ? 1 : 0, (on ? 1 : 0) + 2);
+  return `${preview(
+    '홈 화면 미리 보기',
+    `<div class="mini-home"><p class="mini-title"><span id="preview-title">${esc(homeTitle(profile.name, current))}</span>${icon('settings', 20)}</p>
+      ${on && shown[0] ? `<div class="mini-hero"><img src="${coverOf(shown[0])}" alt="" width="320" height="180"><span class="mini-chip">${icon('again', 14)}이어 보기</span></div>` : ''}
+      <div class="mini-tiles">${tiles.map((c) => `<span><img src="${coverOf(c)}" alt="" width="160" height="90"><b>${esc(c.config.displayName)}</b></span>`).join('')}</div></div>`,
+  )}
+    <h2 class="menu-group" id="name-title">이름</h2>
+    <form class="title-form" data-action="title">
+      <input id="home-title" name="title" maxlength="${TITLE_MAX}" value="${esc(homeTitle(profile.name, current))}" placeholder="예: 하늘이네 모아봄" aria-labelledby="name-title" aria-describedby="title-hint" autocomplete="off">
+      <button class="secondary" type="submit">저장</button>
+    </form>
+    <p class="hint" id="title-hint">끝에 모아봄을 붙이면 좋아요</p>
+    <p class="hint" id="title-msg" role="status"></p>
+    <h2 class="menu-group">맨 위 칸</h2>
+    <div class="menu">${switchRow('data-action="home-continue"', on, '"이어 보기" 칸', '최근에 보던 영상(다 봤으면 다음 편)을 한 번에 이어 봐요', lead('again'))}</div>`;
+}
+
+function bindHome(profile: Profile, latest: () => DeviceSettings): void {
   app.querySelector('[data-action="home-continue"]')?.addEventListener('click', () => {
     store.saveSettings({ ...latest(), homeContinue: latest().homeContinue === false });
     render();
@@ -333,21 +445,67 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
     app.querySelector('#title-msg')!.textContent = `"${titleInput.value}"(으)로 저장했어요.`;
   };
   titleInput.addEventListener('change', saveTitle);
+  titleInput.addEventListener('input', () => {
+    app.querySelector('#preview-title')!.textContent = titleInput.value.trim() || homeTitle(profile.name, null);
+  });
   app.querySelector<HTMLFormElement>('[data-action="title"]')?.addEventListener('submit', (e) => {
     e.preventDefault();
     saveTitle();
     titleInput.blur();
   });
-  app.querySelector<HTMLButtonElement>('[data-action="news-close"]')?.addEventListener('click', (e) => {
-    store.saveNewsRead([...store.newsRead(), (e.currentTarget as HTMLButtonElement).dataset.news!]);
-    app.querySelector('.panel.news')?.remove();
+}
+
+// ---------- 다른 기기와 맞추기 ----------
+
+function syncBody(): string {
+  const moves = ['하루 시청 제한', '보여 줄 캐릭터와 순서', '재생 화면 버튼', '홈 화면 이름과 이어 보기 칸'];
+  return `<div class="menu">
+      <button class="menu-row" data-action="share-settings">${lead('send')}<span class="label"><span class="say">이 설정 보내기</span><small>카톡 등으로 링크를 보내요</small></span>${icon('chevron-right', 24)}</button>
+      <details class="paste">
+        <summary class="menu-row">${lead('link')}<span class="label" id="paste-title">받은 링크 붙여넣기<small>다른 기기에서 보낸 링크를 이 기기에 적용해요</small></span>${icon('down', 24)}</summary>
+        <div class="paste-body">
+          <form class="title-form" data-action="paste-settings">
+            <input id="settings-link" name="link" placeholder="https://moabom.hgko.dev/?settings=…" aria-labelledby="paste-title" autocomplete="off" inputmode="url">
+            <button class="secondary" type="submit">적용</button>
+          </form>
+          <p class="hint" id="paste-msg" role="status">아이폰 홈 화면 앱은 링크를 눌러도 적용되지 않아요. 링크를 길게 눌러 복사한 뒤 여기에 붙여넣어 주세요.</p>
+        </div>
+      </details>
+    </div>
+    <h2 class="menu-group" id="moves-title">함께 옮겨지는 것</h2>
+    <ul class="checklist" aria-labelledby="moves-title">${moves.map((m) => `<li>${icon('check', 20)}${m}</li>`).join('')}</ul>
+    <p class="hint">본 기록과 진도는 옮겨지지 않아요.</p>`;
+}
+
+function bindSync(latest: () => DeviceSettings): void {
+  app.querySelector<HTMLButtonElement>('[data-action="share-settings"]')?.addEventListener('click', async (e) => {
+    const b = e.currentTarget as HTMLButtonElement;
+    const url = settingsLink(location.origin, location.pathname, latest());
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: '모아봄 설정', text: '이 링크를 열면 모아봄 설정이 그 기기에 적용돼요.', url });
+        return;
+      }
+    } catch (err) {
+      if ((err as DOMException)?.name === 'AbortError') return; // closed the share sheet
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      b.querySelector('.say')!.textContent = '링크를 복사했어요';
+      b.querySelector('small')!.textContent = '카톡 등으로 보내 주세요';
+    } catch {
+      prompt('이 링크를 복사해서 보내 주세요', url);
+    }
   });
-  app.querySelectorAll('[data-action="about"]').forEach((b) => b.addEventListener('click', () => go({ profile: profile.id, about: true })));
-  app.querySelector('[data-action="request"]')?.addEventListener('click', () => analytics.requestClick());
-  app.querySelector('[data-action="stats"]')?.addEventListener('click', () => {
-    store.saveAnalytics(store.analytics() === 'off' ? null : 'off');
-    render();
-    app.querySelector<HTMLElement>('[data-action="stats"]')?.focus();
+  app.querySelector<HTMLFormElement>('[data-action="paste-settings"]')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const text = app.querySelector<HTMLInputElement>('#settings-link')!.value;
+    const incoming = settingsFromText(text);
+    if (!incoming) {
+      app.querySelector('#paste-msg')!.textContent = '설정 링크가 아니에요. "이 설정 보내기"로 만든 링크를 붙여넣어 주세요.';
+      return;
+    }
+    if (applyIncomingSettings(incoming)) render();
   });
 }
 
@@ -424,7 +582,7 @@ export function renderAbout(profile: Profile): void {
     </section>`
         : ''
     }
-    <p class="hint">고친 날짜: ${ABOUT_EDITED}</p>
+    <p class="hint">고친 날: ${ABOUT_EDITED.slice(0, 4)}년 ${newsDate(ABOUT_EDITED)}</p>
   </main>`;
   bindBack();
 }
@@ -436,6 +594,8 @@ export function renderHistory(profile: Profile): void {
   const days = recentDays(merged, today, 7);
   const total = days.reduce((n, d) => n + d.seconds, 0);
   const max = Math.max(...days.map((d) => d.seconds), 1);
+  // 오늘 기록 초기화 lives here, out of the settings menu: rarely used and it cannot be undone.
+  const limitOn = deviceSettings(profile).limit.mode !== 'none';
   const find = (cid: string, vid: string) => {
     const c = appData.collections.get(cid);
     return { c, v: c && viewingOrder(c.data).find((x) => x.id === vid) };
@@ -472,25 +632,55 @@ export function renderHistory(profile: Profile): void {
       )
       .join('') || '<p class="hint">아직 기록이 없어요. 영상을 보면 여기에 날짜별로 쌓여요.</p>'}
     <p class="hint">이 기기에서 본 것만 보여요. 최근 ${HISTORY_DAYS}일까지 보관해요.</p>
+    ${
+      limitOn
+        ? `<h2 class="menu-group" id="reset-title">오늘 기록</h2>
+    <div class="menu" role="group" aria-labelledby="reset-title">
+      <button class="menu-row" data-action="reset-today">${lead('again')}<span class="label">오늘 기록 초기화<small>하루 제한에 쓰는 오늘의 시간과 편 수만 0으로 돌려요. 위의 기록은 남아요.</small></span></button>
+    </div>`
+        : ''
+    }
   </main>`;
   bindBack();
+  app.querySelector('[data-action="reset-today"]')?.addEventListener('click', () => {
+    if (!confirm('오늘 본 시간과 편 수를 0으로 되돌릴까요?')) return;
+    store.saveToday(profile.id, { date: today, started: [], finished: [], playedToday: {}, seconds: 0, stopped: [] });
+    render();
+  });
 }
 
-function stepsHtml(steps: readonly string[]): string {
-  return `<ol class="steps">${steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>`;
+// ---------- 홈 화면에 추가 (install guide) ----------
+
+/** A step with the menu names a parent has to find ("설치" etc.) set off, so they can be spotted on the phone. */
+function stepText(step: string): string {
+  return esc(step).replace(/&#34;(.+?)&#34;/g, '<b class="menu-name">$1</b>');
+}
+
+/** One device's steps as its own card; the card for the device in hand comes first and says so. */
+function guide(title: string, steps: readonly string[], opts: { mine?: boolean; before?: string; after?: string } = {}): string {
+  return `<section class="guide${opts.mine ? ' mine' : ''}" aria-label="${esc(title)}">
+      <h2>${opts.mine ? '<span class="mine-tag">이 기기</span>' : ''}${esc(title)}</h2>
+      ${opts.before ?? ''}
+      <ol class="steps">${steps.map((s, i) => `<li><span class="n" aria-hidden="true">${i + 1}</span><span>${stepText(s)}</span></li>`).join('')}</ol>
+      ${opts.after ?? ''}
+    </section>`;
 }
 
 export function renderInstall(home: Route): void {
   const platform = currentPlatform();
   const appUrl = location.origin + location.pathname;
   const installButton = canPromptInstall()
-    ? `<button class="primary" data-action="install-now">${icon('download', 24)}지금 바로 설치하기</button>
+    ? `<button class="primary install-now" data-action="install-now">${icon('download', 24)}지금 바로 설치하기</button>
        <p class="hint">버튼이 안 되면 아래 순서대로 해 주세요.</p>`
     : '';
   const already = '<p class="hint">"이미 설치되어 있다"고 나오면 홈 화면이나 앱 목록에서 "모아봄"을 찾아 주세요.</p>';
-  const android = `${installButton}${stepsHtml(STEPS.android)}${already}`;
-  const ios = stepsHtml(STEPS.ios);
-  const copy = `<button class="secondary" data-action="copy-url">주소 복사</button><p class="url">${esc(appUrl)}</p>`;
+  const copy = `<div class="copy-url"><p class="url">${esc(appUrl)}</p><button class="secondary" data-action="copy-url">주소 복사</button></div>`;
+  // The goal in one picture: the app's own icon on a home screen, among the parent's other apps.
+  const picture = preview(
+    '홈 화면에 이렇게 생겨요',
+    `<div class="mini-homescreen">${'<span class="app"></span>'.repeat(5)}<span class="app ours"><img src="icon-192.png" alt="" width="60" height="60"><b>모아봄</b></span>${'<span class="app"></span>'.repeat(2)}</div>
+     <p class="preview-note">아이가 아이콘을 누르면 주소창 없이 앱처럼 열려요.</p>`,
+  );
 
   let body: string;
   switch (platform) {
@@ -498,30 +688,35 @@ export function renderInstall(home: Route): void {
       body = `<p class="installed">${icon('check', 24)}이미 앱으로 열려 있어요</p>`;
       break;
     case 'android':
-      body = `<h2>Android · Chrome</h2>${android}`;
+      body = `${guide('Android · Chrome', STEPS.android, { mine: true, before: installButton })}${already}`;
       break;
     case 'samsung':
-      body = `<h2>삼성 인터넷</h2>${installButton}${stepsHtml(STEPS.samsung)}
-        <h2>Chrome에서 열었다면</h2>${stepsHtml(STEPS.android)}${already}`;
+      body = `${guide('삼성 인터넷', STEPS.samsung, { mine: true, before: installButton })}
+        ${guide('Chrome에서 열었다면', STEPS.android)}${already}`;
       break;
     case 'ios-safari':
-      body = `<h2>iPhone · iPad (Safari)</h2>${ios}`;
+      body = guide('iPhone · iPad (Safari)', STEPS.ios, { mine: true });
       break;
     case 'ios-other':
-      body = `<h2>Safari로 열어 주세요</h2>
-        <p>iPhone·iPad는 Safari에서 추가하는 게 가장 확실해요. 주소를 복사해 Safari에 붙여넣어 주세요.</p>${copy}
-        <h2>Safari에서 연 다음</h2>${ios}`;
+      // In-app browsers (KakaoTalk, Naver, ...) cannot add to the home screen: getting into Safari is step zero.
+      body = `<section class="guide mine first" aria-label="먼저 Safari로 열기">
+          <h2><span class="mine-tag">먼저</span>Safari로 열어 주세요</h2>
+          <p>iPhone·iPad는 Safari에서 추가하는 게 가장 확실해요. 주소를 복사해 Safari에 붙여넣어 주세요.</p>${copy}
+        </section>
+        ${guide('Safari에서 연 다음', STEPS.ios)}`;
       break;
     case 'desktop':
-      body = `<p>태블릿이나 휴대폰에서 아래 주소를 열고 이 안내를 따라 주세요.</p>${copy}
-        <h2>Android · Chrome</h2>${stepsHtml(STEPS.android)}
-        <h2>iPhone · iPad (Safari)</h2>${ios}`;
+      body = `<section class="guide first" aria-label="태블릿이나 휴대폰에서 열기">
+          <h2>태블릿이나 휴대폰에서 열어 주세요</h2>
+          <p>홈 화면 추가는 아이가 볼 기기에서 해요. 아래 주소를 그 기기에서 열고, 기기에 맞는 순서를 따라 주세요.</p>${copy}
+        </section>
+        ${guide('Android · Chrome', STEPS.android)}
+        ${guide('iPhone · iPad (Safari)', STEPS.ios)}`;
       break;
   }
 
   setBack(() => backTo(home));
-  app.innerHTML = `<main class="screen settings install"><div class="bar">${backButton()}<h1>홈 화면에 추가</h1></div>
-    <section class="panel">${body}</section></main>`;
+  app.innerHTML = page('홈 화면에 추가', `${platform === 'standalone' ? '' : picture}${body}`, 'install');
   bindBack();
   app.querySelector('[data-action="install-now"]')?.addEventListener('click', () => void promptInstall().then(render));
   app.querySelector<HTMLButtonElement>('[data-action="copy-url"]')?.addEventListener('click', async (e) => {
@@ -530,7 +725,7 @@ export function renderInstall(home: Route): void {
       await navigator.clipboard.writeText(appUrl);
       b.textContent = '복사했어요';
     } catch {
-      b.textContent = '아래 주소를 길게 눌러 복사해 주세요';
+      b.textContent = '위 주소를 길게 눌러 복사해 주세요';
     }
   });
 }

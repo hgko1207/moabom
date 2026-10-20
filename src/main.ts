@@ -151,7 +151,7 @@ function render(): void {
     });
   }
 
-  if (route.settings) return renderSettings(profile, available, home);
+  if (route.settings) return renderSettings(profile, available, home, route.section);
   if (route.install) return renderInstall(home);
   if (route.history) return renderHistory(profile);
   if (route.about) return renderAbout(profile);

@@ -8,6 +8,7 @@ import {
   effectiveLimits,
   heroPick,
   homeTitle,
+  isSettingsSection,
   isStale,
   limitReached,
   localDate,
@@ -18,6 +19,7 @@ import {
   viewingOrder,
   visibleCollectionIds,
   type Limits,
+  type SettingsSection,
 } from './rules.ts';
 import { createAnalytics, type SessionKV } from './analytics.ts';
 import type { PlayerHandle } from './player.ts';
@@ -60,6 +62,8 @@ export interface Route {
   video?: string;
   today?: boolean;
   settings?: boolean;
+  /** a settings sub-screen, `#/p/{pid}/settings/{section}` */
+  section?: SettingsSection;
   install?: boolean;
   history?: boolean;
   about?: boolean;
@@ -74,6 +78,7 @@ export function parseHash(): Route {
     const key = parts[i];
     if (key === 'today' || key === 'settings' || key === 'install' || key === 'history' || key === 'about') {
       route[key] = true;
+      if (key === 'settings' && isSettingsSection(parts[i + 1])) route.section = parts[++i] as SettingsSection;
       continue;
     }
     const value = parts[++i];
@@ -90,7 +95,7 @@ export function parseHash(): Route {
 export function href(r: Route): string {
   let h = '#/';
   if (r.profile) h += `p/${encodeURIComponent(r.profile)}`;
-  if (r.profile && r.settings) return `${h}/settings`;
+  if (r.profile && r.settings) return `${h}/settings${r.section ? `/${r.section}` : ''}`;
   if (r.profile && r.install) return `${h}/install`;
   if (r.profile && r.history) return `${h}/history`;
   if (r.profile && r.about) return `${h}/about`;

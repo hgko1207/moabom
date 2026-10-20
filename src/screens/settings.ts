@@ -94,7 +94,7 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
     ${
       news
         ? `<section class="panel news" aria-labelledby="news-title">
-      <p class="news-date">${esc(news.date)}</p>
+      <p class="news-date">${newsDate(news.date)}</p>
       <h2 id="news-title">${esc(news.title)}</h2>
       <p>${esc(news.body)}</p>
       <button class="close" data-action="news-close" data-news="${esc(news.id)}" aria-label="소식 닫기">${icon('close', 24)}</button>
@@ -352,6 +352,12 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
   });
 }
 
+/** "2026-10-19" → "10월 19일" for the news card and the past-news list. */
+function newsDate(date: string): string {
+  const [, m, d] = date.split('-').map(Number);
+  return `${m}월 ${d}일`;
+}
+
 /** The newest news item this device has not closed yet (design DR11). */
 function unreadNews(): NewsItem | undefined {
   const read = new Set(store.newsRead());
@@ -415,7 +421,7 @@ export function renderAbout(profile: Profile): void {
       past.length
         ? `<section class="panel" aria-labelledby="about-news">
       <h2 id="about-news">지난 소식</h2>
-      <ul class="past-news">${past.map((n) => `<li><span class="news-date">${esc(n.date)}</span> <b>${esc(n.title)}</b><p>${esc(n.body)}</p></li>`).join('')}</ul>
+      <ul class="past-news">${past.map((n) => `<li><span class="news-date">${newsDate(n.date)}</span> <b>${esc(n.title)}</b><p>${esc(n.body)}</p></li>`).join('')}</ul>
     </section>`
         : ''
     }

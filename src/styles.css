@@ -1719,3 +1719,51 @@ details.paste summary::-webkit-details-marker {
   max-width: 480px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
+
+/* Settings switches (design review 2026-10-20, FINDING-001): a neutral row with a real switch on the right.
+   The state text stays in the button for screen readers; the track shows on/off. The track is round on
+   purpose: a switch is a convention parents recognise, the one exception to "no pill shapes". */
+.shown,
+.shown[aria-checked='false'] {
+  border: 2px solid var(--line);
+  background: var(--surface);
+}
+
+.shown .state,
+.shown[aria-checked='false'] .state {
+  position: relative;
+  flex: none;
+  width: 52px;
+  height: 32px;
+  padding: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  font-size: 0;
+  color: transparent;
+  transition: background-color var(--rise) ease-out;
+}
+
+.shown[aria-checked='false'] .state {
+  background: #7d8697;
+}
+
+.shown .state::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 23px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: 0 1px 2px rgba(27, 34, 48, 0.35);
+  transition: left var(--rise) ease-out;
+}
+
+.shown[aria-checked='false'] .state::after {
+  left: 3px;
+}
+
+.shown[aria-disabled='true'] .state {
+  opacity: 0.5;
+}

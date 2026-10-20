@@ -1767,3 +1767,9 @@ details.paste summary::-webkit-details-marker {
 .shown[aria-disabled='true'] .state {
   opacity: 0.5;
 }
+
+/* Parent screens read as one column (design review FINDING-002): on tablets and desktops a full-width row put the
+   label and its switch or arrows far apart. */
+.screen.settings {
+  max-width: 760px;
+}

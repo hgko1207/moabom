@@ -2250,15 +2250,15 @@ Branch: all on `phase2`, merged to main once after tests, typecheck, the R23 pas
 ## Implementation Tasks — phase 2
 Synthesized from this review's findings and answers. Checkbox as you ship.
 
-- [ ] **U1 (P1, human: ~3h / CC: ~20min)** — src/screens — Move renderCollection/renderTodayDone to src/screens/collection.ts and renderPlayer to src/screens/player.ts, behaviour-identical, own commit
+- [x] **U1 (P1, human: ~3h / CC: ~20min)** — src/screens — Move renderCollection/renderTodayDone to src/screens/collection.ts and renderPlayer to src/screens/player.ts, behaviour-identical, own commit
   - Surfaced by: D1; R23 (D4)
   - Files: src/main.ts, src/screens/collection.ts, src/screens/player.ts, src/ui.ts
   - Verify: `npm test`, `npm run typecheck`, headless player pass before and after (R23 list), same results
-- [ ] **U2 (P1, human: ~4h / CC: ~25min)** — 오늘만 더 — today.extraEpisodes/extraSeconds in limitReached/canStart/upNext; storage.today() reads them; settings 오늘 panel +1·+2·+3편 / +10·+20·+30분 (hidden with no limit); moon-screen button with a 2 s hold → settings (bindHold)
+- [x] **U2 (P1, human: ~4h / CC: ~25min)** — 오늘만 더 — today.extraEpisodes/extraSeconds in limitReached/canStart/upNext; storage.today() reads them; settings 오늘 panel +1·+2·+3편 / +10·+20·+30분 (hidden with no limit); moon-screen button with a 2 s hold → settings (bindHold)
   - Surfaced by: P2-3; R21 (D2); Section 1 storage finding
   - Files: src/rules.ts, src/storage.ts, src/ui.ts, src/screens/settings.ts, src/screens/collection.ts, tests/rules.test.ts, tests/storage.test.ts
   - Verify: `npm test`; headless: moon button tap → hint, hold → gate → settings → +1편 → ◀ → list plays
-- [ ] **U3 (P1, human: ~4h / CC: ~25min)** — player buttons — DeviceSettings.player {prev,next,replay,captions} all false by default; settings switches; share.ts parse + describeSettings; prevInOrder, canReplay; buttons on the player through canStart
+- [x] **U3 (P1, human: ~4h / CC: ~25min)** — player buttons — DeviceSettings.player {prev,next,replay,captions} all false by default; settings switches; share.ts parse + describeSettings; prevInOrder, canReplay; buttons on the player through canStart
   - Surfaced by: P2-1; S2
   - Files: src/storage.ts, src/share.ts, src/ui.ts, src/rules.ts, src/screens/settings.ts, src/screens/player.ts, src/styles.css, tests/share.test.ts, tests/rules.test.ts
   - Verify: `npm test`; headless: no buttons by default; switch on → shown; next at the limit → moon; replay hidden after the limit
@@ -2270,19 +2270,19 @@ Synthesized from this review's findings and answers. Checkbox as you ship.
   - Surfaced by: P2-2; R22 (D3); Section 2 descriptions finding
   - Files: src/rules.ts, src/config.ts, src/data.ts, config/descriptions/numberblocks.json, src/screens/collection.ts, src/screens/player.ts, tests/rules.test.ts, tests/config.test.ts
   - Verify: `npm test` (label rows, description validation, real keys exist); headless: label on cards, description line
-- [ ] **U6 (P2, human: ~3h / CC: ~20min)** — auto-resume — pure autoResume in rules.ts; player tracks in-app pause and OS pause; listener via onLeave; big ▶ when playVideo is blocked
+- [x] **U6 (P2, human: ~3h / CC: ~20min)** — auto-resume — pure autoResume in rules.ts; player tracks in-app pause and OS pause; listener via onLeave; big ▶ when playVideo is blocked
   - Surfaced by: P2-4; Section 1 listener finding
   - Files: src/rules.ts, src/player.ts, src/screens/player.ts, tests/rules.test.ts
   - Verify: `npm test` (each condition false, 60 s boundary, user pause); manual on a phone
-- [ ] **U7 (P1, human: ~3h / CC: ~20min)** — error flow — pure errorStep (100/101/150 now, 2/5 pending, confirm, drop on 3× or offline, no notice for 100s); 3 s auto-advance through upNext + canStart; pending state in screens/player.ts
+- [x] **U7 (P1, human: ~3h / CC: ~20min)** — error flow — pure errorStep (100/101/150 now, 2/5 pending, confirm, drop on 3× or offline, no notice for 100s); 3 s auto-advance through upNext + canStart; pending state in screens/player.ts
   - Surfaced by: P2-5; Section 1 pending-list finding
   - Files: src/rules.ts, src/screens/player.ts, tests/rules.test.ts
   - Verify: `npm test`; headless: forced error code → ⚠ + next after 3 s; offline → notice, no ⚠
-- [ ] **U8 (P2, human: ~2h / CC: ~15min)** — colours — optional collection `color`; contrast validation for profile, collection, category colours (white small text 4.5:1, large 3:1, fills/borders 3:1 on --bg and --surface); .primary/.shown .state/.hero .chip text → --ink; collection screens set --accent
+- [x] **U8 (P2, human: ~2h / CC: ~15min)** — colours — optional collection `color`; contrast validation for profile, collection, category colours (white small text 4.5:1, large 3:1, fills/borders 3:1 on --bg and --surface); .primary/.shown .state/.hero .chip text → --ink; collection screens set --accent
   - Surfaced by: P2-6; S4; Section 1 accent finding
   - Files: src/config.ts, src/styles.css, src/screens/collection.ts, src/screens/player.ts, src/screens/home.ts, tests/config.test.ts
   - Verify: `npm test` (colour rows, real configs pass); headless: collection colour on tabs, home back to profile colour
-- [ ] **U9 (P3, human: ~30min / CC: ~10min)** — SPEC — Record phase-2 rules (buttons, extras, labels, auto-resume, error flow, colours) and the captions spike result; §10 accent rule
+- [x] **U9 (P3, human: ~30min / CC: ~10min)** — SPEC — Record phase-2 rules (buttons, extras, labels, auto-resume, error flow, colours) and the captions spike result; §10 accent rule
   - Surfaced by: design Next Steps 6
   - Files: SPEC.md
   - Verify: SPEC matches shipped behaviour

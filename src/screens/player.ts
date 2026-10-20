@@ -1,11 +1,17 @@
-// The player screen (SPEC §8 P1-P4).
-import type { Profile } from '../config.ts';
+// The player screen (SPEC §8 P1-P4, design P2-1, P2-2, P2-4, P2-5).
+import type { Profile, VideoRecord } from '../config.ts';
 import type { Collection } from '../data.ts';
 import { icon } from '../icons.ts';
 import { createPlayer, type PlayerHandle } from '../player.ts';
 import {
+  canReplay,
   canStart,
+  episodeLabel,
+  errorStep,
   localDate,
+  nextInOrder,
+  NO_ERRORS,
+  prevInOrder,
   recordFailed,
   recordFinished,
   recordHistory,
@@ -14,6 +20,7 @@ import {
   recordPosition,
   recordProgress,
   recordStopped,
+  shouldAutoResume,
   shouldCutAtLimit,
   startPosition,
   UP_NEXT_SEC,
@@ -21,19 +28,23 @@ import {
   upNextScope,
   viewingOrder,
   withToday,
+  type ErrorState,
   type UpNext,
 } from '../rules.ts';
 import {
   activePlayer,
   analytics,
   app,
+  appData,
   backButton,
   backTo,
   bindBack,
   collectionOfVideo,
   esc,
   limitsFor,
+  onLeave,
   replace,
+  setAccent,
   setActivePlayer,
   setBack,
   store,
@@ -41,9 +52,16 @@ import {
   type Route,
 } from '../ui.ts';
 
-// ---------- player (SPEC §8 P1-P4) ----------
+/** Seconds before an unplayable video moves on to the next episode (P2-5). */
+const SKIP_AFTER_MS = 3000;
 
-function upNextCardHtml(u: UpNext, groupLabels: Map<string, string>): string {
+/**
+ * Errors that may be the network's fault wait here until a later video plays (P2-5). It lives across the player
+ * screens that auto-advance opens one after another, and is dropped once the child leaves the player.
+ */
+let errors: ErrorState = NO_ERRORS;
+
+function upNextCardHtml(u: UpNext, c: Collection): string {
   if (u.kind === 'limit') {
     return `<button class="upnext night" data-action="today" aria-label="오늘은 여기까지">${icon('moon', 56)}</button>`;
   }
@@ -51,8 +69,8 @@ function upNextCardHtml(u: UpNext, groupLabels: Map<string, string>): string {
     return `<button class="upnext done" data-action="list" aria-label="다 봤어요. 목록으로">${icon('check', 56)}</button>`;
   }
   const v = u.video;
-  const label = u.newGroup ? groupLabels.get(v.group) ?? '' : '';
-  return `<button class="upnext" data-next="${esc(v.id)}" aria-label="다음 화: ${label ? `${esc(label)} ` : ''}${v.order}편 ${esc(v.displayTitle)}">
+  const label = u.newGroup ? c.config.groups.find((g) => g.id === v.group)?.label ?? '' : '';
+  return `<button class="upnext" data-next="${esc(v.id)}" aria-label="다음 화: ${esc(episodeLabel(c.config, v))} ${esc(v.displayTitle)}">
     ${thumb(v.id, String(v.order), `<span class="play" aria-hidden="true">${icon('play', 32)}</span>${label ? `<span class="badge group" aria-hidden="true">${esc(label)}</span>` : ''}`, true)}
     <span class="title" aria-hidden="true">${v.order}. ${esc(v.displayTitle)}</span></button>`;
 }
@@ -66,10 +84,23 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   if (!canStart(today, limits, video.id)) return replace({ ...listRoute, today: true });
   let progress = store.progress(profile.id, c.config.id);
   let history = withToday(store.history(profile.id), today, collectionOfVideo);
-  const groupLabels = new Map(c.config.groups.map((g) => [g.id, g.label]));
   // Free groups (compilations, clips) play on inside their own tab; series groups walk the episodes.
   const scope = upNextScope(c.data, c.config, video);
   const start = startPosition(progress, video);
+  if (c.config.color) setAccent(c.config.color);
+
+  // Player buttons are off until a parent turns them on in settings (P2-1).
+  const buttons = store.settings()?.player ?? {};
+  const prev = buttons.prev ? prevInOrder(scope, video.id) : null;
+  const next = buttons.next ? nextInOrder(scope, video.id) : null;
+  const captions = buttons.captions && video.hasCaptions === true;
+  const description = appData.descriptions.get(c.config.id)?.[video.id];
+  const controls = [
+    prev ? `<button class="control" data-go="${esc(prev.id)}" aria-label="이전 편">${icon('skip-back', 32)}</button>` : '',
+    buttons.replay ? `<button class="control" data-action="replay" aria-label="한 번 더"${canReplay(today, limits) ? '' : ' hidden'}>${icon('again', 32)}</button>` : '',
+    next ? `<button class="control" data-go="${esc(next.id)}" aria-label="다음 편">${icon('skip-forward', 32)}</button>` : '',
+    captions ? `<button class="control" data-action="captions" aria-label="자막" aria-pressed="false">${icon('captions', 32)}</button>` : '',
+  ].join('');
 
   setBack(() => backTo(listRoute));
   app.innerHTML = `<main class="screen player-screen">
@@ -80,6 +111,11 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
       <div class="upnext-slot" aria-live="polite"></div>
       <button class="big-exit" data-action="big" aria-label="작게 보기">${icon('maximize', 28)}</button>
     </div>
+    <div class="player-info">
+      <p class="episode-label">${esc(episodeLabel(c.config, video))}</p>
+      ${description ? `<p class="description">${esc(description)}</p>` : ''}
+    </div>
+    ${controls ? `<div class="controls" role="group" aria-label="재생 버튼">${controls}</div>` : ''}
     <p class="detect-off" hidden>감지 꺼짐</p>
   </main>`;
   bindBack();
@@ -98,6 +134,16 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   };
   const openNext = (id: string) => replace({ ...listRoute, video: id });
   const openToday = () => replace({ ...listRoute, today: true });
+  /** Next/previous episode and the error skip all go through the daily limit (L3). */
+  const goTo = (target: VideoRecord | string) => {
+    const id = typeof target === 'string' ? target : target.id;
+    return canStart(today, limits, id) ? openNext(id) : openToday();
+  };
+
+  // Leaving the player for any other screen forgets errors still waiting for a verdict.
+  onLeave(() => {
+    if (!/\/v\//.test(location.hash)) errors = NO_ERRORS;
+  });
 
   // "크게 보기": real fullscreen on our own stage (so the up-next card and overlays stay visible) plus a
   // landscape lock, which Android only allows while fullscreen. iPhone has no element fullscreen and keeps
@@ -130,6 +176,23 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     b.addEventListener('click', () => (main.classList.contains('big') ? exitBig() : void enterBig())),
   );
 
+  // Player buttons (P2-1).
+  app.querySelectorAll<HTMLButtonElement>('[data-go]').forEach((b) => b.addEventListener('click', () => goTo(b.dataset.go!)));
+  const replayButton = app.querySelector<HTMLButtonElement>('[data-action="replay"]');
+  replayButton?.addEventListener('click', () => {
+    // A same-day rewatch: no new episode is counted (L1), the minutes still are (L2).
+    overlay.hidden = true;
+    overlay.innerHTML = '';
+    progress = recordPosition(progress, video.id, null);
+    save();
+    player?.restart();
+  });
+  app.querySelector<HTMLButtonElement>('[data-action="captions"]')?.addEventListener('click', (e) => {
+    const b = e.currentTarget as HTMLButtonElement;
+    const on = b.getAttribute('aria-pressed') !== 'true';
+    if (player?.setCaptions(on)) b.setAttribute('aria-pressed', String(on));
+  });
+
   const bindOverlayActions = (root: HTMLElement) => {
     root.querySelector<HTMLButtonElement>('[data-next]')?.addEventListener('click', (e) =>
       openNext((e.currentTarget as HTMLButtonElement).dataset.next!),
@@ -149,11 +212,52 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
 
   const listButton = `<button class="overlay-small" data-action="list" aria-label="목록으로">${icon('back', 32)}</button>`;
 
+  // Resume a video the OS paused while the page was briefly hidden (P2-4); never after a pause someone pressed.
+  let lastPlayingAt = 0;
+  let pausedAt: number | null = null;
+  let hidden: { hiddenAt: number; playingWhenHidden: boolean } | null = null;
+  let resumeCheck = 0;
+  const onVisibility = () => {
+    const now = Date.now();
+    if (document.visibilityState === 'hidden') {
+      hidden = { hiddenAt: now, playingWhenHidden: !!player?.isPlaying() || now - lastPlayingAt < 2000 };
+      return;
+    }
+    const spell = hidden;
+    hidden = null;
+    if (!spell || !player || !shouldAutoResume({ ...spell, pausedAt, visibleAt: now })) return;
+    player.play();
+    // iOS may refuse to play without a tap: offer a big ▶ instead.
+    window.clearTimeout(resumeCheck);
+    resumeCheck = window.setTimeout(() => {
+      if (player?.isPlaying() || !overlay.hidden) return;
+      showOverlay(`<button class="upnext resume" data-action="resume" aria-label="계속 보기">
+          ${thumb(video.id, String(video.order), `<span class="play" aria-hidden="true">${icon('play', 32)}</span>`, true)}</button>${listButton}`);
+      overlay.querySelector('[data-action="resume"]')?.addEventListener('click', () => {
+        overlay.hidden = true;
+        overlay.innerHTML = '';
+        player?.play();
+      });
+    }, 1000);
+  };
+  document.addEventListener('visibilitychange', onVisibility);
+  let skipTimer = 0;
+  onLeave(() => {
+    document.removeEventListener('visibilitychange', onVisibility);
+    window.clearTimeout(resumeCheck);
+    window.clearTimeout(skipTimer);
+  });
+
   createPlayer(app.querySelector<HTMLElement>('#yt')!, video.id, {
     onPlaying(delta, current, total) {
+      lastPlayingAt = Date.now();
       if (!counted) {
         counted = true;
         analytics.playStart(c.config.id);
+        // A video plays: errors that waited for this were the videos' fault after all (P2-5).
+        const settled = errorStep(errors, { kind: 'played' });
+        errors = settled.state;
+        for (const id of settled.markFailed) progress = recordFailed(progress, id, Date.now());
       }
       today = recordPlay(today, video.id, delta);
       const r = recordProgress(progress, video, delta, Date.now());
@@ -171,13 +275,14 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
         return openToday();
       }
       save();
+      if (replayButton) replayButton.hidden = !canReplay(today, limits);
       const remaining = total - current;
       if (total > 0 && remaining <= UP_NEXT_SEC && overlay.hidden) {
         const u = upNext(scope, video, today, limits, remaining);
         const key = u.kind === 'next' ? u.video.id : u.kind;
         if (key !== shownUpNext) {
           shownUpNext = key;
-          slot.innerHTML = upNextCardHtml(u, groupLabels);
+          slot.innerHTML = upNextCardHtml(u, c);
           bindOverlayActions(slot);
         }
       }
@@ -189,17 +294,28 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
       save();
       const u = upNext(scope, video, today, limits, 0);
       if (u.kind === 'limit') return openToday();
-      showOverlay(`${upNextCardHtml(u, groupLabels)}${listButton}`);
+      showOverlay(`${upNextCardHtml(u, c)}${listButton}`);
     },
     onError(code) {
-      // P4: never counted, never marked watched; remembered so O3 skips it on this device.
+      // Never counted, never marked watched (P4). Removed or blocked videos are marked now; others wait (P2-5).
       analytics.videoError(video.id, code);
-      progress = recordFailed(progress, video.id, Date.now());
+      const o = errorStep(errors, { kind: 'error', videoId: video.id, code, online: navigator.onLine });
+      errors = o.state;
+      for (const id of o.markFailed) progress = recordFailed(progress, id, Date.now());
       store.saveProgress(profile.id, c.config.id, progress);
+      if (o.notice) {
+        showOverlay(`<div class="overlay-icon" aria-hidden="true">${icon('offline', 64)}</div>
+          <p class="overlay-text" role="status">인터넷 연결을 확인해 주세요</p>
+          <button class="overlay-small" data-action="reload" aria-label="다시 시도">${icon('again', 32)}</button>${listButton}`);
+        overlay.querySelector('[data-action="reload"]')?.addEventListener('click', () => location.reload());
+        return;
+      }
       const u = upNext(scope, video, today, limits, 0);
+      const skip = o.advance && u.kind === 'next' && canStart(today, limits, u.video.id);
       showOverlay(`<div class="overlay-icon" aria-hidden="true">${icon('unplug', 64)}</div>
-        <span class="visually-hidden">이 영상은 지금 볼 수 없어요</span>
-        ${u.kind === 'next' && canStart(today, limits, u.video.id) ? upNextCardHtml(u, groupLabels) : ''}${listButton}`);
+        <span class="visually-hidden">이 영상은 지금 볼 수 없어요${skip ? '. 곧 다음 편으로 넘어가요' : ''}</span>
+        ${u.kind === 'next' && canStart(today, limits, u.video.id) ? upNextCardHtml(u, c) : u.kind === 'limit' ? upNextCardHtml(u, c) : ''}${listButton}`);
+      if (skip) skipTimer = window.setTimeout(() => goTo(u.video), SKIP_AFTER_MS);
     },
     onForeignVideo(resumeAt) {
       // P2 + design D8: offer to continue the episode the child was watching.
@@ -213,6 +329,9 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     },
     onDetectionUnavailable() {
       app.querySelector<HTMLElement>('.detect-off')!.hidden = false;
+    },
+    onPaused() {
+      pausedAt = Date.now();
     },
   }, start)
     .then((p) => {

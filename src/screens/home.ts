@@ -3,7 +3,7 @@ import type { Profile } from '../config.ts';
 import type { Collection } from '../data.ts';
 import { icon, isIconName } from '../icons.ts';
 import { logo } from '../logo.ts';
-import { groupByCategory, homeTitle, mostRecentCollection, progressRecency, startPosition } from '../rules.ts';
+import { episodeLabel, groupByCategory, homeTitle, mostRecentCollection, progressRecency, startPosition } from '../rules.ts';
 import {
   analytics,
   app,
@@ -121,14 +121,14 @@ function homeContinueHtml(collections: Collection[], views: Map<string, Collecti
   const view = c && views.get(c.config.id);
   const v = view?.highlight;
   if (!c || !view || !v) return '';
-  const group = c.config.groups.find((g) => g.id === v.group)?.label ?? '';
+  const label = episodeLabel(c.config, v);
   const at = view.resume ? startPosition(view.progress, v) : 0;
   const what = view.resume ? '이어 보기' : '다음 편';
   const when = view.resume ? `${duration(at)}부터` : duration(v.durationSec);
   return `<button class="hero home-continue" data-continue="${esc(c.config.id)}" data-video="${esc(v.id)}"
-      aria-label="${what}: ${esc(c.config.displayName)} ${esc(group)} ${v.order}편 ${esc(v.displayTitle)}">
+      aria-label="${what}: ${esc(c.config.displayName)} ${esc(label)} ${esc(v.displayTitle)}">
     ${thumb(v.id, String(v.order), `<span class="play" aria-hidden="true">${icon('play', 48)}</span>${progressBar(at, v.durationSec)}`, true)}
     <div><div class="chip">${icon(view.resume ? 'again' : 'play', 20)}${what}</div><div class="title">${esc(v.displayTitle)}</div>
-      <div class="sub">${esc(c.config.displayName)} · ${esc(group)} ${v.order}편 · ${when}</div></div>
+      <div class="sub">${esc(c.config.displayName)} · ${esc(label)} · ${when}</div></div>
   </button>`;
 }

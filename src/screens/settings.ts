@@ -5,7 +5,10 @@ import { icon } from '../icons.ts';
 import { settingsFromText, settingsLink } from '../share.ts';
 import { canPromptInstall, currentPlatform, promptInstall, STEPS } from '../install.ts';
 import {
+  addExtra,
   canMoveCollection,
+  EXTRA_EPISODES,
+  EXTRA_MINUTES,
   groupByCategory,
   HISTORY_DAYS,
   homeTitle,
@@ -17,7 +20,7 @@ import {
   viewingOrder,
   withToday,
 } from '../rules.ts';
-import type { DeviceSettings, LimitMode } from '../storage.ts';
+import type { DeviceSettings, LimitMode, PlayerButtons } from '../storage.ts';
 import {
   analytics,
   app,
@@ -36,6 +39,13 @@ import {
   thumbUrl,
   type Route,
 } from '../ui.ts';
+
+const PLAYER_SWITCHES: [keyof PlayerButtons, string][] = [
+  ['prev', '이전 편'],
+  ['next', '다음 편'],
+  ['replay', '한 번 더'],
+  ['captions', '자막'],
+];
 
 const LIMIT_STEP: Record<LimitMode, { step: number; min: number; max: number; unit: string; initial: number }> = {
   none: { step: 0, min: 0, max: 0, unit: '', initial: 0 },
@@ -72,6 +82,12 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
   const categoryLabel = new Map(appData.categories.map((c) => [c.id, c.label]));
   const news = unreadNews();
   const statsOn = store.analytics() !== 'off';
+  const buttons = current.player ?? {};
+  const extraNote = today.extraEpisodes
+    ? `오늘은 ${today.extraEpisodes}편 더 볼 수 있어요.`
+    : today.extraSeconds
+      ? `오늘은 ${Math.round(today.extraSeconds / 60)}분 더 볼 수 있어요.`
+      : '오늘 하루만 제한을 늘려요. 내일은 원래대로예요.';
 
   setBack(() => backTo(home));
   app.innerHTML = `<main class="screen settings"><div class="bar">${backButton()}<h1>설정</h1></div>
@@ -104,10 +120,27 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
     <section class="panel" aria-labelledby="today-title">
       <h2 id="today-title">오늘</h2>
       <p class="today-usage">${todayUsage}</p>
+      ${
+        mode === 'none'
+          ? ''
+          : `<h3 id="more-title">오늘만 더</h3>
+      <div class="choices more" role="group" aria-labelledby="more-title">${(mode === 'episodes' ? EXTRA_EPISODES : EXTRA_MINUTES)
+        .map((n) => `<button class="choice" data-extra="${n}">+${n}${mode === 'episodes' ? '편' : '분'}</button>`)
+        .join('')}</div>
+      <p class="hint" id="more-msg" role="status">${extraNote}</p>`
+      }
       <div class="row-actions">
         <button class="secondary" data-action="history">시청 기록 보기</button>
         ${mode === 'none' ? '' : '<button class="secondary" data-action="reset-today">오늘 기록 초기화 (한 번 더 보기)</button>'}
       </div>
+    </section>
+    <section class="panel" aria-labelledby="buttons-title">
+      <h2 id="buttons-title">재생 화면 버튼</h2>
+      ${PLAYER_SWITCHES.map(
+        ([key, label]) => `<button class="shown switch" role="switch" aria-checked="${!!buttons[key]}" data-button="${key}">
+        <span class="name">${label}</span><span class="state">${buttons[key] ? '켜짐' : '꺼짐'}</span></button>`,
+      ).join('')}
+      <p class="hint">켜면 재생 화면 아래에 버튼이 생겨요. 이전·다음 편도 하루 제한을 지키고, 한 번 더는 제한에 닿으면 숨어요. 자막은 자막이 있는 영상에만 보여요.</p>
     </section>
     <section class="panel" aria-labelledby="shown-title">
       <h2 id="shown-title">보여 줄 캐릭터</h2>
@@ -210,6 +243,24 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
       store.saveSettings({ ...latest(), limit: { mode, value: next } });
       render();
       app.querySelector<HTMLButtonElement>(`[data-step="${b.dataset.step}"]`)?.focus();
+    }),
+  );
+  app.querySelectorAll<HTMLButtonElement>('[data-extra]').forEach((b) =>
+    b.addEventListener('click', () => {
+      if (mode === 'none') return;
+      const day = store.today(profile.id, today.date);
+      store.saveToday(profile.id, addExtra(day, mode, Number(b.dataset.extra)));
+      render();
+      app.querySelector<HTMLElement>(`[data-extra="${b.dataset.extra}"]`)?.focus();
+    }),
+  );
+  app.querySelectorAll<HTMLButtonElement>('[data-button]').forEach((b) =>
+    b.addEventListener('click', () => {
+      const key = b.dataset.button as keyof PlayerButtons;
+      const now = latest();
+      store.saveSettings({ ...now, player: { ...now.player, [key]: !now.player?.[key] } });
+      render();
+      app.querySelector<HTMLElement>(`[data-button="${key}"]`)?.focus();
     }),
   );
   app.querySelector('[data-action="reset-today"]')?.addEventListener('click', () => {

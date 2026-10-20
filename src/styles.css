@@ -809,7 +809,8 @@ body.night {
   touch-action: none;
 }
 
-.gear .hold {
+.gear .hold,
+.holdable .hold {
   position: absolute;
   inset: 4px;
   border-radius: 50%;
@@ -818,7 +819,8 @@ body.night {
   opacity: 0;
 }
 
-.gear.holding .hold {
+.gear.holding .hold,
+.holdable.holding .hold {
   opacity: 1;
   animation: hold 2s linear forwards;
 }
@@ -1452,7 +1454,7 @@ details.paste summary::-webkit-details-marker {
   position: relative;
 }
 
-.gear-hint {
+.bar .hold-hint {
   position: absolute;
   right: 0;
   top: 100%;
@@ -1608,4 +1610,118 @@ details.paste summary::-webkit-details-marker {
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+}
+
+/* Phase 2: episode labels (P2-2) */
+.card .ep {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink-2);
+  line-height: 20px;
+}
+
+.player-info {
+  margin-top: var(--s2);
+}
+
+.player-info p {
+  margin: 0;
+  word-break: keep-all;
+}
+
+.player-info .episode-label {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+
+.player-info .description {
+  margin-top: 4px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+/* Player buttons (P2-1): 64px targets in one row */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s1);
+  margin-top: var(--s2);
+}
+
+.control {
+  width: var(--target);
+  height: var(--target);
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 3px solid var(--line);
+  color: var(--ink);
+}
+
+.control[aria-pressed='true'] {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface));
+}
+
+.control[hidden] {
+  display: none;
+}
+
+.player-screen.big .player-info,
+.player-screen.big .controls {
+  display: none;
+}
+
+.overlay-text {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  word-break: keep-all;
+}
+
+/* 오늘만 더 on the moon screen (P2-3, R21): a quiet parent button with the gear's 2 s hold ring */
+.more-today-wrap {
+  display: grid;
+  justify-items: center;
+  gap: var(--s1);
+  margin-top: var(--s4);
+}
+
+.more-today {
+  position: relative;
+  min-height: var(--target);
+  padding: 0 var(--s3);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--night-ink);
+  font-size: 18px;
+  font-weight: 700;
+  -webkit-touch-callout: none;
+  user-select: none;
+  touch-action: none;
+}
+
+.more-today .hold {
+  position: absolute;
+  inset: -4px;
+  border-radius: var(--radius);
+  background: conic-gradient(var(--night-ink) var(--p, 0%), transparent 0);
+  mask: linear-gradient(#000 0 0) exclude, linear-gradient(#000 0 0) content-box;
+  padding: 3px;
+  opacity: 0;
+}
+
+.night-screen .hold-hint {
+  margin: 0;
+  font-size: 16px;
+  color: var(--night-ink);
+}
+
+.settings .choices.more {
+  max-width: 480px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }

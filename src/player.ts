@@ -12,6 +12,10 @@ interface YTPlayer {
   getPlayerState(): number;
   getVideoUrl(): string;
   getVideoData?(): { video_id?: string };
+  // Captions module: not in the official reference (design P2-1 spike); every call is guarded.
+  loadModule?(name: string): void;
+  unloadModule?(name: string): void;
+  setOption?(module: string, option: string, value: unknown): void;
   destroy(): void;
 }
 
@@ -28,6 +32,7 @@ declare global {
 
 const ENDED = 0;
 const PLAYING = 1;
+const PAUSED = 2;
 
 let apiPromise: Promise<YTNamespace> | null = null;
 
@@ -55,11 +60,19 @@ export interface PlayerEvents {
   onForeignVideo(resumeAt: number): void;
   /** Neither getVideoUrl nor getVideoData reports an ID on this device, so P2 cannot work. */
   onDetectionUnavailable(): void;
+  /** The video paused (by the child, a parent or the OS); used to resume after an OS pause (P2-4). */
+  onPaused?(): void;
 }
 
 export interface PlayerHandle {
   load(videoId: string, startSeconds?: number): void;
   stop(): void;
+  play(): void;
+  /** From the start of the same video (한 번 더). */
+  restart(): void;
+  isPlaying(): boolean;
+  /** Turns captions on or off; false when this device's player has no captions module (P2-1 spike). */
+  setCaptions(on: boolean): boolean;
   destroy(): void;
 }
 
@@ -109,6 +122,7 @@ export async function createPlayer(
             if (playingId(p) === expected) armed = true;
           }
           if (e.data === ENDED && armed && playingId(p) === expected) events.onEnded();
+          if (e.data === PAUSED) events.onPaused?.();
         },
         onError: (e: { data: number }) => {
           if (!destroyed) events.onError(e.data);
@@ -160,6 +174,35 @@ export async function createPlayer(
     },
     stop() {
       player.stopVideo();
+    },
+    play() {
+      player.playVideo();
+    },
+    restart() {
+      player.seekTo(0, true);
+      player.playVideo();
+    },
+    isPlaying() {
+      try {
+        return player.getPlayerState() === PLAYING;
+      } catch {
+        return false;
+      }
+    },
+    setCaptions(on) {
+      if (typeof player.loadModule !== 'function' || typeof player.setOption !== 'function') return false;
+      try {
+        if (on) {
+          player.loadModule('captions');
+          player.setOption('captions', 'track', { languageCode: 'ko' });
+        } else {
+          player.setOption('captions', 'track', {});
+          player.unloadModule?.('captions');
+        }
+        return true;
+      } catch {
+        return false;
+      }
     },
     destroy() {
       destroyed = true;

@@ -20,7 +20,7 @@ import {
 } from './rules.ts';
 import { createAnalytics, type SessionKV } from './analytics.ts';
 import type { PlayerHandle } from './player.ts';
-import { browserKV, createStore, type CollectionProgress, type DeviceSettings, type TodayState } from './storage.ts';
+import { browserKV, createStore, type CollectionProgress, type DeviceSettings, type PlayerButtons, type TodayState } from './storage.ts';
 
 export const app = document.getElementById('app')!;
 export const appData = loadAppData();
@@ -278,7 +278,15 @@ function describeSettings(s: DeviceSettings): string {
     `보여 줄 캐릭터: ${shown.join(', ')}`,
     `홈 화면 이름: ${profile ? homeTitle(profile.name, s) : ''}`,
     `맨 위 이어 보기 칸: ${s.homeContinue === false ? '꺼짐' : '켜짐'}`,
+    `재생 화면 버튼: ${playerButtonNames(s.player).join(', ') || '없음'}`,
   ].join('\n');
+}
+
+const BUTTON_NAMES = { prev: '이전 편', next: '다음 편', replay: '한 번 더', captions: '자막' } as const;
+
+/** The player buttons switched on, in words (P2-1). */
+export function playerButtonNames(p: PlayerButtons | undefined): string[] {
+  return (Object.keys(BUTTON_NAMES) as (keyof typeof BUTTON_NAMES)[]).filter((k) => p?.[k]).map((k) => BUTTON_NAMES[k]);
 }
 
 /** Asks first; returns true when applied. Progress and history on this device are untouched. */
@@ -296,13 +304,17 @@ export function gearButton(): string {
   return `<button class="gear" data-action="gear" aria-label="설정 (2초 동안 누르기)">${icon('settings', 28)}<span class="hold" aria-hidden="true"></span></button>`;
 }
 
-/**
- * Opens settings only after a 2 s press (pointer or Enter/Space), so a child's tap does nothing. A shorter
- * press shows "2초 동안 누르세요" under the gear for 2 s (design DR17).
- */
+/** Opens settings only after a 2 s press, so a child's tap does nothing (design DR17). */
 export function bindGear(profileId: string): void {
   const gear = app.querySelector<HTMLButtonElement>('[data-action="gear"]');
-  if (!gear) return;
+  if (gear) bindHold(gear, () => go({ profile: profileId, settings: true }));
+}
+
+/**
+ * Runs `action` only after a 2 s press (pointer or Enter/Space). A shorter press shows "2초 동안 누르세요" next to
+ * the button for 2 s. Used by the settings gear and the moon screen's 오늘만 더 (R21).
+ */
+export function bindHold(button: HTMLElement, action: () => void): void {
   let timer = 0;
   let hintTimer = 0;
   let pressed = false;
@@ -313,33 +325,33 @@ export function bindGear(profileId: string): void {
   const start = () => {
     window.clearTimeout(timer);
     pressed = true;
-    gear.classList.add('holding');
+    button.classList.add('holding');
     timer = window.setTimeout(() => {
       pressed = false;
-      gear.classList.remove('holding');
-      go({ profile: profileId, settings: true });
+      button.classList.remove('holding');
+      action();
     }, HOLD_MS);
   };
   const cancel = () => {
     window.clearTimeout(timer);
-    gear.classList.remove('holding');
+    button.classList.remove('holding');
     if (!pressed) return;
     pressed = false;
-    gear.parentElement?.querySelector('.gear-hint')?.remove();
-    gear.insertAdjacentHTML('afterend', '<p class="gear-hint" role="status">2초 동안 누르세요</p>');
+    button.parentElement?.querySelector('.hold-hint')?.remove();
+    button.insertAdjacentHTML('afterend', '<p class="hold-hint" role="status">2초 동안 누르세요</p>');
     window.clearTimeout(hintTimer);
-    hintTimer = window.setTimeout(() => gear.parentElement?.querySelector('.gear-hint')?.remove(), HOLD_MS);
+    hintTimer = window.setTimeout(() => button.parentElement?.querySelector('.hold-hint')?.remove(), HOLD_MS);
   };
-  gear.addEventListener('pointerdown', start);
-  for (const ev of ['pointerup', 'pointerleave', 'pointercancel', 'blur']) gear.addEventListener(ev, cancel);
-  gear.addEventListener('contextmenu', (e) => e.preventDefault());
-  gear.addEventListener('keydown', (e) => {
+  button.addEventListener('pointerdown', start);
+  for (const ev of ['pointerup', 'pointerleave', 'pointercancel', 'blur']) button.addEventListener(ev, cancel);
+  button.addEventListener('contextmenu', (e) => e.preventDefault());
+  button.addEventListener('keydown', (e) => {
     if ((e.key === 'Enter' || e.key === ' ') && !e.repeat) {
       e.preventDefault();
       start();
     }
   });
-  gear.addEventListener('keyup', cancel);
+  button.addEventListener('keyup', cancel);
 }
 
 // ---------- home-screen install hint ----------

@@ -1,8 +1,9 @@
 // A collection's episode list and the "that's all for today" moon screen.
-import type { Profile, VideoRecord } from '../config.ts';
+import type { CollectionConfig, Profile, VideoRecord } from '../config.ts';
 import type { Collection } from '../data.ts';
 import { icon } from '../icons.ts';
 import {
+  episodeLabel,
   heroPick,
   initialGroup,
   limitReached,
@@ -19,6 +20,7 @@ import {
   backTo,
   bindBack,
   bindGear,
+  bindHold,
   bindInstallHint,
   collectionView,
   duration,
@@ -32,6 +34,7 @@ import {
   progressBar,
   render,
   replace,
+  setAccent,
   setBack,
   staleNote,
   store,
@@ -40,16 +43,16 @@ import {
   type Route,
 } from '../ui.ts';
 
-function heroHtml(view: CollectionView, first: VideoRecord | undefined, groupLabels: Map<string, string>): string {
+function heroHtml(view: CollectionView, first: VideoRecord | undefined, config: CollectionConfig): string {
   const next = view.highlight;
   if (next) {
-    const label = groupLabels.get(next.group) ?? '';
+    const label = episodeLabel(config, next);
     const at = view.resume ? startPosition(view.progress, next) : 0;
     const what = view.resume ? '이어 보기' : '오늘 볼 영상';
     const when = view.resume ? `${duration(at)}부터 / ${duration(next.durationSec)}` : duration(next.durationSec);
-    return `<button class="hero" data-video="${esc(next.id)}" aria-label="${what}: ${esc(label)} ${next.order}편 ${esc(next.displayTitle)}">
+    return `<button class="hero" data-video="${esc(next.id)}" aria-label="${what}: ${esc(label)} ${esc(next.displayTitle)}">
       ${thumb(next.id, String(next.order), `<span class="play" aria-hidden="true">${icon('play', 48)}</span>${progressBar(at, next.durationSec)}`, true)}
-      <div>${view.resume ? `<div class="chip">${icon('again', 20)}이어 보기</div>` : ''}<div class="title">${esc(next.displayTitle)}</div><div class="sub">${esc(label)} · ${next.order}편 · ${when}</div></div>
+      <div>${view.resume ? `<div class="chip">${icon('again', 20)}이어 보기</div>` : ''}<div class="title">${esc(next.displayTitle)}</div><div class="sub">${esc(label)} · ${when}</div></div>
     </button>`;
   }
   if (view.limited) {
@@ -67,7 +70,8 @@ function heroHtml(view: CollectionView, first: VideoRecord | undefined, groupLab
   </button>`;
 }
 
-function cardHtml(v: VideoRecord, view: CollectionView): string {
+function cardHtml(v: VideoRecord, view: CollectionView, config: CollectionConfig): string {
+  const label = episodeLabel(config, v);
   const watched = v.id in view.progress.watched;
   const failed = v.id in view.progress.failed;
   const isNext = view.highlight?.id === v.id;
@@ -89,9 +93,9 @@ function cardHtml(v: VideoRecord, view: CollectionView): string {
           ? ', 다음에 볼 영상'
           : '';
   const cls = ['card', isNext ? 'next' : '', failed ? 'failed' : '', locked ? 'locked' : ''].filter(Boolean).join(' ');
-  return `<button class="${cls}" data-video="${esc(v.id)}" tabindex="-1" aria-label="${v.order}편 ${esc(v.displayTitle)}${status}">
+  return `<button class="${cls}" data-video="${esc(v.id)}" tabindex="-1" aria-label="${esc(label)} ${esc(v.displayTitle)}${status}">
     ${thumb(v.id, String(v.order), `<span class="badge num" aria-hidden="true">${v.order}</span><span class="badge len" aria-hidden="true">${duration(v.durationSec)}</span>${state}${locked ? '' : progressBar(startPosition(view.progress, v), v.durationSec)}`)}
-    <span class="title" aria-hidden="true">${esc(v.displayTitle)}</span></button>`;
+    <span class="ep" aria-hidden="true">${esc(label)}</span><span class="title" aria-hidden="true">${esc(v.displayTitle)}</span></button>`;
 }
 
 export function renderCollection(profile: Profile, c: Collection, groupParam: string | undefined, parent: Route | null): void {
@@ -109,10 +113,11 @@ export function renderCollection(profile: Profile, c: Collection, groupParam: st
   const base: Route = { profile: profile.id, collection: c.config.id };
 
   if (parent) setBack(() => backTo(parent));
+  if (c.config.color) setAccent(c.config.color);
   const firstEpisode = seriesOnly(c.data, c.config).groups[0]?.videos[0];
   app.innerHTML = `<main class="screen"><div class="bar">${parent ? backButton() : ''}<h1>${esc(c.config.displayName)}</h1>${parent ? '' : gearButton()}</div>
     ${offlineNotice()}
-    ${heroHtml(view, firstEpisode, groupLabels)}
+    ${heroHtml(view, firstEpisode, c.config)}
     <div class="tabs" role="tablist" aria-label="${esc(c.config.groupLabel)}">${groups
       .map((g, i) => {
         const on = g.id === selected;
@@ -124,7 +129,7 @@ export function renderCollection(profile: Profile, c: Collection, groupParam: st
       })
       .join('')}</div>
     <section class="grid" id="grid" role="tabpanel" aria-labelledby="tab-${esc(selected)}">${(current?.videos ?? [])
-      .map((v) => cardHtml(v, view))
+      .map((v) => cardHtml(v, view, c.config))
       .join('')}</section>${parent ? '' : installHint()}${staleNote()}</main>`;
 
   bindBack();
@@ -202,8 +207,12 @@ export function renderTodayDone(profile: Profile, c: Collection, listRoute: Rout
         ? `<p class="resume-note"><button class="hero-mini" data-video="${esc(resumable)}" aria-label="보던 영상 마저 보기">${icon('play', 32)}</button></p>`
         : ''
     }
+    <p class="more-today-wrap"><button class="more-today holdable" data-action="more-today" aria-label="오늘만 더 (어른만, 2초 동안 누르기)">오늘만 더<span class="hold" aria-hidden="true"></span></button></p>
   </main>`;
   bindBack();
+  // 오늘만 더 (P2-3, R21): a 2 s hold like the gear, then the parent gate in front of settings' 오늘 panel.
+  const more = app.querySelector<HTMLButtonElement>('[data-action="more-today"]');
+  if (more) bindHold(more, () => go({ profile: profile.id, settings: true }));
   app.querySelector<HTMLButtonElement>('[data-video]')?.addEventListener('click', (e) =>
     replace({ ...listRoute, video: (e.currentTarget as HTMLButtonElement).dataset.video! }),
   );

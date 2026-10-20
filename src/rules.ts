@@ -243,11 +243,27 @@ export function homeTitle(profileName: string, settings: DeviceSettings | null):
   return settings?.title?.trim().slice(0, TITLE_MAX) || `${profileName} 모아봄`;
 }
 
-/** L3: no new episode may start. Both limits null means unlimited. */
+/** L3: no new episode may start. Both limits null means unlimited. 오늘만 더 extends today's limit (P2-3). */
 export function limitReached(today: TodayState, limits: Limits): boolean {
-  if (limits.dailyEpisodes !== null && today.started.length >= limits.dailyEpisodes) return true;
-  if (limits.dailyMinutes !== null && today.seconds >= limits.dailyMinutes * 60) return true;
+  if (limits.dailyEpisodes !== null && today.started.length >= limits.dailyEpisodes + (today.extraEpisodes ?? 0)) return true;
+  if (limits.dailyMinutes !== null && today.seconds >= limits.dailyMinutes * 60 + (today.extraSeconds ?? 0)) return true;
   return false;
+}
+
+/** 오늘만 더 choices per limit mode (design P2-3): episodes, or minutes. */
+export const EXTRA_EPISODES = [1, 2, 3] as const;
+export const EXTRA_MINUTES = [10, 20, 30] as const;
+
+/** Adds episodes or minutes to today's limit only; a new day starts without them. */
+export function addExtra(today: TodayState, mode: 'episodes' | 'minutes', amount: number): TodayState {
+  return mode === 'episodes'
+    ? { ...today, extraEpisodes: (today.extraEpisodes ?? 0) + amount }
+    : { ...today, extraSeconds: (today.extraSeconds ?? 0) + amount * 60 };
+}
+
+/** 한 번 더 (P2-1): a same-day rewatch, hidden once the limit is reached (L3a opens only unfinished episodes). */
+export function canReplay(today: TodayState, limits: Limits): boolean {
+  return !limitReached(today, limits);
 }
 
 /** L3a: after the limit, only today's last started episode may reopen, and only while unfinished. */
@@ -348,6 +364,25 @@ export function nextInOrder(data: CollectionData, currentId: string): VideoRecor
   return i < 0 ? null : (all[i + 1] ?? null);
 }
 
+/** The episode right before `currentId` in viewing order (이전 편, P2-1). */
+export function prevInOrder(data: CollectionData, currentId: string): VideoRecord | null {
+  const all = viewingOrder(data);
+  const i = all.findIndex((v) => v.id === currentId);
+  return i > 0 ? all[i - 1]! : null;
+}
+
+/**
+ * The episode label on cards and the player (P2-2): "{group} {order}화" in series groups, the group name alone in
+ * free groups (compilations have no episode number).
+ */
+// gstack-shortcut(dec-d8077efe): numbering follows the group order, so 넘버블록스·옥토넛 can differ from the real
+// episode number; upgrade to a per-collection title pattern when a parent reports a mismatch (TODOS.md).
+export function episodeLabel(config: Pick<CollectionConfig, 'groups'>, video: Pick<VideoRecord, 'group' | 'order'>): string {
+  const g = config.groups.find((x) => x.id === video.group);
+  if (!g) return `${video.order}화`;
+  return groupKind(g) === 'free' ? g.label : `${g.label} ${video.order}화`;
+}
+
 export type UpNext =
   | { kind: 'next'; video: VideoRecord; newGroup: boolean }
   | { kind: 'limit' }
@@ -394,4 +429,76 @@ export function profileGate(
     return { kind: 'choose', allowed: new Set([device.profileId]) };
   }
   return { kind: 'choose', allowed: new Set(ids) };
+}
+
+// ---------- resuming after the OS paused the video (P2-4) ----------
+//
+//   hidden ──▶ remember: was it PLAYING? when?          PAUSED event ──▶ remember when
+//   visible ─▶ resume only if all hold:
+//                (a) it was PLAYING when the page was hidden
+//                (b) the PAUSED came while hidden, or up to 1 s before the hidden event
+//                    (some browsers pause the video just before they report the page hidden)
+//                (c) the page was hidden for less than 60 s (a parent who locked the phone meant it)
+//   A pause pressed in the player while the page was visible fails (a) or (b).
+
+export const RESUME_WITHIN_MS = 60_000;
+export const PAUSE_SLACK_MS = 1_000;
+
+export interface HiddenSpell {
+  /** epoch ms the page became hidden */
+  hiddenAt: number;
+  /** the video was playing at that moment */
+  playingWhenHidden: boolean;
+  /** epoch ms of the last PAUSED event, or null */
+  pausedAt: number | null;
+  /** epoch ms the page became visible again */
+  visibleAt: number;
+}
+
+export function shouldAutoResume(s: HiddenSpell): boolean {
+  if (!s.playingWhenHidden || s.pausedAt === null) return false;
+  if (s.pausedAt < s.hiddenAt - PAUSE_SLACK_MS || s.pausedAt > s.visibleAt) return false;
+  return s.visibleAt - s.hiddenAt < RESUME_WITHIN_MS;
+}
+
+// ---------- player errors (P2-5) ----------
+//
+//   error 100/101/150 (removed, not embeddable) ──▶ failed now ────────────────────▶ skip to the next episode
+//   error 2/5/other, online ──▶ pending (not failed yet) ──▶ 3rd in a row? ─ no ──▶ skip to the next episode
+//                                     │                                     └ yes ─▶ drop pending, connection notice
+//   offline ──▶ drop pending, connection notice (no ⚠ left behind)
+//   a later video plays ──▶ pending become failed (it was the video, not the network)
+
+export const HARD_ERRORS: readonly number[] = [100, 101, 150];
+export const SOFT_ERRORS_BEFORE_NOTICE = 3;
+
+export interface ErrorState {
+  /** videos that failed with a code that may be the network's fault */
+  pending: string[];
+  /** soft errors in a row */
+  softStreak: number;
+}
+
+export const NO_ERRORS: ErrorState = { pending: [], softStreak: 0 };
+
+export interface ErrorOutcome {
+  state: ErrorState;
+  /** record these as failed (⚠ on their cards) */
+  markFailed: string[];
+  /** show "인터넷 연결을 확인해 주세요" instead of skipping */
+  notice: boolean;
+  /** skip to the next episode */
+  advance: boolean;
+}
+
+export type ErrorEvent = { kind: 'error'; videoId: string; code: number; online: boolean } | { kind: 'played' };
+
+export function errorStep(s: ErrorState, e: ErrorEvent): ErrorOutcome {
+  if (e.kind === 'played') return { state: NO_ERRORS, markFailed: s.pending, notice: false, advance: false };
+  if (!e.online) return { state: NO_ERRORS, markFailed: [], notice: true, advance: false };
+  if (HARD_ERRORS.includes(e.code)) return { state: { ...s, softStreak: 0 }, markFailed: [e.videoId], notice: false, advance: true };
+  const softStreak = s.softStreak + 1;
+  if (softStreak >= SOFT_ERRORS_BEFORE_NOTICE) return { state: NO_ERRORS, markFailed: [], notice: true, advance: false };
+  const pending = s.pending.includes(e.videoId) ? s.pending : [...s.pending, e.videoId];
+  return { state: { pending, softStreak }, markFailed: [], notice: false, advance: true };
 }

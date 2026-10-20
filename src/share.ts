@@ -1,13 +1,15 @@
 // Send this device's parent settings to another device as a link (?settings=<code>) or a pasted code.
-// Only settings travel (limit, shown characters and their order, title, home card); progress and history stay put.
+// Only settings travel (limit, shown characters and their order, title, home card, player buttons); progress and
+// history stay put.
 // The code is versioned base64url JSON, so a later format can still read today's links.
 
-import type { DeviceSettings, LimitMode } from './storage.ts';
+import type { DeviceSettings, LimitMode, PlayerButtons } from './storage.ts';
 
 const PREFIX = 's1.';
 export const SETTINGS_PARAM = 'settings';
 
 const MODES: readonly LimitMode[] = ['none', 'minutes', 'episodes'];
+const PLAYER_BUTTONS = ['prev', 'next', 'replay', 'captions'] as const;
 
 function toBase64Url(text: string): string {
   const bytes = new TextEncoder().encode(text);
@@ -59,6 +61,17 @@ export function decodeSettings(code: string): DeviceSettings | null {
   if (r.homeContinue !== undefined) {
     if (typeof r.homeContinue !== 'boolean') return null;
     out.homeContinue = r.homeContinue;
+  }
+  if (r.player !== undefined) {
+    const p = r.player as Record<string, unknown>;
+    if (typeof p !== 'object' || p === null || Array.isArray(p)) return null;
+    const buttons: PlayerButtons = {};
+    for (const k of PLAYER_BUTTONS) {
+      if (p[k] === undefined) continue;
+      if (typeof p[k] !== 'boolean') return null;
+      buttons[k] = p[k];
+    }
+    out.player = buttons;
   }
   return out;
 }

@@ -30,6 +30,9 @@ export interface TodayState {
   seconds: number;
   /** Long videos cut off by the daily limit; they continue tomorrow, not today. */
   stopped: string[];
+  /** 오늘만 더 (design P2-3): episodes / seconds a parent added to today's limit; gone the next day. */
+  extraEpisodes?: number;
+  extraSeconds?: number;
 }
 
 export type LimitMode = 'none' | 'minutes' | 'episodes';
@@ -45,6 +48,15 @@ export interface DeviceSettings {
   homeContinue?: boolean;
   /** Home screen title; empty or missing means the profile name from config. */
   title?: string;
+  /** Player buttons (design P2-1); each one is off until a parent turns it on. */
+  player?: PlayerButtons;
+}
+
+export interface PlayerButtons {
+  prev?: boolean;
+  next?: boolean;
+  replay?: boolean;
+  captions?: boolean;
 }
 
 /** One video on one day of the viewing history. */
@@ -144,6 +156,9 @@ export function createStore(kv: KV) {
           playedToday: t.playedToday ?? {},
           seconds: t.seconds ?? 0,
           stopped: t.stopped ?? [],
+          // Older days were saved without extras: they read as none.
+          ...(t.extraEpisodes ? { extraEpisodes: t.extraEpisodes } : {}),
+          ...(t.extraSeconds ? { extraSeconds: t.extraSeconds } : {}),
         };
       }
       return { date, started: [], finished: [], playedToday: {}, seconds: 0, stopped: [] };

@@ -37,6 +37,8 @@ export interface VideoDetails {
   durationSec: number;
   embeddable: boolean;
   privacyStatus: string;
+  /** contentDetails.caption is "true" */
+  hasCaptions?: boolean;
 }
 
 export interface PlaylistSummary {
@@ -167,6 +169,7 @@ export function createClient(apiKey: string, fetchImpl: typeof fetch = fetch): Y
             title: String(v.snippet?.title ?? ''),
             channelId: String(v.snippet?.channelId ?? ''),
             durationSec: parseDuration(String(v.contentDetails?.duration ?? '')),
+            hasCaptions: String(v.contentDetails?.caption ?? '') === 'true',
             embeddable: v.status?.embeddable === true,
             privacyStatus: String(v.status?.privacyStatus ?? 'unknown'),
           });

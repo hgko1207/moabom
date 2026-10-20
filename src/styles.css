@@ -918,7 +918,7 @@ body.night {
   padding: 0 var(--s3);
   border-radius: var(--radius);
   background: var(--accent);
-  color: #fff;
+  color: var(--ink);
   font-weight: 700;
 }
 
@@ -1026,7 +1026,7 @@ body.night {
   padding: 4px 12px;
   border-radius: var(--radius);
   background: var(--accent);
-  color: #fff;
+  color: var(--ink);
   font-size: 15px;
   font-weight: 700;
 }
@@ -1174,7 +1174,7 @@ body.night {
   padding: 4px 12px;
   border-radius: var(--radius);
   background: var(--accent);
-  color: #fff;
+  color: var(--ink);
   font-size: 16px;
   font-weight: 700;
 }

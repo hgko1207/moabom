@@ -36,6 +36,13 @@ import {
   recordProgress,
   resumableAfterLimit,
   upNext,
+  addExtra,
+  canReplay,
+  episodeLabel,
+  errorStep,
+  NO_ERRORS,
+  prevInOrder,
+  shouldAutoResume,
 } from '../src/rules.ts';
 import type { CollectionProgress, TodayState } from '../src/storage.ts';
 
@@ -441,5 +448,132 @@ describe('withToday (H4: history never shows less than 설정 → 오늘)', () =
     const logged = recordHistory({}, '2026-10-16', 'bluey', 'a', 100);
     expect(withToday(logged, day({ playedToday: { a: 100 }, seconds: 100 }), where)).toBe(logged);
     expect(withToday({}, day({ playedToday: { unknown: 50 }, seconds: 50 }), where)['2026-10-16']!.videos).toEqual({});
+  });
+});
+
+describe('오늘만 더 (P2-3)', () => {
+  const mins = (n: number | null) => ({ dailyEpisodes: null, dailyMinutes: n });
+
+  it('extends an episode limit for today', () => {
+    const t = day({ started: ['a', 'b', 'c'] });
+    expect(limitReached(t, eps(3))).toBe(true);
+    const more = addExtra(t, 'episodes', 2);
+    expect(limitReached(more, eps(3))).toBe(false);
+    expect(canStart(more, eps(3), 'd')).toBe(true);
+    expect(limitReached({ ...more, started: ['a', 'b', 'c', 'd', 'e'] }, eps(3))).toBe(true);
+  });
+
+  it('extends a minutes limit for today, adding up', () => {
+    const t = day({ seconds: 3600 });
+    expect(limitReached(t, mins(60))).toBe(true);
+    const more = addExtra(addExtra(t, 'minutes', 10), 'minutes', 20);
+    expect(more.extraSeconds).toBe(1800);
+    expect(limitReached({ ...more, seconds: 3600 + 1799 }, mins(60))).toBe(false);
+    expect(limitReached({ ...more, seconds: 3600 + 1800 }, mins(60))).toBe(true);
+  });
+
+  it('the up-next card and long-video cut see the extra too', () => {
+    const more = addExtra(day({ started: ['a', 'b', 'c'] }), 'episodes', 1);
+    expect(upNext(data, data.groups[0]!.videos[0]!, more, eps(3), 0).kind).toBe('next');
+    expect(shouldCutAtLimit(addExtra(day({ seconds: 3600 }), 'minutes', 10), mins(60), { durationSec: 1800 })).toBe(false);
+  });
+});
+
+describe('player buttons (P2-1)', () => {
+  it('한 번 더 only before the limit', () => {
+    expect(canReplay(day({ started: ['a'] }), eps(3))).toBe(true);
+    expect(canReplay(day({ started: ['a', 'b', 'c'], finished: ['a', 'b', 'c'] }), eps(3))).toBe(false);
+    expect(canReplay(day({ started: ['a', 'b', 'c'] }), eps(null))).toBe(true);
+  });
+
+  it('이전 편 walks back in viewing order, none before the first', () => {
+    expect(prevInOrder(data, 'c')?.id).toBe('b');
+    expect(prevInOrder(data, 'b')?.id).toBe('a');
+    expect(prevInOrder(data, 'a')).toBeNull();
+    expect(prevInOrder(data, 'missing')).toBeNull();
+  });
+});
+
+describe('episodeLabel (P2-2, D3)', () => {
+  const config = {
+    groups: [
+      { id: 'lv1', label: '1단계', videos: ['a'] },
+      { id: 'long', label: '모음집', kind: 'free' as const, videos: ['x'] },
+    ],
+  };
+
+  it('numbers series episodes inside their group', () => {
+    expect(episodeLabel(config, { group: 'lv1', order: 12 })).toBe('1단계 12화');
+  });
+
+  it('gives free groups their name only', () => {
+    expect(episodeLabel(config, { group: 'long', order: 3 })).toBe('모음집');
+  });
+
+  it('falls back to the number for an unknown group', () => {
+    expect(episodeLabel(config, { group: 'gone', order: 2 })).toBe('2화');
+  });
+});
+
+describe('shouldAutoResume (P2-4)', () => {
+  const base = { hiddenAt: 100_000, playingWhenHidden: true, pausedAt: 100_200, visibleAt: 110_000 };
+
+  it('resumes a video the OS paused during a short absence', () => {
+    expect(shouldAutoResume(base)).toBe(true);
+    expect(shouldAutoResume({ ...base, pausedAt: 99_200 })).toBe(true); // paused just before the hidden event
+  });
+
+  it('does not resume when any condition fails', () => {
+    expect(shouldAutoResume({ ...base, playingWhenHidden: false })).toBe(false); // (a) someone paused it before
+    expect(shouldAutoResume({ ...base, pausedAt: null })).toBe(false); // (b) no pause seen
+    expect(shouldAutoResume({ ...base, pausedAt: 98_000 })).toBe(false); // (b) paused well before hiding
+    expect(shouldAutoResume({ ...base, pausedAt: 111_000 })).toBe(false); // (b) paused after coming back
+  });
+
+  it('stops resuming at 60 s away', () => {
+    expect(shouldAutoResume({ ...base, visibleAt: 100_000 + 59_999 })).toBe(true);
+    expect(shouldAutoResume({ ...base, visibleAt: 100_000 + 60_000 })).toBe(false);
+  });
+});
+
+describe('errorStep (P2-5)', () => {
+  const err = (videoId: string, code: number, online = true) => ({ kind: 'error' as const, videoId, code, online });
+
+  it('marks removed or blocked videos failed at once and moves on', () => {
+    expect(errorStep(NO_ERRORS, err('a', 150))).toEqual({ state: NO_ERRORS, markFailed: ['a'], notice: false, advance: true });
+  });
+
+  it('keeps skipping through consecutive blocked videos without the connection notice', () => {
+    let s = NO_ERRORS;
+    for (const id of ['a', 'b', 'c', 'd']) {
+      const o = errorStep(s, err(id, 101));
+      expect(o).toMatchObject({ markFailed: [id], notice: false, advance: true });
+      s = o.state;
+    }
+  });
+
+  it('holds network-like errors until a later video plays, then marks them', () => {
+    const o1 = errorStep(NO_ERRORS, err('a', 5));
+    expect(o1).toMatchObject({ markFailed: [], notice: false, advance: true, state: { pending: ['a'], softStreak: 1 } });
+    const o2 = errorStep(o1.state, { kind: 'played' });
+    expect(o2).toEqual({ state: NO_ERRORS, markFailed: ['a'], notice: false, advance: false });
+  });
+
+  it('drops pending videos and shows the notice on the third soft error in a row', () => {
+    let s = errorStep(NO_ERRORS, err('a', 2)).state;
+    s = errorStep(s, err('b', 5)).state;
+    expect(errorStep(s, err('c', 5))).toEqual({ state: NO_ERRORS, markFailed: [], notice: true, advance: false });
+  });
+
+  it('drops pending videos and shows the notice when offline', () => {
+    const s = errorStep(NO_ERRORS, err('a', 5)).state;
+    expect(errorStep(s, err('b', 150, false))).toEqual({ state: NO_ERRORS, markFailed: [], notice: true, advance: false });
+  });
+
+  it('a blocked video breaks a soft streak', () => {
+    let s = errorStep(NO_ERRORS, err('a', 5)).state;
+    s = errorStep(s, err('b', 5)).state;
+    s = errorStep(s, err('c', 100)).state;
+    expect(errorStep(s, err('d', 5))).toMatchObject({ notice: false, advance: true });
   });
 });

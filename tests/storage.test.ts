@@ -62,6 +62,23 @@ describe('createStore', () => {
   });
 });
 
+describe('오늘만 더 in today (P2-3)', () => {
+  it('keeps extras through a reload and reads an older day without them as none', () => {
+    const kv = mapKV();
+    const store = createStore(kv);
+    const base = { date: '2026-10-20', started: ['a'], finished: [], playedToday: { a: 30 }, seconds: 30, stopped: [] };
+    store.saveToday('home', { ...base, extraEpisodes: 2, extraSeconds: 600 });
+    expect(createStore(kv).today('home', '2026-10-20')).toMatchObject({ extraEpisodes: 2, extraSeconds: 600 });
+    kv.data.set('moabom:v1:home:today', JSON.stringify(base));
+    const old = createStore(kv).today('home', '2026-10-20');
+    expect(old.extraEpisodes ?? 0).toBe(0);
+    expect(old.extraSeconds ?? 0).toBe(0);
+    // a new day drops them
+    store.saveToday('home', { ...base, extraEpisodes: 2 });
+    expect(createStore(kv).today('home', '2026-10-21').extraEpisodes).toBeUndefined();
+  });
+});
+
 describe('device keys added for phase 1', () => {
   it('keeps the gate lock, stats switch, read news and intro card per device', () => {
     const kv = mapKV();

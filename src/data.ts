@@ -4,6 +4,7 @@
 import {
   validateCategories,
   validateCollection,
+  validateDescriptions,
   validateNews,
   validateProfiles,
   type Category,
@@ -22,6 +23,7 @@ const dataFiles = import.meta.glob<CollectionData>('../data/collections/*/videos
   eager: true,
   import: 'default',
 });
+const descriptionFiles = import.meta.glob<unknown>('../config/descriptions/*.json', { eager: true, import: 'default' });
 
 export interface Collection {
   config: CollectionConfig;
@@ -35,6 +37,8 @@ export interface AppData {
   categories: Category[];
   /** newest first */
   news: NewsItem[];
+  /** collectionId → videoId → one line under the player title (P2-2) */
+  descriptions: Map<string, Record<string, string>>;
   /** Problems a parent should fix in config; shown instead of the app. */
   errors: string[];
 }
@@ -72,6 +76,14 @@ export function loadAppData(): AppData {
   const profiles = validateProfiles(profilesRaw, groups);
   if (!profiles.ok) errors.push(...profiles.errors.map((e) => `config/profiles.json: ${e}`));
 
+  const descriptions = new Map<string, Record<string, string>>();
+  for (const [path, raw] of Object.entries(descriptionFiles)) {
+    const id = fileId(path);
+    const res = validateDescriptions(raw);
+    if (res.ok) descriptions.set(id, res.value);
+    else errors.push(...res.errors.map((e) => `config/descriptions/${id}.json: ${e}`));
+  }
+
   const news = validateNews(newsRaw);
   if (!news.ok) errors.push(...news.errors.map((e) => `config/news.json: ${e}`));
 
@@ -80,6 +92,7 @@ export function loadAppData(): AppData {
     collections,
     categories: categories.ok ? categories.value : [],
     news: news.ok ? [...news.value].sort((a, b) => b.date.localeCompare(a.date)) : [],
+    descriptions,
     errors,
   };
 }

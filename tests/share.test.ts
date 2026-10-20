@@ -35,4 +35,15 @@ describe('settings share code', () => {
     expect(decodeSettings(enc({ limit: { mode: 'none', value: 0 }, hidden: 'bluey' }))).toBeNull();
     expect(settingsFromText('https://moabom.hgko.dev/#/p/home')).toBeNull();
   });
+
+  it('carries the player buttons (P2-1) and rejects non-boolean values', () => {
+    const enc = (o: unknown) => 's1.' + Buffer.from(JSON.stringify(o)).toString('base64url');
+    const limit = { mode: 'none' as const, value: 0 };
+    const withButtons = { limit, player: { next: true, replay: false, captions: true } };
+    expect(decodeSettings(encodeSettings(withButtons))).toEqual(withButtons);
+    expect(decodeSettings(enc({ limit, player: { next: 'yes' } }))).toBeNull();
+    expect(decodeSettings(enc({ limit, player: ['next'] }))).toBeNull();
+    // unknown button names are left out, not applied
+    expect(decodeSettings(enc({ limit, player: { next: true, turbo: true } }))).toEqual({ limit, player: { next: true } });
+  });
 });

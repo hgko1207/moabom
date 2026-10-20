@@ -1,6 +1,14 @@
-import { readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { contrastRatio, validateCategories, validateCollection, validateNews, validateProfiles } from '../src/config.ts';
+import {
+  accentProblems,
+  contrastRatio,
+  validateCategories,
+  validateCollection,
+  validateDescriptions,
+  validateNews,
+  validateProfiles,
+} from '../src/config.ts';
 import { ICON_NAMES } from '../src/icons.ts';
 
 const collection = () => ({
@@ -26,7 +34,7 @@ const profiles = () => ({
     {
       id: 'p2',
       name: '둘째',
-      color: '#F5A04C',
+      color: '#2E9E6B',
       collections: ['numberblocks'],
       startGroup: { numberblocks: 'lv1' },
       dailyEpisodes: 2,
@@ -209,6 +217,54 @@ describe('validateCategories', () => {
   it('measures contrast like WCAG', () => {
     expect(contrastRatio('#000000', '#FFFFFF')).toBeCloseTo(21, 1);
     expect(contrastRatio('#FFFFFF', '#FFFFFF')).toBe(1);
+  });
+});
+
+describe('accent colours (P2-6)', () => {
+  it('accepts mid-tone colours readable as borders and under --ink text', () => {
+    expect(accentProblems('#4C8BF5')).toEqual([]);
+    expect(accentProblems('#2E9E6B')).toEqual([]);
+  });
+
+  it('rejects colours too light for borders or too dark for --ink text', () => {
+    expect(accentProblems('#F59F00')).toEqual([expect.stringContaining('too light')]);
+    expect(accentProblems('#7048E8')).toEqual([expect.stringContaining('too dark')]);
+  });
+
+  it('checks a collection colour and a profile colour', () => {
+    expect(errorsOf(validateCollection({ ...collection(), color: '#F59F00' }))).toEqual([expect.stringContaining('color #F59F00 is too light')]);
+    expect(errorsOf(validateCollection({ ...collection(), color: 'blue' }))).toEqual(['color must be #RRGGBB']);
+    expect(validateCollection({ ...collection(), color: '#2E9E6B' }).ok).toBe(true);
+    const p = profiles();
+    p.profiles[0] = { ...p.profiles[0]!, color: '#7048E8' };
+    expect(errorsOf(validateProfiles(p, { numberblocks: ['lv1', 'lv2'] }))).toEqual([expect.stringContaining('profiles[0].color #7048E8 is too dark')]);
+  });
+});
+
+describe('validateDescriptions (P2-2)', () => {
+  it('maps video IDs to one short sentence', () => {
+    expect(validateDescriptions({ dQw4w9WgXcQ: '숫자 1이 처음 나와요.' }).ok).toBe(true);
+  });
+
+  it('reports bad IDs, empty and long sentences', () => {
+    expect(errorsOf(validateDescriptions({ short: '문장', dQw4w9WgXcQ: '', abcdefghijk: '가'.repeat(81) }))).toEqual([
+      expect.stringContaining('"short" is not a YouTube video ID'),
+      expect.stringContaining('dQw4w9WgXcQ: the sentence is empty'),
+      expect.stringContaining('abcdefghijk: the sentence is longer than 80'),
+    ]);
+  });
+
+  it('keeps every checked-in description on a video the collection has', () => {
+    const dir = 'config/descriptions';
+    const files = existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith('.json')) : [];
+    for (const file of files) {
+      const id = file.replace(/\.json$/, '');
+      const raw = JSON.parse(readFileSync(`${dir}/${file}`, 'utf8'));
+      expect(errorsOf(validateDescriptions(raw)), file).toEqual([]);
+      const data = JSON.parse(readFileSync(`data/collections/${id}/videos.json`, 'utf8')) as { groups: { videos: { id: string }[] }[] };
+      const known = new Set(data.groups.flatMap((g) => g.videos.map((v) => v.id)));
+      expect(Object.keys(raw).filter((v) => !known.has(v)), file).toEqual([]);
+    }
   });
 });
 

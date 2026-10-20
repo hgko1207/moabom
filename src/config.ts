@@ -40,6 +40,8 @@ export interface CollectionConfig {
   displayName: string;
   /** id from config/categories.json; the home screen groups collections by it */
   category: string;
+  /** #RRGGBB accent for this collection's list and player (P2-6); the profile colour when missing */
+  color?: string;
   enabled: boolean;
   channels: string[];
   coverVideoId: string | null;
@@ -73,6 +75,8 @@ export interface VideoRecord {
   group: string;
   /** 1-based position inside its group (playlist order). */
   order: number;
+  /** YouTube lists captions for this video (videos.list contentDetails.caption); missing before the first fetch with it. */
+  hasCaptions?: boolean;
 }
 
 export interface CollectionData {
@@ -129,6 +133,10 @@ export function validateCollection(raw: unknown, fileId?: string, categoryIds?: 
   if (!isStr(raw.displayName)) errors.push('displayName is required');
   if (!isStr(raw.category)) errors.push('category is required (an id from config/categories.json)');
   else if (categoryIds && !categoryIds.has(raw.category)) errors.push(`category "${raw.category}" is not in config/categories.json`);
+  if (raw.color !== undefined) {
+    if (typeof raw.color !== 'string' || !COLOR_RE.test(raw.color)) errors.push('color must be #RRGGBB');
+    else errors.push(...accentProblems(raw.color).map((p) => `color ${p}`));
+  }
   if (typeof raw.enabled !== 'boolean') errors.push('enabled must be true or false');
   if (!isStrArray(raw.channels) || raw.channels.length === 0 || raw.channels.some((c) => !isStr(c))) {
     errors.push('channels must list at least one confirmed official channel ID (run find-channel first)');
@@ -206,6 +214,7 @@ export function validateProfiles(
     else seen.add(p.id);
     if (!isStr(p.name)) errors.push(`${at}.name is required (use a nickname, not a real name)`);
     if (typeof p.color !== 'string' || !COLOR_RE.test(p.color)) errors.push(`${at}.color must be #RRGGBB`);
+    else errors.push(...accentProblems(p.color).map((x) => `${at}.color ${x}`));
     if (!isLimit(p.dailyEpisodes)) errors.push(`${at}.dailyEpisodes must be a non-negative integer or null`);
     if (!isLimit(p.dailyMinutes)) errors.push(`${at}.dailyMinutes must be a non-negative integer or null`);
 
@@ -256,6 +265,19 @@ export interface NewsItem {
 
 /** The page background (--bg) the category icons are drawn on. */
 export const CATEGORY_BG = '#F4F6FA';
+const SURFACE = '#FFFFFF';
+const INK = '#1B2230';
+
+/**
+ * Profile and collection colours become --accent (P2-6): fills and borders on --bg and --surface need 3:1, and the
+ * text drawn on an accent fill is always --ink, which needs 4.5:1. Returns what fails, empty when readable.
+ */
+export function accentProblems(color: string): string[] {
+  const out: string[] = [];
+  if (contrastRatio(color, CATEGORY_BG) < 3 || contrastRatio(color, SURFACE) < 3) out.push(`${color} is too light for borders on the page (needs 3:1)`);
+  if (contrastRatio(color, INK) < 4.5) out.push(`${color} is too dark for --ink text on it (needs 4.5:1)`);
+  return out;
+}
 /** Non-text contrast for an icon stroke (WCAG 1.4.11). */
 export const ICON_CONTRAST = 3;
 
@@ -297,6 +319,21 @@ export function validateCategories(raw: unknown, iconNames: readonly string[]): 
     }
   });
   return errors.length ? { ok: false, errors } : { ok: true, value: raw.categories as Category[] };
+}
+
+/** One line under the player title (P2-2). */
+export const DESCRIPTION_MAX = 80;
+
+/** config/descriptions/{collectionId}.json: videoId → one sentence a parent checked. */
+export function validateDescriptions(raw: unknown): Validated<Record<string, string>> {
+  if (!isObj(raw)) return { ok: false, errors: ['descriptions must be a JSON object of videoId → sentence'] };
+  const errors: string[] = [];
+  for (const [id, text] of Object.entries(raw)) {
+    if (!/^[A-Za-z0-9_-]{11}$/.test(id)) errors.push(`"${id}" is not a YouTube video ID`);
+    if (!isStr(text)) errors.push(`${id}: the sentence is empty`);
+    else if (text.length > DESCRIPTION_MAX) errors.push(`${id}: the sentence is longer than ${DESCRIPTION_MAX} characters`);
+  }
+  return errors.length ? { ok: false, errors } : { ok: true, value: raw as Record<string, string> };
 }
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;

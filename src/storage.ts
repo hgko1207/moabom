@@ -48,7 +48,7 @@ export interface DeviceSettings {
   homeContinue?: boolean;
   /** Home screen title; empty or missing means the profile name from config. */
   title?: string;
-  /** Player buttons (design P2-1); each one is off until a parent turns it on. */
+  /** Player buttons (design P2-1); each one is on until a parent turns it off (rules.ts playerButtonOn). */
   player?: PlayerButtons;
 }
 

@@ -1,7 +1,7 @@
 // Pure viewing rules (SPEC §8). No DOM, no storage: everything is passed in so it can be unit-tested.
 
 import { groupKind, type CollectionConfig, type CollectionData, type Profile, type VideoRecord } from './config.ts';
-import type { CollectionProgress, DeviceSettings, DeviceToday, History, TodayState } from './storage.ts';
+import type { CollectionProgress, DeviceSettings, DeviceToday, History, PlayerButtons, TodayState } from './storage.ts';
 
 export const STALE_DAYS = 30;
 /** L1: seconds of playback today before a video counts toward the daily episode limit. */
@@ -259,6 +259,11 @@ export function addExtra(today: TodayState, mode: 'episodes' | 'minutes', amount
   return mode === 'episodes'
     ? { ...today, extraEpisodes: (today.extraEpisodes ?? 0) + amount }
     : { ...today, extraSeconds: (today.extraSeconds ?? 0) + amount * 60 };
+}
+
+/** Player buttons are on until a parent turns one off in settings (changed from off-by-default on 2026-10-20). */
+export function playerButtonOn(buttons: PlayerButtons | undefined, key: keyof PlayerButtons): boolean {
+  return buttons?.[key] !== false;
 }
 
 /** 한 번 더 (P2-1): a same-day rewatch, hidden once the limit is reached (L3a opens only unfinished episodes). */

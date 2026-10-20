@@ -14,6 +14,7 @@ import {
   homeTitle,
   localDate,
   moveCollection,
+  playerButtonOn,
   recentDays,
   shiftDate,
   TITLE_MAX,
@@ -136,10 +137,10 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
     <section class="panel" aria-labelledby="buttons-title">
       <h2 id="buttons-title">재생 화면 버튼</h2>
       ${PLAYER_SWITCHES.map(
-        ([key, label]) => `<button class="shown switch" role="switch" aria-checked="${!!buttons[key]}" data-button="${key}">
-        <span class="name">${label}</span><span class="state">${buttons[key] ? '켜짐' : '꺼짐'}</span></button>`,
+        ([key, label]) => `<button class="shown switch" role="switch" aria-checked="${playerButtonOn(buttons, key)}" data-button="${key}">
+        <span class="name">${label}</span><span class="state">${playerButtonOn(buttons, key) ? '켜짐' : '꺼짐'}</span></button>`,
       ).join('')}
-      <p class="hint">켜면 재생 화면 아래에 버튼이 생겨요. 이전·다음 편도 하루 제한을 지키고, 한 번 더는 제한에 닿으면 숨어요.</p>
+      <p class="hint">재생 화면 아래 버튼이에요. 끄면 사라져요. 이전·다음 편도 하루 제한을 지키고, 한 번 더는 제한에 닿으면 숨어요.</p>
     </section>
     <section class="panel" aria-labelledby="shown-title">
       <h2 id="shown-title">보여 줄 캐릭터</h2>
@@ -257,7 +258,7 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
     b.addEventListener('click', () => {
       const key = b.dataset.button as keyof PlayerButtons;
       const now = latest();
-      store.saveSettings({ ...now, player: { ...now.player, [key]: !now.player?.[key] } });
+      store.saveSettings({ ...now, player: { ...now.player, [key]: !playerButtonOn(now.player, key) } });
       render();
       app.querySelector<HTMLElement>(`[data-button="${key}"]`)?.focus();
     }),

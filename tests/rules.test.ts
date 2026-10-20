@@ -43,6 +43,7 @@ import {
   NO_ERRORS,
   prevInOrder,
   shouldAutoResume,
+  playerButtonOn,
 } from '../src/rules.ts';
 import type { CollectionProgress, TodayState } from '../src/storage.ts';
 
@@ -484,6 +485,13 @@ describe('player buttons (P2-1)', () => {
     expect(canReplay(day({ started: ['a'] }), eps(3))).toBe(true);
     expect(canReplay(day({ started: ['a', 'b', 'c'], finished: ['a', 'b', 'c'] }), eps(3))).toBe(false);
     expect(canReplay(day({ started: ['a', 'b', 'c'] }), eps(null))).toBe(true);
+  });
+
+  it('buttons are on unless a parent turned them off', () => {
+    expect(playerButtonOn(undefined, 'next')).toBe(true);
+    expect(playerButtonOn({}, 'prev')).toBe(true);
+    expect(playerButtonOn({ replay: true }, 'replay')).toBe(true);
+    expect(playerButtonOn({ replay: false }, 'replay')).toBe(false);
   });
 
   it('이전 편 walks back in viewing order, none before the first', () => {

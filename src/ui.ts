@@ -12,6 +12,7 @@ import {
   limitReached,
   localDate,
   orderCollectionIds,
+  playerButtonOn,
   resumableAfterLimit,
   startPosition,
   viewingOrder,
@@ -286,7 +287,7 @@ const BUTTON_NAMES = { prev: '이전 편', next: '다음 편', replay: '한 번 
 
 /** The player buttons switched on, in words (P2-1). */
 export function playerButtonNames(p: PlayerButtons | undefined): string[] {
-  return (Object.keys(BUTTON_NAMES) as (keyof typeof BUTTON_NAMES)[]).filter((k) => p?.[k]).map((k) => BUTTON_NAMES[k]);
+  return (Object.keys(BUTTON_NAMES) as (keyof typeof BUTTON_NAMES)[]).filter((k) => playerButtonOn(p, k)).map((k) => BUTTON_NAMES[k]);
 }
 
 /** Asks first; returns true when applied. Progress and history on this device are untouched. */

@@ -10,6 +10,7 @@ import {
   errorStep,
   localDate,
   nextInOrder,
+  playerButtonOn,
   NO_ERRORS,
   prevInOrder,
   recordFailed,
@@ -88,13 +89,13 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   const start = startPosition(progress, video);
   if (c.config.color) setAccent(c.config.color);
 
-  // Player buttons are off until a parent turns them on in settings (P2-1).
+  // Player buttons show unless a parent turned one off in settings (P2-1).
   const buttons = store.settings()?.player ?? {};
-  const prev = buttons.prev ? prevInOrder(scope, video.id) : null;
-  const next = buttons.next ? nextInOrder(scope, video.id) : null;
+  const prev = playerButtonOn(buttons, 'prev') ? prevInOrder(scope, video.id) : null;
+  const next = playerButtonOn(buttons, 'next') ? nextInOrder(scope, video.id) : null;
   const controls = [
     prev ? `<button class="control" data-go="${esc(prev.id)}" aria-label="이전 편">${icon('skip-back', 32)}</button>` : '',
-    buttons.replay ? `<button class="control" data-action="replay" aria-label="한 번 더"${canReplay(today, limits) ? '' : ' hidden'}>${icon('again', 32)}</button>` : '',
+    playerButtonOn(buttons, 'replay') ? `<button class="control" data-action="replay" aria-label="한 번 더"${canReplay(today, limits) ? '' : ' hidden'}>${icon('again', 32)}</button>` : '',
     next ? `<button class="control" data-go="${esc(next.id)}" aria-label="다음 편">${icon('skip-forward', 32)}</button>` : '',
   ].join('');
 

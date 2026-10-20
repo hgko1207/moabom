@@ -216,7 +216,6 @@ export function renderSettings(profile: Profile, available: Collection[], home: 
         <span class="name">익명 통계 보내기</span><span class="state">${statsOn ? '켜짐' : '꺼짐'}</span></button>
       <p class="hint" id="stats-hint">아이 이름·기록은 보내지 않아요 · <button class="text-link" data-action="about">자세히</button></p>
     </section>
-    <p class="hint">설정은 기기마다 따로 저장돼요. 다른 기기에도 같게 하려면 "이 설정 보내기"를 쓰세요.</p>
   </main>`;
   bindBack();
   app.querySelector('[data-action="install-guide"]')?.addEventListener('click', () => go({ profile: profile.id, install: true }));

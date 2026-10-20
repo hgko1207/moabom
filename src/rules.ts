@@ -298,6 +298,11 @@ export function todayShare(limit: DeviceSettings['limit'], today: TodayState): n
   return null;
 }
 
+/** YouTube 버튼 막기 is off until a parent turns it on (unlike the buttons, which default on). */
+export function playerShieldOn(buttons: PlayerButtons | undefined): boolean {
+  return buttons?.shield === true;
+}
+
 /** 한 번 더 (P2-1): a same-day rewatch, hidden once the limit is reached (L3a opens only unfinished episodes). */
 export function canReplay(today: TodayState, limits: Limits): boolean {
   return !limitReached(today, limits);

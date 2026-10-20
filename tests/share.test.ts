@@ -46,4 +46,10 @@ describe('settings share code', () => {
     // unknown button names are left out, not applied
     expect(decodeSettings(enc({ limit, player: { next: true, turbo: true } }))).toEqual({ limit, player: { next: true } });
   });
+
+  it('carries YouTube 버튼 막기 with the buttons', () => {
+    const limit = { mode: 'none' as const, value: 0 };
+    const shielded = { limit, player: { shield: true } };
+    expect(decodeSettings(encodeSettings(shielded))).toEqual(shielded);
+  });
 });

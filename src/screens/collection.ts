@@ -2,6 +2,7 @@
 import type { CollectionConfig, Profile, VideoRecord } from '../config.ts';
 import type { Collection } from '../data.ts';
 import { icon } from '../icons.ts';
+import { moon } from '../art.ts';
 import {
   episodeLabel,
   heroPick,
@@ -58,7 +59,7 @@ function heroHtml(view: CollectionView, first: VideoRecord | undefined, config: 
   if (view.limited) {
     // Daily limit reached: the hero becomes the moon and leads to the "that's all for today" screen (D9).
     return `<button class="hero night" data-action="today" aria-label="오늘은 여기까지">
-      <div class="moon-wrap" aria-hidden="true">${icon('moon', 96)}</div>
+      <div class="moon-wrap" aria-hidden="true">${moon(96)}</div>
       <div><div class="title">오늘은 여기까지</div><div class="sub">내일 또 만나요</div></div>
     </button>`;
   }
@@ -77,7 +78,7 @@ function cardHtml(v: VideoRecord, view: CollectionView, config: CollectionConfig
   const isNext = view.highlight?.id === v.id;
   const locked = view.limited && !isNext;
   const state = locked
-    ? `<span class="badge state locked" aria-hidden="true">${icon('moon', 24)}</span>`
+    ? `<span class="badge state locked" aria-hidden="true">${moon(24)}</span>`
     : watched
       ? `<span class="badge state done" aria-hidden="true">${icon('check', 24)}</span>`
       : failed
@@ -193,7 +194,7 @@ export function renderTodayDone(profile: Profile, c: Collection, listRoute: Rout
   document.body.classList.add('night');
   setBack(() => backTo(listRoute));
   app.innerHTML = `<main class="screen night-screen"><div class="bar">${backButton()}<h1 class="visually-hidden">오늘은 여기까지</h1></div>
-    <div class="moon" aria-hidden="true">${icon('moon', 120)}</div>
+    <div class="moon" aria-hidden="true">${moon(120)}</div>
     <section aria-label="오늘 본 영상" class="today-row">${seen
       .map((v) => thumb(v.id, String(v.order), `<span class="badge state done" aria-hidden="true">${icon('check', 24)}</span>`, true))
       .join('')}</section>

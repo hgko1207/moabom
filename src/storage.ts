@@ -56,6 +56,12 @@ export interface PlayerButtons {
   prev?: boolean;
   next?: boolean;
   replay?: boolean;
+  /**
+   * YouTube 버튼 막기: hide YouTube's own controls and cover the video with a tap layer (play/pause only), so
+   * a child cannot tap the title, logo or share out of the app. Off unless a parent turns it on: covering the
+   * player is a grey zone in YouTube's terms (TODOS strictPlayer), and it also removes YouTube's CC button.
+   */
+  shield?: boolean;
 }
 
 /** One video on one day of the viewing history. */

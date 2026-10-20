@@ -2,6 +2,7 @@
 import type { Profile, VideoRecord } from '../config.ts';
 import type { Collection } from '../data.ts';
 import { icon } from '../icons.ts';
+import { moon } from '../art.ts';
 import { createPlayer, type PlayerHandle } from '../player.ts';
 import {
   canReplay,
@@ -11,6 +12,7 @@ import {
   localDate,
   nextInOrder,
   playerButtonOn,
+  playerShieldOn,
   NO_ERRORS,
   prevInOrder,
   recordFailed,
@@ -63,7 +65,7 @@ let errors: ErrorState = NO_ERRORS;
 
 function upNextCardHtml(u: UpNext, c: Collection): string {
   if (u.kind === 'limit') {
-    return `<button class="upnext night" data-action="today" aria-label="오늘은 여기까지">${icon('moon', 56)}</button>`;
+    return `<button class="upnext night" data-action="today" aria-label="오늘은 여기까지">${moon(56)}</button>`;
   }
   if (u.kind === 'done') {
     return `<button class="upnext done" data-action="list" aria-label="다 봤어요. 목록으로">${icon('check', 56)}</button>`;
@@ -93,8 +95,11 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   const buttons = store.settings()?.player ?? {};
   const prev = playerButtonOn(buttons, 'prev') ? prevInOrder(scope, video.id) : null;
   const next = playerButtonOn(buttons, 'next') ? nextInOrder(scope, video.id) : null;
+  // YouTube 버튼 막기: YouTube's controls are gone, so the app carries play/pause (and the tap layer below).
+  const shield = playerShieldOn(buttons);
   const controls = [
     prev ? `<button class="control" data-go="${esc(prev.id)}" aria-label="이전 편">${icon('skip-back', 32)}</button>` : '',
+    shield ? `<button class="control" data-action="toggle-play" aria-label="일시정지">${icon('pause', 32)}</button>` : '',
     playerButtonOn(buttons, 'replay') ? `<button class="control" data-action="replay" aria-label="한 번 더"${canReplay(today, limits) ? '' : ' hidden'}>${icon('again', 32)}</button>` : '',
     next ? `<button class="control" data-go="${esc(next.id)}" aria-label="다음 편">${icon('skip-forward', 32)}</button>` : '',
   ].join('');
@@ -110,7 +115,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     <div class="bar">${backButton()}
       <button class="big-toggle" data-action="big" aria-label="크게 보기" aria-pressed="false">${icon('maximize', 32)}</button></div>
     <div class="stage">
-      <div class="video-wrap"><div id="yt"></div><div class="overlay" hidden></div></div>
+      <div class="video-wrap"><div id="yt"></div>${shield ? '<div class="shield" data-action="toggle-play" aria-hidden="true"></div>' : ''}<div class="overlay" hidden></div></div>
       <div class="upnext-slot" aria-live="polite"></div>
       <button class="big-exit" data-action="big" aria-label="작게 보기">${icon('maximize', 28)}</button>
     </div>
@@ -182,6 +187,26 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
 
   // Player buttons (P2-1).
   app.querySelectorAll<HTMLButtonElement>('[data-go]').forEach((b) => b.addEventListener('click', () => goTo(b.dataset.go!)));
+  // Play/pause for 버튼 막기: the tap layer over the video and the button do the same thing.
+  const playButton = app.querySelector<HTMLButtonElement>('button[data-action="toggle-play"]');
+  const showPlaying = (playing: boolean) => {
+    if (!playButton || playButton.dataset.playing === String(playing)) return;
+    playButton.dataset.playing = String(playing);
+    playButton.setAttribute('aria-label', playing ? '일시정지' : '재생');
+    playButton.innerHTML = icon(playing ? 'pause' : 'play', 32);
+  };
+  app.querySelectorAll('[data-action="toggle-play"]').forEach((el) =>
+    el.addEventListener('click', () => {
+      if (!player) return;
+      if (player.isPlaying()) {
+        player.pause();
+        showPlaying(false);
+      } else {
+        player.play();
+        showPlaying(true);
+      }
+    }),
+  );
   const replayButton = app.querySelector<HTMLButtonElement>('[data-action="replay"]');
   replayButton?.addEventListener('click', () => {
     // A same-day rewatch: no new episode is counted (L1), the minutes still are (L2).
@@ -250,6 +275,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   createPlayer(app.querySelector<HTMLElement>('#yt')!, video.id, {
     onPlaying(delta, current, total) {
       lastPlayingAt = Date.now();
+      showPlaying(true);
       if (!counted) {
         counted = true;
         analytics.playStart(c.config.id);
@@ -331,8 +357,9 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     },
     onPaused() {
       pausedAt = Date.now();
+      showPlaying(false);
     },
-  }, start)
+  }, start, shield)
     .then((p) => {
       if (activePlayer() === null && app.contains(main)) {
         player = p;

@@ -30,7 +30,7 @@
 
 ## Player
 
-### strictPlayer (클릭 차단 레이어)
+### strictPlayer (클릭 차단 레이어) — 2026-10-20 기기 설정 "YouTube 버튼 막기"로 구현, 기본 꺼짐
 
 **What:** 프로필 옵션 `strictPlayer`를 켜면 플레이어 위에 클릭 차단 레이어와 자체 재생/일시정지 버튼을 둔다.
 

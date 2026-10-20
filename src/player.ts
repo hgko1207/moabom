@@ -5,6 +5,7 @@
 interface YTPlayer {
   loadVideoById(args: { videoId: string; startSeconds?: number }): void;
   playVideo(): void;
+  pauseVideo(): void;
   stopVideo(): void;
   seekTo(seconds: number, allowSeekAhead: boolean): void;
   getCurrentTime(): number;
@@ -64,6 +65,7 @@ export interface PlayerHandle {
   load(videoId: string, startSeconds?: number): void;
   stop(): void;
   play(): void;
+  pause(): void;
   /** From the start of the same video (한 번 더). */
   restart(): void;
   isPlaying(): boolean;
@@ -89,6 +91,8 @@ export async function createPlayer(
   videoId: string,
   events: PlayerEvents,
   startSeconds = 0,
+  /** YouTube 버튼 막기: no YouTube controls or keyboard shortcuts; the screen covers the iframe itself. */
+  shield = false,
 ): Promise<PlayerHandle> {
   const YT = await loadApi();
   let expected = videoId;
@@ -106,7 +110,16 @@ export async function createPlayer(
       videoId,
       width: '100%',
       height: '100%',
-      playerVars: { rel: 0, playsinline: 1, fs: 0, iv_load_policy: 3, autoplay: 1, start: startSeconds, origin: location.origin },
+      playerVars: {
+        rel: 0,
+        playsinline: 1,
+        fs: 0,
+        iv_load_policy: 3,
+        autoplay: 1,
+        start: startSeconds,
+        origin: location.origin,
+        ...(shield ? { controls: 0, disablekb: 1 } : {}),
+      },
       events: {
         onReady: () => resolve(p),
         onStateChange: (e: { data: number }) => {
@@ -171,6 +184,9 @@ export async function createPlayer(
     },
     play() {
       player.playVideo();
+    },
+    pause() {
+      player.pauseVideo();
     },
     restart() {
       player.seekTo(0, true);

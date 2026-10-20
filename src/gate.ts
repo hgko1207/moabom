@@ -98,7 +98,7 @@ export function waitText(ms: number): string {
 export const UNLOCK_MS = 300_000;
 
 /**
- * parent: settings, history, about (need the gate). neutral: the install guide (neither asks nor ends an
+ * parent: settings, history (need the gate). neutral: the install guide and 이용 안내 (neither asks nor ends an
  * unlock). child: everything else (ends an unlock).
  */
 export type RouteKind = 'parent' | 'neutral' | 'child';

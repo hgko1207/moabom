@@ -44,6 +44,7 @@ import {
   prevInOrder,
   shouldAutoResume,
   playerButtonOn,
+  playerShieldOn,
   buttonsSummary,
   isSettingsSection,
   limitSummary,
@@ -489,6 +490,12 @@ describe('player buttons (P2-1)', () => {
     expect(canReplay(day({ started: ['a'] }), eps(3))).toBe(true);
     expect(canReplay(day({ started: ['a', 'b', 'c'], finished: ['a', 'b', 'c'] }), eps(3))).toBe(false);
     expect(canReplay(day({ started: ['a', 'b', 'c'] }), eps(null))).toBe(true);
+  });
+
+  it('YouTube 버튼 막기 is off unless a parent turned it on', () => {
+    expect(playerShieldOn(undefined)).toBe(false);
+    expect(playerShieldOn({ next: true })).toBe(false);
+    expect(playerShieldOn({ shield: true })).toBe(true);
   });
 
   it('buttons are on unless a parent turned them off', () => {

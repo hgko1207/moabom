@@ -463,8 +463,14 @@ button:active:not([aria-disabled='true']) {
 }
 
 /* Daily limit on the collection screen (R7) */
-.card.locked .thumb {
+/* Resting under the moon: the picture fades, the moon badge stays bright (cards and home tiles alike). */
+.card.locked .thumb img,
+.tile.locked .thumb img {
   opacity: 0.4;
+}
+
+.home-bedtime {
+  margin-bottom: var(--s3);
 }
 
 .badge.state.locked {
@@ -2512,4 +2518,50 @@ details.paste summary::-webkit-details-marker {
 /* Rows sit in a list that clips its corners: draw their focus ring inside, so all four sides show. */
 .menu :focus-visible {
   outline-offset: -4px;
+}
+
+/* YouTube 버튼 막기: a clear layer over the iframe takes every tap (play/pause); the end overlay sits above it. */
+.video-wrap .shield {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* First visit (critique 2026-10-20): one quiet line under the title, not a card at the bottom. */
+.intro {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s1);
+  margin: calc(var(--s1) * -1) 0 var(--s3);
+  padding-bottom: var(--s1);
+  border-bottom: 1px solid var(--line);
+}
+
+.intro p {
+  flex: 1;
+  margin: 10px 0 0;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  word-break: keep-all;
+}
+
+.intro-more {
+  color: var(--accent-ink);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.intro .close {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--ink-2);
 }

@@ -32,11 +32,13 @@
     <meta name="twitter:description" content="공식 채널 영상만, 순서대로. 고를 필요 없어요" />
     <meta name="twitter:image" content="https://moabom.hgko.dev/og.png" />
     <style>
-      /* In-app browser escape bar (design DR27): in the page flow above the app, no close button. */
+      /* In-app browser escape bar (design DR27): in the page flow above the app, no close button. Quiet page
+         colours (the app's --line and --ink), not navy: dark is kept for the bedtime screen (critique 2026-10-20). */
       .escape-bar {
         padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) 16px max(16px, env(safe-area-inset-left));
-        background: #1b2230;
-        color: #fff;
+        background: #e6ecdd;
+        border-bottom: 1px solid #dfe6d6;
+        color: #18221e;
         font: 16px/1.5 'Pretendard Variable', Pretendard, sans-serif;
         word-break: keep-all;
       }
@@ -51,13 +53,13 @@
         padding: 0 24px;
         border: 0;
         border-radius: 12px;
-        background: #fff;
-        color: #1b2230;
+        background: #2e9e6b;
+        color: #18221e;
         font: 700 18px 'Pretendard Variable', Pretendard, sans-serif;
         cursor: pointer;
       }
       .escape-bar button:focus-visible {
-        outline: 4px solid #fff;
+        outline: 4px solid #18221e;
         outline-offset: 4px;
       }
       .escape-bar .url {

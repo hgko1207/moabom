@@ -2,6 +2,7 @@
 import type { NewsItem, Profile } from '../config.ts';
 import type { Collection } from '../data.ts';
 import { icon, type IconName } from '../icons.ts';
+import { moon } from '../art.ts';
 import { settingsFromText, settingsLink } from '../share.ts';
 import { canPromptInstall, currentPlatform, promptInstall, STEPS } from '../install.ts';
 import {
@@ -17,6 +18,7 @@ import {
   localDate,
   moveCollection,
   playerButtonOn,
+  playerShieldOn,
   recentDays,
   shiftDate,
   TITLE_MAX,
@@ -282,7 +284,7 @@ function limitBody(current: DeviceSettings): string {
     </section>
     ${preview(
       '아이에게는 이렇게 보여요',
-      `<div class="preview-moon">${icon('moon', 44)}<p><b>오늘은 여기까지</b>${value}${spec.unit}${mode === 'minutes' ? '을 보면' : '을 보고 나면'} 달이 떠요</p></div>`,
+      `<div class="preview-moon">${moon(44)}<p><b>오늘은 여기까지</b>${value}${spec.unit}${mode === 'minutes' ? '을 보면' : '을 보고 나면'} 달이 떠요</p></div>`,
     )}
     <p class="hint">${mode === 'minutes' ? '15분이 넘는 모음집은 시간이 되면 멈추고, 다음 날 그 자리부터 이어 봐요.' : '보던 편은 끝까지 보고, 다음 편부터 막혀요.'}</p>`;
 }
@@ -397,16 +399,24 @@ function bindCharacters(available: Collection[], current: DeviceSettings, latest
 function buttonsBody(available: Collection[], current: DeviceSettings): string {
   const buttons = current.player ?? {};
   const first = visibleOf(available, current)[0];
-  const controls = PLAYER_SWITCHES.filter(([key]) => playerButtonOn(buttons, key))
-    .map(([key, , name]) => `<span class="mini-control${key === 'replay' ? ' accent' : ''}">${icon(name, 24)}</span>`)
-    .join('');
+  const shield = playerShieldOn(buttons);
+  const mini = (name: IconName, accent = false) => `<span class="mini-control${accent ? ' accent' : ''}">${icon(name, 24)}</span>`;
+  // Same order as the player: 이전 편, (재생/일시정지 with 버튼 막기), 한 번 더, 다음 편.
+  const controls = [
+    playerButtonOn(buttons, 'prev') ? mini('skip-back') : '',
+    shield ? mini('pause') : '',
+    playerButtonOn(buttons, 'replay') ? mini('again', true) : '',
+    playerButtonOn(buttons, 'next') ? mini('skip-forward') : '',
+  ].join('');
   return `${preview(
     '재생 화면 미리 보기',
     `<div class="mini-player">${first ? `<img src="${coverOf(first)}" alt="" width="320" height="180">` : ''}
       <div class="mini-controls">${controls || '<span class="mini-none">버튼 없이 영상만 나와요</span>'}</div></div>`,
   )}
     <div class="menu">${PLAYER_SWITCHES.map(([key, label, name]) => switchRow(`data-button="${key}"`, playerButtonOn(buttons, key), label, '', lead(name))).join('')}</div>
-    <p class="hint">이전·다음 편도 하루 제한을 지키고, 한 번 더는 제한에 닿으면 숨어요.</p>`;
+    <p class="hint">이전·다음 편도 하루 제한을 지키고, 한 번 더는 제한에 닿으면 숨어요.</p>
+    <h2 class="menu-group" id="yt-title">YouTube</h2>
+    <div class="menu" role="group" aria-labelledby="yt-title">${switchRow('data-action="shield"', shield, 'YouTube 버튼 막기', '영상 속 제목·로고·공유를 못 누르게 해요. 영상을 누르면 멈추고, 자막(CC) 버튼은 사라져요', lead('lock'))}</div>`;
 }
 
 function bindButtons(latest: () => DeviceSettings): void {
@@ -419,6 +429,12 @@ function bindButtons(latest: () => DeviceSettings): void {
       app.querySelector<HTMLElement>(`[data-button="${key}"]`)?.focus();
     }),
   );
+  app.querySelector('[data-action="shield"]')?.addEventListener('click', () => {
+    const now = latest();
+    store.saveSettings({ ...now, player: { ...now.player, shield: !playerShieldOn(now.player) } });
+    render();
+    app.querySelector<HTMLElement>('[data-action="shield"]')?.focus();
+  });
 }
 
 // ---------- 홈 화면 ----------

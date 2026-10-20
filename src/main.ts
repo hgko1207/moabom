@@ -147,7 +147,8 @@ function render(): void {
   // forward button, or a typed address (R1).
   const now = Date.now();
   const access = parentRouteDecision({
-    kind: route.settings || route.history || route.about ? 'parent' : route.install ? 'neutral' : 'child',
+    // 이용 안내 is neutral like the install guide: a visiting parent reads it from home without the gate.
+    kind: route.settings || route.history ? 'parent' : route.install || route.about ? 'neutral' : 'child',
     sameScreen: location.hash === drawnHash,
     now,
     unlockedUntil,

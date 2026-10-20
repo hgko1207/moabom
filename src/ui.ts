@@ -14,6 +14,7 @@ import {
   localDate,
   orderCollectionIds,
   playerButtonOn,
+  playerShieldOn,
   resumableAfterLimit,
   startPosition,
   viewingOrder,
@@ -286,6 +287,7 @@ export function describeSettings(s: DeviceSettings): string[] {
     `홈 화면 이름: ${profile ? homeTitle(profile.name, s) : ''}`,
     `맨 위 이어 보기 칸: ${s.homeContinue === false ? '꺼짐' : '켜짐'}`,
     `재생 화면 버튼: ${playerButtonNames(s.player).join(', ') || '없음'}`,
+    `YouTube 버튼 막기: ${playerShieldOn(s.player) ? '켜짐' : '꺼짐'}`,
   ];
 }
 

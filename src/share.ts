@@ -9,7 +9,7 @@ const PREFIX = 's1.';
 export const SETTINGS_PARAM = 'settings';
 
 const MODES: readonly LimitMode[] = ['none', 'minutes', 'episodes'];
-const PLAYER_BUTTONS = ['prev', 'next', 'replay'] as const;
+const PLAYER_BUTTONS = ['prev', 'next', 'replay', 'shield'] as const;
 
 function toBase64Url(text: string): string {
   const bytes = new TextEncoder().encode(text);

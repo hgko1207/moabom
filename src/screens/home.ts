@@ -2,6 +2,7 @@
 import type { Profile } from '../config.ts';
 import type { Collection } from '../data.ts';
 import { icon, isIconName } from '../icons.ts';
+import { moon } from '../art.ts';
 import { logo } from '../logo.ts';
 import { episodeLabel, groupByCategory, homeTitle, mostRecentCollection, progressRecency, startPosition } from '../rules.ts';
 import {
@@ -55,14 +56,18 @@ export function renderCollections(profile: Profile, collections: Collection[], s
   if (showBack) setBack(() => backTo({}));
   const settings = store.settings();
   const views = new Map(collections.map((c) => [c.config.id, collectionView(profile, c)]));
+  // The daily limit is per profile, so every view agrees: once it is reached the whole home rests.
+  const resting = [...views.values()].some((v) => v.limited);
   const tiles = (list: Collection[], label: string) => `<nav class="tiles" aria-label="${esc(label)}">${list
     .map((c) => {
       const cover = c.config.coverVideoId ?? c.data.groups[0]?.videos[0]?.id ?? '';
       // A character with a video in progress shows how far it got, like the cards inside.
       const view = views.get(c.config.id)!;
       const bar = view.resume && view.highlight ? progressBar(startPosition(view.progress, view.highlight), view.highlight.durationSec) : '';
-      return `<button class="tile" data-collection="${esc(c.config.id)}" aria-label="${esc(c.config.displayName)}">
-          ${thumb(cover, c.config.displayName.slice(0, 1), bar, true)}<span class="label">${esc(c.config.displayName)}</span></button>`;
+      // After the limit every tile rests under the moon, like the episode cards inside (D9).
+      const badge = resting ? `<span class="badge state locked" aria-hidden="true">${moon(24)}</span>` : '';
+      return `<button class="tile${resting ? ' locked' : ''}" data-collection="${esc(c.config.id)}" aria-label="${esc(c.config.displayName)}${resting ? ', 오늘은 여기까지' : ''}">
+          ${thumb(cover, c.config.displayName.slice(0, 1), bar + badge, true)}<span class="label">${esc(c.config.displayName)}</span></button>`;
     })
     .join('')}</nav>`;
   const rows = groupByCategory(collections, (c) => c.config.category, appData.categories);
@@ -78,16 +83,18 @@ export function renderCollections(profile: Profile, collections: Collection[], s
       <h2 id="cat-${esc(cat.id)}">${glyph}${esc(cat.label)}</h2>${tiles(row.items, cat.label)}</section>`;
           })
           .join('');
-  // One card at a time at the bottom: the first-visit intro comes before the install hint (DR16).
-  const intro = store.introDismissed() ? '' : introCard();
+  // First visit: one quiet line under the title says what this is (critique 2026-10-20); the install hint waits
+  // at the bottom until it is closed, so there is still one message at a time (DR16).
+  const intro = store.introDismissed() ? '' : introLine();
   // The mark always shows, whatever the title says (design DR28); in --ink, never the brand colour (DR21).
   app.innerHTML = `<main class="screen"><div class="bar home-bar">${showBack ? backButton() : ''}${logo(40)}<h1>${esc(homeTitle(profile.name, settings))}</h1>${gearButton()}</div>
-    ${offlineNotice()}
-    ${settings?.homeContinue === false ? '' : homeContinueHtml(collections, views)}
-    ${body}${intro || installHint()}${staleNote()}</main>`;
+    ${intro}${offlineNotice()}
+    ${resting ? bedtimeHtml(collections, views) : settings?.homeContinue === false ? '' : homeContinueHtml(collections, views)}
+    ${body}${intro ? '' : installHint()}${staleNote()}</main>`;
   bindBack();
   bindGear(profile.id);
   bindInstallHint(profile.id);
+  app.querySelector('[data-action="intro-about"]')?.addEventListener('click', () => go({ profile: profile.id, about: true }));
   app.querySelector('[data-action="intro-dismiss"]')?.addEventListener('click', () => {
     store.dismissIntro();
     app.querySelector('.intro')?.remove();
@@ -98,17 +105,37 @@ export function renderCollections(profile: Profile, collections: Collection[], s
       go({ profile: profile.id, collection: b.dataset.collection! });
     }),
   );
+  app.querySelector<HTMLButtonElement>('[data-bedtime]')?.addEventListener('click', (e) => {
+    go({ profile: profile.id, collection: (e.currentTarget as HTMLButtonElement).dataset.bedtime!, today: true });
+  });
   app.querySelector<HTMLButtonElement>('[data-continue]')?.addEventListener('click', (e) => {
     const b = e.currentTarget as HTMLButtonElement;
     go({ profile: profile.id, collection: b.dataset.continue!, video: b.dataset.video! });
   });
 }
 
-/** Shown once per device; it tells a parent where the daily limit is (design DR16). */
-function introCard(): string {
-  return `<aside class="install-hint intro" aria-label="모아봄 소개">
-    <p>공식 채널 영상만 모았어요. 하루 제한은 톱니를 2초 눌러 정해요</p>
-    <button class="close" data-action="intro-dismiss" aria-label="닫기">${icon('close', 24)}</button></aside>`;
+/**
+ * Shown once per device, right under the title: what this is, who made it, where the daily limit is (DR16).
+ * 자세히 opens 이용 안내, which needs no gate, so a visiting parent can check before trusting it.
+ */
+function introLine(): string {
+  return `<aside class="intro" aria-label="모아봄 소개">
+    <p>공식 채널 영상만 모은, 부모가 만든 무료 앱이에요. 하루 제한은 톱니를 2초 눌러 정해요. <button class="intro-more" data-action="intro-about">자세히</button></p>
+    <button class="close" data-action="intro-dismiss" aria-label="소개 닫기">${icon('close', 24)}</button></aside>`;
+}
+
+/**
+ * After the daily limit the top of home is the moon (design D9 on home): the same card as the collection
+ * screen's, leading to the moon screen of the character watched last, where a cut-off video can still finish.
+ */
+function bedtimeHtml(collections: Collection[], views: Map<string, CollectionView>): string {
+  const id = mostRecentCollection(collections.map((c) => ({ id: c.config.id, lastAt: progressRecency(views.get(c.config.id)!.progress) })));
+  const target = id ?? collections[0]?.config.id;
+  if (!target) return '';
+  return `<button class="hero night home-bedtime" data-bedtime="${esc(target)}" aria-label="오늘은 여기까지. 내일 또 만나요">
+    <div class="moon-wrap" aria-hidden="true">${moon(96)}</div>
+    <div><div class="title">오늘은 여기까지</div><div class="sub">내일 또 만나요</div></div>
+  </button>`;
 }
 
 /**

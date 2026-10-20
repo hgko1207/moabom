@@ -101,7 +101,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
 
   setBack(() => backTo(listRoute));
   app.innerHTML = `<main class="screen player-screen">
-    <div class="bar">${backButton()}<h1>${esc(video.displayTitle)}</h1>
+    <div class="bar">${backButton()}
       <button class="big-toggle" data-action="big" aria-label="크게 보기" aria-pressed="false">${icon('maximize', 32)}</button></div>
     <div class="stage">
       <div class="video-wrap"><div id="yt"></div><div class="overlay" hidden></div></div>
@@ -110,6 +110,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     </div>
     <div class="player-info">
       <p class="episode-label">${esc(episodeLabel(c.config, video))}</p>
+      <h1 class="episode-title">${esc(video.displayTitle)}</h1>
     </div>
     ${controls ? `<div class="controls" role="group" aria-label="재생 버튼">${controls}</div>` : ''}
     <p class="detect-off" hidden>감지 꺼짐</p>

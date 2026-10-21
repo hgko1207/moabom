@@ -8,8 +8,6 @@ export const STALE_DAYS = 30;
 export const COUNT_AFTER_SEC = 10;
 /** O1: fraction of the duration that must actually be played to mark a video watched. */
 export const WATCHED_FRACTION = 0.9;
-/** P3: the up-next card appears when this many seconds remain. */
-export const UP_NEXT_SEC = 20;
 /** Videos longer than this (compilations) stop at the daily limit instead of playing to the end. */
 export const LONG_VIDEO_SEC = 900;
 

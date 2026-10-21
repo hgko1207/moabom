@@ -543,11 +543,6 @@ button:active:not([aria-disabled='true']) {
   border: 0;
 }
 
-.upnext-slot {
-  min-height: 0;
-  margin-top: var(--s2);
-}
-
 .upnext {
   display: grid;
   gap: var(--s1);
@@ -691,15 +686,6 @@ button:active:not([aria-disabled='true']) {
   width: min(100vw, calc(100dvh * 16 / 9));
 }
 
-.player-screen.big .upnext-slot {
-  position: absolute;
-  right: var(--s2);
-  bottom: var(--s2);
-  margin: 0;
-  width: max(220px, 30%);
-  z-index: 3;
-}
-
 .player-screen.big .big-exit {
   display: grid;
   place-items: center;
@@ -720,14 +706,6 @@ button:active:not([aria-disabled='true']) {
     margin: 0 auto;
   }
 
-  .player-screen .upnext-slot {
-    position: absolute;
-    right: var(--s2);
-    bottom: var(--s2);
-    margin: 0;
-    width: max(220px, 30%);
-    z-index: 3;
-  }
 }
 
 /* That's all for today (design D9) */
@@ -1857,6 +1835,32 @@ details.paste summary::-webkit-details-marker {
 }
 
 /* What plays next, under the buttons. */
+/* 다음에 볼 편: a card of its own under the buttons, so it reads as "tap here for the next one" (2026-10-21).
+   When today's limit ends with this episode the same place says so, with the moon. */
+.last-today {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 440px;
+  margin: var(--s3) auto 0;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: 0 4px 0 var(--line);
+  font-size: 17px;
+  font-weight: 700;
+  word-break: keep-all;
+}
+
+.last-today .art-moon {
+  flex: none;
+}
+
+.player-screen.big .last-today {
+  display: none;
+}
+
 .next-preview {
   display: flex;
   align-items: center;
@@ -1864,20 +1868,40 @@ details.paste summary::-webkit-details-marker {
   width: 100%;
   max-width: 440px;
   margin: var(--s3) auto 0;
+  padding: 10px 12px 10px 10px;
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: 0 4px 0 var(--line);
   text-align: left;
 }
 
 .next-preview .thumb {
   flex: none;
-  width: 136px;
-  border-radius: 14px;
+  width: 120px;
+  border-radius: 12px;
+}
+
+.next-preview .next-text {
+  flex: 1;
+  min-width: 0;
 }
 
 .next-preview small {
   display: block;
   font-size: 14px;
-  font-weight: 600;
-  color: var(--ink-2);
+  font-weight: 700;
+  color: var(--accent-ink);
+}
+
+.next-preview .next-go {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent-ink);
+  color: var(--surface);
 }
 
 .next-preview b {
@@ -2780,3 +2804,4 @@ details.paste summary::-webkit-details-marker {
     width: 180px;
   }
 }
+

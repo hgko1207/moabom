@@ -26,7 +26,6 @@ import {
   shouldAutoResume,
   shouldCutAtLimit,
   startPosition,
-  UP_NEXT_SEC,
   upNext,
   upNextScope,
   viewingOrder,
@@ -104,12 +103,19 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     shield ? `<button class="control fill" data-action="toggle-play" aria-label="일시정지">${icon('pause', 32)}</button>` : '',
     next ? `<button class="control" data-go="${esc(next.id)}" aria-label="다음 편">${icon('skip-forward', 32)}</button>` : '',
   ].join('');
-  // What plays next (direction A): the same episode, setting and daily limit as the 다음 편 button.
-  const preview =
-    next && canStart(today, limits, next.id)
+  // Under the buttons (2026-10-21): what plays next, the same episode, setting and daily limit as the 다음 편
+  // button; or, when today's limit ends with this episode, the moon, so the child knows well before the end.
+  // This replaced the up-next card that popped up over or under the video 20 s before the end.
+  const nextSlotHtml = (remainingSec: number): string => {
+    if (upNext(scope, video, today, limits, remainingSec).kind === 'limit') {
+      return `<p class="last-today">${moon(32)}<span>오늘은 이 편이 마지막이에요</span></p>`;
+    }
+    return next && canStart(today, limits, next.id)
       ? `<button class="next-preview" data-go="${esc(next.id)}" aria-label="다음에 볼 편: ${esc(episodeLabel(c.config, next))} ${esc(next.displayTitle)}">
-      ${thumb(next.id, String(next.order))}<span><small>다음에 볼 편</small><b>${esc(episodeLabel(c.config, next))} · ${esc(next.displayTitle)}</b></span></button>`
+      ${thumb(next.id, String(next.order))}<span class="next-text"><small>다음에 볼 편</small><b>${esc(episodeLabel(c.config, next))} · ${esc(next.displayTitle)}</b></span><span class="next-go" aria-hidden="true">${icon('play', 22)}</span></button>`
       : '';
+  };
+  let nextSlot = nextSlotHtml(Math.max(0, video.durationSec - start));
 
   setBack(() => backTo(listRoute));
   app.innerHTML = `<main class="screen player-screen">
@@ -117,7 +123,6 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
       <button class="big-toggle" data-action="big" aria-label="크게 보기" aria-pressed="false">${icon('maximize', 32)}</button></div>
     <div class="stage">
       <div class="video-wrap"><div id="yt"></div>${shield ? '<div class="shield" data-action="toggle-play" aria-hidden="true"></div>' : ''}<div class="overlay" hidden></div></div>
-      <div class="upnext-slot" aria-live="polite"></div>
       <button class="big-exit" data-action="big" aria-label="작게 보기">${icon('maximize', 28)}</button>
     </div>
     <div class="player-info">
@@ -125,15 +130,13 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
       <h1 class="episode-title">${esc(video.displayTitle)}</h1>
     </div>
     ${controls ? `<div class="controls" role="group" aria-label="재생 버튼">${controls}</div>` : ''}
-    ${preview}
+    <div class="next-slot" aria-live="polite">${nextSlot}</div>
     <p class="detect-off" hidden>감지 꺼짐</p>
   </main>`;
   bindBack();
 
   const main = app.querySelector<HTMLElement>('.player-screen')!;
   const overlay = app.querySelector<HTMLElement>('.overlay')!;
-  const slot = app.querySelector<HTMLElement>('.upnext-slot')!;
-  let shownUpNext = '';
   let counted = false;
   let player: PlayerHandle | null = null;
 
@@ -232,8 +235,6 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   };
 
   const showOverlay = (inner: string) => {
-    slot.innerHTML = '';
-    shownUpNext = '';
     overlay.innerHTML = `<div class="overlay-body">${inner}</div>`;
     overlay.hidden = false;
     bindOverlayActions(overlay);
@@ -306,14 +307,14 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
         return openToday();
       }
       save();
-      const remaining = total - current;
-      if (total > 0 && remaining <= UP_NEXT_SEC && overlay.hidden) {
-        const u = upNext(scope, video, today, limits, remaining);
-        const key = u.kind === 'next' ? u.video.id : u.kind;
-        if (key !== shownUpNext) {
-          shownUpNext = key;
-          slot.innerHTML = upNextCardHtml(u, c);
-          bindOverlayActions(slot);
+      // The episode can become today's last while it plays (counted after 10 s, or the minutes run low).
+      const html = nextSlotHtml(total > 0 ? total - current : Math.max(0, video.durationSec - current));
+      if (html !== nextSlot) {
+        nextSlot = html;
+        const box = app.querySelector<HTMLElement>('.next-slot');
+        if (box) {
+          box.innerHTML = html;
+          box.querySelector<HTMLButtonElement>('[data-go]')?.addEventListener('click', (e) => goTo((e.currentTarget as HTMLButtonElement).dataset.go!));
         }
       }
     },

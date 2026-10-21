@@ -2,7 +2,10 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <!-- No viewport-fit=cover (2026-10-21): with it, iPhone landscape shifted the YouTube picture right by the
+         safe-area inset (59px) and cut its right edge, in both the normal and the big view. Safari now keeps the
+         page out of the notch / Dynamic Island area itself; the env() paddings simply resolve to 0. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#F3F5EC" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="apple-mobile-web-app-capable" content="yes" />

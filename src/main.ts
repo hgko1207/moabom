@@ -146,6 +146,11 @@ function render(): void {
   // The parent gate stands in front of every parent screen however it was reached: the gear, the browser's
   // forward button, or a typed address (R1).
   const now = Date.now();
+  // The in-app browser bar (index.html) belongs on home and the install guide only: never above a video or the
+  // moon, where it would be an exit button for the child (critique 2026-10-21).
+  const atHome = !route.collection && !route.settings && !route.history && !route.about;
+  document.querySelector('.escape-bar')?.toggleAttribute('hidden', !(atHome || route.install));
+
   const access = parentRouteDecision({
     // 이용 안내 is neutral like the install guide: a visiting parent reads it from home without the gate.
     kind: route.settings || route.history ? 'parent' : route.install || route.about ? 'neutral' : 'child',
@@ -157,10 +162,19 @@ function render(): void {
   unlockedUntil = access.unlockedUntil;
   drawnHash = location.hash;
   if (access.draw !== 'screen') {
-    return renderGate(home, () => {
-      unlockedUntil = Date.now() + UNLOCK_MS;
-      render();
-    });
+    const why = pendingSettings()
+      ? '받은 설정을 보려면 어른 확인이 필요해요'
+      : route.history
+        ? '시청 기록은 어른만 볼 수 있어요'
+        : '설정은 어른만 바꿀 수 있어요';
+    return renderGate(
+      home,
+      () => {
+        unlockedUntil = Date.now() + UNLOCK_MS;
+        render();
+      },
+      why,
+    );
   }
 
   if (route.settings) return renderSettings(profile, available, home, route.section);

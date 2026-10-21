@@ -99,8 +99,9 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   const shield = playerShieldOn(buttons);
   const controls = [
     prev ? `<button class="control" data-go="${esc(prev.id)}" aria-label="이전 편">${icon('skip-back', 32)}</button>` : '',
-    shield ? `<button class="control" data-action="toggle-play" aria-label="일시정지">${icon('pause', 32)}</button>` : '',
-    playerButtonOn(buttons, 'replay') ? `<button class="control" data-action="replay" aria-label="한 번 더"${canReplay(today, limits) ? '' : ' hidden'}>${icon('again', 32)}</button>` : '',
+    // The one filled control is play/pause, and only with 버튼 막기. 한 번 더 waits for the end of the video
+    // (critique 2026-10-21): in the row it was the biggest target and reset the episode with one tap.
+    shield ? `<button class="control fill" data-action="toggle-play" aria-label="일시정지">${icon('pause', 32)}</button>` : '',
     next ? `<button class="control" data-go="${esc(next.id)}" aria-label="다음 편">${icon('skip-forward', 32)}</button>` : '',
   ].join('');
   // What plays next (direction A): the same episode, setting and daily limit as the 다음 편 button.
@@ -207,21 +208,26 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
       }
     }),
   );
-  const replayButton = app.querySelector<HTMLButtonElement>('[data-action="replay"]');
-  replayButton?.addEventListener('click', () => {
+  const replay = () => {
     // A same-day rewatch: no new episode is counted (L1), the minutes still are (L2).
     overlay.hidden = true;
     overlay.innerHTML = '';
     progress = recordPosition(progress, video.id, null);
     save();
     player?.restart();
-  });
+  };
+  /** 한 번 더 on the end overlay, when a parent left it on and today's limit still allows it. */
+  const replayButton = () =>
+    playerButtonOn(buttons, 'replay') && canReplay(today, limits)
+      ? `<button class="overlay-small" data-action="replay" aria-label="한 번 더">${icon('again', 32)}</button>`
+      : '';
 
   const bindOverlayActions = (root: HTMLElement) => {
     root.querySelector<HTMLButtonElement>('[data-next]')?.addEventListener('click', (e) =>
       openNext((e.currentTarget as HTMLButtonElement).dataset.next!),
     );
     root.querySelector('[data-action="today"]')?.addEventListener('click', openToday);
+    root.querySelector('[data-action="replay"]')?.addEventListener('click', replay);
     root.querySelector('[data-action="list"]')?.addEventListener('click', () => backTo(listRoute));
   };
 
@@ -300,7 +306,6 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
         return openToday();
       }
       save();
-      if (replayButton) replayButton.hidden = !canReplay(today, limits);
       const remaining = total - current;
       if (total > 0 && remaining <= UP_NEXT_SEC && overlay.hidden) {
         const u = upNext(scope, video, today, limits, remaining);
@@ -319,7 +324,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
       save();
       const u = upNext(scope, video, today, limits, 0);
       if (u.kind === 'limit') return openToday();
-      showOverlay(`${upNextCardHtml(u, c)}${listButton}`);
+      showOverlay(`${upNextCardHtml(u, c)}${replayButton()}${listButton}`);
     },
     onError(code) {
       // Never counted, never marked watched (P4). Removed or blocked videos are marked now; others wait (P2-5).

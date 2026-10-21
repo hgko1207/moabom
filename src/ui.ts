@@ -1,6 +1,6 @@
 // Shared screen state, routing and HTML helpers. main.ts owns render() and hands it over with setRenderer(),
 // so screens can navigate without importing main.ts (no module imports main.ts).
-import type { Profile, VideoRecord } from './config.ts';
+import type { NewsItem, Profile, VideoRecord } from './config.ts';
 import { loadAppData, type Collection } from './data.ts';
 import { icon } from './icons.ts';
 import { canPromptInstall, currentPlatform, promptInstall } from './install.ts';
@@ -222,7 +222,8 @@ export function staleNote(): string {
 
 export function offlineNotice(): string {
   if (navigator.onLine) return '';
-  return `<div class="notice" role="status">${icon('offline', 40)}<span class="visually-hidden">인터넷 연결이 없어요</span>
+  // A 문제 notice: the problem and what happens next, in words for the parent beside the picture.
+  return `<div class="notice trouble" role="status">${icon('offline', 32)}<p><b>인터넷이 끊겼어요</b>연결되면 다시 불러와요</p>
     <button class="retry" data-action="reload" aria-label="다시 시도">${icon('again', 32)}</button></div>`;
 }
 
@@ -323,8 +324,17 @@ export function settlePendingSettings(apply: boolean): void {
 
 const HOLD_MS = 2000;
 
+/** The newest news item this device has not closed yet (design DR11). */
+export function unreadNews(): NewsItem | undefined {
+  const read = new Set(store.newsRead());
+  return appData.news.find((n) => !read.has(n.id));
+}
+
+/** A gold dot on the gear while there is unread news (2026-10-21): parents learn of it without opening settings. */
 export function gearButton(): string {
-  return `<button class="gear" data-action="gear" aria-label="설정 (2초 동안 누르기)">${icon('settings', 28)}<span class="hold" aria-hidden="true"></span></button>`;
+  const news = unreadNews() ? '<span class="news-dot" aria-hidden="true"></span>' : '';
+  const label = news ? '설정 (2초 동안 누르기, 새 소식 있음)' : '설정 (2초 동안 누르기)';
+  return `<button class="gear" data-action="gear" aria-label="${label}">${icon('settings', 28)}${news}<span class="hold" aria-hidden="true"></span></button>`;
 }
 
 /** Opens settings only after a 2 s press, so a child's tap does nothing (design DR17). */
@@ -379,20 +389,44 @@ export function bindHold(button: HTMLElement, action: () => void): void {
 
 // ---------- home-screen install hint ----------
 
-/** A small dismissible card on the home screen of a phone/tablet browser tab (not shown once installed). */
+/**
+ * The install card at the bottom of home (2026-10-21, like video-cards): what installing gives, how to do it on
+ * this device, and one-tap install where the browser offers it. Gone once installed (the app then runs
+ * standalone, and appinstalled redraws), or after × on this device.
+ */
 export function installHint(): string {
   const p = currentPlatform();
-  if (p === 'standalone' || p === 'desktop' || store.installHintDismissed()) return '';
-  const action = canPromptInstall()
-    ? `<button class="primary" data-action="install-now">${icon('download', 24)}앱 설치</button>`
-    : '<button class="secondary" data-action="install-guide">방법 보기</button>';
-  return `<aside class="install-hint" aria-label="홈 화면에 추가">
-    <p>홈 화면에 추가하면 앱처럼 전체 화면으로 열려요</p>
-    <button class="close" data-action="install-dismiss" aria-label="닫기">${icon('close', 24)}</button>${action}</aside>`;
+  if (p === 'standalone' || store.installHintDismissed()) return '';
+  const oneTap = canPromptInstall();
+  // A computer is not the children's screen: the card shows there only when the browser offers one-tap install.
+  if (p === 'desktop' && !oneTap) return '';
+  const key = (t: string) => `<b class="menu-name">${t}</b>`;
+  const how = window.__moabomInApp
+    ? '지금은 앱 안의 브라우저라 설치가 안 돼요. Chrome이나 Safari에서 열어 주세요.'
+    : p === 'ios-safari' || p === 'ios-other'
+      ? `Safari 아래 공유 버튼(네모에 위쪽 화살표) → ${key('홈 화면에 추가')}`
+      : `${oneTap ? '버튼이 안 되면 ' : ''}브라우저 메뉴(⋮) → ${key('앱 설치')} 또는 ${key('홈 화면에 추가')}`;
+  const action = oneTap
+    ? `<button class="primary" data-action="install-now">${icon('download', 24)}지금 설치</button><button class="text-button" data-action="install-guide">자세한 방법</button>`
+    : '<button class="secondary" data-action="install-guide">자세한 방법 보기</button>';
+  return `<aside class="install-hint" aria-labelledby="install-hint-title">
+    <h2 id="install-hint-title">${icon('download', 22)}홈 화면에 추가하면 앱처럼 열려요</h2>
+    <p>주소창 없이 전체 화면으로 열리고, 아이는 아이콘만 누르면 돼요. 설치하면 이 안내는 사라져요.</p>
+    <p class="install-how">${how}</p>
+    <div class="install-actions">${action}</div>
+    <button class="close" data-action="install-dismiss" aria-label="설치 안내 닫기">${icon('close', 24)}</button></aside>`;
 }
 
+// Installed from this tab: the tab itself stays a browser tab, so remember it and drop the card here too.
+window.addEventListener('appinstalled', () => store.dismissInstallHint());
+
 export function bindInstallHint(profileId: string): void {
-  app.querySelector('[data-action="install-now"]')?.addEventListener('click', () => void promptInstall().then(render));
+  app.querySelector('[data-action="install-now"]')?.addEventListener('click', () =>
+    void promptInstall().then((accepted) => {
+      if (accepted) store.dismissInstallHint();
+      render();
+    }),
+  );
   app.querySelector('[data-action="install-guide"]')?.addEventListener('click', () => go({ profile: profileId, install: true }));
   app.querySelector('[data-action="install-dismiss"]')?.addEventListener('click', () => {
     store.dismissInstallHint();

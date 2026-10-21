@@ -35,7 +35,8 @@
       /* In-app browser escape bar (design DR27): in the page flow above the app, no close button. Quiet page
          colours (the app's --line and --ink), not navy: dark is kept for the bedtime screen (critique 2026-10-20). */
       .escape-bar {
-        padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) 16px max(16px, env(safe-area-inset-left));
+        position: relative;
+        padding: max(16px, env(safe-area-inset-top)) max(64px, env(safe-area-inset-right)) 16px max(16px, env(safe-area-inset-left));
         background: #e6ecdd;
         border-bottom: 1px solid #dfe6d6;
         color: #18221e;
@@ -48,15 +49,32 @@
       .escape-bar p:last-child {
         margin: 12px 0 0;
       }
+      /* A secondary button (paper, line border): the app's own controls stay the loudest thing on the page. */
       .escape-bar button {
-        min-height: 64px;
-        padding: 0 24px;
-        border: 0;
+        min-height: 56px;
+        padding: 0 20px;
+        border: 2px solid #dfe6d6;
         border-radius: 12px;
-        background: #2e9e6b;
+        background: #fdfefb;
         color: #18221e;
-        font: 700 18px 'Pretendard Variable', Pretendard, sans-serif;
+        font: 700 17px 'Pretendard Variable', Pretendard, sans-serif;
         cursor: pointer;
+      }
+      .escape-bar .escape-close {
+        position: absolute;
+        top: max(4px, env(safe-area-inset-top));
+        right: max(4px, env(safe-area-inset-right));
+        width: 48px;
+        min-height: 48px;
+        padding: 0;
+        border: 0;
+        background: none;
+        display: grid;
+        place-items: center;
+        color: #5b6b62;
+      }
+      .escape-bar[hidden] {
+        display: none;
       }
       .escape-bar button:focus-visible {
         outline: 4px solid #18221e;
@@ -123,6 +141,12 @@
           new Image().src = COUNT_URL + '?p=' + encodeURIComponent('inapp_escape.' + app[1]) + '&e=true&rnd=' + Math.floor(Math.random() * 1e9);
         };
 
+        // Closed with ×: gone for this visit (the app also shows the bar only on home and the install guide).
+        var CLOSED_KEY = 'moabom:v1:session:escapeClosed';
+        try {
+          if (sessionStorage.getItem(CLOSED_KEY) === '1') return;
+        } catch (e) {}
+
         window.addEventListener('DOMContentLoaded', function () {
           var bar = document.createElement('div');
           bar.className = 'escape-bar';
@@ -168,6 +192,22 @@
               }
             });
           }
+          var close = document.createElement('button');
+          close.type = 'button';
+          close.className = 'escape-close';
+          close.setAttribute('aria-label', '이 안내 닫기');
+          // Lucide "x", the same close icon the app uses.
+          close.innerHTML =
+            '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
+          close.addEventListener('click', function () {
+            try {
+              sessionStorage.setItem(CLOSED_KEY, '1');
+            } catch (e) {}
+            bar.remove();
+          });
+          bar.appendChild(close);
+          // The app may have drawn its first screen already: same rule as render() (home and install guide only).
+          if (/\/(c|settings|history|about)(\/|$)/.test(location.hash)) bar.hidden = true;
           document.body.prepend(bar);
         });
       })();

@@ -193,21 +193,25 @@ export function renderTodayDone(profile: Profile, c: Collection, listRoute: Rout
 
   document.body.classList.add('night');
   setBack(() => backTo(listRoute));
-  app.innerHTML = `<main class="screen night-screen"><div class="bar">${backButton()}<h1 class="visually-hidden">오늘은 여기까지</h1></div>
-    <div class="moon" aria-hidden="true">${moon(120)}</div>
-    <section aria-label="오늘 본 영상" class="today-row">${seen
-      .map((v) => thumb(v.id, String(v.order), `<span class="badge state done" aria-hidden="true">${icon('check', 24)}</span>`, true))
-      .join('')}</section>
-    ${
-      tomorrow
-        ? `<section aria-label="내일 볼 영상" class="tomorrow">${thumb(tomorrow.id, String(tomorrow.order), `<span class="lock" aria-hidden="true">${icon('lock', 40)}</span>`, true)}</section>`
-        : ''
-    }
-    ${
-      resumable
-        ? `<p class="resume-note"><button class="hero-mini" data-video="${esc(resumable)}" aria-label="보던 영상 마저 보기">${icon('play', 32)}</button></p>`
-        : ''
-    }
+  // The book closes (critique 2026-10-21): the moon and words a parent can read aloud, today's pictures, and
+  // tomorrow small and asleep under the moon instead of behind a lock. ✓ only on what was watched to the end.
+  // 오늘만 더 is a small adult control in the corner, still a 2 s hold before the gate.
+  app.innerHTML = `<main class="screen night-screen"><div class="bar">${backButton()}</div>
+    <div class="night-page">
+      <div class="moon" aria-hidden="true">${moon(132)}</div>
+      <h1 class="night-title">오늘은 여기까지</h1>
+      <p class="night-sub">내일 또 만나요</p>
+      <section aria-label="오늘 본 영상" class="today-row">${seen
+        .map((v) => thumb(v.id, String(v.order), today.finished.includes(v.id) ? `<span class="badge state done" aria-hidden="true">${icon('check', 24)}</span>` : '', true))
+        .join('')}</section>
+      ${
+        resumable
+          ? `<p class="resume-note"><button class="hero-mini" data-video="${esc(resumable)}">${icon('play', 28)}<span>보던 영상 마저 보기</span></button></p>`
+          : tomorrow
+            ? `<section aria-label="내일 볼 영상" class="tomorrow">${thumb(tomorrow.id, String(tomorrow.order), `<span class="badge state locked" aria-hidden="true">${moon(24)}</span>`, true)}<p>내일</p></section>`
+            : ''
+      }
+    </div>
     <p class="more-today-wrap"><button class="more-today holdable" data-action="more-today" aria-label="오늘만 더 (어른만, 2초 동안 누르기)">오늘만 더<span class="hold" aria-hidden="true"></span></button></p>
   </main>`;
   bindBack();

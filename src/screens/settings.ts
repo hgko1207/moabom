@@ -1,5 +1,5 @@
 // Parent screens: settings, about (이용 안내), viewing history and the home-screen install guide.
-import type { NewsItem, Profile } from '../config.ts';
+import type { Profile } from '../config.ts';
 import type { Collection } from '../data.ts';
 import { icon, type IconName } from '../icons.ts';
 import { moon } from '../art.ts';
@@ -47,6 +47,7 @@ import {
   store,
   thumb,
   thumbUrl,
+  unreadNews,
   type Route,
 } from '../ui.ts';
 
@@ -127,7 +128,7 @@ function visibleOf(available: Collection[], current: DeviceSettings): Collection
 
 /**
  * Settings (2026-10-20 review, option A): today on top, then a menu of sub-screens. A new setting goes in
- * "아이 화면" when it changes what the children see, in "이 기기 · 모아봄" when it is about this device or the
+ * "아이 화면" when it changes what the children see, in "기기와 앱" when it is about this device or the
  * app; a single on/off is a switch row in the menu, anything more gets its own section.
  */
 export function renderSettings(profile: Profile, available: Collection[], home: Route, section?: SettingsSection): void {
@@ -186,16 +187,7 @@ function settingsMenu(profile: Profile, available: Collection[], current: Device
 
   app.innerHTML = page(
     '설정',
-    `${
-      news
-        ? `<section class="panel news" aria-label="새 소식">
-      <details><summary><span class="news-date">${newsDate(news.date)} · 새 소식</span><b id="news-title">${esc(news.title)}</b></summary>
-      <p>${esc(news.body)}</p></details>
-      <button class="close" data-action="news-close" data-news="${esc(news.id)}" aria-label="소식 닫기">${icon('close', 24)}</button>
-    </section>`
-        : ''
-    }
-    <section class="panel today" aria-labelledby="today-title">
+    `<section class="panel today" aria-labelledby="today-title">
       <h2 id="today-title">오늘</h2>
       <p class="today-usage">${todayUsage}</p>
       ${share === null ? '' : `<div class="today-meter" aria-hidden="true"><span style="width:${Math.round(share * 100)}%"></span></div>`}
@@ -209,7 +201,16 @@ function settingsMenu(profile: Profile, available: Collection[], current: Device
       <p class="hint" id="more-msg" role="status">${extraNote}</p>`
       }
     </section>
-    <div class="menu">${menuRow('data-action="history"', '시청 기록', '최근 7일')}</div>
+    ${
+      news
+        ? `<section class="panel news" aria-label="새 소식">
+      <details><summary><span class="news-badge">${moon(18)}새 소식 · ${newsDate(news.date)}</span><b id="news-title">${esc(news.title)}</b></summary>
+      <p>${esc(news.body)}</p></details>
+      <button class="close" data-action="news-close" data-news="${esc(news.id)}" aria-label="소식 닫기">${icon('close', 24)}</button>
+    </section>`
+        : ''
+    }
+    <div class="menu">${menuRow('data-action="history"', '시청 기록', `최근 7일 · ${playedTime(weekSeconds(profile))}`)}</div>
     <h2 class="menu-group" id="kids-title">아이 화면</h2>
     <div class="menu" role="group" aria-labelledby="kids-title">
       ${sectionRow('limit', limitSummary(current.limit))}
@@ -217,7 +218,7 @@ function settingsMenu(profile: Profile, available: Collection[], current: Device
       ${sectionRow('buttons', buttonsSummary(current.player, PLAYER_KEYS))}
       ${sectionRow('home', esc(homeTitle(profile.name, current)))}
     </div>
-    <h2 class="menu-group" id="device-title">이 기기 · 모아봄</h2>
+    <h2 class="menu-group" id="device-title">기기와 앱</h2>
     <div class="menu" role="group" aria-labelledby="device-title">
       ${sectionRow('sync', '')}
       ${
@@ -401,11 +402,10 @@ function buttonsBody(available: Collection[], current: DeviceSettings): string {
   const first = visibleOf(available, current)[0];
   const shield = playerShieldOn(buttons);
   const mini = (name: IconName, accent = false) => `<span class="mini-control${accent ? ' accent' : ''}">${icon(name, 24)}</span>`;
-  // Same order as the player: 이전 편, (재생/일시정지 with 버튼 막기), 한 번 더, 다음 편.
+  // Same row as the player while a video plays: 이전 편, (일시정지 with 버튼 막기), 다음 편. 한 번 더 is on the end screen.
   const controls = [
     playerButtonOn(buttons, 'prev') ? mini('skip-back') : '',
-    shield ? mini('pause') : '',
-    playerButtonOn(buttons, 'replay') ? mini('again', true) : '',
+    shield ? mini('pause', true) : '',
     playerButtonOn(buttons, 'next') ? mini('skip-forward') : '',
   ].join('');
   return `${preview(
@@ -413,8 +413,8 @@ function buttonsBody(available: Collection[], current: DeviceSettings): string {
     `<div class="mini-player">${first ? `<img src="${coverOf(first)}" alt="" width="320" height="180">` : ''}
       <div class="mini-controls">${controls || '<span class="mini-none">버튼 없이 영상만 나와요</span>'}</div></div>`,
   )}
-    <div class="menu">${PLAYER_SWITCHES.map(([key, label, name]) => switchRow(`data-button="${key}"`, playerButtonOn(buttons, key), label, '', lead(name))).join('')}</div>
-    <p class="hint">이전·다음 편도 하루 제한을 지키고, 한 번 더는 제한에 닿으면 숨어요.</p>
+    <div class="menu">${PLAYER_SWITCHES.map(([key, label, name]) => switchRow(`data-button="${key}"`, playerButtonOn(buttons, key), label, key === 'replay' ? '영상이 끝난 화면에 나와요' : '', lead(name))).join('')}</div>
+    <p class="hint">이전·다음 편도 하루 제한을 지켜요. 한 번 더는 제한에 닿으면 숨어요.</p>
     <h2 class="menu-group" id="yt-title">YouTube</h2>
     <div class="menu" role="group" aria-labelledby="yt-title">${switchRow('data-action="shield"', shield, 'YouTube 버튼 막기', '영상 속 제목·로고·공유를 못 누르게 해요. 영상을 누르면 멈추고, 자막(CC) 버튼은 사라져요', lead('lock'))}</div>`;
 }
@@ -590,11 +590,6 @@ function newsDate(date: string): string {
   return `${m}월 ${d}일`;
 }
 
-/** The newest news item this device has not closed yet (design DR11). */
-function unreadNews(): NewsItem | undefined {
-  const read = new Set(store.newsRead());
-  return appData.news.find((n) => !read.has(n.id));
-}
 
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -617,7 +612,7 @@ function playedTime(sec: number): string {
 
 /** The Google Form for character and video requests (respondent link, no login needed); the row hides when empty. */
 const REQUEST_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScKS_JOU0xznBZ_NMsMN2g9RXixgC1y7jwo13bkfUUpAhCJmQ/viewform';
-const ABOUT_EDITED = '2026-10-19';
+const ABOUT_EDITED = '2026-10-21';
 
 function linkRow(url: string, label: string): string {
   return `<a class="link-row" href="${esc(url)}" target="_blank" rel="noopener"><span>${esc(label)}</span>${icon('external-link', 24)}</a>`;
@@ -627,10 +622,17 @@ export function renderAbout(profile: Profile): void {
   const read = new Set(store.newsRead());
   const past = appData.news.filter((n) => read.has(n.id));
   setBack(() => backTo({ profile: profile.id, settings: true }));
+  // A visiting parent's questions first (critique 2026-10-21): what it shows, how the day ends, ads. Then storage.
   app.innerHTML = `<main class="screen settings about"><div class="bar">${backButton()}<h1>이용 안내</h1></div>
+    <section class="panel" aria-labelledby="about-promise">
+      <h2 id="about-promise">모아봄은</h2>
+      <p>공식 채널(제작사) 영상만 모아, 1화부터 순서대로 보여 줘요.</p>
+      <p>하루 제한을 정하면 그만큼 본 뒤 달이 뜨고 "오늘은 여기까지"로 끝나요.</p>
+      <p>영상은 YouTube가 재생해서, 영상 앞이나 중간에 YouTube 광고가 나올 수 있어요. 모아봄은 광고를 넣지 않고, 돈을 받지 않아요.</p>
+    </section>
     <section class="panel" aria-labelledby="about-stored">
       <h2 id="about-stored">저장되는 것</h2>
-      <p>시청 기록, 진도, 설정은 이 기기의 브라우저에만 저장되고 어디로도 보내지 않아요. 다른 기기로 옮기려면 설정의 "이 설정 보내기"를 직접 눌러야 해요.</p>
+      <p>시청 기록, 진도, 설정은 이 기기의 브라우저에만 저장돼요. 다른 기기로 옮기려면 설정의 "이 설정 보내기"를 직접 눌러야 해요. 밖으로 나가는 것은 아래의 익명 숫자뿐이에요.</p>
     </section>
     <section class="panel" aria-labelledby="about-youtube">
       <h2 id="about-youtube">YouTube</h2>
@@ -641,7 +643,8 @@ export function renderAbout(profile: Profile): void {
     <section class="panel" aria-labelledby="about-stats">
       <h2 id="about-stats">익명 통계</h2>
       <p>어떤 홍보 글에서 왔는지, 영상을 몇 번 틀었는지 같은 숫자만 GoatCounter로 보내요. 쿠키는 쓰지 않고, 아이 이름·설정·기록은 보내지 않아요. 설정의 "익명 통계 보내기"를 끄면 이 기기는 아무것도 보내지 않아요.</p>
-      <p>보내는 것: 이벤트 이름(visit, first_play, play_start, limit_reached, video_error, collection_open, request_click, inapp_escape)과, 그 안에 붙는 홍보 경로(insta 같은 짧은 이름)·캐릭터 이름·영상 번호·오류 번호.</p>
+      <details class="about-more"><summary>보내는 것 자세히</summary>
+      <p>보내는 것: 이벤트 이름(visit, first_play, play_start, limit_reached, video_error, collection_open, request_click, inapp_escape)과, 그 안에 붙는 홍보 경로(insta 같은 짧은 이름)·캐릭터 이름·영상 번호·오류 번호.</p></details>
       ${linkRow('https://www.goatcounter.com/help/privacy', 'GoatCounter 개인정보 정책 (IP 처리)')}
     </section>
     <section class="panel" aria-labelledby="about-maker">
@@ -727,6 +730,13 @@ export function renderHistory(profile: Profile): void {
 // ---------- 홈 화면에 추가 (install guide) ----------
 
 /** A step with the menu names a parent has to find ("설치" etc.) set off, so they can be spotted on the phone. */
+/** The last 7 days on this device, as the history screen counts them (its heading shows the same total). */
+function weekSeconds(profile: Profile): number {
+  const today = localDate(new Date());
+  const merged = withToday(store.history(profile.id), store.today(profile.id, today), collectionOfVideo);
+  return recentDays(merged, today, 7).reduce((n, d) => n + d.seconds, 0);
+}
+
 function stepText(step: string): string {
   return esc(step).replace(/&#34;(.+?)&#34;/g, '<b class="menu-name">$1</b>');
 }

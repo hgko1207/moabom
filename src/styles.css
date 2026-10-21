@@ -7,6 +7,11 @@
   --ink-2: #5b6b62;
   --line: #dfe6d6;
   --switch-off: #76847c; /* off track, 3.9:1 on --surface */
+  /* notice kinds (2026-10-21): 새 소식 takes the moon's gold, 문제 a soft red; both keep text at 4.5:1 or more */
+  --news: #fbefc6;
+  --news-ink: #7a5300;
+  --trouble: #fbe4dc;
+  --trouble-ink: #8f2f17;
   --done: #1f9d55;
   --night: #1e2340;
   --night-ink: #e8eaf6;
@@ -424,9 +429,10 @@ button:active:not([aria-disabled='true']) {
   width: var(--target);
   height: var(--target);
   border-radius: var(--radius);
-  background: var(--accent);
+  background: var(--accent-ink);
   display: grid;
   place-items: center;
+  color: var(--surface);
 }
 
 .stale {
@@ -563,8 +569,8 @@ button:active:not([aria-disabled='true']) {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: var(--accent);
-  color: var(--ink);
+  background: var(--accent-ink);
+  color: var(--surface);
   display: grid;
   place-items: center;
 }
@@ -599,8 +605,8 @@ button:active:not([aria-disabled='true']) {
   bottom: var(--s1);
   padding: 4px 8px;
   border-radius: 8px;
-  background: var(--accent);
-  color: var(--ink);
+  background: var(--accent-ink);
+  color: var(--surface);
   font-size: 16px;
 }
 
@@ -746,11 +752,40 @@ body.night {
   color: var(--night-ink);
 }
 
+.night-screen {
+  display: flex;
+  flex-direction: column;
+}
+
+/* The page sits in the middle of the night, on phones and tablets alike. */
+.night-page {
+  flex: 1;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  padding-bottom: var(--s4);
+}
+
+.night-title {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  color: var(--night-ink);
+}
+
+.night-sub {
+  margin: 4px 0 var(--s4);
+  font-size: 18px;
+  color: var(--night-ink);
+}
+
 .night-screen .moon {
   display: grid;
   place-items: center;
   color: #f6d365;
-  margin: var(--s2) 0 var(--s3);
+  margin: 0 0 var(--s2);
   animation: moon-settle 700ms cubic-bezier(0.25, 1, 0.5, 1) both;
 }
 
@@ -771,17 +806,20 @@ body.night {
   margin-top: var(--s4);
 }
 
+/* Tomorrow is smaller than today and asleep: the picture fades, the moon badge stays bright. */
 .tomorrow .thumb {
-  width: 240px;
-  opacity: 0.6;
+  width: 140px;
 }
 
-.tomorrow .lock {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  color: var(--surface);
+.tomorrow .thumb img {
+  opacity: 0.45;
+}
+
+.tomorrow p {
+  margin: 6px 0 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--night-ink);
 }
 
 .resume-note {
@@ -791,20 +829,16 @@ body.night {
 }
 
 .hero-mini {
-  width: 88px;
-  height: 88px;
-  border-radius: 50%;
-  background: var(--accent);
-  color: var(--ink);
-  display: grid;
-  place-items: center;
-}
-
-.tomorrow .lock .icon {
-  box-sizing: content-box;
-  padding: 16px;
-  border-radius: 50%;
-  background: var(--night);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--target);
+  padding: 0 var(--s3);
+  border-radius: 16px;
+  background: var(--accent-ink);
+  color: var(--surface);
+  font-size: 18px;
+  font-weight: 700;
 }
 
 /* Shown only inside KakaoTalk's in-app browser if the hand-off to Chrome/Safari did not happen */
@@ -927,32 +961,67 @@ body.night {
   min-height: var(--target);
   padding: 0 var(--s3);
   border-radius: var(--radius);
-  background: var(--accent);
-  color: var(--ink);
+  background: var(--accent-ink);
+  color: var(--surface);
   font-weight: 700;
 }
 
+/* The install card at the bottom of home (a 해야 할 일 notice): title, why, how on this device, one action. */
 .install-hint {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  justify-items: start;
-  gap: 0 var(--s1);
-  margin-top: var(--s3);
-  padding: var(--s2) var(--s1) var(--s2) var(--s3);
+  position: relative;
+  margin-top: var(--s4);
+  padding: var(--s3);
   border-radius: var(--radius);
   background: var(--surface);
-  border: 2px solid var(--line);
+  box-shadow: inset 0 0 0 3px var(--accent);
+}
+
+.install-hint h2 {
+  padding-right: 48px; /* room for the close button */
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
+  margin: 0 0 var(--s1);
+  font-size: 18px;
+  font-weight: 800;
+  word-break: keep-all;
+}
+
+.install-hint h2 .icon {
+  flex: none;
+  color: var(--accent-ink);
 }
 
 .install-hint p {
-  margin: 0;
+  margin: 0 0 var(--s1);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-2);
   word-break: keep-all;
-  font-size: 17px;
-  font-weight: 600;
+}
+
+.install-hint .install-how .menu-name {
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--accent) 16%, var(--surface));
+  color: var(--ink);
+  font-weight: 700;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.install-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s1) var(--s2);
+  margin-top: var(--s2);
 }
 
 .install-hint .close {
+  position: absolute;
+  top: var(--s1);
+  right: var(--s1);
   width: var(--target);
   height: var(--target);
   display: grid;
@@ -1070,8 +1139,8 @@ body.night {
   margin-bottom: var(--s1);
   padding: 4px 12px;
   border-radius: var(--radius);
-  background: var(--accent);
-  color: var(--ink);
+  background: var(--accent-ink);
+  color: var(--surface);
   font-size: 16px;
   font-weight: 700;
 }
@@ -1553,20 +1622,22 @@ details.paste summary::-webkit-details-marker {
 /* 오늘만 더 on the moon screen (P2-3, R21): a quiet parent button with the gear's 2 s hold ring */
 .more-today-wrap {
   display: grid;
-  justify-items: center;
+  justify-items: end;
   gap: var(--s1);
-  margin-top: var(--s4);
+  margin: 0;
 }
 
+/* Small and quiet in the corner: an adult control, not the screen's call to action (critique 2026-10-21). */
 .more-today {
   position: relative;
-  min-height: var(--target);
-  padding: 0 var(--s3);
+  min-height: 44px;
+  padding: 0 14px;
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(232, 234, 246, 0.28);
+  background: none;
   color: var(--night-ink);
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
   -webkit-touch-callout: none;
   user-select: none;
   touch-action: none;
@@ -1778,8 +1849,10 @@ details.paste summary::-webkit-details-marker {
 
 /* Player: the buttons sit together on one paper panel; 한 번 더 in the middle is the filled one. */
 
-.control[data-action='replay'] {
-  background: var(--accent);
+/* Filled controls and chips carry words or icons, so they use the deep accent with paper text (5.99:1);
+   the bright accent stays for outlines, rings and bars (2026-10-21, button colour B). */
+.control.fill {
+  background: var(--accent-ink);
   color: var(--surface);
 }
 
@@ -2165,8 +2238,8 @@ details.paste summary::-webkit-details-marker {
 }
 
 .mini-control.accent {
-  background: var(--accent);
-  color: #fff;
+  background: var(--accent-ink);
+  color: var(--surface);
 }
 
 .mini-none {
@@ -2218,8 +2291,8 @@ details.paste summary::-webkit-details-marker {
   gap: 4px;
   padding: 4px 10px;
   border-radius: 10px;
-  background: var(--accent);
-  color: var(--ink);
+  background: var(--accent-ink);
+  color: var(--surface);
   font-size: 13px;
   font-weight: 700;
 }
@@ -2379,8 +2452,8 @@ details.paste summary::-webkit-details-marker {
 .mine-tag {
   padding: 2px 10px;
   border-radius: 8px;
-  background: var(--accent);
-  color: var(--ink);
+  background: var(--accent-ink);
+  color: var(--surface);
   font-size: 14px;
   font-weight: 700;
 }
@@ -2564,4 +2637,146 @@ details.paste summary::-webkit-details-marker {
   place-items: center;
   border-radius: 50%;
   color: var(--ink-2);
+}
+
+.gate-why {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  text-align: center;
+  word-break: keep-all;
+}
+
+.about-more summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ---------- Notices (2026-10-21): one look per kind ----------
+   새 소식 = gold paper + a moon badge (settings) and a gold dot on the gear (home).
+   해야 할 일 = paper card with the accent outline and one filled button (install, received settings).
+   알려 주기 = no box, a line and words (intro, notes, "적용했어요").
+   문제 = soft red with the problem and what happens next (offline). */
+.panel.news {
+  background: var(--news);
+}
+
+.news-badge {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+  padding: 2px 10px 2px 6px;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--news-ink);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.panel.news .close {
+  color: var(--news-ink);
+}
+
+.gear {
+  position: relative;
+}
+
+.gear .news-dot {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #f6d365;
+  border: 2px solid var(--news-ink);
+}
+
+.sync-note {
+  padding-bottom: var(--s1);
+  border-bottom: 1px solid var(--line);
+}
+
+.notice.trouble {
+  background: var(--trouble);
+  color: var(--trouble-ink);
+}
+
+.notice.trouble p {
+  margin: 0;
+  font-size: 15px;
+  color: #6d3a2c;
+  word-break: keep-all;
+}
+
+.notice.trouble p b {
+  display: block;
+  font-size: 17px;
+  color: var(--trouble-ink);
+}
+
+/* First visit: the intro line is words only; installing has its own card at the bottom. */
+.intro-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.hidden-line {
+  margin: var(--s1) 0 var(--s2);
+  text-align: center;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.text-button {
+  display: inline;
+  color: var(--accent-ink);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.home-trust {
+  margin-top: var(--s4);
+  padding-top: var(--s2);
+  border-top: 1px solid var(--line);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  word-break: keep-all;
+}
+
+.home-trust b {
+  color: var(--ink);
+}
+
+/* Tablets: the closing page fills the night instead of floating small in it. */
+@media (min-width: 700px) {
+  .night-screen .moon .art-moon {
+    width: 200px;
+    height: 200px;
+  }
+
+  .night-title {
+    font-size: 40px;
+  }
+
+  .night-sub {
+    font-size: 22px;
+  }
+
+  .today-row .thumb {
+    width: 260px;
+  }
+
+  .tomorrow .thumb {
+    width: 180px;
+  }
 }

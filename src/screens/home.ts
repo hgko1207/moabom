@@ -83,18 +83,21 @@ export function renderCollections(profile: Profile, collections: Collection[], s
       <h2 id="cat-${esc(cat.id)}">${glyph}${esc(cat.label)}</h2>${tiles(row.items, cat.label)}</section>`;
           })
           .join('');
-  // First visit: one quiet line under the title says what this is (critique 2026-10-20); the install hint waits
-  // at the bottom until it is closed, so there is still one message at a time (DR16).
+  // First visit: one quiet line under the title says what this is (critique 2026-10-20). Installing has its own
+  // card at the bottom (2026-10-21), so the two never compete for the top.
   const intro = store.introDismissed() ? '' : introLine();
   // The mark always shows, whatever the title says (design DR28); in --ink, never the brand colour (DR21).
   app.innerHTML = `<main class="screen"><div class="bar home-bar">${showBack ? backButton() : ''}${logo(40)}<h1>${esc(homeTitle(profile.name, settings))}</h1>${gearButton()}</div>
     ${intro}${offlineNotice()}
     ${resting ? bedtimeHtml(collections, views) : settings?.homeContinue === false ? '' : homeContinueHtml(collections, views)}
-    ${body}${intro ? '' : installHint()}${staleNote()}</main>`;
+    ${body}${hiddenLine(profile)}${installHint()}${staleNote()}${trustNote()}</main>`;
   bindBack();
   bindGear(profile.id);
   bindInstallHint(profile.id);
   app.querySelector('[data-action="intro-about"]')?.addEventListener('click', () => go({ profile: profile.id, about: true }));
+  app.querySelector('[data-action="hidden-settings"]')?.addEventListener('click', () =>
+    go({ profile: profile.id, settings: true, section: 'characters' }),
+  );
   app.querySelector('[data-action="intro-dismiss"]')?.addEventListener('click', () => {
     store.dismissIntro();
     app.querySelector('.intro')?.remove();
@@ -120,8 +123,20 @@ export function renderCollections(profile: Profile, collections: Collection[], s
  */
 function introLine(): string {
   return `<aside class="intro" aria-label="모아봄 소개">
-    <p>공식 채널 영상만 모은, 부모가 만든 무료 앱이에요. 하루 제한은 톱니를 2초 눌러 정해요. <button class="intro-more" data-action="intro-about">자세히</button></p>
+    <div class="intro-body"><p>공식 채널 영상만 모은, 부모가 만든 무료 앱이에요. 하루 제한은 톱니를 2초 눌러 정해요. <button class="intro-more" data-action="intro-about">자세히</button></p></div>
     <button class="close" data-action="intro-dismiss" aria-label="소개 닫기">${icon('close', 24)}</button></aside>`;
+}
+
+/** Only when a parent hid characters: how many, and where to turn them back on (from video-cards). */
+function hiddenLine(profile: Profile): string {
+  const hidden = new Set(store.settings()?.hidden ?? []);
+  const n = profile.collections.filter((id) => appData.collections.has(id) && hidden.has(id)).length;
+  return n ? `<p class="hidden-line">숨긴 캐릭터 ${n}개 · <button class="text-button" data-action="hidden-settings">설정</button>에서 다시 켤 수 있어요</p>` : '';
+}
+
+/** Always at the bottom of home: why a visiting parent can trust it (the same facts as 이용 안내). */
+function trustNote(): string {
+  return `<footer class="home-trust"><b>공식 채널 영상만, 순서대로.</b> 영상은 YouTube에서 재생돼요. 각 채널(제작사)의 공식 서비스가 아니라, 아이 둘을 키우는 부모가 만든 무료 도구예요. 본 기록은 이 기기에만 저장돼요.</footer>`;
 }
 
 /**

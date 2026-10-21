@@ -2,7 +2,7 @@
 import { ANSWER_DIGITS, lockRemaining, newProblem, recordRight, recordWrong, waitText } from '../gate.ts';
 import { icon } from '../icons.ts';
 import { localDate } from '../rules.ts';
-import { app, backButton, bindBack, onLeave, render, replace, setBack, store, type Route } from '../ui.ts';
+import { app, backButton, bindBack, esc, onLeave, render, replace, setBack, store, type Route } from '../ui.ts';
 
 const KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '', '0', 'del'];
 
@@ -10,7 +10,11 @@ const KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '', '0', 'del'];
  * Asks before a parent screen. `home` is where ◀ goes (always replace, DR9); `onUnlock` runs after a right
  * answer and then the screen the parent was opening is drawn.
  */
-export function renderGate(home: Route, onUnlock: () => void): void {
+/**
+ * `why` is one quiet line about where the parent is going (critique 2026-10-21): the gate used to show a bare
+ * number, with no reason and no hint that the answer is typed as digits.
+ */
+export function renderGate(home: Route, onUnlock: () => void, why = '설정은 어른만 바꿀 수 있어요'): void {
   setBack(() => replace(home));
   const today = localDate(new Date());
   const lockMs = lockRemaining(store.gateLock(), Date.now(), today);
@@ -20,6 +24,7 @@ export function renderGate(home: Route, onUnlock: () => void): void {
   let typed = '';
   app.innerHTML = `<main class="screen gate"><div class="bar">${backButton()}<h1>어른 확인</h1></div>
     <div class="gate-body">
+      <p class="gate-why">${esc(why)}<br>글자로 쓴 수를 숫자로 눌러 주세요</p>
       <div class="gate-ask">
         <p class="problem" id="gate-problem"></p>
         <div class="cells" aria-hidden="true">${'<span class="cell"></span>'.repeat(ANSWER_DIGITS)}</div>

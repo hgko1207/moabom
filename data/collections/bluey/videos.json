@@ -1,6 +1,6 @@
 {
   "collectionId": "bluey",
-  "fetchedAt": "2026-10-19T21:48:53.164Z",
+  "fetchedAt": "2026-10-26T22:00:42.442Z",
   "groups": [
     {
       "id": "ep",
@@ -182,13 +182,22 @@
       "id": "long",
       "videos": [
         {
+          "id": "lrC0O6DI_dY",
+          "title": "캠핑 🏕️💙 | 40분 | 블루이 - 한국 공식 채널 - Bluey",
+          "displayTitle": "캠핑 🏕️💙",
+          "durationSec": 2374,
+          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
+          "group": "long",
+          "order": 1
+        },
+        {
           "id": "I3uXps93lTo",
           "title": "수영장 🤿🐠 | 1시간 넘게 온 가족이 함께 즐길 수 있는 재미 💙 | 블루이 - 한국 공식 채널 - Bluey",
           "displayTitle": "수영장 🤿🐠",
           "durationSec": 3921,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "long",
-          "order": 1
+          "order": 2
         },
         {
           "id": "PJL72DBYVLc",
@@ -197,7 +206,7 @@
           "durationSec": 2039,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "long",
-          "order": 2
+          "order": 3
         },
         {
           "id": "UeLqYrLXXTA",
@@ -206,7 +215,7 @@
           "durationSec": 3912,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "long",
-          "order": 3
+          "order": 4
         },
         {
           "id": "-VfmDgnane4",
@@ -215,7 +224,7 @@
           "durationSec": 1874,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "long",
-          "order": 4
+          "order": 5
         },
         {
           "id": "gYJIUuwPbWA",
@@ -224,7 +233,7 @@
           "durationSec": 1868,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "long",
-          "order": 5
+          "order": 6
         },
         {
           "id": "bdWBJHr2lvU",
@@ -233,7 +242,7 @@
           "durationSec": 2377,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "long",
-          "order": 6
+          "order": 7
         },
         {
           "id": "HaYnPGckSao",
@@ -242,7 +251,7 @@
           "durationSec": 1862,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "long",
-          "order": 7
+          "order": 8
         },
         {
           "id": "WIRB9sGmrd4",
@@ -251,7 +260,7 @@
           "durationSec": 1802,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "long",
-          "order": 8
+          "order": 9
         },
         {
           "id": "96z7aX2FtzI",
@@ -260,7 +269,7 @@
           "durationSec": 1818,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "long",
-          "order": 9
+          "order": 10
         },
         {
           "id": "xi2gxAZkj9I",
@@ -269,7 +278,7 @@
           "durationSec": 1839,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "long",
-          "order": 10
+          "order": 11
         },
         {
           "id": "IvNIyRTL-7g",
@@ -278,7 +287,7 @@
           "durationSec": 1901,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "long",
-          "order": 11
+          "order": 12
         },
         {
           "id": "odvSZ2oWCQM",
@@ -287,7 +296,7 @@
           "durationSec": 2374,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "long",
-          "order": 12
+          "order": 13
         },
         {
           "id": "gS-Qua7xyWQ",
@@ -296,7 +305,7 @@
           "durationSec": 2408,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "long",
-          "order": 13
+          "order": 14
         },
         {
           "id": "otnnSrnz1VI",
@@ -305,7 +314,7 @@
           "durationSec": 2316,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "long",
-          "order": 14
+          "order": 15
         }
       ]
     },

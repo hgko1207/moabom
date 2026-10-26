@@ -1,6 +1,6 @@
 {
   "collectionId": "colourblocks",
-  "fetchedAt": "2026-10-19T21:48:53.164Z",
+  "fetchedAt": "2026-10-26T22:00:42.442Z",
   "groups": [
     {
       "id": "s1",
@@ -412,13 +412,40 @@
       "id": "mix",
       "videos": [
         {
+          "id": "rM0msdIqc-Q",
+          "title": "What's in Your Trick or Treat Bucket? | Kids Learn Halloween Colours Compilation | Colourblocks",
+          "displayTitle": "What's in Your Trick or Treat Bucket?",
+          "durationSec": 2167,
+          "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
+          "group": "mix",
+          "order": 1
+        },
+        {
+          "id": "Cd-UEA0fRC4",
+          "title": "The Spooky Halloween Legend of Lime  | Spooky Halloween Colours Compilation | Colourblocks",
+          "displayTitle": "The Spooky Halloween Legend of Lime",
+          "durationSec": 2168,
+          "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
+          "group": "mix",
+          "order": 2
+        },
+        {
+          "id": "GyHosL5bnk0",
+          "title": "The Colour Club - The Halloween Colour Spectacular | Kids Learn Halloween Colours | Colourblocks",
+          "displayTitle": "The Colour Club - The Halloween Colour Spectacular",
+          "durationSec": 1671,
+          "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
+          "group": "mix",
+          "order": 3
+        },
+        {
           "id": "28EVboATe1k",
           "title": "Little Red Riding Hood | Spooky Halloween Cartoons Compilation | Colourblocks",
           "displayTitle": "Little Red Riding Hood",
           "durationSec": 2168,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 1
+          "order": 4
         },
         {
           "id": "mmwFfLfHVaE",
@@ -427,7 +454,7 @@
           "durationSec": 4327,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 2
+          "order": 5
         },
         {
           "id": "TeRNANVAUPs",
@@ -436,7 +463,7 @@
           "durationSec": 1536,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 3
+          "order": 6
         },
         {
           "id": "HxTeNmucxPY",
@@ -445,7 +472,7 @@
           "durationSec": 3786,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 4
+          "order": 7
         },
         {
           "id": "JfEBiIUstvY",
@@ -454,7 +481,7 @@
           "durationSec": 1898,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 5
+          "order": 8
         },
         {
           "id": "VSA2OQiWn3g",
@@ -463,7 +490,7 @@
           "durationSec": 1431,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 6
+          "order": 9
         },
         {
           "id": "GGkMrTJWLEc",
@@ -472,7 +499,7 @@
           "durationSec": 1897,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 7
+          "order": 10
         },
         {
           "id": "mVVxxdOhVw0",
@@ -481,7 +508,7 @@
           "durationSec": 2167,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 8
+          "order": 11
         },
         {
           "id": "tCjCdbNR1-c",
@@ -490,7 +517,7 @@
           "durationSec": 1665,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 9
+          "order": 12
         },
         {
           "id": "SkbXGzK1M7k",
@@ -499,7 +526,7 @@
           "durationSec": 3787,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 10
+          "order": 13
         },
         {
           "id": "82wu7bD5RcQ",
@@ -508,7 +535,7 @@
           "durationSec": 2168,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 11
+          "order": 14
         },
         {
           "id": "v94OmEC8JJo",
@@ -517,7 +544,7 @@
           "durationSec": 1791,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 12
+          "order": 15
         },
         {
           "id": "KzJSo3q1bm8",
@@ -526,7 +553,7 @@
           "durationSec": 2167,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 13
+          "order": 16
         },
         {
           "id": "fWQcdulijRU",
@@ -535,7 +562,7 @@
           "durationSec": 1313,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 14
+          "order": 17
         },
         {
           "id": "CbhNcYBroWY",
@@ -544,7 +571,7 @@
           "durationSec": 2708,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 15
+          "order": 18
         },
         {
           "id": "6ifHh70VWSo",
@@ -553,7 +580,7 @@
           "durationSec": 2707,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 16
+          "order": 19
         },
         {
           "id": "TM2jOSxHmHA",
@@ -562,7 +589,7 @@
           "durationSec": 1548,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 17
+          "order": 20
         },
         {
           "id": "rEFeO5Nz-l0",
@@ -571,7 +598,7 @@
           "durationSec": 1896,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 18
+          "order": 21
         },
         {
           "id": "XW6Ky5DtGzM",
@@ -580,7 +607,7 @@
           "durationSec": 2977,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 19
+          "order": 22
         },
         {
           "id": "BqJUZIvkyZE",
@@ -589,7 +616,7 @@
           "durationSec": 2970,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 20
+          "order": 23
         },
         {
           "id": "xLaG2Wj-FI0",
@@ -598,7 +625,7 @@
           "durationSec": 2707,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 21
+          "order": 24
         },
         {
           "id": "p17e6MDND0E",
@@ -607,7 +634,7 @@
           "durationSec": 3787,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 22
+          "order": 25
         },
         {
           "id": "H-u7H1RgZ-8",
@@ -616,7 +643,7 @@
           "durationSec": 1559,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 23
+          "order": 26
         },
         {
           "id": "rPd2QWePF-A",
@@ -625,7 +652,7 @@
           "durationSec": 2168,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 24
+          "order": 27
         },
         {
           "id": "GKCKuKoR1X8",
@@ -634,7 +661,7 @@
           "durationSec": 1654,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 25
+          "order": 28
         },
         {
           "id": "xcHCs2LKi_g",
@@ -643,40 +670,13 @@
           "durationSec": 1787,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
-          "order": 26
+          "order": 29
         },
         {
           "id": "-bpP3RORoD8",
           "title": "The Road so Far - Colours and Fun! | Kids Learn Colours Compilation | Colourblocks",
           "displayTitle": "The Road so Far - Colours and Fun!",
           "durationSec": 5945,
-          "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
-          "group": "mix",
-          "order": 27
-        },
-        {
-          "id": "MpIxsEH8WLU",
-          "title": "Full Episodes of the Colourblocks  | Kids Learn Colours Compilation | Colourblocks",
-          "displayTitle": "Full Episodes of the Colourblocks",
-          "durationSec": 3787,
-          "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
-          "group": "mix",
-          "order": 28
-        },
-        {
-          "id": "8WulvR-cDrU",
-          "title": "Summer Vacation Colours! | Kids Learn Colours Compilation | Colourblocks",
-          "displayTitle": "Summer Vacation Colours!",
-          "durationSec": 2707,
-          "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
-          "group": "mix",
-          "order": 29
-        },
-        {
-          "id": "XO8fxRKHWXA",
-          "title": "Let's Look at Colour Patterns | Kids Learn Colours Compilation | Colourblocks",
-          "displayTitle": "Let's Look at Colour Patterns",
-          "durationSec": 1908,
           "channelId": "UCQkuKPaVlYK7QCIVTb0lV2Q",
           "group": "mix",
           "order": 30

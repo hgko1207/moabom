@@ -1,6 +1,6 @@
 {
   "collectionId": "octonauts",
-  "fetchedAt": "2026-10-19T21:48:53.164Z",
+  "fetchedAt": "2026-10-26T22:00:42.442Z",
   "groups": [
     {
       "id": "s1",
@@ -1099,15 +1099,6 @@
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
           "order": 27
-        },
-        {
-          "id": "ziGknsQrjF0",
-          "title": "바다 탐험대 옥토넛 - 🕵️ 바다의 명탐정 🔍  - 30분+ 편집 - 모음집",
-          "displayTitle": "바다의 명탐정",
-          "durationSec": 1810,
-          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
-          "group": "mix",
-          "order": 28
         }
       ]
     }

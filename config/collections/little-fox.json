@@ -1,0 +1,52 @@
+{
+  "id": "little-fox",
+  "displayName": "리틀팍스",
+  "category": "stories",
+  "enabled": true,
+  "channels": [
+    "UCUyOOQKJxRhzxrPOSLArYTA"
+  ],
+  "coverVideoId": null,
+  "groupLabel": "모음",
+  "groups": [
+    {
+      "id": "level-1",
+      "label": "1단계",
+      "playlistId": "PLAObE_5X1bMcpktZ3X3z1fyLJwl2ifR8h"
+    },
+    {
+      "id": "level-2",
+      "label": "2단계",
+      "playlistId": "PLAObE_5X1bMc46IycW_a1gufZ877m9_sH"
+    },
+    {
+      "id": "level-3",
+      "label": "3단계",
+      "playlistId": "PLAObE_5X1bMfUmt4hdSuvdEASxKNnhRuC"
+    },
+    {
+      "id": "classics",
+      "label": "세계명작",
+      "kind": "free",
+      "playlistId": "PLAObE_5X1bMebVmkPuu0LFsH3kYG8OJiB"
+    },
+    {
+      "id": "songs",
+      "label": "동요",
+      "kind": "free",
+      "playlistId": "PLAObE_5X1bMcIr3b0UmH1P7BpBtueEAYo"
+    }
+  ],
+  "excludeShorts": false,
+  "titleExcludePatterns": [
+    "동화\\s?소개",
+    "소개\\s?영상",
+    "미리\\s?보기",
+    "#shorts",
+    "인터뷰"
+  ],
+  "titleStripPatterns": [
+    "^\\d+곡\\s*[|ㅣ]\\s*",
+    "\\s*[|ㅣ].*$"
+  ]
+}

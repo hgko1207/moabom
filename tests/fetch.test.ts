@@ -125,6 +125,14 @@ describe('selectVideos', () => {
     );
     expect(kept.map((v) => [v.id, v.order])).toEqual([['a', 1]]);
   });
+
+  it("leaves out videos longer than the group's maxSec (Bluey's episode playlist starts with a 40-min compilation)", () => {
+    const cfg = config();
+    const capped = { ...cfg, groups: [{ ...cfg.groups[0]!, maxSec: 900 }] };
+    const { kept, logs } = run(capped, [video('comp', { durationSec: 2400 }), video('ep1', { durationSec: 420 })]);
+    expect(kept.map((v) => [v.id, v.order])).toEqual([['ep1', 1]]);
+    expect(logs.join('\n')).toContain('maxSec');
+  });
 });
 
 const data = (counts: number[]): CollectionData => ({

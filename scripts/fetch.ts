@@ -76,6 +76,10 @@ export function selectVideos(
       log(`WARNING ${at}: ${v.durationSec}s is treated as a Short, skipped ("${v.title}")`);
       continue;
     }
+    if (group.maxSec !== undefined && v.durationSec > group.maxSec) {
+      log(`${at}: ${v.durationSec}s is longer than this group's maxSec ${group.maxSec}, skipped ("${v.title}")`);
+      continue;
+    }
     if (exclude.some((re) => re.test(v.title))) {
       log(`${at}: title matches titleExcludePatterns, skipped`);
       continue;

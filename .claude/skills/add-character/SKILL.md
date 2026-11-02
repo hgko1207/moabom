@@ -39,6 +39,7 @@ How to design tabs:
 - **free** tabs (`"kind": "free"`) = pick-any: compilations (`uploads: {"minSec": 901}` or `1800`, add `"latest": 30` if there are many), "best moments"/theme playlists.
 - If there is no usable episode playlist but titles are numbered, use `npm run draft-groups -- --collection <id> --ranges 1-15,16-30` after writing the config with `channels` (it writes `data/collections/<id>/draft-groups.json`, gitignored) and copy the approved `videos` lists in.
 - Skip Shorts playlists, trailers, song-only or non-show playlists unless the user asks. `excludeShorts` treats anything **≤ 180 s** as a Short, so set it to `false` when the chosen playlists are curated episodes that often run about 3 minutes (e.g. 깨비키즈); keep `true` for `uploads` rules over a channel full of Shorts.
+- If an episode playlist mixes in long compilations, give that group `"maxSec": 900` so only real episodes stay (the compilations belong in a free tab).
 - Labels are short Korean words a parent recognises: 에피소드, 시즌 1, 모음집, 긴 모음, 노래.
 
 ### 4. Write config

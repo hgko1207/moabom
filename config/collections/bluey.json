@@ -12,7 +12,8 @@
     {
       "id": "ep",
       "label": "에피소드",
-      "playlistId": "PLPrhyopf_mxvdhY9clr2smOS81fMUNdnP"
+      "playlistId": "PLPrhyopf_mxvdhY9clr2smOS81fMUNdnP",
+      "maxSec": 900
     },
     {
       "id": "long",

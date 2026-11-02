@@ -1,19 +1,10 @@
 {
   "collectionId": "bluey",
-  "fetchedAt": "2026-11-02T14:05:02.096Z",
+  "fetchedAt": "2026-11-02T14:10:36.391Z",
   "groups": [
     {
       "id": "ep",
       "videos": [
-        {
-          "id": "odvSZ2oWCQM",
-          "title": "블루리 시리즈 3 전체 에피소드 | 40분 | 블루이 - 한국 공식 채널 - Bluey",
-          "displayTitle": "블루이 시리즈 3 전체 에피소드",
-          "durationSec": 2374,
-          "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
-          "group": "ep",
-          "order": 1
-        },
         {
           "id": "tIPTvnAaPGI",
           "title": "화상 채팅 😮 💜 | 블루이 전체 에피소드 | 블루이 - 한국 공식 채널 - Bluey 🇰🇷",
@@ -21,7 +12,7 @@
           "durationSec": 420,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "ep",
-          "order": 2
+          "order": 1
         },
         {
           "id": "_LwVvrONX68",
@@ -30,7 +21,7 @@
           "durationSec": 420,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "ep",
-          "order": 3
+          "order": 2
         },
         {
           "id": "_iQWI7PylPQ",
@@ -39,7 +30,7 @@
           "durationSec": 480,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "ep",
-          "order": 4
+          "order": 3
         },
         {
           "id": "P_6RLdrDilY",
@@ -48,7 +39,7 @@
           "durationSec": 420,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "ep",
-          "order": 5
+          "order": 4
         },
         {
           "id": "fQiPsc6Te_w",
@@ -57,7 +48,7 @@
           "durationSec": 421,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "ep",
-          "order": 6
+          "order": 5
         },
         {
           "id": "OtOBBLQK7-o",
@@ -66,7 +57,7 @@
           "durationSec": 416,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "ep",
-          "order": 7
+          "order": 6
         },
         {
           "id": "f8hQeZjmMo4",
@@ -75,7 +66,7 @@
           "durationSec": 435,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "ep",
-          "order": 8
+          "order": 7
         },
         {
           "id": "Y-fPaYxyaQM",
@@ -84,7 +75,7 @@
           "durationSec": 405,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "ep",
-          "order": 9
+          "order": 8
         },
         {
           "id": "T6bO2bjGYJc",
@@ -93,7 +84,7 @@
           "durationSec": 417,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "ep",
-          "order": 10
+          "order": 9
         },
         {
           "id": "yZ3MZl0BTGo",
@@ -102,7 +93,7 @@
           "durationSec": 417,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "ep",
-          "order": 11
+          "order": 10
         },
         {
           "id": "rqjZNssCHa0",
@@ -111,7 +102,7 @@
           "durationSec": 417,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "ep",
-          "order": 12
+          "order": 11
         },
         {
           "id": "J05yUpjjOiM",
@@ -120,7 +111,7 @@
           "durationSec": 435,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "ep",
-          "order": 13
+          "order": 12
         },
         {
           "id": "cOZIAolvJRU",
@@ -129,7 +120,7 @@
           "durationSec": 435,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "ep",
-          "order": 14
+          "order": 13
         },
         {
           "id": "i6Ogdl0DitA",
@@ -138,7 +129,7 @@
           "durationSec": 435,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "ep",
-          "order": 15
+          "order": 14
         },
         {
           "id": "wqVe-nHM0Og",
@@ -147,7 +138,7 @@
           "durationSec": 435,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "ep",
-          "order": 16
+          "order": 15
         },
         {
           "id": "rI4O7w3esEk",
@@ -156,7 +147,7 @@
           "durationSec": 435,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "ep",
-          "order": 17
+          "order": 16
         },
         {
           "id": "Nev3B3i1duw",
@@ -165,7 +156,7 @@
           "durationSec": 383,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "ep",
-          "order": 18
+          "order": 17
         },
         {
           "id": "k4aRJdqqpqg",
@@ -174,7 +165,7 @@
           "durationSec": 383,
           "channelId": "UCUwa4WCAEfUqy4HWMDkx6Mg",
           "group": "ep",
-          "order": 19
+          "order": 18
         }
       ]
     },

@@ -29,6 +29,8 @@ export interface CollectionGroup {
   /** Video IDs in viewing order. */
   videos?: string[];
   uploads?: UploadsSource;
+  /** Leave out videos longer than this (s), e.g. a long compilation the channel put first in its episode playlist. */
+  maxSec?: number;
 }
 
 export function groupKind(g: Pick<CollectionGroup, 'kind'>): 'series' | 'free' {
@@ -173,6 +175,9 @@ export function validateCollection(raw: unknown, fileId?: string, categoryIds?: 
       if (!isStr(g.label)) errors.push(`groups[${i}].label is required`);
       if (g.kind !== undefined && g.kind !== 'series' && g.kind !== 'free') {
         errors.push(`groups[${i}].kind must be "series" or "free"`);
+      }
+      if (g.maxSec !== undefined && !(typeof g.maxSec === 'number' && Number.isInteger(g.maxSec) && g.maxSec > 0)) {
+        errors.push(`groups[${i}].maxSec must be a positive integer (seconds)`);
       }
       const sources = ['playlistId', 'videos', 'uploads'].filter((k) => k in g);
       if (sources.length !== 1) {

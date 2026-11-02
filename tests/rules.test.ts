@@ -365,9 +365,15 @@ describe('heroPick (O3b)', () => {
   it('falls back to the next series episode, marking a half-watched one as resume', () => {
     expect(heroPick(data, cfg, progress())).toMatchObject({ video: { id: 'a' }, resume: false });
     expect(heroPick(data, cfg, at(progress(), 'a', 60))).toMatchObject({ video: { id: 'a' }, resume: true });
-    // Barely started (under 5 s) is not worth resuming; a finished compilation does not stay on top.
+    // Barely started (under 5 s) is not worth resuming.
     expect(heroPick(data, cfg, at(progress([], [], 'd'), 'd', 3))).toMatchObject({ video: { id: 'a' } });
-    expect(heroPick(data, cfg, progress(['d'], [], 'd'))).toMatchObject({ video: { id: 'a' } });
+  });
+
+  it('after finishing a compilation, offers the next one in that tab, not episode 1 (reported 2026-11-02)', () => {
+    expect(heroPick(data, cfg, progress(['c'], [], 'c'))).toMatchObject({ video: { id: 'd' }, resume: false });
+    // Wraps inside the tab; only when the whole tab is watched does it go back to the series.
+    expect(heroPick(data, cfg, progress(['d'], [], 'd'))).toMatchObject({ video: { id: 'c' } });
+    expect(heroPick(data, cfg, progress(['c', 'd'], [], 'd'))).toMatchObject({ video: { id: 'a' } });
   });
 
   it('returns null when every series episode is watched and nothing is in progress', () => {

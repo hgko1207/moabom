@@ -2805,3 +2805,15 @@ details.paste summary::-webkit-details-marker {
   }
 }
 
+
+/* The card where watching continues says so (reported 2026-11-02: the border alone was easy to miss) */
+.badge.here {
+  left: var(--s1);
+  bottom: calc(var(--s1) + 4px);
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--accent-ink);
+  color: var(--surface);
+  font-size: 14px;
+  font-weight: 700;
+}

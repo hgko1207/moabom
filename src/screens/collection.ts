@@ -91,11 +91,13 @@ function cardHtml(v: VideoRecord, view: CollectionView, config: CollectionConfig
       : failed
         ? ', 지금은 볼 수 없어요'
         : isNext
-          ? ', 다음에 볼 영상'
+          ? (view.resume ? ', 이어 볼 영상' : ', 다음에 볼 영상')
           : '';
+  // Where watching continues, spelled out on the card itself (the border alone was easy to miss in a long list).
+  const here = isNext && !locked ? `<span class="badge here" aria-hidden="true">${view.resume ? '이어 보기' : '여기부터'}</span>` : '';
   const cls = ['card', isNext ? 'next' : '', failed ? 'failed' : '', locked ? 'locked' : ''].filter(Boolean).join(' ');
   return `<button class="${cls}" data-video="${esc(v.id)}" tabindex="-1" aria-label="${esc(label)} ${esc(v.displayTitle)}${status}">
-    ${thumb(v.id, String(v.order), `<span class="badge num" aria-hidden="true">${v.order}</span><span class="badge len" aria-hidden="true">${duration(v.durationSec)}</span>${state}${locked ? '' : progressBar(startPosition(view.progress, v), v.durationSec)}`)}
+    ${thumb(v.id, String(v.order), `<span class="badge num" aria-hidden="true">${v.order}</span><span class="badge len" aria-hidden="true">${duration(v.durationSec)}</span>${state}${here}${locked ? '' : progressBar(startPosition(view.progress, v), v.durationSec)}`)}
     <span class="ep" aria-hidden="true">${esc(label)}</span><span class="title" aria-hidden="true">${esc(v.displayTitle)}</span></button>`;
 }
 

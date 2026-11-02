@@ -131,7 +131,9 @@ export interface HeroPick {
 /**
  * O3b: what the collection screen offers first.
  * 1. The video the kids were last in the middle of, in any group (a compilation too), from where they stopped.
- * 2. After finishing a series episode, the next unwatched one after it (not an earlier skipped one).
+ * 2. After finishing a video, the next unwatched one after it (not an earlier skipped one), in the same scope as
+ *    up-next: inside its own tab for a free group (a compilation leads to the next compilation, not back to
+ *    episode 1 — reported 2026-11-02), the series order otherwise.
  * 3. Otherwise O3's next to watch.
  */
 export function heroPick(
@@ -146,7 +148,7 @@ export function heroPick(
 
   const series = seriesOnly(data, config);
   if (last && last.id in p.watched) {
-    const order = viewingOrder(series);
+    const order = viewingOrder(upNextScope(data, config, last));
     const i = order.findIndex((v) => v.id === last.id);
     const after = i < 0 ? undefined : [...order.slice(i + 1), ...order.slice(0, i)].find(open);
     if (after) return { video: after, resume: startPosition(p, after) > 0 };

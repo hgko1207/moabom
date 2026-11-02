@@ -1,0 +1,71 @@
+{
+  "id": "shaun-the-sheep",
+  "displayName": "숀 더 쉽",
+  "category": "stories",
+  "enabled": true,
+  "channels": [
+    "UCjXXFXCMzAh6hv14PbCVQEA"
+  ],
+  "coverVideoId": null,
+  "groupLabel": "모음",
+  "groups": [
+    {
+      "id": "season-1",
+      "label": "시즌 1",
+      "playlistId": "PLp3AWpJx4Ym9R3DSAK11YSDM-BRbKNd5r"
+    },
+    {
+      "id": "season-2",
+      "label": "시즌 2",
+      "playlistId": "PLp3AWpJx4Ym9eJNP5vtRIWpKzCes_4S3B"
+    },
+    {
+      "id": "season-3",
+      "label": "시즌 3",
+      "playlistId": "PLp3AWpJx4Ym_qeyACWGUrxhcUCzJyK7he"
+    },
+    {
+      "id": "season-4",
+      "label": "시즌 4",
+      "videos": [
+        "eafod-SlzeY",
+        "65vsgDoHcEg",
+        "DFJsW0NXn-k",
+        "68DyaMtTu8w",
+        "tO7Pky2vDwY",
+        "s6KrYfBXWY8",
+        "r6Cuk8Ug8cc",
+        "rC1U31jMtd8",
+        "3hIbqwZTPvE",
+        "3xdVss4yb5o",
+        "m8-vECPvbRY",
+        "Gg7BpL4SBkE",
+        "vBij1Ou-UuY",
+        "J9VmbjdPTrw",
+        "Mgc9gp-T2J8",
+        "0ONg9ignPzE",
+        "evxWhZfEeU4",
+        "6vjpPTsrEBU",
+        "jpCYSSyb3so",
+        "vaHrjvncSZ4",
+        "_mGv3qbAUmk",
+        "xX1Oap1YjiA",
+        "7-J7hlLY6Ws",
+        "ncImzN9nAtE",
+        "w9SukmoMvKk"
+      ]
+    }
+  ],
+  "excludeShorts": true,
+  "titleExcludePatterns": [
+    "#shorts",
+    "숀 더쇼위츠",
+    "편집",
+    "에피소드\\s*\\d+\\s*[~-]"
+  ],
+  "titleStripPatterns": [
+    "\\s*-\\s*시리즈\\s*\\d+.*$",
+    "\\s*-\\s*숀 더\\s?쉽.*$",
+    "\\s*\\[Shaun the Sheep[^\\]]*\\].*$"
+  ]
+}

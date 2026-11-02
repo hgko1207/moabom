@@ -1,0 +1,1057 @@
+{
+  "collectionId": "dr-egg",
+  "fetchedAt": "2026-11-02T13:52:49.811Z",
+  "groups": [
+    {
+      "id": "theater",
+      "videos": [
+        {
+          "id": "9CYICCuq0_c",
+          "title": "사마귀가 되어버린 에그박사..[생물극장 EP.1]",
+          "displayTitle": "사마귀가 되어버린 에그박사..",
+          "durationSec": 508,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "theater",
+          "order": 1
+        },
+        {
+          "id": "5kPdQNP6iVE",
+          "title": "연가시에 감염된 사마인간 [생물극장 EP.2]",
+          "displayTitle": "연가시에 감염된 사마인간",
+          "durationSec": 492,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "theater",
+          "order": 2
+        },
+        {
+          "id": "yvCIq_AgNrU",
+          "title": "에그박사로 돌아간 사마인간..바퀴인간의 탄생! [생물극장 EP.3]",
+          "displayTitle": "에그박사로 돌아간 사마인간..바퀴인간의 탄생!",
+          "durationSec": 529,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "theater",
+          "order": 3
+        },
+        {
+          "id": "tJy-WCykfBw",
+          "title": "바퀴인간의 하루[생물극장 EP.4]",
+          "displayTitle": "바퀴인간의 하루",
+          "durationSec": 637,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "theater",
+          "order": 4
+        },
+        {
+          "id": "2JbOHHprUAw",
+          "title": "사마인간 VS 바퀴인간 [생물극장 EP.5]",
+          "displayTitle": "사마인간 VS 바퀴인간",
+          "durationSec": 495,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "theater",
+          "order": 5
+        },
+        {
+          "id": "Vp5cZP1p5eg",
+          "title": "사마인간 낚시가다! [생물극장 EP.6]",
+          "displayTitle": "사마인간 낚시가다!",
+          "durationSec": 508,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "theater",
+          "order": 6
+        },
+        {
+          "id": "1VYH8AEpmrk",
+          "title": "상어인간! 진짜 상어 만나다~[생물극장 EP7]",
+          "displayTitle": "상어인간! 진짜 상어 만나다~",
+          "durationSec": 584,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "theater",
+          "order": 7
+        },
+        {
+          "id": "n-EpSEed-qo",
+          "title": "사마/상어인간 물고기잡기 협동작전 [생물극장 EP8]",
+          "displayTitle": "사마/상어인간 물고기잡기 협동작전",
+          "durationSec": 517,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "theater",
+          "order": 8
+        },
+        {
+          "id": "VjnzWw3mbg4",
+          "title": "다람쥐인간이 되어버린 페페..[생물극장 EP9]",
+          "displayTitle": "다람쥐인간이 되어버린 페페..",
+          "durationSec": 602,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "theater",
+          "order": 9
+        },
+        {
+          "id": "ui5q8yG0H6I",
+          "title": "상어인간 VS 다람쥐인간! 빙판 썰매 대결~ [생물극장 EP11]",
+          "displayTitle": "상어인간 VS 다람쥐인간! 빙판 썰매 대결~",
+          "durationSec": 341,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "theater",
+          "order": 10
+        },
+        {
+          "id": "2Rszvj8OUMo",
+          "title": "게코인간이 된 닥터웅! [생물극장 EP13]",
+          "displayTitle": "게코인간이 된 닥터웅!",
+          "durationSec": 499,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "theater",
+          "order": 11
+        },
+        {
+          "id": "IMirxj8aZnY",
+          "title": "게코인간 알을 낳다! [생물극장 EP14]",
+          "displayTitle": "게코인간 알을 낳다!",
+          "durationSec": 429,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "theater",
+          "order": 12
+        },
+        {
+          "id": "YQ2FkL-4kJI",
+          "title": "수리인간의 탄생! [생물극장 EP15]",
+          "displayTitle": "수리인간의 탄생!",
+          "durationSec": 416,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "theater",
+          "order": 13
+        },
+        {
+          "id": "xfLRz81jkKU",
+          "title": "타조인간 등장! 타조알을 지켜라~[생물극장EP.16]",
+          "displayTitle": "타조인간 등장! 타조알을 지켜라~",
+          "durationSec": 527,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "theater",
+          "order": 14
+        }
+      ]
+    },
+    {
+      "id": "fairy-tales",
+      "videos": [
+        {
+          "id": "VB4CjWxttyE",
+          "title": "[곤충동화]로봇곤충의 침략! 로봇을 날려버린 장수풍뎅이! 곤충우주 전쟁!_ 에그박사",
+          "displayTitle": "로봇곤충의 침략! 로봇을 날려버린 장수풍뎅이! 곤충우주 전쟁!",
+          "durationSec": 364,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "fairy-tales",
+          "order": 1
+        },
+        {
+          "id": "8uhwUTWwvB8",
+          "title": "[곤충동화]오아시스를 찾아서..,사막에서 길을 잃은 곤충친구들!! _ 에그박사",
+          "displayTitle": "오아시스를 찾아서..,사막에서 길을 잃은 곤충친구들!!",
+          "durationSec": 221,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "fairy-tales",
+          "order": 2
+        },
+        {
+          "id": "SzkjWvD_2Ik",
+          "title": "[곤충동화]팩팩하우스 밀웜젤리파티, 똥이 마려워 _ 에그박사와 곤충친구들",
+          "displayTitle": "팩팩하우스 밀웜젤리파티, 똥이 마려워",
+          "durationSec": 302,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "fairy-tales",
+          "order": 3
+        },
+        {
+          "id": "4z3XLa1kcmI",
+          "title": "[곤충동화]곤충 구조대! 곤충병원 미스테리.. _ 에그박사와 곤충친구들",
+          "displayTitle": "곤충 구조대! 곤충병원 미스테리..",
+          "durationSec": 274,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "fairy-tales",
+          "order": 4
+        },
+        {
+          "id": "_ZdeS1B2R_I",
+          "title": "[곤충동화]곤충열차 출발! 사슴마을의 여행~ _ 에그박사와 곤충친구들",
+          "displayTitle": "곤충열차 출발! 사슴마을의 여행~",
+          "durationSec": 268,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "fairy-tales",
+          "order": 5
+        },
+        {
+          "id": "_PVusLKTMp0",
+          "title": "[곤충동화]풍뎅이 구출 대작전!! _ 에그박사와 곤충친구들",
+          "displayTitle": "풍뎅이 구출 대작전!!",
+          "durationSec": 220,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "fairy-tales",
+          "order": 6
+        },
+        {
+          "id": "7zdMv_7VUak",
+          "title": "[곤충동화]곤충달리기대회(넓돌이VS터프) _ 에그박사와 곤충친구들",
+          "displayTitle": "곤충달리기대회(넓돌이VS터프)",
+          "durationSec": 336,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "fairy-tales",
+          "order": 7
+        },
+        {
+          "id": "EfbVKeNeTQk",
+          "title": "[곤충동화]물곤충수영놀이! 풍빌라 여름휴가_ 에그박사와 곤충친구들",
+          "displayTitle": "물곤충수영놀이! 풍빌라 여름휴가",
+          "durationSec": 317,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "fairy-tales",
+          "order": 8
+        },
+        {
+          "id": "XYnuB-PPDLk",
+          "title": "[곤충동화] 풍이네 식당!_ 에그박사와 곤충친구들",
+          "displayTitle": "풍이네 식당!",
+          "durationSec": 222,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "fairy-tales",
+          "order": 9
+        },
+        {
+          "id": "3HrSVkSH-xM",
+          "title": "[곤충동화]사슴마을을 지켜라! 사슴형제 이야기_ 에그박사와 곤충친구들",
+          "displayTitle": "사슴마을을 지켜라! 사슴형제 이야기",
+          "durationSec": 222,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "fairy-tales",
+          "order": 10
+        },
+        {
+          "id": "5lVZeD5Ds6c",
+          "title": "[곤충동화]곤충상점 자전거타는 사슴벌레! _ 에그박사와 곤충친구들",
+          "displayTitle": "곤충상점 자전거타는 사슴벌레!",
+          "durationSec": 256,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "fairy-tales",
+          "order": 11
+        },
+        {
+          "id": "RHUp_zY1VWA",
+          "title": "[곤충동화]젤리마트! 하늘소 도둑을 잡아라! _ 에그박사와 곤충친구들",
+          "displayTitle": "젤리마트! 하늘소 도둑을 잡아라!",
+          "durationSec": 287,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "fairy-tales",
+          "order": 12
+        },
+        {
+          "id": "uqOAxQ-Ln34",
+          "title": "[곤충동화]빼빼로왕국을 지켜라! 개구리 2형제VS슈퍼밀웜, 빼빼로데이 퀴즈대잔치_ 에그박사",
+          "displayTitle": "빼빼로왕국을 지켜라! 개구리 2형제VS슈퍼밀웜, 빼빼로데이 퀴즈대잔치",
+          "durationSec": 219,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "fairy-tales",
+          "order": 13
+        },
+        {
+          "id": "IL3qw4-t_kQ",
+          "title": "[곤충동화] 풍뎅이 기차여행, 풍뎅이 마을을 찾아서~",
+          "displayTitle": "풍뎅이 기차여행, 풍뎅이 마을을 찾아서~",
+          "durationSec": 231,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "fairy-tales",
+          "order": 14
+        },
+        {
+          "id": "FKt0GBuhf7c",
+          "title": "[곤충동화] 메뚜기 펜션, 곤충들의 여름휴가!",
+          "displayTitle": "메뚜기 펜션, 곤충들의 여름휴가!",
+          "durationSec": 330,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "fairy-tales",
+          "order": 15
+        }
+      ]
+    },
+    {
+      "id": "collecting",
+      "videos": [
+        {
+          "id": "q-negOyNudI",
+          "title": "가을 야간 곤충채집! 초대왕 민달팽이 발견! 나방애벌레, 거미줄! _ 에그박사",
+          "displayTitle": "가을 야간 곤충채집! 초대왕 민달팽이 발견! 나방애벌레, 거미줄!",
+          "durationSec": 309,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 1
+        },
+        {
+          "id": "GIE-UuvF8XI",
+          "title": "풀벌레 채집, 방아깨비/메뚜기를 잡아라! _ 에그박사와 곤충친구들",
+          "displayTitle": "풀벌레 채집, 방아깨비/메뚜기를 잡아라!",
+          "durationSec": 316,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 2
+        },
+        {
+          "id": "v_VBebwmL5w",
+          "title": "캐터피(호랑나비애벌레) 채집편! 살아있는 포켓몬이라구? _ 에그박사와 곤충친구들",
+          "displayTitle": "캐터피(호랑나비애벌레) 채집편! 살아있는 포켓몬이라구?",
+          "durationSec": 275,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 3
+        },
+        {
+          "id": "R3eo-4C3DZQ",
+          "title": "장수풍뎅이 야간곤충채집!_ 에그박사와 곤충친구들",
+          "displayTitle": "장수풍뎅이 야간곤충채집!",
+          "durationSec": 368,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 4
+        },
+        {
+          "id": "B5CTKuSCwcs",
+          "title": "수서곤충 채집편 대왕올챙이,물방개발견! _ 에그박사와 곤충친구들",
+          "displayTitle": "수서곤충 채집편 대왕올챙이,물방개발견!",
+          "durationSec": 366,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 5
+        },
+        {
+          "id": "JSq7-XxmYBM",
+          "title": "야간 매미 날개돋이 관찰! _ 에그박사와 곤충친구들",
+          "displayTitle": "야간 매미 날개돋이 관찰!",
+          "durationSec": 261,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 6
+        },
+        {
+          "id": "kvefsI8D72Q",
+          "title": "민물가재/도롱뇽 채집편 대왕가재발견! _ 에그박사와 곤충친구들",
+          "displayTitle": "민물가재/도롱뇽 채집편 대왕가재발견!",
+          "durationSec": 353,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 7
+        },
+        {
+          "id": "E_lgg9vcP_0",
+          "title": "겨울방학 특집 사슴벌레 채집기! 잠자는 사슴벌레 애벌레 깨워보기! Winter Insect, Stag Beetle larvae collection",
+          "displayTitle": "겨울방학 특집 사슴벌레 채집기! 잠자는 사슴벌레 애벌레 깨워보기!",
+          "durationSec": 597,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 8
+        },
+        {
+          "id": "tcJ83yMIEzg",
+          "title": "삼겹살로 바다게 채집, 통발설치! _ 에그박사와 곤충친구들",
+          "displayTitle": "삼겹살로 바다게 채집, 통발설치!",
+          "durationSec": 253,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 9
+        },
+        {
+          "id": "Re3GhgIoC30",
+          "title": "계곡통발채집, 된장VS고기 미끼비교채집! _ 에그박사와 곤충친구들",
+          "displayTitle": "계곡통발채집, 된장VS고기 미끼비교채집!",
+          "durationSec": 229,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 10
+        },
+        {
+          "id": "590U2Z_grQE",
+          "title": "대왕 고구마 캐기! 흙 속 거대지렁이, 달팽이 발견! 고구마탐지견? _ 에그박사",
+          "displayTitle": "대왕 고구마 캐기! 흙 속 거대지렁이, 달팽이 발견! 고구마탐지견?",
+          "durationSec": 227,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 11
+        },
+        {
+          "id": "xOIHATpJeuA",
+          "title": "산 속 곤충들의 겨울나기는? 무당벌레,집게벌레! 겨울채집 꿀팁! _ 에그박사",
+          "displayTitle": "산 속 곤충들의 겨울나기는? 무당벌레,집게벌레! 겨울채집 꿀팁!",
+          "durationSec": 309,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 12
+        },
+        {
+          "id": "QargQDjiYcU",
+          "title": "초대형 애벌레볏단 발견! 장수풍뎅이 애벌레 대량채집!_ 에그박사",
+          "displayTitle": "초대형 애벌레볏단 발견! 장수풍뎅이 애벌레 대량채집!",
+          "durationSec": 241,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 13
+        },
+        {
+          "id": "HXY2tNXR-RE",
+          "title": "꼬마넓적사슴벌레 대량채집! 애거스를 찾아서!_ 에그박사",
+          "displayTitle": "꼬마넓적사슴벌레 대량채집! 애거스를 찾아서!",
+          "durationSec": 264,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 14
+        },
+        {
+          "id": "xPmHeB2Zn-U",
+          "title": "후박나무하늘소 채집! 하늘소 잡는 방법공개! _ 에그박사",
+          "displayTitle": "후박나무하늘소 채집! 하늘소 잡는 방법공개!",
+          "durationSec": 261,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 15
+        },
+        {
+          "id": "YtabvEXdAUw",
+          "title": "참나무하늘소채집! 우리나라에서 2번째로 큰 하늘소! _ 에그박사",
+          "displayTitle": "참나무하늘소채집! 우리나라에서 2번째로 큰 하늘소!",
+          "durationSec": 270,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 16
+        },
+        {
+          "id": "hUd_tNqKoLg",
+          "title": "빙어 낚시! 한 줄에 3마리씩 잡혀! 띠용! _ 에그박사",
+          "displayTitle": "빙어 낚시! 한 줄에 3마리씩 잡혀! 띠용!",
+          "durationSec": 398,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 17
+        },
+        {
+          "id": "Gc3fI8UeYH0",
+          "title": "채집왕은 누구? 다슬기 100마리 잡기 대결!",
+          "displayTitle": "채집왕은 누구? 다슬기 100마리 잡기 대결!",
+          "durationSec": 283,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 18
+        },
+        {
+          "id": "Ok5aAE6dF44",
+          "title": "개울가 올챙이 밥주기! 수백마리가 순식간에 먹어 치운다..",
+          "displayTitle": "개울가 올챙이 밥주기! 수백마리가 순식간에 먹어 치운다..",
+          "durationSec": 215,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 19
+        },
+        {
+          "id": "kG9BjUtQP68",
+          "title": "자연으로 나비풀어주기! 사마귀알도 발견!",
+          "displayTitle": "자연으로 나비풀어주기! 사마귀알도 발견!",
+          "durationSec": 216,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 20
+        },
+        {
+          "id": "8rmD2OC3cKA",
+          "title": "개미귀신 채집하기! 모래로 함정을 파는 곤충?",
+          "displayTitle": "개미귀신 채집하기! 모래로 함정을 파는 곤충?",
+          "durationSec": 234,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 21
+        },
+        {
+          "id": "PjEjGJSMLXU",
+          "title": "대왕지렁이를 잡았다! 비온 후 땅은 지렁이 천국?",
+          "displayTitle": "대왕지렁이를 잡았다! 비온 후 땅은 지렁이 천국?",
+          "durationSec": 244,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 22
+        },
+        {
+          "id": "U3-RglTHKd4",
+          "title": "플라나리아 채집! 초재생능력을 가진 신비한 생물!",
+          "displayTitle": "플라나리아 채집! 초재생능력을 가진 신비한 생물!",
+          "durationSec": 204,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 23
+        },
+        {
+          "id": "EPvCAQDWrwM",
+          "title": "딸기로 곤충 유인채집! 다양한 곤충들이 몰려온다..",
+          "displayTitle": "딸기로 곤충 유인채집! 다양한 곤충들이 몰려온다..",
+          "durationSec": 253,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 24
+        },
+        {
+          "id": "d36v9F8oci0",
+          "title": "길앞잡이 채집하기! 길을 안내해주는 곤충?",
+          "displayTitle": "길앞잡이 채집하기! 길을 안내해주는 곤충?",
+          "durationSec": 257,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 25
+        },
+        {
+          "id": "yeTf8FFmdxU",
+          "title": "말똥에 곤충이 산다? 똥을 사랑하는 곤충발견!",
+          "displayTitle": "말똥에 곤충이 산다? 똥을 사랑하는 곤충발견!",
+          "durationSec": 334,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 26
+        },
+        {
+          "id": "cISAenkN3Js",
+          "title": "일회용 컵으로 곤충을 잡는다? 함정유인채집!",
+          "displayTitle": "일회용 컵으로 곤충을 잡는다? 함정유인채집!",
+          "durationSec": 352,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 27
+        },
+        {
+          "id": "WDES9fRQgw4",
+          "title": "사슴풍뎅이 채집하기! 미끼에 걸려들었다!",
+          "displayTitle": "사슴풍뎅이 채집하기! 미끼에 걸려들었다!",
+          "durationSec": 285,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 28
+        },
+        {
+          "id": "EIX99e317pU",
+          "title": "야간곤충채집! 여치, 메뚜기, 폭탄먼지벌레 발견!",
+          "displayTitle": "야간곤충채집! 여치, 메뚜기, 폭탄먼지벌레 발견!",
+          "durationSec": 348,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 29
+        },
+        {
+          "id": "wAyGbaU3NaY",
+          "title": "'논'에서 발견된 신비의 알! '논'에는 어떤 생물이 살까요?",
+          "displayTitle": "'논'에서 발견된 신비의 알! '논'에는 어떤 생물이 살까요?",
+          "durationSec": 211,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 30
+        },
+        {
+          "id": "OyLqJfr2gAE",
+          "title": "파파리 반딧불이 잡다! 반딧불로 책읽기 도전!",
+          "displayTitle": "파파리 반딧불이 잡다! 반딧불로 책읽기 도전!",
+          "durationSec": 254,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 31
+        },
+        {
+          "id": "OuzrUNGENpA",
+          "title": "대왕투구새우 채집! 3억 년 전부터 웅덩이에 살았다고?",
+          "displayTitle": "대왕투구새우 채집! 3억 년 전부터 웅덩이에 살았다고?",
+          "durationSec": 268,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 32
+        },
+        {
+          "id": "rc8xHFzHmGY",
+          "title": "장수풍뎅이 유인채집! 바나나 미끼에 걸려들었다!",
+          "displayTitle": "장수풍뎅이 유인채집! 바나나 미끼에 걸려들었다!",
+          "durationSec": 335,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 33
+        },
+        {
+          "id": "aTYHzQ2tNHM",
+          "title": "놀이터에서 발견된 반짝반짝 '보석곤충', 놀이터 곤충채집!",
+          "displayTitle": "놀이터에서 발견된 반짝반짝 '보석곤충', 놀이터 곤충채집!",
+          "durationSec": 268,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 34
+        },
+        {
+          "id": "lScY38lDoIw",
+          "title": "등화 채집! 인공 불빛으로 수백 마리 곤충 잡기!",
+          "displayTitle": "등화 채집! 인공 불빛으로 수백 마리 곤충 잡기!",
+          "durationSec": 315,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 35
+        },
+        {
+          "id": "4OBU1DysrsE",
+          "title": "다양한 보호색을 가진 방아깨비 채집!",
+          "displayTitle": "다양한 보호색을 가진 방아깨비 채집!",
+          "durationSec": 266,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 36
+        },
+        {
+          "id": "wuHBNGhcu8A",
+          "title": "겨울철, 도롱이벌레를 파헤쳐 보자!",
+          "displayTitle": "겨울철, 도롱이벌레를 파헤쳐 보자!",
+          "durationSec": 623,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "collecting",
+          "order": 37
+        }
+      ]
+    },
+    {
+      "id": "sea",
+      "videos": [
+        {
+          "id": "i7gwpax4Y28",
+          "title": "바다에서 줄 하나로 물고기 잡다! 바다 줄낚시, 왕물고기를 낚아보자! _ 에그박사",
+          "displayTitle": "바다에서 줄 하나로 물고기 잡다! 바다 줄낚시, 왕물고기를 낚아보자!",
+          "durationSec": 308,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "sea",
+          "order": 1
+        },
+        {
+          "id": "VjolisuEvcE",
+          "title": "갑오징어 관찰! 몸 색깔이 변해! 먹물 발사~ _ 에그박사",
+          "displayTitle": "갑오징어 관찰! 몸 색깔이 변해! 먹물 발사~",
+          "durationSec": 208,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "sea",
+          "order": 2
+        },
+        {
+          "id": "XRMgoo5ahE4",
+          "title": "대게 관찰! 조개 먹는 게, 깊은 수심 속 생물! _ 에그박사",
+          "displayTitle": "대게 관찰! 조개 먹는 게, 깊은 수심 속 생물!",
+          "durationSec": 251,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "sea",
+          "order": 3
+        },
+        {
+          "id": "u8Xp3Qsrip8",
+          "title": "대왕조개를 열려는 문어! 똑똑한 연체바다동물!_ 에그박사",
+          "displayTitle": "대왕조개를 열려는 문어! 똑똑한 연체바다동물!",
+          "durationSec": 242,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "sea",
+          "order": 4
+        },
+        {
+          "id": "3k39avRozjE",
+          "title": "초대형 바다새우 관찰! 알록달록 보리새우! _ 에그박사",
+          "displayTitle": "초대형 바다새우 관찰! 알록달록 보리새우!",
+          "durationSec": 198,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "sea",
+          "order": 5
+        },
+        {
+          "id": "gaX_5U0ivaA",
+          "title": "가오리 관찰! 두 얼굴의 바다생물! 띠용! _ 에그박사",
+          "displayTitle": "가오리 관찰! 두 얼굴의 바다생물! 띠용!",
+          "durationSec": 214,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "sea",
+          "order": 6
+        },
+        {
+          "id": "vWTCNwod4rE",
+          "title": "바다 속 카멜레온, 오른쪽에만 눈이!! 도다리 관찰! _ 에그박사",
+          "displayTitle": "바다 속 카멜레온, 오른쪽에만 눈이!! 도다리 관찰!",
+          "durationSec": 210,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "sea",
+          "order": 7
+        },
+        {
+          "id": "R1esBTU_OS0",
+          "title": "바다 속 메기가 살아?! 빨판왕 대왕물메기 관찰! _ 에그박사",
+          "displayTitle": "바다 속 메기가 살아?! 빨판왕 대왕물메기 관찰!",
+          "durationSec": 195,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "sea",
+          "order": 8
+        },
+        {
+          "id": "wPeyDg5TZAE",
+          "title": "두툽상어 관찰! 한국 바다상어가 나타났다! 무서운 이빨~",
+          "displayTitle": "두툽상어 관찰! 한국 바다상어가 나타났다! 무서운 이빨~",
+          "durationSec": 204,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "sea",
+          "order": 9
+        },
+        {
+          "id": "-g8rpYQNiPk",
+          "title": "나비날개를 가진 물고기? 성대 관찰!",
+          "displayTitle": "나비날개를 가진 물고기? 성대 관찰!",
+          "durationSec": 184,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "sea",
+          "order": 10
+        },
+        {
+          "id": "iUuvHYp4BTs",
+          "title": "화가 나면 몸이 불룩~ 독을 가진 졸복!",
+          "displayTitle": "화가 나면 몸이 불룩~ 독을 가진 졸복!",
+          "durationSec": 187,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "sea",
+          "order": 11
+        },
+        {
+          "id": "IOHFGYtIl_E",
+          "title": "제주 에메랄드 바닷속 스노클링! 니모를 찾아서~",
+          "displayTitle": "제주 에메랄드 바닷속 스노클링! 니모를 찾아서~",
+          "durationSec": 223,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "sea",
+          "order": 12
+        },
+        {
+          "id": "3n5S7srAtvA",
+          "title": "손가락을 빨아들이는 바다생물? 말미잘 관찰!",
+          "displayTitle": "손가락을 빨아들이는 바다생물? 말미잘 관찰!",
+          "durationSec": 134,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "sea",
+          "order": 13
+        },
+        {
+          "id": "lDJke6qR-xQ",
+          "title": "바다소라게 채집! 귀여운 갯바위 생물관찰!",
+          "displayTitle": "바다소라게 채집! 귀여운 갯바위 생물관찰!",
+          "durationSec": 262,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "sea",
+          "order": 14
+        },
+        {
+          "id": "tHPiLkhwKck",
+          "title": "바다에 통발을 던졌는데, 대왕물고기가 잡혔다!!",
+          "displayTitle": "바다에 통발을 던졌는데, 대왕물고기가 잡혔다!!",
+          "durationSec": 315,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "sea",
+          "order": 15
+        },
+        {
+          "id": "Dn34Iu5IdvY",
+          "title": "'바다소라게' '육지소라게' 전격비교! 크기부터 달라..",
+          "displayTitle": "'바다소라게' '육지소라게' 전격비교! 크기부터 달라..",
+          "durationSec": 262,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "sea",
+          "order": 16
+        },
+        {
+          "id": "uL6Gnx6mSlA",
+          "title": "바다 '돌문어' 잡다! 갯바위에 떠밀려온 문어..",
+          "displayTitle": "바다 '돌문어' 잡다! 갯바위에 떠밀려온 문어..",
+          "durationSec": 284,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "sea",
+          "order": 17
+        },
+        {
+          "id": "VcRQdtMobfA",
+          "title": "털이 나서 털털한 털게 채집! (Feat, 정브르)",
+          "displayTitle": "털이 나서 털털한 털게 채집! (Feat, 정브르)",
+          "durationSec": 573,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "sea",
+          "order": 18
+        }
+      ]
+    },
+    {
+      "id": "latest",
+      "videos": [
+        {
+          "id": "GbjIY3b3VDU",
+          "title": "개미를 잡아먹는 개미귀신?! 두 곤충의 놀라운 생태",
+          "displayTitle": "개미를 잡아먹는 개미귀신?! 두 곤충의 놀라운 생태",
+          "durationSec": 664,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 1
+        },
+        {
+          "id": "4AVDbc_ZKmk",
+          "title": "수백만 년의 전쟁! 말벌과 꿀벌의 끝나지 않는 싸움~",
+          "displayTitle": "수백만 년의 전쟁! 말벌과 꿀벌의 끝나지 않는 싸움~",
+          "durationSec": 630,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 2
+        },
+        {
+          "id": "2pQLGTXulmk",
+          "title": "헤라클레스와 한국 장수풍뎅이, 뭐가 다를까?",
+          "displayTitle": "헤라클레스와 한국 장수풍뎅이, 뭐가 다를까?",
+          "durationSec": 829,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 3
+        },
+        {
+          "id": "2iP9WLTj9mY",
+          "title": "우리나라에 이렇게 큰 거미가 많다고?! 무당거미의 충격적인 생태 [놀라운 생생탐험]",
+          "displayTitle": "우리나라에 이렇게 큰 거미가 많다고?! 무당거미의 충격적인 생태",
+          "durationSec": 397,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 4
+        },
+        {
+          "id": "J8rMuiODfSU",
+          "title": "까마귀가 도시에서 살아가는 법![놀라운 생생탐험]",
+          "displayTitle": "까마귀가 도시에서 살아가는 법!",
+          "durationSec": 388,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 5
+        },
+        {
+          "id": "9KkDxrXUbNo",
+          "title": "무당개구리의 특이한 방어법! [놀라운 생생탐험]",
+          "displayTitle": "무당개구리의 특이한 방어법!",
+          "durationSec": 349,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 6
+        },
+        {
+          "id": "NdnkDbf2x6Y",
+          "title": "우리가 몰랐던 잠자리의 신비한 생태! [놀라운 생생탐험]",
+          "displayTitle": "우리가 몰랐던 잠자리의 신비한 생태!",
+          "durationSec": 355,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 7
+        },
+        {
+          "id": "-XLc-zVNoL4",
+          "title": "하늘소는 왜 나무를 뚫을까? 하늘소의 모든 것 [놀라운 생생탐험]",
+          "displayTitle": "하늘소는 왜 나무를 뚫을까? 하늘소의 모든 것",
+          "durationSec": 408,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 8
+        },
+        {
+          "id": "-iwrHpPGUDU",
+          "title": "상어 말고도, 부산을 찾는 바다생물이 있다! 바다거북의 모든 것[놀라운 생생탐험]",
+          "displayTitle": "상어 말고도, 부산을 찾는 바다생물이 있다! 바다거북의 모든 것",
+          "durationSec": 392,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 9
+        },
+        {
+          "id": "Gh18KGCwIB4",
+          "title": "곤충계 최강 사냥꾼! 사마귀의 모든 것을 알아보자 [놀라운 생생탐험]",
+          "displayTitle": "곤충계 최강 사냥꾼! 사마귀의 모든 것을 알아보자",
+          "durationSec": 372,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 10
+        },
+        {
+          "id": "fmnYksLzmNc",
+          "title": "모기는 왜 피를 빨까? 모기의 모든 것! [놀라운 생생탐험]",
+          "displayTitle": "모기는 왜 피를 빨까? 모기의 모든 것!",
+          "durationSec": 381,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 11
+        },
+        {
+          "id": "HBSy4dJiYE4",
+          "title": "부산에 상어가 등장! 왜 상어가 등장할까? [놀라운 생생탐험]",
+          "displayTitle": "부산에 상어가 등장! 왜 상어가 등장할까?",
+          "durationSec": 440,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 12
+        },
+        {
+          "id": "QrAP3JWak7o",
+          "title": "헤라클레스왕장수풍뎅이와 같이 사는 남자....",
+          "displayTitle": "헤라클레스왕장수풍뎅이와 같이 사는 남자....",
+          "durationSec": 496,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 13
+        },
+        {
+          "id": "xQXJHvZI2cA",
+          "title": "세상에서 가장 작은 '매'를 만났습니다!",
+          "displayTitle": "세상에서 가장 작은 '매'를 만났습니다!",
+          "durationSec": 529,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 14
+        },
+        {
+          "id": "XIy_ZfLNTyY",
+          "title": "5만평 부지! 국내 최대 곤충생태원 '예천곤충생태원' 탐방!",
+          "displayTitle": "5만평 부지! 국내 최대 곤충생태원 '예천곤충생태원' 탐방!",
+          "durationSec": 829,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 15
+        },
+        {
+          "id": "mk4R_HYLyqg",
+          "title": "마나도 희귀오징어 낚시[EP.8 마나도]",
+          "displayTitle": "마나도 희귀오징어 낚시",
+          "durationSec": 559,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 16
+        },
+        {
+          "id": "lEYqhuJXaCc",
+          "title": "인도네시아 곤충학과 탐방기! 마나도 나비관찰[EP.7 마나도]",
+          "displayTitle": "인도네시아 곤충학과 탐방기! 마나도 나비관찰",
+          "durationSec": 541,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 17
+        },
+        {
+          "id": "y3QE6QMCqxI",
+          "title": "인도네시아 야생동물구조관리센터 탐방기(말레이곰,화식조,바다악어)[EP.6 마나도]",
+          "displayTitle": "인도네시아 야생동물구조관리센터 탐방기(말레이곰,화식조,바다악어)",
+          "durationSec": 635,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 18
+        },
+        {
+          "id": "wygzo4VbIU8",
+          "title": "마나도 야간 해루질! 곰치, 알록달록 물고기 발견![EP.5 마나도]",
+          "displayTitle": "마나도 야간 해루질! 곰치, 알록달록 물고기 발견!",
+          "durationSec": 599,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 19
+        },
+        {
+          "id": "QR24NaALuBA",
+          "title": "3D종이로 초대형 장수풍뎅이 완성!",
+          "displayTitle": "3D종이로 초대형 장수풍뎅이 완성!",
+          "durationSec": 438,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 20
+        },
+        {
+          "id": "LdQPdCnlYcU",
+          "title": "안경원숭이, 곰쿠스쿠스 발견! 탕코코 국립공원 가다.[EP.4 마나도]",
+          "displayTitle": "안경원숭이, 곰쿠스쿠스 발견! 탕코코 국립공원 가다.",
+          "durationSec": 621,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 21
+        },
+        {
+          "id": "8XwfyVgYw9w",
+          "title": "초대왕 괴생명체를 잡았습니다! [EP3.마나도]",
+          "displayTitle": "초대왕 괴생명체를 잡았습니다!",
+          "durationSec": 557,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 22
+        },
+        {
+          "id": "P1y-EojU_p4",
+          "title": "야생 멘티스쉬림프 포획 대작전! [EP2.마나도]",
+          "displayTitle": "야생 멘티스쉬림프 포획 대작전!",
+          "durationSec": 605,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 23
+        },
+        {
+          "id": "AmQO_yRj4cw",
+          "title": "바닷 속 상어 떼와 거북이 아파트 발견! [EP1.마나도]",
+          "displayTitle": "바닷 속 상어 떼와 거북이 아파트 발견!",
+          "durationSec": 610,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 24
+        },
+        {
+          "id": "05dsqCrBrRk",
+          "title": "장어양식장 탐방! 수 백마리 장어 밥주기~",
+          "displayTitle": "장어양식장 탐방! 수 백마리 장어 밥주기~",
+          "durationSec": 580,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 25
+        },
+        {
+          "id": "TGrwT8qaTCs",
+          "title": "빈 새둥지에는 어떤 생물이 있을까요?",
+          "displayTitle": "빈 새둥지에는 어떤 생물이 있을까요?",
+          "durationSec": 663,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 26
+        },
+        {
+          "id": "xfLRz81jkKU",
+          "title": "타조인간 등장! 타조알을 지켜라~[생물극장EP.16]",
+          "displayTitle": "타조인간 등장! 타조알을 지켜라~",
+          "durationSec": 527,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 27
+        },
+        {
+          "id": "Xw2DcN2H8fE",
+          "title": "저빌에게 15M 대형 미로를 만들어주었습니다!",
+          "displayTitle": "저빌에게 15M 대형 미로를 만들어주었습니다!",
+          "durationSec": 575,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 28
+        },
+        {
+          "id": "X_yNl0F2Cxw",
+          "title": "외국공벌레에게 레고집 만들어 주었습니다!",
+          "displayTitle": "외국공벌레에게 레고집 만들어 주었습니다!",
+          "durationSec": 627,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 29
+        },
+        {
+          "id": "UiAi8tD8mCw",
+          "title": "설날특집! 장수말벌 하이라이트 1시간 몰아보기!",
+          "displayTitle": "설날특집! 장수말벌 하이라이트 1시간 몰아보기!",
+          "durationSec": 3713,
+          "channelId": "UCyhmwp12LECf7lvw7vddVPA",
+          "group": "latest",
+          "order": 30
+        }
+      ]
+    }
+  ]
+}

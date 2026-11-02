@@ -1,0 +1,56 @@
+{
+  "id": "dr-egg",
+  "displayName": "에그박사",
+  "category": "nature",
+  "enabled": true,
+  "channels": [
+    "UCyhmwp12LECf7lvw7vddVPA"
+  ],
+  "coverVideoId": null,
+  "groupLabel": "모음",
+  "groups": [
+    {
+      "id": "theater",
+      "label": "생물극장",
+      "playlistId": "PLc2Uz2pQnE_TxuN4m2-0v_RmNf0E0Tvrd"
+    },
+    {
+      "id": "fairy-tales",
+      "label": "곤충동화",
+      "playlistId": "PLc2Uz2pQnE_T4ShYP3VtTAVVFBc0KQAbF"
+    },
+    {
+      "id": "collecting",
+      "label": "곤충채집",
+      "kind": "free",
+      "playlistId": "PLc2Uz2pQnE_SoQsA0KKGC7PMgN4fNZc7e"
+    },
+    {
+      "id": "sea",
+      "label": "바다생물",
+      "kind": "free",
+      "playlistId": "PLc2Uz2pQnE_ToCTZ3leSagLaTwm3hTOFW"
+    },
+    {
+      "id": "latest",
+      "label": "최신 영상",
+      "kind": "free",
+      "uploads": {
+        "minSec": 181,
+        "latest": 30
+      }
+    }
+  ],
+  "excludeShorts": false,
+  "titleExcludePatterns": [
+    "#shorts",
+    "캠페인",
+    "^라오스 장수말벌의 무시무시한 독침"
+  ],
+  "titleStripPatterns": [
+    "\\s*_\\s*에그박사.*$",
+    "^\\[곤충동화\\]\\s*",
+    "\\s*\\[[^\\]]*\\]$",
+    "\\s+Winter Insect.*$"
+  ]
+}

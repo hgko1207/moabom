@@ -74,6 +74,14 @@ describe('buildDisplayTitle', () => {
   it('falls back to the original title when stripping leaves nothing', () => {
     expect(buildDisplayTitle('넘버블럭스', ['^넘버블럭스\\s*'])).toBe('넘버블럭스');
   });
+
+  it('applies titleFixes after stripping: the official Bluey channel spells it 블루리 in some titles', () => {
+    const bluey = JSON.parse(readFileSync('config/collections/bluey.json', 'utf8'));
+    const clean = (t: string) => buildDisplayTitle(t, bluey.titleStripPatterns, bluey.titleFixes);
+    expect(clean('블루리 시리즈 3 전체 에피소드 | 40분 | 블루이 - 한국 공식 채널 - Bluey')).toBe('블루이 시리즈 3 전체 에피소드');
+    expect(clean('블루리와 빙고의 친구들 베스트 | 시리즈 2 베스트 | 블루이 - 한국 공식 채널')).toBe('블루이와 빙고의 친구들 베스트');
+    expect(clean('빙고가 오믈렛을 만들고 있어요! | 블루이')).toBe('빙고가 오믈렛을 만들고 있어요!');
+  });
 });
 
 describe('selectVideos', () => {

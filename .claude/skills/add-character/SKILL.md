@@ -48,7 +48,7 @@ How to design tabs:
 
 ### 5. Fetch and clean titles
 - `npm run fetch -- --collection <id>`.
-- Read `data/collections/<id>/videos.json`: every group has videos; counts are sensible; `displayTitle`s are clean. Add `titleStripPatterns` (regex, removed from titles) for channel names, `| Official`, hashtags, episode-number prefixes, and `titleExcludePatterns` for clearly off-topic videos; refetch until titles read well.
+- Read `data/collections/<id>/videos.json`: every group has videos; counts are sensible; `displayTitle`s are clean. Add `titleStripPatterns` (regex, removed from titles) for channel names, `| Official`, hashtags, episode-number prefixes, and `titleExcludePatterns` for clearly off-topic videos; refetch until titles read well. If the channel's own titles contain a typo, add `"titleFixes": [{ "find": "블루리", "to": "블루이" }]` (plain text, applied after stripping).
 - If a group comes back empty or a playlist turns out to be wrong, fix the plan yourself; ask again only if the tab plan changes materially.
 
 ### 6. Verify

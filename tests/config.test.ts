@@ -67,6 +67,7 @@ describe('validateCollection', () => {
         { id: 'lv1', label: '', playlistId: 'PL2' },
       ],
       titleStripPatterns: ['('],
+      titleFixes: [{ find: '', to: 'x' }],
     };
     const errors = errorsOf(validateCollection(c));
     expect(errors).toEqual(
@@ -76,6 +77,7 @@ describe('validateCollection', () => {
         expect.stringContaining('groups[1].id "lv1" is duplicated'),
         expect.stringContaining('groups[1].label'),
         expect.stringContaining('invalid regular expression'),
+        expect.stringContaining('titleFixes'),
       ]),
     );
   });

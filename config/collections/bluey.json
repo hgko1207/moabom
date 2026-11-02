@@ -33,5 +33,11 @@
   "titleExcludePatterns": [],
   "titleStripPatterns": [
     "\\s*\\|.*$"
+  ],
+  "titleFixes": [
+    {
+      "find": "블루리",
+      "to": "블루이"
+    }
   ]
 }

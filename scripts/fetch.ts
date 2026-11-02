@@ -13,6 +13,7 @@ import {
   type CollectionConfig,
   type CollectionData,
   type CollectionGroup,
+  type TitleFix,
   type UploadsSource,
   type VideoRecord,
 } from '../src/config.ts';
@@ -29,11 +30,12 @@ export const MAX_DROP = 0.5;
 
 type Log = (msg: string) => void;
 
-export function buildDisplayTitle(title: string, stripPatterns: string[]): string {
+export function buildDisplayTitle(title: string, stripPatterns: string[], fixes: TitleFix[] = []): string {
   let out = title;
   for (const p of stripPatterns) out = out.replace(new RegExp(p, 'u'), '');
-  out = out.trim();
-  return out || title.trim();
+  out = out.trim() || title.trim();
+  for (const f of fixes) out = out.split(f.find).join(f.to);
+  return out;
 }
 
 /** Keep playlist order, drop everything the whitelist and filters reject. */
@@ -81,7 +83,7 @@ export function selectVideos(
     out.push({
       id: v.id,
       title: v.title,
-      displayTitle: buildDisplayTitle(v.title, config.titleStripPatterns),
+      displayTitle: buildDisplayTitle(v.title, config.titleStripPatterns, config.titleFixes),
       durationSec: v.durationSec,
       channelId: v.channelId,
       group: group.id,

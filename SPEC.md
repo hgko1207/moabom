@@ -68,6 +68,7 @@ src/icons.ts, src/styles.css   아이콘·디자인 토큰
 - `videos` 초안은 `npm run draft-groups`로 만들고 부모가 확인한 뒤 설정에 넣는다(아래 §7).
 - `excludeShorts`를 켜면 180초 이하를 제외하고 경고 로그를 남김(기본 false).
 - `titleStripPatterns`로 원제목에서 접두어·접미어를 지워 `displayTitle`을 만듦.
+- `titleFixes`(선택, 2026-11-02): 정리한 제목에 적용하는 글자 바꾸기 `[{ "find": "블루리", "to": "블루이" }]`. 공식 채널 제목의 오타를 앱에서만 고칠 때.
 - `id`는 `^[a-z0-9-]+$`. 채널이 비어 있으면 fetch를 거부.
 - `category`(필수, 1단계): `config/categories.json`의 id. 카테고리 파일은 순서 있는 목록 `{ "categories": [{ "id", "label", "icon", "color" }] }`이고 홈 줄 순서가 된다. 새 카테고리는 이 파일에 한 줄을 더한다. 소식은 `config/news.json`의 `{ "items": [{ "id", "date", "title", "body" }] }`(id는 겹치지 않게).
 - `category`(필수, 1단계): `config/categories.json`의 id. 카테고리 파일은 순서 있는 목록 `{ "categories": [{ "id", "label", "icon", "color" }] }`이고, 홈 줄 순서가 된다. 새 카테고리는 이 파일에 한 줄을 더한다.

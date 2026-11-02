@@ -50,6 +50,13 @@ export interface CollectionConfig {
   excludeShorts: boolean;
   titleExcludePatterns: string[];
   titleStripPatterns: string[];
+  /** Plain-text corrections applied to every display title after stripping, e.g. a typo in the channel's own titles. */
+  titleFixes?: TitleFix[];
+}
+
+export interface TitleFix {
+  find: string;
+  to: string;
 }
 
 export interface Profile {
@@ -144,6 +151,12 @@ export function validateCollection(raw: unknown, fileId?: string, categoryIds?: 
   if (typeof raw.excludeShorts !== 'boolean') errors.push('excludeShorts must be true or false');
   checkPatterns('titleExcludePatterns', raw.titleExcludePatterns, errors);
   checkPatterns('titleStripPatterns', raw.titleStripPatterns, errors);
+  if (
+    raw.titleFixes !== undefined &&
+    (!Array.isArray(raw.titleFixes) || !raw.titleFixes.every((f) => isObj(f) && isStr(f.find) && typeof f.to === 'string'))
+  ) {
+    errors.push('titleFixes must be a list of { "find": "<text>", "to": "<text>" } with non-empty find');
+  }
 
   if (!Array.isArray(raw.groups) || raw.groups.length === 0) {
     errors.push('groups must have at least one group');

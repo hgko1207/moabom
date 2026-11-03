@@ -1,6 +1,6 @@
 {
   "collectionId": "octonauts",
-  "fetchedAt": "2026-10-26T22:00:42.442Z",
+  "fetchedAt": "2026-11-03T00:08:55.150Z",
   "groups": [
     {
       "id": "s1",
@@ -858,13 +858,22 @@
       "id": "mix",
       "videos": [
         {
+          "id": "bfIka7cya2A",
+          "title": "라이브 🔴 옥토넛 할로윈 🐙 어두운 심해 탐험! 🤿 전체 에피소드",
+          "displayTitle": "라이브 옥토넛 할로윈 어두운 심해 탐험! 전체 에피소드",
+          "durationSec": 11485,
+          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
+          "group": "mix",
+          "order": 1
+        },
+        {
           "id": "f-c7QitKlxk",
           "title": "바다 탐험대 옥토넛 - 🤿  거대한 바다 괴물을 찾아서 🦑 - 120분+ 편집 - 모음집",
           "displayTitle": "거대한 바다 괴물을 찾아서",
           "durationSec": 7777,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 1
+          "order": 2
         },
         {
           "id": "lHU3S_8j_Nw",
@@ -873,7 +882,7 @@
           "durationSec": 7778,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 2
+          "order": 3
         },
         {
           "id": "0vk3HmgApL4",
@@ -882,7 +891,7 @@
           "durationSec": 4197,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 3
+          "order": 4
         },
         {
           "id": "qMqAWc5to-U",
@@ -891,7 +900,7 @@
           "durationSec": 4196,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 4
+          "order": 5
         },
         {
           "id": "LDQBlgmvcfc",
@@ -900,7 +909,7 @@
           "durationSec": 7901,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 5
+          "order": 6
         },
         {
           "id": "1eo37zeDo0M",
@@ -909,7 +918,7 @@
           "durationSec": 7777,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 6
+          "order": 7
         },
         {
           "id": "0ktTkgUNBeQ",
@@ -918,7 +927,7 @@
           "durationSec": 1809,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 7
+          "order": 8
         },
         {
           "id": "3TVX05671Lo",
@@ -927,7 +936,7 @@
           "durationSec": 9096,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 8
+          "order": 9
         },
         {
           "id": "S6Omr4aea-g",
@@ -936,7 +945,7 @@
           "durationSec": 1810,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 9
+          "order": 10
         },
         {
           "id": "rNItjCRXNU8",
@@ -945,7 +954,7 @@
           "durationSec": 14465,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 10
+          "order": 11
         },
         {
           "id": "6MD8fFRGoME",
@@ -954,7 +963,7 @@
           "durationSec": 4793,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 11
+          "order": 12
         },
         {
           "id": "smCXOurkDfI",
@@ -963,7 +972,7 @@
           "durationSec": 3723,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 12
+          "order": 13
         },
         {
           "id": "v2EUHJwtqbw",
@@ -972,7 +981,7 @@
           "durationSec": 3600,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 13
+          "order": 14
         },
         {
           "id": "DufksGWb0RU",
@@ -981,7 +990,7 @@
           "durationSec": 3600,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 14
+          "order": 15
         },
         {
           "id": "EVH4ZqmB_z8",
@@ -990,7 +999,7 @@
           "durationSec": 6357,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 15
+          "order": 16
         },
         {
           "id": "Idrr2FYycy8",
@@ -999,7 +1008,7 @@
           "durationSec": 1810,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 16
+          "order": 17
         },
         {
           "id": "clW5c0eV7cY",
@@ -1008,7 +1017,7 @@
           "durationSec": 4196,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 17
+          "order": 18
         },
         {
           "id": "SiUUXH6fPKI",
@@ -1017,7 +1026,7 @@
           "durationSec": 1810,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 18
+          "order": 19
         },
         {
           "id": "JiqXuVC7y_o",
@@ -1026,7 +1035,7 @@
           "durationSec": 10762,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 19
+          "order": 20
         },
         {
           "id": "k7hkToeni44",
@@ -1035,7 +1044,7 @@
           "durationSec": 1810,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 20
+          "order": 21
         },
         {
           "id": "7Cx3KIG6O9E",
@@ -1044,7 +1053,7 @@
           "durationSec": 11358,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 21
+          "order": 22
         },
         {
           "id": "Bj1ywxydH1g",
@@ -1053,7 +1062,7 @@
           "durationSec": 1810,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 22
+          "order": 23
         },
         {
           "id": "vCSMbIoAjk0",
@@ -1062,7 +1071,7 @@
           "durationSec": 11359,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 23
+          "order": 24
         },
         {
           "id": "NzKax-3NvJ0",
@@ -1071,7 +1080,7 @@
           "durationSec": 1809,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 24
+          "order": 25
         },
         {
           "id": "sPQ9dyaDBYE",
@@ -1080,22 +1089,13 @@
           "durationSec": 10884,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
-          "order": 25
+          "order": 26
         },
         {
           "id": "ZxzxYqWaD3Q",
           "title": "바다 탐험대 옥토넛 - 🦦 주니어 요원 🦺 - 30분+ 편집 - 모음집",
           "displayTitle": "주니어 요원",
           "durationSec": 1810,
-          "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
-          "group": "mix",
-          "order": 26
-        },
-        {
-          "id": "0AkvO6T3D_U",
-          "title": "바다 탐험대 옥토넛 - 🧑‍🍼 우리 엄마가 바다 최고 🌸 - 160분+ 봄 편집 - 모음집",
-          "displayTitle": "우리 엄마가 바다 최고",
-          "durationSec": 7427,
           "channelId": "UCKEGG4zVP3CGS_YSQOf654w",
           "group": "mix",
           "order": 27

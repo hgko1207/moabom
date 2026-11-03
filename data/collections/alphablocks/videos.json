@@ -1,6 +1,6 @@
 {
   "collectionId": "alphablocks",
-  "fetchedAt": "2026-10-26T22:00:42.442Z",
+  "fetchedAt": "2026-11-03T00:08:55.150Z",
   "groups": [
     {
       "id": "s1",
@@ -1260,19 +1260,19 @@
           "order": 24
         },
         {
-          "id": "rXaA8aKv-H4",
-          "title": "Ultimate Spelling Compilation! | Learn to Read | @officialalphablocks",
-          "displayTitle": "Ultimate Spelling Compilation!",
-          "durationSec": 2160,
+          "id": "nl_KF021UiI",
+          "title": "Your First Time Learning CVC Words 📚 | Learn to Read and Spell for Kids| Alphablocks",
+          "displayTitle": "Your First Time Learning CVC Words 📚",
+          "durationSec": 1821,
           "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
           "group": "mix30",
           "order": 25
         },
         {
-          "id": "nl_KF021UiI",
-          "title": "Your First Time Learning CVC Words 📚 | Learn to Read and Spell for Kids| Alphablocks",
-          "displayTitle": "Your First Time Learning CVC Words 📚",
-          "durationSec": 1821,
+          "id": "rXaA8aKv-H4",
+          "title": "Ultimate Spelling Compilation! | Learn to Read | @officialalphablocks",
+          "displayTitle": "Ultimate Spelling Compilation!",
+          "durationSec": 2160,
           "channelId": "UC_qs3c0ehDvZkbiEbOj6Drg",
           "group": "mix30",
           "order": 26

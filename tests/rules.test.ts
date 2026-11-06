@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import type { CollectionData, Profile } from '../src/config.ts';
 import {
+  isRewatch,
+  recordRewatch,
   withToday,
   progressRecency,
   recentDays,
@@ -116,6 +118,44 @@ const day = (over: Partial<TodayState> = {}): TodayState => ({
 });
 const eps = (n: number | null) => ({ dailyEpisodes: n, dailyMinutes: null });
 
+describe('rewatching a finished episode (L1a)', () => {
+  const rewatch = (t: TodayState, id: string) => recordFinished(recordRewatch(recordPlay(t, id, 300), id), id);
+  const watchedOnce = recordFinished(recordPlay(day(), 'a', 300), 'a');
+
+  it('is a rewatch only when an episode finished today starts over', () => {
+    expect(isRewatch(watchedOnce, 'a', 0)).toBe(true);
+    expect(isRewatch(watchedOnce, 'a', 40)).toBe(false);
+    expect(isRewatch(recordPlay(day(), 'a', 30), 'a', 0)).toBe(false);
+    expect(isRewatch(watchedOnce, 'b', 0)).toBe(false);
+  });
+
+  it('uses up an episode limit, so one episode cannot repeat without end', () => {
+    expect(limitReached(rewatch(watchedOnce, 'a'), eps(3))).toBe(false);
+    const third = rewatch(rewatch(watchedOnce, 'a'), 'a');
+    expect(third.started).toEqual(['a', 'a', 'a']);
+    expect(limitReached(third, eps(3))).toBe(true);
+    expect(canStart(third, eps(3), 'a')).toBe(false);
+    expect(canReplay(third, eps(3))).toBe(false);
+  });
+
+  it('leaves a rewatch that reached the limit open until it ends (L3a)', () => {
+    const t = recordRewatch(watchedOnce, 'a');
+    expect(limitReached(t, eps(2))).toBe(true);
+    expect(canStart(t, eps(2), 'a')).toBe(true);
+    expect(canStart(recordFinished(t, 'a'), eps(2), 'a')).toBe(false);
+  });
+
+  it('does not count again when a rewatch is resumed', () => {
+    const t = recordRewatch(watchedOnce, 'a');
+    expect(isRewatch(t, 'a', 0)).toBe(false);
+    expect(recordPlay(t, 'a', 60).started).toEqual(['a', 'a']);
+  });
+
+  it('counts no second episode for the last tenth of a first watch', () => {
+    expect(recordPlay(watchedOnce, 'a', 30).started).toEqual(['a']);
+  });
+});
+
 describe('daily limit (L1-L3a)', () => {
   it('counts a video once it played 10 s today, and only once', () => {
     let t = recordPlay(day(), 'a', 9);
@@ -185,6 +225,12 @@ describe('upNext (P3)', () => {
   it('shows the moon when this episode reaches the episode limit, even before it counted', () => {
     expect(upNext(data, a, day({ started: ['x', 'y'] }), eps(3), 20)).toEqual({ kind: 'limit' });
     expect(upNext(data, a, day({ started: ['x'] }), eps(3), 20)).toMatchObject({ kind: 'next' });
+  });
+
+  it('shows the moon for a rewatch that will reach the limit, before it counted (L1a)', () => {
+    const t = day({ started: [a.id, 'x'], finished: [a.id] });
+    expect(upNext(data, a, t, eps(3), 20)).toMatchObject({ kind: 'next' });
+    expect(upNext(data, a, t, eps(3), 20, true)).toEqual({ kind: 'limit' });
   });
 
   it('projects the remaining time against a minutes limit (R12)', () => {

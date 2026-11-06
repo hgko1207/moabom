@@ -206,7 +206,8 @@ export function renderTodayDone(profile: Profile, c: Collection, listRoute: Rout
   if (!limitReached(today, limits)) return replace(listRoute);
   analytics.limitReached(limits.dailyMinutes !== null && today.seconds >= limits.dailyMinutes * 60 ? 'minutes' : 'episodes');
   const all = viewingOrder(c.data);
-  const seen = today.started.flatMap((id) => all.find((v) => v.id === id) ?? []);
+  // A rewatch is in `started` twice (L1a); today's pictures show each episode once.
+  const seen = [...new Set(today.started)].flatMap((id) => all.find((v) => v.id === id) ?? []);
   const progress = store.progress(profile.id, c.config.id);
   // A compilation cut off by the limit is what continues tomorrow; otherwise the next episode.
   const cut = [...today.stopped].reverse().flatMap((id) => all.find((v) => v.id === id) ?? [])[0];

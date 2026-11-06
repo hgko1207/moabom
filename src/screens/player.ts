@@ -5,10 +5,12 @@ import { icon } from '../icons.ts';
 import { moon } from '../art.ts';
 import { createPlayer, type PlayerHandle } from '../player.ts';
 import {
+  COUNT_AFTER_SEC,
   canReplay,
   canStart,
   episodeLabel,
   errorStep,
+  isRewatch,
   localDate,
   nextInOrder,
   playerButtonOn,
@@ -22,6 +24,7 @@ import {
   recordPlay,
   recordPosition,
   recordProgress,
+  recordRewatch,
   recordStopped,
   shouldAutoResume,
   shouldCutAtLimit,
@@ -88,6 +91,8 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   // Free groups (compilations, clips) play on inside their own tab; series groups walk the episodes.
   const scope = upNextScope(c.data, c.config, video);
   const start = startPosition(progress, video);
+  // Seconds until this rewatch counts as one more episode (L1a); null when there is nothing left to count.
+  let rewatchLeft = isRewatch(today, video.id, start) ? COUNT_AFTER_SEC : null;
   if (c.config.color) setAccent(c.config.color);
 
   // Player buttons show unless a parent turned one off in settings (P2-1).
@@ -107,7 +112,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   // button; or, when today's limit ends with this episode, the moon, so the child knows well before the end.
   // This replaced the up-next card that popped up over or under the video 20 s before the end.
   const nextSlotHtml = (remainingSec: number): string => {
-    if (upNext(scope, video, today, limits, remainingSec).kind === 'limit') {
+    if (upNext(scope, video, today, limits, remainingSec, rewatchLeft !== null).kind === 'limit') {
       return `<p class="last-today">${moon(32)}<span>오늘은 이 편이 마지막이에요</span></p>`;
     }
     return next && canStart(today, limits, next.id)
@@ -212,7 +217,8 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     }),
   );
   const replay = () => {
-    // A same-day rewatch: no new episode is counted (L1), the minutes still are (L2).
+    // A same-day rewatch: one more episode after 10 s (L1a), and the minutes count as always (L2).
+    rewatchLeft = isRewatch(today, video.id, 0) ? COUNT_AFTER_SEC : null;
     overlay.hidden = true;
     overlay.innerHTML = '';
     progress = recordPosition(progress, video.id, null);
@@ -292,6 +298,13 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
         for (const id of settled.markFailed) progress = recordFailed(progress, id, Date.now());
       }
       today = recordPlay(today, video.id, delta);
+      if (rewatchLeft !== null) {
+        rewatchLeft -= delta;
+        if (rewatchLeft <= 0) {
+          today = recordRewatch(today, video.id);
+          rewatchLeft = null;
+        }
+      }
       const r = recordProgress(progress, video, delta, Date.now());
       progress = recordPosition(r.progress, video.id, current);
       history = recordHistory(history, today.date, c.config.id, video.id, delta);
@@ -323,7 +336,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
       history = recordHistoryDone(history, today.date, video.id);
       progress = recordPosition(progress, video.id, null);
       save();
-      const u = upNext(scope, video, today, limits, 0);
+      const u = upNext(scope, video, today, limits, 0, rewatchLeft !== null);
       if (u.kind === 'limit') return openToday();
       // The card and 한 번 더 are the whole choice: the ◀ above the video already goes back to the list.
       showOverlay(`${upNextCardHtml(u, c)}${replayButton()}`);

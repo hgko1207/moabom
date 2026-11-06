@@ -287,7 +287,7 @@ function limitBody(current: DeviceSettings): string {
       '아이에게는 이렇게 보여요',
       `<div class="preview-moon">${moon(44)}<p><b>오늘은 여기까지</b>내일 또 만나요</p></div>`,
     )}
-    <p class="hint">${mode === 'minutes' ? '15분이 넘는 영상은 시간이 되면 멈추고, 다음 날 그 자리부터 이어 봐요.' : '보던 편은 끝까지 보고, 다음 편부터 막혀요.'}</p>`;
+    <p class="hint">${mode === 'minutes' ? '15분이 넘는 영상은 시간이 되면 멈추고, 다음 날 그 자리부터 이어 봐요.' : '보던 편은 끝까지 보고, 다음 편부터 막혀요. 다 본 편을 처음부터 다시 봐도 한 편으로 세요.'}</p>`;
 }
 
 const LIMIT_MODES: LimitMode[] = ['none', 'minutes', 'episodes'];

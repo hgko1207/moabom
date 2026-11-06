@@ -346,6 +346,16 @@ export function recordPlay(today: TodayState, videoId: string, sec: number): Tod
   };
 }
 
+/** L1a: this play is a rewatch when an episode finished today starts over; resuming one is not. */
+export function isRewatch(today: TodayState, videoId: string, startSec: number): boolean {
+  return startSec === 0 && today.finished.includes(videoId);
+}
+
+/** L1a: a rewatch that reached 10 s is one more episode, and that episode is unfinished again (L3a). */
+export function recordRewatch(today: TodayState, videoId: string): TodayState {
+  return { ...today, started: [...today.started, videoId], finished: today.finished.filter((id) => id !== videoId) };
+}
+
 export function recordFinished(today: TodayState, videoId: string): TodayState {
   return today.finished.includes(videoId) ? today : { ...today, finished: [...today.finished, videoId] };
 }
@@ -438,7 +448,8 @@ export type UpNext =
 
 /**
  * P3: what the up-next card and the end overlay offer. `remainingSec` is the time left in the current
- * episode; a minutes limit that this episode will use up already shows the moon.
+ * episode; a minutes limit that this episode will use up already shows the moon. `rewatching` is a rewatch
+ * that has not counted yet (L1a).
  */
 export function upNext(
   data: CollectionData,
@@ -446,9 +457,10 @@ export function upNext(
   today: TodayState,
   limits: Limits,
   remainingSec: number,
+  rewatching = false,
 ): UpNext {
   // The current episode will have counted by its end, even if it started less than 10 s ago.
-  const started = today.started.includes(current.id) ? today.started : [...today.started, current.id];
+  const started = today.started.includes(current.id) && !rewatching ? today.started : [...today.started, current.id];
   const projected = { ...today, started, seconds: today.seconds + Math.max(0, remainingSec) };
   if (limitReached(projected, limits)) return { kind: 'limit' };
   const next = nextInOrder(data, current.id);

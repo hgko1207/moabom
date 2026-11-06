@@ -36,7 +36,7 @@ describe('brand', () => {
     const html = read('index.html');
     const meta = (p: string) => new RegExp(`<meta (?:property|name)="${p}" content="([^"]+)"`).exec(html)?.[1];
     expect(meta('og:title')).toBe('모아봄');
-    expect(meta('og:description')).toBe('공식 채널 영상만, 순서대로. 고를 필요 없어요');
+    expect(meta('og:description')).toBe('공식 채널 영상만 모았어요. 하루 볼 양도 정할 수 있어요');
     expect(meta('og:url')).toBe('https://moabom.hgko.dev/');
     expect(meta('og:image')).toBe('https://moabom.hgko.dev/og.png');
     expect(meta('twitter:card')).toBe('summary_large_image');

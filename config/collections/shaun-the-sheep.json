@@ -11,22 +11,22 @@
   "groups": [
     {
       "id": "season-1",
-      "label": "시즌 1",
+      "label": "시즌1",
       "playlistId": "PLp3AWpJx4Ym9R3DSAK11YSDM-BRbKNd5r"
     },
     {
       "id": "season-2",
-      "label": "시즌 2",
+      "label": "시즌2",
       "playlistId": "PLp3AWpJx4Ym9eJNP5vtRIWpKzCes_4S3B"
     },
     {
       "id": "season-3",
-      "label": "시즌 3",
+      "label": "시즌3",
       "playlistId": "PLp3AWpJx4Ym_qeyACWGUrxhcUCzJyK7he"
     },
     {
       "id": "season-4",
-      "label": "시즌 4",
+      "label": "시즌4",
       "videos": [
         "eafod-SlzeY",
         "65vsgDoHcEg",

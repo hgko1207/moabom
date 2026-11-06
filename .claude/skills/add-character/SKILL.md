@@ -31,7 +31,7 @@ The user confirms exactly once per character (step 3). Everything else runs with
 Design 2–5 tabs (groups) and pick a home-screen category, then ask once, showing: channel name, subscribers, link, the category, and the tab plan (label · kind · source · rough count). Options: the plan (Recommended), an alternative (e.g. the English channel or a different tab split), and let "Other" carry edits.
 
 How to pick the category:
-- Use an existing id from `config/categories.json` (today: `numbers-letters` 숫자·글자·색, `stories` 이야기, `life` 생활·동화). Pick the one a parent would look under.
+- Use an existing id from `config/categories.json` (today: `numbers-letters` 숫자와 글자, `stories` 이야기, `life` 생활과 동화). Pick the one a parent would look under.
 - Only when none fits, propose a new category in the same question: `{ id, label, icon, color }`. `icon` must be a name in `src/icons.ts` (add the Lucide path there first if needed, ISC, no other icon sets); `color` is `#RRGGBB` at least 3:1 against `#F4F6FA` (validation checks it). Append it to `config/categories.json`; the array order is the home row order.
 
 How to design tabs:
@@ -40,7 +40,7 @@ How to design tabs:
 - If there is no usable episode playlist but titles are numbered, use `npm run draft-groups -- --collection <id> --ranges 1-15,16-30` after writing the config with `channels` (it writes `data/collections/<id>/draft-groups.json`, gitignored) and copy the approved `videos` lists in.
 - Skip Shorts playlists, trailers, song-only or non-show playlists unless the user asks. `excludeShorts` treats anything **≤ 180 s** as a Short, so set it to `false` when the chosen playlists are curated episodes that often run about 3 minutes (e.g. 깨비키즈); keep `true` for `uploads` rules over a channel full of Shorts.
 - If an episode playlist mixes in long compilations, give that group `"maxSec": 900` so only real episodes stay (the compilations belong in a free tab).
-- Labels are short Korean words a parent recognises: 에피소드, 시즌 1, 모음집, 긴 모음, 노래.
+- Labels are short Korean words a parent recognises: 본편, 시즌1, 모음집, 긴 모음집, 노래. No 가운뎃점 (·) in labels; series tabs get "N화" added, so avoid words that repeat it (에피소드 3화).
 
 ### 4. Write config
 - Write the JSON with the Write/Edit tools, not a shell heredoc: the shell halves the backslashes in regex strings (`\\s` → `\s`) and the JSON breaks.

@@ -71,7 +71,7 @@ function upNextCardHtml(u: UpNext, c: Collection): string {
   }
   const v = u.video;
   const label = u.newGroup ? c.config.groups.find((g) => g.id === v.group)?.label ?? '' : '';
-  return `<button class="upnext" data-next="${esc(v.id)}" aria-label="다음 화: ${esc(episodeLabel(c.config, v))} ${esc(v.displayTitle)}">
+  return `<button class="upnext" data-next="${esc(v.id)}" aria-label="다음 편: ${esc(episodeLabel(c.config, v))} ${esc(v.displayTitle)}">
     ${thumb(v.id, String(v.order), `<span class="play" aria-hidden="true">${icon('play', 32)}</span>${label ? `<span class="badge group" aria-hidden="true">${esc(label)}</span>` : ''}`, true)}
     <span class="title" aria-hidden="true">${v.order}. ${esc(v.displayTitle)}</span></button>`;
 }
@@ -111,8 +111,8 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
       return `<p class="last-today">${moon(32)}<span>오늘은 이 편이 마지막이에요</span></p>`;
     }
     return next && canStart(today, limits, next.id)
-      ? `<button class="next-preview" data-go="${esc(next.id)}" aria-label="다음에 볼 편: ${esc(episodeLabel(c.config, next))} ${esc(next.displayTitle)}">
-      ${thumb(next.id, String(next.order))}<span class="next-text"><small>다음에 볼 편</small><b>${esc(episodeLabel(c.config, next))} · ${esc(next.displayTitle)}</b></span><span class="next-go" aria-hidden="true">${icon('play', 22)}</span></button>`
+      ? `<button class="next-preview" data-go="${esc(next.id)}" aria-label="다음 편: ${esc(episodeLabel(c.config, next))} ${esc(next.displayTitle)}">
+      ${thumb(next.id, String(next.order))}<span class="next-text"><small>다음 편</small><b>${esc(episodeLabel(c.config, next))} ${esc(next.displayTitle)}</b></span><span class="next-go" aria-hidden="true">${icon('play', 22)}</span></button>`
       : '';
   };
   let nextSlot = nextSlotHtml(Math.max(0, video.durationSec - start));
@@ -131,7 +131,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     </div>
     ${controls ? `<div class="controls" role="group" aria-label="재생 버튼">${controls}</div>` : ''}
     <div class="next-slot" aria-live="polite">${nextSlot}</div>
-    <p class="detect-off" hidden>감지 꺼짐</p>
+    <p class="detect-off" hidden>이 기기에서는 다른 영상으로 넘어가도 막지 못해요</p>
   </main>`;
   bindBack();
 
@@ -262,7 +262,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     window.clearTimeout(resumeCheck);
     resumeCheck = window.setTimeout(() => {
       if (player?.isPlaying() || !overlay.hidden) return;
-      showOverlay(`<button class="upnext resume" data-action="resume" aria-label="계속 보기">
+      showOverlay(`<button class="upnext resume" data-action="resume" aria-label="이어 보기">
           ${thumb(video.id, String(video.order), `<span class="play" aria-hidden="true">${icon('play', 32)}</span>`, true)}</button>${listButton}`);
       overlay.querySelector('[data-action="resume"]')?.addEventListener('click', () => {
         overlay.hidden = true;
@@ -350,7 +350,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     },
     onForeignVideo(resumeAt) {
       // P2 + design D8: offer to continue the episode the child was watching.
-      showOverlay(`<button class="upnext resume" data-action="resume" aria-label="이어보기: ${esc(video.displayTitle)}">
+      showOverlay(`<button class="upnext resume" data-action="resume" aria-label="이어 보기: ${esc(video.displayTitle)}">
           ${thumb(video.id, String(video.order), `<span class="play" aria-hidden="true">${icon('play', 32)}</span>`, true)}</button>${listButton}`);
       overlay.querySelector('[data-action="resume"]')?.addEventListener('click', () => {
         overlay.hidden = true;

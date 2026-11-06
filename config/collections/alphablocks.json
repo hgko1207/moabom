@@ -11,49 +11,49 @@
   "groups": [
     {
       "id": "s1",
-      "label": "시즌 1",
+      "label": "시즌1",
       "playlistId": "PLSW2D61TnopT9wHulLTwjgBJITX3eqQ-x"
     },
     {
       "id": "s2",
-      "label": "시즌 2",
+      "label": "시즌2",
       "playlistId": "PLSW2D61TnopSlWFCzFOOlrHMJHM73SS0s"
     },
     {
       "id": "s3",
-      "label": "시즌 3",
+      "label": "시즌3",
       "playlistId": "PLSW2D61TnopRJD0VZwu3m2cQKDM_M_5t7"
     },
     {
       "id": "s4",
-      "label": "시즌 4",
+      "label": "시즌4",
       "playlistId": "PLSW2D61TnopT7bXJYX6ineyr09gNWVrmF"
     },
     {
       "id": "s5",
-      "label": "시즌 5",
+      "label": "시즌5",
       "playlistId": "PLSW2D61TnopTLGBjKUf5rM3jljBdMkU04"
     },
     {
       "id": "s6",
-      "label": "시즌 6",
+      "label": "시즌6",
       "playlistId": "PLSW2D61TnopSVV21d-xqHpUzyaDTMPBc3"
     },
     {
       "id": "mix30",
-      "label": "30분 모음",
+      "label": "짧은 모음집",
       "kind": "free",
       "playlistId": "PLSW2D61TnopSB3X4VN5GBiLsT4Qus9a7x"
     },
     {
       "id": "mix45",
-      "label": "45분 모음",
+      "label": "모음집",
       "kind": "free",
       "playlistId": "PLSW2D61TnopS_nI9w8stRBYtCw0xtoSyE"
     },
     {
       "id": "mix60",
-      "label": "60분 모음",
+      "label": "긴 모음집",
       "kind": "free",
       "playlistId": "PLSW2D61TnopR_BEAJO5nASdZmpOSj7dkM"
     }

@@ -217,7 +217,7 @@ export function setAccent(color: string): void {
 export function staleNote(): string {
   const now = new Date();
   const stale = [...appData.collections.values()].some((c) => isStale(c.data.fetchedAt, now));
-  return stale ? '<p class="stale" role="status">데이터 갱신 필요</p>' : '';
+  return stale ? '<p class="stale" role="status">영상 목록이 오래됐어요</p>' : '';
 }
 
 export function offlineNotice(): string {
@@ -404,15 +404,15 @@ export function installHint(): string {
   const how = window.__moabomInApp
     ? '지금은 앱 안의 브라우저라 설치가 안 돼요. Chrome이나 Safari에서 열어 주세요.'
     : p === 'ios-safari' || p === 'ios-other'
-      ? `Safari 아래 공유 버튼(네모에 위쪽 화살표) → ${key('홈 화면에 추가')}`
-      : `${oneTap ? '버튼이 안 되면 ' : ''}브라우저 메뉴(⋮) → ${key('앱 설치')} 또는 ${key('홈 화면에 추가')}`;
+      ? `Safari 공유 버튼(네모에 위쪽 화살표)을 누르고 ${key('홈 화면에 추가')}를 누르세요`
+      : '';
   const action = oneTap
     ? `<button class="primary" data-action="install-now">${icon('download', 24)}지금 설치</button><button class="text-button" data-action="install-guide">자세한 방법</button>`
     : '<button class="secondary" data-action="install-guide">자세한 방법 보기</button>';
   return `<aside class="install-hint" aria-labelledby="install-hint-title">
     <h2 id="install-hint-title">${icon('download', 22)}홈 화면에 추가하면 앱처럼 열려요</h2>
-    <p>주소창 없이 전체 화면으로 열리고, 아이는 아이콘만 누르면 돼요. 설치하면 이 안내는 사라져요.</p>
-    <p class="install-how">${how}</p>
+    <p>주소창 없이 열리고, 아이는 아이콘만 누르면 돼요.</p>
+    ${how ? `<p class="install-how">${how}</p>` : ''}
     <div class="install-actions">${action}</div>
     <button class="close" data-action="install-dismiss" aria-label="설치 안내 닫기">${icon('close', 24)}</button></aside>`;
 }

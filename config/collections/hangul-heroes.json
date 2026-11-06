@@ -11,7 +11,7 @@
   "groups": [
     {
       "id": "season-1",
-      "label": "시즌 1",
+      "label": "기초 낱말",
       "videos": [
         "sjxbhMNV97M",
         "labPzGmG0jw",
@@ -105,7 +105,7 @@
     },
     {
       "id": "promise",
-      "label": "약속",
+      "label": "생활 약속",
       "videos": [
         "cHdsWDb0g-0",
         "uuxQcjMJV04",
@@ -135,7 +135,7 @@
     },
     {
       "id": "words",
-      "label": "낱말",
+      "label": "낱말 놀이",
       "videos": [
         "t9KXbRpzzc8",
         "_wV1otQmsA4",
@@ -319,7 +319,7 @@
     },
     {
       "id": "new-season",
-      "label": "새 시즌",
+      "label": "새 이야기",
       "videos": [
         "JCGhUgSgV_U",
         "u44wEiuuWT4",

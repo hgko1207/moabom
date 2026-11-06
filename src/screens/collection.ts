@@ -49,11 +49,11 @@ function heroHtml(view: CollectionView, first: VideoRecord | undefined, config: 
   if (next) {
     const label = episodeLabel(config, next);
     const at = view.resume ? startPosition(view.progress, next) : 0;
-    const what = view.resume ? '이어 보기' : '오늘 볼 영상';
-    const when = view.resume ? `${duration(at)}부터 / ${duration(next.durationSec)}` : duration(next.durationSec);
+    const what = view.resume ? '이어 보기' : '다음 편';
+    const when = view.resume ? `${duration(at)}부터` : duration(next.durationSec);
     return `<button class="hero" data-video="${esc(next.id)}" aria-label="${what}: ${esc(label)} ${esc(next.displayTitle)}">
       ${thumb(next.id, String(next.order), `<span class="play" aria-hidden="true">${icon('play', 48)}</span>${progressBar(at, next.durationSec)}`, true)}
-      <div>${view.resume ? `<div class="chip">${icon('again', 20)}이어 보기</div>` : ''}<div class="title">${esc(next.displayTitle)}</div><div class="sub">${esc(label)} · ${when}</div></div>
+      <div>${view.resume ? `<div class="chip">${icon('again', 20)}이어 보기</div>` : ''}<div class="title">${esc(next.displayTitle)}</div><div class="sub">${esc(label)} (${when})</div></div>
     </button>`;
   }
   if (view.limited) {
@@ -91,7 +91,7 @@ function cardHtml(v: VideoRecord, view: CollectionView, config: CollectionConfig
       : failed
         ? ', 지금은 볼 수 없어요'
         : isNext
-          ? (view.resume ? ', 이어 볼 영상' : ', 다음에 볼 영상')
+          ? (view.resume ? ', 이어 볼 영상' : ', 다음 편')
           : '';
   // Where watching continues, spelled out on the card itself (the border alone was easy to miss in a long list).
   const here = isNext && !locked ? `<span class="badge here" aria-hidden="true">${view.resume ? '이어 보기' : '여기부터'}</span>` : '';

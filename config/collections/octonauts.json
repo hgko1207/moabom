@@ -1,7 +1,7 @@
 {
   "id": "octonauts",
   "displayName": "옥토넛",
-  "category": "stories",
+  "category": "nature",
   "enabled": true,
   "channels": [
     "UCKEGG4zVP3CGS_YSQOf654w"
@@ -11,17 +11,17 @@
   "groups": [
     {
       "id": "s1",
-      "label": "시즌 1",
+      "label": "시즌1",
       "playlistId": "PL0exdpL1RDQpBQdHHzOFMpBqfqDZ0tqcG"
     },
     {
       "id": "s2",
-      "label": "시즌 2",
+      "label": "시즌2",
       "playlistId": "PL0exdpL1RDQo-ImviMMHShLVtxEKRE4tH"
     },
     {
       "id": "s3",
-      "label": "시즌 3",
+      "label": "시즌3",
       "playlistId": "PL0exdpL1RDQriZnrBAsIjOLgB9b-JdCah"
     },
     {

@@ -22,11 +22,11 @@
     <meta name="naver-site-verification" content="0e276c38cb098366645cceb663f9cc979a733ff9" />
     <!-- Link previews (KakaoTalk, Instagram, Naver, Band). Absolute URLs on the promo domain fixed in SPEC §1.
          KakaoTalk keeps a preview per URL for a long time: after changing these, clear it in the Kakao share debugger. -->
-    <meta name="description" content="공식 채널 영상만, 순서대로. 고를 필요 없어요" />
+    <meta name="description" content="공식 채널 영상만 모았어요. 하루 볼 양도 정할 수 있어요" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="모아봄" />
     <meta property="og:title" content="모아봄" />
-    <meta property="og:description" content="공식 채널 영상만, 순서대로. 고를 필요 없어요" />
+    <meta property="og:description" content="공식 채널 영상만 모았어요. 하루 볼 양도 정할 수 있어요" />
     <meta property="og:url" content="https://moabom.hgko.dev/" />
     <meta property="og:image" content="https://moabom.hgko.dev/og.png" />
     <meta property="og:image:width" content="1200" />
@@ -35,7 +35,7 @@
     <meta property="og:locale" content="ko_KR" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="모아봄" />
-    <meta name="twitter:description" content="공식 채널 영상만, 순서대로. 고를 필요 없어요" />
+    <meta name="twitter:description" content="공식 채널 영상만 모았어요. 하루 볼 양도 정할 수 있어요" />
     <meta name="twitter:image" content="https://moabom.hgko.dev/og.png" />
     <style>
       /* In-app browser escape bar (design DR27): in the page flow above the app, no close button. Quiet page
@@ -171,11 +171,11 @@
             });
           } else {
             // iOS, not KakaoTalk (DR12): copy the address for Safari, or select it by hand when copying is blocked.
-            var menu = app[1] === 'insta' || app[1] === 'threads' ? '오른쪽 위 ⋯ → 외부 브라우저에서 열기를 눌러도 돼요.' : '메뉴(⋯)에서 Safari로 열기를 찾아도 돼요.';
+            var menu = app[1] === 'insta' || app[1] === 'threads' ? '오른쪽 위 ⋯ 메뉴의 "외부 브라우저에서 열기"를 눌러도 돼요.' : '메뉴(⋯)에서 Safari로 열기를 찾아도 돼요.';
             bar.innerHTML =
               '<p></p><button type="button" data-escape="copy">주소 복사</button>' +
               '<p class="escape-msg" aria-live="polite"></p>';
-            bar.querySelector('p').textContent = app[2] + ' 안에서는 홈 화면에 설치가 안 돼요. 주소를 복사해 Safari에 붙여 넣어 주세요. ' + menu;
+            bar.querySelector('p').textContent = app[2] + ' 안에서는 홈 화면에 설치가 안 돼요. 주소를 복사해 Safari에 붙여넣어 주세요. ' + menu;
             var msg = bar.querySelector('.escape-msg');
             var showUrl = function () {
               msg.textContent = '';
@@ -189,7 +189,7 @@
               try {
                 navigator.clipboard.writeText(url).then(
                   function () {
-                    msg.textContent = '복사했어요. Safari에 붙여 넣어 주세요';
+                    msg.textContent = '복사했어요. Safari에 붙여넣어 주세요';
                   },
                   showUrl,
                 );

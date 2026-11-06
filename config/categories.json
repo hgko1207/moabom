@@ -1,9 +1,9 @@
 {
   "categories": [
-    { "id": "numbers-letters", "label": "숫자·글자·색", "icon": "blocks", "color": "#2563EB" },
+    { "id": "numbers-letters", "label": "숫자와 글자", "icon": "blocks", "color": "#2563EB" },
     { "id": "stories", "label": "이야기", "icon": "book-open", "color": "#C2410C" },
-    { "id": "life", "label": "생활·동화", "icon": "sprout", "color": "#15803D" },
-    { "id": "english-songs", "label": "영어 동요", "icon": "music", "color": "#7C3AED" },
-    { "id": "nature", "label": "자연·동물", "icon": "bug", "color": "#0F766E" }
+    { "id": "life", "label": "생활과 동화", "icon": "sprout", "color": "#15803D" },
+    { "id": "english-songs", "label": "영어", "icon": "music", "color": "#7C3AED" },
+    { "id": "nature", "label": "자연과 동물", "icon": "bug", "color": "#0F766E" }
   ]
 }

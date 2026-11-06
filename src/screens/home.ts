@@ -74,7 +74,7 @@ export function renderCollections(profile: Profile, collections: Collection[], s
   const byId = new Map(appData.categories.map((c) => [c.id, c]));
   const body =
     rows.length < 2
-      ? tiles(collections, '컬렉션')
+      ? tiles(collections, '캐릭터')
       : rows
           .map((row) => {
             const cat = byId.get(row.category)!;
@@ -123,7 +123,7 @@ export function renderCollections(profile: Profile, collections: Collection[], s
  */
 function introLine(): string {
   return `<aside class="intro" aria-label="모아봄 소개">
-    <div class="intro-body"><p>공식 채널 영상만 모은, 부모가 만든 무료 앱이에요. 하루 제한은 톱니를 2초 눌러 정해요. <button class="intro-more" data-action="intro-about">자세히</button></p></div>
+    <div class="intro-body"><p>톱니바퀴를 2초 누르면 하루 제한을 정할 수 있어요. <button class="intro-more" data-action="intro-about">자세히</button></p></div>
     <button class="close" data-action="intro-dismiss" aria-label="소개 닫기">${icon('close', 24)}</button></aside>`;
 }
 
@@ -131,12 +131,12 @@ function introLine(): string {
 function hiddenLine(profile: Profile): string {
   const hidden = new Set(store.settings()?.hidden ?? []);
   const n = profile.collections.filter((id) => appData.collections.has(id) && hidden.has(id)).length;
-  return n ? `<p class="hidden-line">숨긴 캐릭터 ${n}개 · <button class="text-button" data-action="hidden-settings">설정</button>에서 다시 켤 수 있어요</p>` : '';
+  return n ? `<p class="hidden-line">숨긴 캐릭터가 ${n}개 있어요. <button class="text-button" data-action="hidden-settings">설정</button>에서 다시 켤 수 있어요</p>` : '';
 }
 
 /** Always at the bottom of home: why a visiting parent can trust it (the same facts as 이용 안내). */
 function trustNote(): string {
-  return `<footer class="home-trust"><b>공식 채널 영상만, 순서대로.</b> 영상은 YouTube에서 재생돼요. 각 채널(제작사)의 공식 서비스가 아니라, 아이 둘을 키우는 부모가 만든 무료 도구예요. 본 기록은 이 기기에만 저장돼요.</footer>`;
+  return `<footer class="home-trust"><b>공식 채널 영상만 모았어요.</b> 영상은 YouTube에서 재생돼요. 제작사가 만든 앱이 아니라, 아이 둘을 키우는 부모가 만든 무료 앱이에요.</footer>`;
 }
 
 /**
@@ -171,6 +171,6 @@ function homeContinueHtml(collections: Collection[], views: Map<string, Collecti
       aria-label="${what}: ${esc(c.config.displayName)} ${esc(label)} ${esc(v.displayTitle)}">
     ${thumb(v.id, String(v.order), `<span class="play" aria-hidden="true">${icon('play', 48)}</span>${progressBar(at, v.durationSec)}`, true)}
     <div><div class="chip">${icon(view.resume ? 'again' : 'play', 20)}${what}</div><div class="title">${esc(v.displayTitle)}</div>
-      <div class="sub">${esc(c.config.displayName)} · ${esc(label)} · ${when}</div></div>
+      <div class="sub">${esc(c.config.displayName)} ${esc(label)} (${when})</div></div>
   </button>`;
 }

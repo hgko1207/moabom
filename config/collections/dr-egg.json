@@ -33,7 +33,7 @@
     },
     {
       "id": "latest",
-      "label": "최신 영상",
+      "label": "새 영상",
       "kind": "free",
       "uploads": {
         "minSec": 181,

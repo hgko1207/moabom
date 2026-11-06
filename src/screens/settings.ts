@@ -12,7 +12,7 @@ import {
   EXTRA_EPISODES,
   EXTRA_MINUTES,
   groupByCategory,
-  HISTORY_DAYS,
+  episodeLabel,
   homeTitle,
   limitSummary,
   localDate,
@@ -171,17 +171,17 @@ function settingsMenu(profile: Profile, available: Collection[], current: Device
   // Show today's use against the limit when there is one, so a parent sees how much is left.
   const todayUsage =
     mode === 'minutes'
-      ? `본 시간 <b>${watchedMin}분</b> / 하루 ${value}분`
+      ? `본 시간 <b>${watchedMin}분</b> / 오늘 ${value + Math.round((today.extraSeconds ?? 0) / 60)}분`
       : mode === 'episodes'
-        ? `시작한 영상 <b>${today.started.length}편</b> / 하루 ${value}편 · 본 시간 ${watchedMin}분`
-        : `본 시간 <b>${watchedMin}분</b> · 시작한 영상 ${today.started.length}편`;
+        ? `본 영상 <b>${today.started.length}편</b> / 오늘 ${value + (today.extraEpisodes ?? 0)}편, 본 시간 ${watchedMin}분`
+        : `본 시간 <b>${watchedMin}분</b>, 본 영상 ${today.started.length}편`;
   const share = todayShare(current.limit, today);
   const news = unreadNews();
   const statsOn = store.analytics() !== 'off';
   const extraNote = today.extraEpisodes
-    ? `오늘은 ${today.extraEpisodes}편 더 볼 수 있어요.`
+    ? `오늘만 ${today.extraEpisodes}편 늘렸어요.`
     : today.extraSeconds
-      ? `오늘은 ${Math.round(today.extraSeconds / 60)}분 더 볼 수 있어요.`
+      ? `오늘만 ${Math.round(today.extraSeconds / 60)}분 늘렸어요.`
       : '오늘 하루만 제한을 늘려요. 내일은 원래대로예요.';
   const sectionRow = (section: SettingsSection, value: string) => menuRow(`data-section="${section}"`, SECTION_TITLE[section], value);
 
@@ -204,13 +204,13 @@ function settingsMenu(profile: Profile, available: Collection[], current: Device
     ${
       news
         ? `<section class="panel news" aria-label="새 소식">
-      <details><summary><span class="news-badge">${moon(18)}새 소식 · ${newsDate(news.date)}</span><b id="news-title">${esc(news.title)}</b></summary>
+      <details><summary><span class="news-badge">${moon(18)}새 소식 ${newsDate(news.date)}</span><b id="news-title">${esc(news.title)}</b></summary>
       <p>${esc(news.body)}</p></details>
       <button class="close" data-action="news-close" data-news="${esc(news.id)}" aria-label="소식 닫기">${icon('close', 24)}</button>
     </section>`
         : ''
     }
-    <div class="menu">${menuRow('data-action="history"', '시청 기록', `최근 7일 · ${playedTime(weekSeconds(profile))}`)}</div>
+    <div class="menu">${menuRow('data-action="history"', '시청 기록', `최근 7일 동안 ${playedTime(weekSeconds(profile))}`)}</div>
     <h2 class="menu-group" id="kids-title">아이 화면</h2>
     <div class="menu" role="group" aria-labelledby="kids-title">
       ${sectionRow('limit', limitSummary(current.limit))}
@@ -228,11 +228,11 @@ function settingsMenu(profile: Profile, available: Collection[], current: Device
       }
       ${
         REQUEST_FORM_URL
-          ? `<a class="menu-row" href="${esc(REQUEST_FORM_URL)}" target="_blank" rel="noopener" data-action="request"><span class="label">캐릭터·영상 추천하기</span>${icon('external-link', 24)}</a>`
+          ? `<a class="menu-row" href="${esc(REQUEST_FORM_URL)}" target="_blank" rel="noopener" data-action="request"><span class="label">보고 싶은 영상 신청하기</span>${icon('external-link', 24)}</a>`
           : ''
       }
-      ${menuRow('data-action="about"', '이용 안내·개인정보')}
-      ${switchRow('data-action="stats"', statsOn, '익명 통계 보내기', '아이 이름·기록은 보내지 않아요')}
+      ${menuRow('data-action="about"', '이용 안내와 개인정보')}
+      ${switchRow('data-action="stats"', statsOn, '익명 통계 보내기', '몇 번 열고 틀었는지 같은 숫자만 보내요')}
     </div>`,
   );
   bindBack();
@@ -275,7 +275,7 @@ function limitBody(current: DeviceSettings): string {
     </div>`;
   if (mode === 'none') {
     return `${choices}
-    <p class="hint">시간이나 편 수에 상관없이 볼 수 있고, 달 화면이 뜨지 않아요. 오늘 본 시간은 설정 첫 화면에서 볼 수 있어요.</p>`;
+    <p class="hint">제한 없이 볼 수 있어요.</p>`;
   }
   return `${choices}
     <section class="panel stepper-card" aria-label="하루에 볼 양">
@@ -285,9 +285,9 @@ function limitBody(current: DeviceSettings): string {
     </section>
     ${preview(
       '아이에게는 이렇게 보여요',
-      `<div class="preview-moon">${moon(44)}<p><b>오늘은 여기까지</b>${value}${spec.unit}${mode === 'minutes' ? '을 보면' : '을 보고 나면'} 달이 떠요</p></div>`,
+      `<div class="preview-moon">${moon(44)}<p><b>오늘은 여기까지</b>내일 또 만나요</p></div>`,
     )}
-    <p class="hint">${mode === 'minutes' ? '15분이 넘는 모음집은 시간이 되면 멈추고, 다음 날 그 자리부터 이어 봐요.' : '보던 편은 끝까지 보고, 다음 편부터 막혀요.'}</p>`;
+    <p class="hint">${mode === 'minutes' ? '15분이 넘는 영상은 시간이 되면 멈추고, 다음 날 그 자리부터 이어 봐요.' : '보던 편은 끝까지 보고, 다음 편부터 막혀요.'}</p>`;
 }
 
 const LIMIT_MODES: LimitMode[] = ['none', 'minutes', 'episodes'];
@@ -357,7 +357,7 @@ function charactersBody(available: Collection[], current: DeviceSettings): strin
     .join('');
   return `${rows}
     <button class="secondary reorder" data-action="reorder" aria-pressed="${reordering}">${reordering ? '다 했어요' : '순서 바꾸기'}</button>
-    <p class="hint">${reordering ? '화살표로 홈 화면 순서를 바꿔요. 같은 종류 안에서만 움직여요.' : '끄면 아이 화면에서만 사라지고, 본 기록은 그대로 남아요.'}</p>`;
+    <p class="hint">${reordering ? '화살표로 홈 화면 순서를 바꿔요. 같은 종류 안에서만 움직여요.' : '끄면 아이 화면에서만 사라지고, 시청 기록은 그대로 남아요.'}</p>`;
 }
 
 function bindCharacters(available: Collection[], current: DeviceSettings, latest: () => DeviceSettings): void {
@@ -414,9 +414,9 @@ function buttonsBody(available: Collection[], current: DeviceSettings): string {
       <div class="mini-controls">${controls || '<span class="mini-none">버튼 없이 영상만 나와요</span>'}</div></div>`,
   )}
     <div class="menu">${PLAYER_SWITCHES.map(([key, label, name]) => switchRow(`data-button="${key}"`, playerButtonOn(buttons, key), label, key === 'replay' ? '영상이 끝난 화면에 나와요' : '', lead(name))).join('')}</div>
-    <p class="hint">이전·다음 편도 하루 제한을 지켜요. 한 번 더는 제한에 닿으면 숨어요.</p>
+    <p class="hint">하루 제한이 다 차면 이 버튼으로도 더 볼 수 없어요.</p>
     <h2 class="menu-group" id="yt-title">YouTube</h2>
-    <div class="menu" role="group" aria-labelledby="yt-title">${switchRow('data-action="shield"', shield, 'YouTube 버튼 막기', '영상 속 제목·로고·공유를 못 누르게 해요. 영상을 누르면 멈추고, 자막(CC) 버튼은 사라져요', lead('lock'))}</div>`;
+    <div class="menu" role="group" aria-labelledby="yt-title">${switchRow('data-action="shield"', shield, 'YouTube 버튼 막기', '영상 속 제목, 로고, 공유를 못 누르게 해요. 영상을 누르면 멈추고, 자막(CC) 버튼은 사라져요', lead('lock'))}</div>`;
 }
 
 function bindButtons(latest: () => DeviceSettings): void {
@@ -451,13 +451,12 @@ function homeBody(profile: Profile, available: Collection[], current: DeviceSett
   )}
     <h2 class="menu-group" id="name-title">이름</h2>
     <form class="title-form" data-action="title">
-      <input id="home-title" name="title" maxlength="${TITLE_MAX}" value="${esc(homeTitle(profile.name, current))}" placeholder="예: 하늘이네 모아봄" aria-labelledby="name-title" aria-describedby="title-hint" autocomplete="off">
+      <input id="home-title" name="title" maxlength="${TITLE_MAX}" value="${esc(homeTitle(profile.name, current))}" placeholder="예: 하늘이네 모아봄" aria-labelledby="name-title" autocomplete="off">
       <button class="secondary" type="submit">저장</button>
     </form>
-    <p class="hint" id="title-hint">끝에 모아봄을 붙이면 좋아요</p>
     <p class="hint" id="title-msg" role="status"></p>
     <h2 class="menu-group">맨 위 칸</h2>
-    <div class="menu">${switchRow('data-action="home-continue"', on, '"이어 보기" 칸', '최근에 보던 영상(다 봤으면 다음 편)을 한 번에 이어 봐요', lead('again'))}</div>`;
+    <div class="menu">${switchRow('data-action="home-continue"', on, '"이어 보기" 칸', '최근에 보던 영상을 바로 이어 봐요', lead('again'))}</div>`;
 }
 
 function bindHome(profile: Profile, latest: () => DeviceSettings): void {
@@ -472,7 +471,7 @@ function bindHome(profile: Profile, latest: () => DeviceSettings): void {
     const title = titleInput.value.trim().slice(0, TITLE_MAX);
     store.saveSettings({ ...latest(), title: title === homeTitle(profile.name, null) ? undefined : title || undefined });
     titleInput.value = title || homeTitle(profile.name, null);
-    app.querySelector('#title-msg')!.textContent = `"${titleInput.value}"(으)로 저장했어요.`;
+    app.querySelector('#title-msg')!.textContent = '이름을 저장했어요.';
   };
   titleInput.addEventListener('change', saveTitle);
   titleInput.addEventListener('input', () => {
@@ -495,7 +494,7 @@ function incomingCard(): string {
   if (pending === 'invalid') {
     return `<section class="panel incoming" role="alert" aria-labelledby="incoming-title">
       <h2 id="incoming-title">설정 링크를 읽지 못했어요</h2>
-      <p>링크가 잘렸거나 다른 링크예요. 보낸 기기에서 "이 설정 보내기"로 다시 만들어 달라고 해 주세요.</p>
+      <p>링크가 잘렸거나 다른 링크예요. 보낸 기기에서 "이 설정 보내기"로 다시 보내 주세요.</p>
       <button class="secondary" data-action="incoming-drop">닫기</button>
     </section>`;
   }
@@ -504,7 +503,7 @@ function incomingCard(): string {
       <h2 id="incoming-title">받은 설정</h2>
       <p>다른 기기에서 보낸 설정이에요. 적용하면 이 기기의 설정이 아래처럼 바뀌어요.</p>
       <ul class="checklist">${describeSettings(pending).map((line) => `<li>${icon('check', 20)}${esc(line)}</li>`).join('')}</ul>
-      <p class="hint">본 기록과 시청 기록은 그대로예요.</p>
+      <p class="hint">시청 기록과 진도는 그대로예요.</p>
       <div class="incoming-actions">
         <button class="primary" data-action="incoming-apply">이 기기에 적용</button>
         <button class="secondary" data-action="incoming-drop">적용 안 함</button>
@@ -523,13 +522,13 @@ function syncBody(): string {
             <input id="settings-link" name="link" placeholder="https://moabom.hgko.dev/?settings=…" aria-labelledby="paste-title" autocomplete="off" inputmode="url">
             <button class="secondary" type="submit">적용</button>
           </form>
-          <p class="hint" id="paste-msg" role="status">아이폰 홈 화면 앱은 링크를 눌러도 적용되지 않아요. 링크를 길게 눌러 복사한 뒤 여기에 붙여넣어 주세요.</p>
+          <p class="hint" id="paste-msg" role="status">iPhone 홈 화면 앱은 링크를 눌러도 적용되지 않아요. 링크를 길게 눌러 복사한 뒤 여기에 붙여넣어 주세요.</p>
         </div>
       </details>
     </div>
-    <h2 class="menu-group" id="moves-title">함께 옮겨지는 것</h2>
+    <h2 class="menu-group" id="moves-title">보내는 것</h2>
     <ul class="checklist" aria-labelledby="moves-title">${moves.map((m) => `<li>${icon('check', 20)}${m}</li>`).join('')}</ul>
-    <p class="hint">본 기록과 진도는 옮겨지지 않아요.</p>`;
+    <p class="hint">시청 기록과 진도는 보내지 않아요.</p>`;
 }
 
 function bindSync(latest: () => DeviceSettings): void {
@@ -538,7 +537,7 @@ function bindSync(latest: () => DeviceSettings): void {
     const url = settingsLink(location.origin, location.pathname, latest());
     try {
       if (navigator.share) {
-        await navigator.share({ title: '모아봄 설정', text: '이 링크를 열면 모아봄 설정이 그 기기에 적용돼요.', url });
+        await navigator.share({ title: '모아봄 설정', text: '이 링크를 열고 "이 기기에 적용"을 눌러 주세요.', url });
         return;
       }
     } catch (err) {
@@ -612,7 +611,7 @@ function playedTime(sec: number): string {
 
 /** The Google Form for character and video requests (respondent link, no login needed); the row hides when empty. */
 const REQUEST_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScKS_JOU0xznBZ_NMsMN2g9RXixgC1y7jwo13bkfUUpAhCJmQ/viewform';
-const ABOUT_EDITED = '2026-10-21';
+const ABOUT_EDITED = '2026-11-06';
 
 function linkRow(url: string, label: string): string {
   return `<a class="link-row" href="${esc(url)}" target="_blank" rel="noopener"><span>${esc(label)}</span>${icon('external-link', 24)}</a>`;
@@ -626,30 +625,30 @@ export function renderAbout(profile: Profile): void {
   app.innerHTML = `<main class="screen settings about"><div class="bar">${backButton()}<h1>이용 안내</h1></div>
     <section class="panel" aria-labelledby="about-promise">
       <h2 id="about-promise">모아봄은</h2>
-      <p>공식 채널(제작사) 영상만 모아, 1화부터 순서대로 보여 줘요.</p>
+      <p>공식 채널(제작사) 영상만 모아서 보여 줘요.</p>
       <p>하루 제한을 정하면 그만큼 본 뒤 달이 뜨고 "오늘은 여기까지"로 끝나요.</p>
       <p>영상은 YouTube가 재생해서, 영상 앞이나 중간에 YouTube 광고가 나올 수 있어요. 모아봄은 광고를 넣지 않고, 돈을 받지 않아요.</p>
     </section>
     <section class="panel" aria-labelledby="about-stored">
       <h2 id="about-stored">저장되는 것</h2>
-      <p>시청 기록, 진도, 설정은 이 기기의 브라우저에만 저장돼요. 다른 기기로 옮기려면 설정의 "이 설정 보내기"를 직접 눌러야 해요. 밖으로 나가는 것은 아래의 익명 숫자뿐이에요.</p>
+      <p>시청 기록, 진도, 설정은 이 기기의 브라우저에만 저장돼요.</p>
     </section>
     <section class="panel" aria-labelledby="about-youtube">
       <h2 id="about-youtube">YouTube</h2>
-      <p>영상은 YouTube가 재생해요(youtube.com 플레이어). 이 기기에서 YouTube에 로그인해 있으면 YouTube가 시청 정보를 받을 수 있어요.</p>
+      <p>영상은 YouTube가 재생해서, 어떤 영상을 봤는지 YouTube도 알 수 있어요.</p>
       ${linkRow('https://www.youtube.com/t/terms', 'YouTube 이용약관')}
       ${linkRow('https://policies.google.com/privacy', 'Google 개인정보처리방침')}
     </section>
     <section class="panel" aria-labelledby="about-stats">
       <h2 id="about-stats">익명 통계</h2>
-      <p>어떤 홍보 글에서 왔는지, 영상을 몇 번 틀었는지 같은 숫자만 GoatCounter로 보내요. 쿠키는 쓰지 않고, 아이 이름·설정·기록은 보내지 않아요. 설정의 "익명 통계 보내기"를 끄면 이 기기는 아무것도 보내지 않아요.</p>
+      <p>어떤 홍보 글에서 왔는지, 영상을 몇 번 틀었는지 같은 숫자만 GoatCounter로 보내요. 쿠키는 쓰지 않고, 아이를 알 수 있는 정보는 보내지 않아요. 설정의 "익명 통계 보내기"를 끄면 이 기기는 아무것도 보내지 않아요.</p>
       <details class="about-more"><summary>보내는 것 자세히</summary>
-      <p>보내는 것: 이벤트 이름(visit, first_play, play_start, limit_reached, video_error, collection_open, request_click, inapp_escape)과, 그 안에 붙는 홍보 경로(insta 같은 짧은 이름)·캐릭터 이름·영상 번호·오류 번호.</p></details>
+      <p>보내는 것: 앱을 연 횟수, 어떤 캐릭터를 열고 튼 횟수, 하루 제한에 닿은 횟수와 제한 종류(시간, 편 수), 재생 오류(영상 번호, 오류 번호), 어느 앱이나 홍보 글에서 왔는지.</p></details>
       ${linkRow('https://www.goatcounter.com/help/privacy', 'GoatCounter 개인정보 정책 (IP 처리)')}
     </section>
     <section class="panel" aria-labelledby="about-maker">
       <h2 id="about-maker">만든 사람</h2>
-      <p>각 채널(제작사)의 공식 서비스가 아닌, 아이 둘을 키우는 부모가 만든 무료 도구예요.</p>
+      <p>제작사가 만든 앱이 아니라, 아이 둘을 키우는 부모가 만든 무료 앱이에요.</p>
       ${linkRow('/privacy.html', '이 안내를 따로 보기')}
     </section>
     ${
@@ -660,7 +659,7 @@ export function renderAbout(profile: Profile): void {
     </section>`
         : ''
     }
-    <p class="hint">고친 날: ${ABOUT_EDITED.slice(0, 4)}년 ${newsDate(ABOUT_EDITED)}</p>
+    <p class="hint">고친 날짜: ${ABOUT_EDITED.slice(0, 4)}년 ${newsDate(ABOUT_EDITED)}</p>
   </main>`;
   bindBack();
 }
@@ -682,7 +681,7 @@ export function renderHistory(profile: Profile): void {
   setBack(() => backTo({ profile: profile.id, settings: true }));
   app.innerHTML = `<main class="screen settings history"><div class="bar">${backButton()}<h1>시청 기록</h1></div>
     <section class="panel" aria-labelledby="week-title">
-      <h2 id="week-title">최근 7일 · ${playedTime(total)}</h2>
+      <h2 id="week-title">최근 7일 동안 ${playedTime(total)}</h2>
       <ul class="week">${days
         .map(
           (d) => `<li><span class="day">${dayLabel(d.date, today)}</span>
@@ -695,26 +694,25 @@ export function renderHistory(profile: Profile): void {
       .filter((d) => d.videos.length)
       .map(
         (d) => `<section class="panel" aria-label="${dayLabel(d.date, today)}">
-      <h2>${dayLabel(d.date, today)} <span class="muted">· ${playedTime(d.seconds)}</span></h2>
+      <h2>${dayLabel(d.date, today)} <span class="muted">${playedTime(d.seconds)}</span></h2>
       <ul class="watched">${d.videos
         .map(([vid, e]) => {
           const { c, v } = find(e.c, vid);
           const title = v?.displayTitle ?? '지금은 목록에 없는 영상';
-          const group = v ? c!.config.groups.find((g) => g.id === v.group)?.label ?? '' : '';
           return `<li>${thumb(vid, v ? String(v.order) : '?', e.done ? `<span class="badge state done" aria-hidden="true">${icon('check', 20)}</span>` : '')}
             <div><div class="title">${esc(title)}</div>
-            <div class="sub">${esc(c?.config.displayName ?? '')}${group ? ` · ${esc(group)} ${v!.order}편` : ''} · ${playedTime(e.sec)}${e.done ? ' · 다 봤어요' : ''}</div></div></li>`;
+            <div class="sub">${esc(c?.config.displayName ?? '')}${v ? ` ${esc(episodeLabel(c!.config, v))}` : ''} (${playedTime(e.sec)}${e.done ? ', 다 봤어요' : ''})</div></div></li>`;
         })
         .join('')}</ul>
     </section>`,
       )
       .join('') || '<p class="hint">아직 기록이 없어요. 영상을 보면 여기에 날짜별로 쌓여요.</p>'}
-    <p class="hint">이 기기에서 본 것만 보여요. 최근 ${HISTORY_DAYS}일까지 보관해요.</p>
+    <p class="hint">이 기기에서 본 것만 보여요.</p>
     ${
       limitOn
-        ? `<h2 class="menu-group" id="reset-title">오늘 기록</h2>
+        ? `<h2 class="menu-group" id="reset-title">오늘 제한</h2>
     <div class="menu" role="group" aria-labelledby="reset-title">
-      <button class="menu-row" data-action="reset-today">${lead('again')}<span class="label">오늘 기록 초기화<small>하루 제한에 쓰는 오늘의 시간과 편 수만 0으로 돌려요. 위의 기록은 남아요.</small></span></button>
+      <button class="menu-row" data-action="reset-today">${lead('again')}<span class="label">오늘 제한 다시 세기<small>오늘 본 시간과 편 수를 0으로 되돌려요. 위의 기록은 남아요.</small></span></button>
     </div>`
         : ''
     }
@@ -755,7 +753,7 @@ export function renderInstall(home: Route): void {
   const platform = currentPlatform();
   const appUrl = location.origin + location.pathname;
   const installButton = canPromptInstall()
-    ? `<button class="primary install-now" data-action="install-now">${icon('download', 24)}지금 바로 설치하기</button>
+    ? `<button class="primary install-now" data-action="install-now">${icon('download', 24)}지금 설치</button>
        <p class="hint">버튼이 안 되면 아래 순서대로 해 주세요.</p>`
     : '';
   const already = '<p class="hint">"이미 설치되어 있다"고 나오면 홈 화면이나 앱 목록에서 "모아봄"을 찾아 주세요.</p>';
@@ -773,20 +771,20 @@ export function renderInstall(home: Route): void {
       body = `<p class="installed">${icon('check', 24)}이미 앱으로 열려 있어요</p>`;
       break;
     case 'android':
-      body = `${guide('Android · Chrome', STEPS.android, { mine: true, before: installButton })}${already}`;
+      body = `${guide('Android Chrome', STEPS.android, { mine: true, before: installButton })}${already}`;
       break;
     case 'samsung':
       body = `${guide('삼성 인터넷', STEPS.samsung, { mine: true, before: installButton })}
         ${guide('Chrome에서 열었다면', STEPS.android)}${already}`;
       break;
     case 'ios-safari':
-      body = guide('iPhone · iPad (Safari)', STEPS.ios, { mine: true });
+      body = guide('iPhone과 iPad (Safari)', STEPS.ios, { mine: true });
       break;
     case 'ios-other':
       // In-app browsers (KakaoTalk, Naver, ...) cannot add to the home screen: getting into Safari is step zero.
       body = `<section class="guide mine first" aria-label="먼저 Safari로 열기">
           <h2><span class="mine-tag">먼저</span>Safari로 열어 주세요</h2>
-          <p>iPhone·iPad는 Safari에서 추가하는 게 가장 확실해요. 주소를 복사해 Safari에 붙여넣어 주세요.</p>${copy}
+          <p>iPhone과 iPad는 Safari에서 추가하는 게 가장 확실해요. 주소를 복사해 Safari에 붙여넣어 주세요.</p>${copy}
         </section>
         ${guide('Safari에서 연 다음', STEPS.ios)}`;
       break;
@@ -795,8 +793,8 @@ export function renderInstall(home: Route): void {
           <h2>태블릿이나 휴대폰에서 열어 주세요</h2>
           <p>홈 화면 추가는 아이가 볼 기기에서 해요. 아래 주소를 그 기기에서 열고, 기기에 맞는 순서를 따라 주세요.</p>${copy}
         </section>
-        ${guide('Android · Chrome', STEPS.android)}
-        ${guide('iPhone · iPad (Safari)', STEPS.ios)}`;
+        ${guide('Android Chrome', STEPS.android)}
+        ${guide('iPhone과 iPad (Safari)', STEPS.ios)}`;
       break;
   }
 

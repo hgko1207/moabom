@@ -1,7 +1,7 @@
 {
   "id": "little-fox",
   "displayName": "리틀팍스",
-  "category": "stories",
+  "category": "english-songs",
   "enabled": true,
   "channels": [
     "UCUyOOQKJxRhzxrPOSLArYTA"
@@ -26,7 +26,7 @@
     },
     {
       "id": "classics",
-      "label": "세계명작",
+      "label": "세계 명작",
       "kind": "free",
       "playlistId": "PLAObE_5X1bMebVmkPuu0LFsH3kYG8OJiB"
     },

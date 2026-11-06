@@ -22,7 +22,7 @@ import {
   type Limits,
   type SettingsSection,
 } from './rules.ts';
-import { createAnalytics, type SessionKV } from './analytics.ts';
+import { createAnalytics, LIVE_ORIGIN, type SessionKV } from './analytics.ts';
 import type { PlayerHandle } from './player.ts';
 import { browserKV, createStore, type CollectionProgress, type DeviceSettings, type PlayerButtons, type TodayState } from './storage.ts';
 
@@ -48,7 +48,7 @@ function sessionKV(): SessionKV {
 }
 
 export const analytics = createAnalytics({
-  muted: () => store.analytics() === 'off',
+  muted: () => location.origin !== LIVE_ORIGIN || store.analytics() === 'off',
   session: sessionKV(),
   send: (url) => {
     new Image().src = url;
@@ -396,14 +396,14 @@ export function bindHold(button: HTMLElement, action: () => void): void {
  */
 export function installHint(): string {
   const p = currentPlatform();
-  if (p === 'standalone' || store.installHintDismissed()) return '';
+  // Inside an in-app browser the top bar already says how to install; this card could only repeat it.
+  if (p === 'standalone' || window.__moabomInApp || store.installHintDismissed()) return '';
   const oneTap = canPromptInstall();
   // A computer is not the children's screen: the card shows there only when the browser offers one-tap install.
   if (p === 'desktop' && !oneTap) return '';
   const key = (t: string) => `<b class="menu-name">${t}</b>`;
-  const how = window.__moabomInApp
-    ? '지금은 앱 안의 브라우저라 설치가 안 돼요. Chrome이나 Safari에서 열어 주세요.'
-    : p === 'ios-safari' || p === 'ios-other'
+  const how =
+    p === 'ios-safari' || p === 'ios-other'
       ? `Safari 공유 버튼(네모에 위쪽 화살표)을 누르고 ${key('홈 화면에 추가')}를 누르세요`
       : '';
   const action = oneTap

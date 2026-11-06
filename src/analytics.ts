@@ -9,6 +9,9 @@ export const COUNT_URL = `https://${GOATCOUNTER_CODE}.goatcounter.com/count`;
 /** localStorage key of the opt-out switch (storage.ts `analytics()`); 'off' means do not send. */
 export const OPT_OUT_KEY = 'moabom:v1:device:analytics';
 
+/** Only the published site sends counts: a dev server or preview must not add to the real numbers. */
+export const LIVE_ORIGIN = 'https://moabom.hgko.dev';
+
 /** Promo sources that get their own name; anything else counts as `other`, no ref as `direct`. */
 export const REFS = ['insta', 'naver', 'kakao', 'band', 'blog'] as const;
 

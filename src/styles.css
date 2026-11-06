@@ -532,6 +532,7 @@ button:active:not([aria-disabled='true']) {
   border-radius: var(--radius);
   overflow: hidden;
   background: #000;
+  container-type: inline-size;
 }
 
 .video-wrap iframe,
@@ -626,10 +627,15 @@ button:active:not([aria-disabled='true']) {
   background: rgba(27, 34, 48, 0.92);
   display: grid;
   place-items: center;
-  padding: var(--s2);
+  padding: var(--s1) var(--s2);
 }
 
 .overlay[hidden] {
+  display: none;
+}
+
+/* While the overlay is up it is the whole choice: no second "next" under the video. */
+.player-screen:has(.overlay:not([hidden])) :is(.controls, .next-slot) {
   display: none;
 }
 
@@ -637,14 +643,16 @@ button:active:not([aria-disabled='true']) {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--s3);
+  gap: var(--s1) var(--s2);
   flex-wrap: wrap;
   color: var(--surface);
 }
 
+/* Sized from the video, not the screen: the overlay clips, so the card and 한 번 더 must fit its 16:9 box on one row. */
 .overlay .upnext {
   max-width: 420px;
   width: min(420px, 60vw);
+  width: min(420px, calc(100cqw - 120px));
 }
 
 .overlay-small {

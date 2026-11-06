@@ -2,7 +2,7 @@
 import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import { describe, expect, it } from 'vitest';
-import { COUNT_URL, OPT_OUT_KEY } from '../src/analytics.ts';
+import { COUNT_URL, LIVE_ORIGIN, OPT_OUT_KEY } from '../src/analytics.ts';
 
 const html = readFileSync('index.html', 'utf8');
 const script = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1]!).find((s) => s.includes('__moabomInApp'))!;
@@ -60,11 +60,11 @@ function el(): FakeEl {
   return e;
 }
 
-function run(ua: string, opts: { search?: string; optedOut?: boolean } = {}) {
+function run(ua: string, opts: { search?: string; optedOut?: boolean; origin?: string } = {}) {
   const images: string[] = [];
   const domReady: (() => void)[] = [];
   const prepended: FakeEl[] = [];
-  const location = { origin: 'https://moabom.hgko.dev', pathname: '/', search: opts.search ?? '', hash: '#/p/home', href: 'https://moabom.hgko.dev/' };
+  const location = { origin: opts.origin ?? LIVE_ORIGIN, pathname: '/', search: opts.search ?? '', hash: '#/p/home', href: 'https://moabom.hgko.dev/' };
   const window: Record<string, unknown> = {
     addEventListener: (type: string, fn: () => void) => {
       if (type === 'DOMContentLoaded') domReady.push(fn);
@@ -124,7 +124,7 @@ describe('in-app browser escape (index.html)', () => {
     const r = run(UA.instaAndroid, { search: '?ref=insta' });
     const open = r.bar!.querySelector('[data-escape="open"]');
     expect(open.textContent).toBe('Chrome으로 열기');
-    expect(r.bar!.querySelector('p').textContent).toContain('인스타그램 안에서는 홈 화면에 설치가 안 돼요');
+    expect(r.bar!.querySelector('p').textContent).toBe('브라우저에서 열면 앱처럼 설치할 수 있어요');
     open.listeners.click!();
     expect(r.location.href).toBe(
       'intent://moabom.hgko.dev/?ref=insta#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' +
@@ -142,12 +142,14 @@ describe('in-app browser escape (index.html)', () => {
     expect(r.location.href).toBe(`kakaotalk://web/openExternal?url=${encodeURIComponent('https://moabom.hgko.dev/?ref=kakao')}`);
   });
 
-  it('offers to copy the address in other iOS apps, counting the tap', () => {
+  it('offers to copy the address in other iOS apps, counting the tap', async () => {
     const r = run(UA.instaIos, { search: '?ref=insta' });
     expect(r.window.__moabomInApp).toBe('insta');
     expect(r.bar!.innerHTML).toContain('주소 복사');
-    expect(r.bar!.querySelector('p').textContent).toContain('외부 브라우저에서 열기');
+    expect(r.bar!.querySelector('p').textContent).toBe('Safari에서 열면 앱처럼 설치할 수 있어요');
     r.bar!.querySelector('[data-escape="copy"]').listeners.click!();
+    await Promise.resolve();
+    expect(r.bar!.querySelector('.escape-msg').textContent).toContain('외부 브라우저에서 열기');
     expect(r.location.href).toBe('https://moabom.hgko.dev/');
     expect(r.images).toEqual([expect.stringContaining('p=inapp_escape.insta&')]);
   });
@@ -159,8 +161,16 @@ describe('in-app browser escape (index.html)', () => {
     expect(r.images).toEqual([]);
   });
 
-  it('uses the same count address and opt-out key as src/analytics.ts', () => {
+  it('sends nothing from anywhere but the published site', () => {
+    const r = run(UA.kakaoAndroid, { origin: 'http://localhost:5173' });
+    r.bar!.querySelector('[data-escape="open"]').listeners.click!();
+    expect(r.location.href).toMatch(/^intent:/);
+    expect(r.images).toEqual([]);
+  });
+
+  it('uses the same count address, live origin and opt-out key as src/analytics.ts', () => {
     expect(script).toContain(`var COUNT_URL = '${COUNT_URL}';`);
     expect(script).toContain(`var OPT_OUT_KEY = '${OPT_OUT_KEY}';`);
+    expect(script).toContain(`var LIVE_ORIGIN = '${LIVE_ORIGIN}';`);
   });
 });

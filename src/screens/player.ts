@@ -325,7 +325,8 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
       save();
       const u = upNext(scope, video, today, limits, 0);
       if (u.kind === 'limit') return openToday();
-      showOverlay(`${upNextCardHtml(u, c)}${replayButton()}${listButton}`);
+      // The card and 한 번 더 are the whole choice: the ◀ above the video already goes back to the list.
+      showOverlay(`${upNextCardHtml(u, c)}${replayButton()}`);
     },
     onError(code) {
       // Never counted, never marked watched (P4). Removed or blocked videos are marked now; others wait (P2-5).
@@ -343,9 +344,10 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
       }
       const u = upNext(scope, video, today, limits, 0);
       const skip = o.advance && u.kind === 'next' && canStart(today, limits, u.video.id);
+      const card = (u.kind === 'next' && canStart(today, limits, u.video.id)) || u.kind === 'limit' ? upNextCardHtml(u, c) : '';
       showOverlay(`<div class="overlay-icon" aria-hidden="true">${icon('unplug', 64)}</div>
         <span class="visually-hidden">이 영상은 지금 볼 수 없어요${skip ? '. 곧 다음 편으로 넘어가요' : ''}</span>
-        ${u.kind === 'next' && canStart(today, limits, u.video.id) ? upNextCardHtml(u, c) : u.kind === 'limit' ? upNextCardHtml(u, c) : ''}${listButton}`);
+        ${card || listButton}`);
       if (skip) skipTimer = window.setTimeout(() => goTo(u.video), SKIP_AFTER_MS);
     },
     onForeignVideo(resumeAt) {

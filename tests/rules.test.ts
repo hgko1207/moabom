@@ -218,6 +218,20 @@ describe('device settings and long videos', () => {
     expect(canStart(t, limits, 'long')).toBe(true);
     expect(canStart(recordStopped(t, 'long'), limits, 'long')).toBe(false);
   });
+
+  it('an episode limit never cuts: the last episode plays to its end even when it is long (L3, L6)', () => {
+    const limits = { dailyEpisodes: 3, dailyMinutes: null };
+    const t = recordPlay(day({ started: ['a', 'b'] }), 'long', 10);
+    expect(limitReached(t, limits)).toBe(true);
+    expect(shouldCutAtLimit(t, limits, { durationSec: 3600 })).toBe(false);
+    expect(canStart(t, limits, 'long')).toBe(true);
+  });
+
+  it('with both limits set, only the minutes limit cuts a long video', () => {
+    const limits = { dailyEpisodes: 1, dailyMinutes: 30 };
+    expect(shouldCutAtLimit(day({ started: ['long'], seconds: 100 }), limits, { durationSec: 3600 })).toBe(false);
+    expect(shouldCutAtLimit(day({ started: ['long'], seconds: 1800 }), limits, { durationSec: 3600 })).toBe(true);
+  });
 });
 
 describe('resume position', () => {

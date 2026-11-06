@@ -8,7 +8,7 @@ export const STALE_DAYS = 30;
 export const COUNT_AFTER_SEC = 10;
 /** O1: fraction of the duration that must actually be played to mark a video watched. */
 export const WATCHED_FRACTION = 0.9;
-/** Videos longer than this (compilations) stop at the daily limit instead of playing to the end. */
+/** Videos longer than this (compilations) stop at the daily minutes limit instead of playing to the end (L6). */
 export const LONG_VIDEO_SEC = 900;
 
 /** Device-local calendar date (YYYY-MM-DD); the daily limit resets at local midnight. */
@@ -246,8 +246,11 @@ export function homeTitle(profileName: string, settings: DeviceSettings | null):
 /** L3: no new episode may start. Both limits null means unlimited. 오늘만 더 extends today's limit (P2-3). */
 export function limitReached(today: TodayState, limits: Limits): boolean {
   if (limits.dailyEpisodes !== null && today.started.length >= limits.dailyEpisodes + (today.extraEpisodes ?? 0)) return true;
-  if (limits.dailyMinutes !== null && today.seconds >= limits.dailyMinutes * 60 + (today.extraSeconds ?? 0)) return true;
-  return false;
+  return minutesUsedUp(today, limits);
+}
+
+function minutesUsedUp(today: TodayState, limits: Limits): boolean {
+  return limits.dailyMinutes !== null && today.seconds >= limits.dailyMinutes * 60 + (today.extraSeconds ?? 0);
 }
 
 /** 오늘만 더 choices per limit mode (design P2-3): episodes, or minutes. */
@@ -314,9 +317,12 @@ export function resumableAfterLimit(today: TodayState): string | null {
   return last && !today.finished.includes(last) && !today.stopped.includes(last) ? last : null;
 }
 
-/** A long video playing past the limit is cut off (it continues tomorrow from the same spot). */
+/**
+ * L6: a long video playing past the minutes limit is cut off (it continues tomorrow from the same spot).
+ * An episode limit never cuts: the episode that reaches it counts after 10 s and still plays to its end (L3).
+ */
 export function shouldCutAtLimit(today: TodayState, limits: Limits, video: Pick<VideoRecord, 'durationSec'>): boolean {
-  return video.durationSec > LONG_VIDEO_SEC && limitReached(today, limits);
+  return video.durationSec > LONG_VIDEO_SEC && minutesUsedUp(today, limits);
 }
 
 export function recordStopped(today: TodayState, videoId: string): TodayState {

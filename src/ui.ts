@@ -214,6 +214,18 @@ export function setAccent(color: string): void {
   document.documentElement.style.setProperty('--accent', color);
 }
 
+/**
+ * The page's sky: day by default, `rest` once the day's limit is reached, `night` on the moon screen. The browser's
+ * own bar and the overscroll edge follow, so the sky reaches the top of the phone.
+ */
+export function setGround(ground: 'sky' | 'rest' | 'night'): void {
+  document.body.classList.remove('sky', 'rest', 'night');
+  document.body.classList.add(ground);
+  const dark = ground !== 'sky';
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#1E2340' : '#3F88DC');
+  document.documentElement.style.backgroundColor = dark ? '#1e2340' : '';
+}
+
 export function staleNote(): string {
   const now = new Date();
   const stale = [...appData.collections.values()].some((c) => isStale(c.data.fetchedAt, now));

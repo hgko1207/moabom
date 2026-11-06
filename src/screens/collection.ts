@@ -36,6 +36,7 @@ import {
   render,
   replace,
   setAccent,
+  setGround,
   setBack,
   staleNote,
   store,
@@ -86,7 +87,7 @@ function cardHtml(v: VideoRecord, view: CollectionView, config: CollectionConfig
   const isNext = view.highlight?.id === v.id;
   const locked = view.limited && !isNext;
   const state = locked
-    ? `<span class="badge state locked" aria-hidden="true">${moon(24)}</span>`
+    ? ''
     : watched
       ? `<span class="badge state done" aria-hidden="true">${icon('check', 24)}</span>`
       : failed
@@ -105,7 +106,7 @@ function cardHtml(v: VideoRecord, view: CollectionView, config: CollectionConfig
   const here = isNext && !locked ? `<span class="badge here" aria-hidden="true">${view.resume ? '이어 보기' : '여기부터'}</span>` : '';
   const cls = ['card', isNext ? 'next' : '', failed ? 'failed' : '', locked ? 'locked' : ''].filter(Boolean).join(' ');
   return `<button class="${cls}" data-video="${esc(v.id)}" tabindex="-1" aria-label="${esc(label)} ${esc(v.displayTitle)}${status}">
-    ${thumb(v.id, String(v.order), `<span class="badge num" aria-hidden="true">${v.order}</span><span class="badge len" aria-hidden="true">${duration(v.durationSec)}</span>${state}${here}${locked ? '' : progressBar(startPosition(view.progress, v), v.durationSec)}`)}
+    ${thumb(v.id, String(v.order), `<span class="badge len" aria-hidden="true">${duration(v.durationSec)}</span>${state}${here}${locked ? '' : progressBar(startPosition(view.progress, v), v.durationSec)}`)}
     <span class="ep" aria-hidden="true">${esc(label)}</span><span class="title" aria-hidden="true">${esc(v.displayTitle)}</span></button>`;
 }
 
@@ -126,7 +127,8 @@ export function renderCollection(profile: Profile, c: Collection, groupParam: st
   if (parent) setBack(() => backTo(parent));
   if (c.config.color) setAccent(c.config.color);
   const firstEpisode = seriesOnly(c.data, c.config).groups[0]?.videos[0];
-  app.innerHTML = `<main class="screen"><div class="bar">${parent ? backButton() : ''}<h1>${esc(c.config.displayName)}</h1>${parent ? '' : gearButton()}</div>
+  if (view.limited) setGround('rest');
+  app.innerHTML = `<main class="screen collection"><div class="bar">${parent ? backButton() : ''}<h1>${esc(c.config.displayName)}</h1>${parent ? '' : gearButton()}</div>
     ${offlineNotice()}
     ${heroHtml(view, firstEpisode, c.config)}
     <div class="tabs" role="tablist" aria-label="${esc(c.config.groupLabel)}">${groups
@@ -214,7 +216,7 @@ export function renderTodayDone(profile: Profile, c: Collection, listRoute: Rout
   const tomorrow = cut ?? heroPick(c.data, c.config, progress, profile.startGroup?.[c.config.id])?.video ?? null;
   const resumable = resumableAfterLimit(today);
 
-  document.body.classList.add('night');
+  setGround('night');
   setBack(() => backTo(listRoute));
   // The book closes (critique 2026-10-21): the moon and words a parent can read aloud, today's pictures, and
   // tomorrow small and asleep under the moon instead of behind a lock. ✓ only on what was watched to the end.

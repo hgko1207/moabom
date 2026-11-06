@@ -13,6 +13,7 @@
   --trouble: #fbe4dc;
   --trouble-ink: #8f2f17;
   --done: #1f9d55;
+  --sky: #3f88dc;
   --night: #1e2340;
   --night-ink: #e8eaf6;
   --accent: #2e9e6b;
@@ -3041,4 +3042,326 @@ details.paste summary::-webkit-details-marker {
   color: var(--surface);
   font-size: 14px;
   font-weight: 700;
+}
+
+/* ---------- The day sky (chosen 2026-11-07) ----------
+   Every screen takes the moon screen's composition: no band and no card, pictures straight on the ground, one drawn
+   object, a large title. By day the sky melts into the paper (body.sky); once the day's limit is reached the page is
+   the moon screen's night (body.rest). Dark means the day is over, so nothing else is dark. */
+body.sky,
+body.rest {
+  position: relative;
+  overflow-x: clip;
+}
+
+body:is(.sky, .rest) .screen {
+  position: relative;
+  z-index: 1;
+  color: var(--ink);
+}
+
+body.sky::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 620px;
+  background: linear-gradient(var(--sky) 0, #7fb2ec 96px, #cfe2f7 280px, var(--bg) 620px);
+}
+
+/* mid-sky needs a darker second line than plain paper */
+body.sky .screen:not(.settings) {
+  --ink-2: #3b4a55;
+}
+
+body:is(.sky, .rest) :is(.bar h1, .home-bar .logo, .bar .gear) {
+  color: #fff;
+}
+
+.home-bar h1 {
+  font-size: 32px;
+}
+
+.home-bar .art-sun {
+  flex: none;
+  margin-left: auto;
+}
+
+.home-bar .art-sun + .gear {
+  margin-left: 0;
+}
+
+/* the first picture: straight on the ground */
+.hero:not(.night) {
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: var(--s4);
+  margin-bottom: var(--s4);
+}
+
+.hero:not(.night) .thumb {
+  box-shadow: 0 10px 26px rgb(20 40 80 / 0.18);
+}
+
+.hero:not(.night) .title {
+  font-size: 38px;
+  line-height: 1.2;
+}
+
+.hero:not(.night) .sub {
+  font-size: 19px;
+}
+
+.hero .chip {
+  border-radius: 8px;
+}
+
+/* the button sits in the picture's corner, so it never covers a face */
+.hero:not(.night) .play {
+  inset: auto 14px 22px auto;
+  margin: 0;
+  width: 72px;
+  height: 72px;
+}
+
+.hero:not(.night) .play .icon {
+  width: 34px;
+  height: 34px;
+  margin-left: 4px;
+}
+
+.collection > .hero:not(.night) {
+  grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+  gap: var(--s3);
+  margin-bottom: var(--s2);
+}
+
+.collection > .hero:not(.night) .title {
+  font-size: 30px;
+}
+
+.screen > .intro {
+  padding: 18px 20px;
+  border: 0;
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: 0 8px 22px rgb(20 40 80 / 0.12);
+}
+
+.screen > .intro p {
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.install-hint {
+  box-shadow: 0 8px 22px rgb(20 40 80 / 0.12);
+}
+
+/* the day is over: the moon screen's sky, the moon and the words in the middle */
+body.rest {
+  background:
+    radial-gradient(1.4px 1.4px at 12% 90px, #fff8, transparent),
+    radial-gradient(1.6px 1.6px at 30% 40px, #fff9, transparent),
+    radial-gradient(1.3px 1.3px at 58% 120px, #fff7, transparent),
+    radial-gradient(1.6px 1.6px at 76% 60px, #fff9, transparent),
+    radial-gradient(1.2px 1.2px at 90% 150px, #fff7, transparent),
+    var(--night);
+}
+
+body.rest .screen {
+  --ink: var(--night-ink);
+  --ink-2: #c3c8e4;
+  --line: #343a63;
+}
+
+body.rest .category-icon {
+  color: var(--night-ink) !important;
+}
+
+body.rest .card .ep {
+  color: #c3c8e4;
+}
+
+/* paper things keep paper colours under the night */
+body.rest :is(.tab, .intro, .install-hint, .panel, .badge, .thumb, .back) {
+  --ink: #18221e;
+  --ink-2: #5b6b62;
+  --line: #dfe6d6;
+  color: var(--ink);
+}
+
+/* a resting picture dims into the night, not into paper */
+body.rest :is(.tile, .card) .thumb {
+  background: #2b3156;
+}
+
+.screen > .hero.night {
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: var(--s1);
+  padding: var(--s1) 0 var(--s2);
+  margin-bottom: var(--s3);
+  border: 0;
+  background: none;
+  box-shadow: none;
+  text-align: center;
+}
+
+.hero.night .moon-wrap {
+  aspect-ratio: auto;
+}
+
+.hero.night .title {
+  font-size: 32px;
+  font-weight: 800;
+}
+
+/* the player: the same sky; the buttons sit on it themselves */
+.player-screen .video-wrap {
+  border-radius: 18px;
+  background: #e4eefb;
+  box-shadow: 0 10px 28px rgb(24 60 110 / 0.18);
+}
+
+.player-screen .controls {
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.player-screen .control {
+  background: var(--surface);
+  box-shadow: 0 6px 16px rgb(24 60 110 / 0.1);
+}
+
+.player-screen .next-preview {
+  box-shadow: 0 6px 16px rgb(24 60 110 / 0.08);
+}
+
+/* repairs */
+.thumb img {
+  transform: scale(1.015); /* hides the 1px dark edge YouTube's 4:3 thumbnails carry */
+}
+
+.copy-url {
+  flex-wrap: wrap;
+  row-gap: var(--s1);
+}
+
+.copy-url .url {
+  flex: 1 1 100%;
+  overflow-wrap: anywhere;
+}
+
+@media (hover: none), (max-width: 700px) {
+  .tabs {
+    scrollbar-width: none;
+  }
+}
+
+/* upright screens: wide buttons with what's next right under them */
+@media (orientation: portrait) {
+  .player-screen:not(.big) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .player-screen:not(.big) > .controls {
+    width: 100%;
+    max-width: none;
+    margin-top: var(--s2);
+  }
+
+  .player-screen:not(.big) .control {
+    height: 88px;
+  }
+
+  .player-screen:not(.big) > .next-slot {
+    padding-top: var(--s2);
+  }
+
+  .player-screen:not(.big) .next-preview {
+    max-width: none;
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero:not(.night) {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: var(--s3);
+  }
+
+  .hero:not(.night) .title {
+    font-size: 28px;
+  }
+
+  .hero:not(.night) .sub {
+    font-size: 16px;
+  }
+
+  .home-bar h1 {
+    font-size: 26px;
+  }
+
+  .home-bar .art-sun {
+    width: 38px;
+    height: 38px;
+  }
+
+  /* inside a character the first picture steps back so the episodes come up */
+  .collection > .hero:not(.night) {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 12px;
+    align-items: center;
+  }
+
+  .collection > .hero:not(.night) .title {
+    font-size: 21px;
+  }
+
+  .collection > .hero:not(.night) .sub {
+    font-size: 15px;
+  }
+
+  .collection > .hero:not(.night) .play {
+    right: 8px;
+    bottom: 14px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .collection > .hero:not(.night) .play .icon {
+    width: 22px;
+    height: 22px;
+    margin-left: 2px;
+  }
+}
+
+/* a phone on its side: a small first picture, so the characters show too */
+@media (orientation: landscape) and (max-height: 520px) {
+  .hero:not(.night) {
+    grid-template-columns: minmax(0, 230px) minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .hero:not(.night) .play {
+    right: 8px;
+    bottom: 14px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .hero:not(.night) .play .icon {
+    width: 22px;
+    height: 22px;
+    margin-left: 2px;
+  }
+}
+
+/* small words on mid-sky need full ink */
+body.sky .gate-why {
+  color: var(--ink);
 }

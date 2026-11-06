@@ -2,7 +2,7 @@
 import type { Profile } from '../config.ts';
 import type { Collection } from '../data.ts';
 import { icon, isIconName } from '../icons.ts';
-import { moon } from '../art.ts';
+import { moon, sun } from '../art.ts';
 import { logo } from '../logo.ts';
 import { episodeLabel, groupByCategory, homeTitle, mostRecentCollection, progressRecency, startPosition } from '../rules.ts';
 import {
@@ -23,6 +23,7 @@ import {
   offlineNotice,
   progressBar,
   setAccent,
+  setGround,
   setBack,
   staleNote,
   store,
@@ -64,10 +65,9 @@ export function renderCollections(profile: Profile, collections: Collection[], s
       // A character with a video in progress shows how far it got, like the cards inside.
       const view = views.get(c.config.id)!;
       const bar = view.resume && view.highlight ? progressBar(startPosition(view.progress, view.highlight), view.highlight.durationSec) : '';
-      // After the limit every tile rests under the moon, like the episode cards inside (D9).
-      const badge = resting ? `<span class="badge state locked" aria-hidden="true">${moon(24)}</span>` : '';
+      // After the limit the night sky says it; the tiles only dim, so no picture is covered (D9, 2026-11-07).
       return `<button class="tile${resting ? ' locked' : ''}" data-collection="${esc(c.config.id)}" aria-label="${esc(c.config.displayName)}${resting ? ', 오늘은 여기까지' : ''}">
-          ${thumb(cover, c.config.displayName.slice(0, 1), bar + badge, true)}<span class="label">${esc(c.config.displayName)}</span></button>`;
+          ${thumb(cover, c.config.displayName.slice(0, 1), bar, true)}<span class="label">${esc(c.config.displayName)}</span></button>`;
     })
     .join('')}</nav>`;
   const rows = groupByCategory(collections, (c) => c.config.category, appData.categories);
@@ -87,7 +87,8 @@ export function renderCollections(profile: Profile, collections: Collection[], s
   // card at the bottom (2026-10-21), so the two never compete for the top.
   const intro = store.introDismissed() ? '' : introLine();
   // The mark always shows, whatever the title says (design DR28); in --ink, never the brand colour (DR21).
-  app.innerHTML = `<main class="screen"><div class="bar home-bar">${showBack ? backButton() : ''}${logo(40)}<h1>${esc(homeTitle(profile.name, settings))}</h1>${gearButton()}</div>
+  if (resting) setGround('rest');
+  app.innerHTML = `<main class="screen"><div class="bar home-bar">${showBack ? backButton() : ''}${logo(40)}<h1>${esc(homeTitle(profile.name, settings))}</h1>${resting ? '' : sun(56)}${gearButton()}</div>
     ${intro}${offlineNotice()}
     ${resting ? bedtimeHtml(collections, views) : settings?.homeContinue === false ? '' : homeContinueHtml(collections, views)}
     ${body}${hiddenLine(profile)}${installHint()}${staleNote()}${trustNote()}</main>`;

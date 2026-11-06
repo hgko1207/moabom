@@ -27,6 +27,7 @@ import {
   receiveSettings,
   replace,
   setAccent,
+  setGround,
   setActivePlayer,
   setBack,
   setRenderer,
@@ -110,7 +111,7 @@ function render(): void {
   setActivePlayer(null);
   document.onfullscreenchange = null;
   if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
-  document.body.classList.remove('night');
+  setGround('sky');
   if (appData.errors.length) return renderErrors();
 
   const route = parseHash();

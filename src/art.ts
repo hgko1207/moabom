@@ -3,6 +3,14 @@
 // up-next card, the home card and the settings preview — always the same warm gold crescent, so a child
 // learns one sign for "that's all for today". No face: the design avoids drawn mascots.
 
+/** The sun on the home sky: filled like the moon, with short rays. It leaves when the moon comes. */
+export function sun(size: number): string {
+  return `<svg class="art-sun" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+    <g stroke="#f6d365" stroke-width="3.4" stroke-linecap="round"><path d="M24 3v5M24 40v5M3 24h5M40 24h5M9.2 9.2l3.5 3.5M35.3 35.3l3.5 3.5M9.2 38.8l3.5-3.5M35.3 12.7l3.5-3.5"/></g>
+    <circle cx="24" cy="24" r="12" fill="#f6d365"/>
+  </svg>`;
+}
+
 /** The crescent: a disc (centre 23,26, r 17) with a bite (centre 31,17.5, r 14) taken out of its upper right. */
 const CRESCENT = 'M19.63 9.34A17 17 0 1 0 39.84 28.36A14 14 0 0 1 19.63 9.34Z';
 /** A four-point star resting in the bite. */

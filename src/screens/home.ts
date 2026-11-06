@@ -118,12 +118,12 @@ export function renderCollections(profile: Profile, collections: Collection[], s
 }
 
 /**
- * Shown once per device, right under the title: what this is, who made it, where the daily limit is (DR16).
+ * Shown once per device, right under the title: what this is and where the daily limit is (DR16).
  * 자세히 opens 이용 안내, which needs no gate, so a visiting parent can check before trusting it.
  */
 function introLine(): string {
   return `<aside class="intro" aria-label="모아봄 소개">
-    <div class="intro-body"><p>톱니바퀴를 2초 누르면 하루 제한을 정할 수 있어요. <button class="intro-more" data-action="intro-about">자세히</button></p></div>
+    <div class="intro-body"><p>공식 채널 영상만 모았어요. 하루 제한은 톱니바퀴를 2초 눌러 정해요. <button class="intro-more" data-action="intro-about">자세히</button></p></div>
     <button class="close" data-action="intro-dismiss" aria-label="소개 닫기">${icon('close', 24)}</button></aside>`;
 }
 
@@ -136,7 +136,7 @@ function hiddenLine(profile: Profile): string {
 
 /** Always at the bottom of home: why a visiting parent can trust it (the same facts as 이용 안내). */
 function trustNote(): string {
-  return `<footer class="home-trust"><b>공식 채널 영상만 모았어요.</b> 영상은 YouTube에서 재생돼요. 제작사가 만든 앱이 아니라, 아이 둘을 키우는 부모가 만든 무료 앱이에요.</footer>`;
+  return `<footer class="home-trust">영상은 YouTube에서 재생돼요. 제작사가 만든 앱이 아니라, 부모가 만든 무료 앱이에요.</footer>`;
 }
 
 /**

@@ -97,11 +97,11 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   // YouTube 버튼 막기: YouTube's controls are gone, so the app carries play/pause (and the tap layer below).
   const shield = playerShieldOn(buttons);
   const controls = [
-    prev ? `<button class="control" data-go="${esc(prev.id)}" aria-label="이전 편">${icon('skip-back', 32)}</button>` : '',
+    prev ? `<button class="control go-prev" data-go="${esc(prev.id)}" aria-label="이전 편">${icon('skip-back', 32)}</button>` : '',
     // The one filled control is play/pause, and only with 버튼 막기. 한 번 더 waits for the end of the video
     // (critique 2026-10-21): in the row it was the biggest target and reset the episode with one tap.
     shield ? `<button class="control fill" data-action="toggle-play" aria-label="일시정지">${icon('pause', 32)}</button>` : '',
-    next ? `<button class="control" data-go="${esc(next.id)}" aria-label="다음 편">${icon('skip-forward', 32)}</button>` : '',
+    next ? `<button class="control go-next" data-go="${esc(next.id)}" aria-label="다음 편">${icon('skip-forward', 32)}</button>` : '',
   ].join('');
   // Under the buttons (2026-10-21): what plays next, the same episode, setting and daily limit as the 다음 편
   // button; or, when today's limit ends with this episode, the moon, so the child knows well before the end.

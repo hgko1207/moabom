@@ -546,8 +546,8 @@ button:active:not([aria-disabled='true']) {
   place-items: center;
 }
 
-/* Player (SPEC §8, design D13): portrait stacks the up-next slot under the video,
-   landscape lets the video fill the height and floats the card bottom-right. */
+/* Player (SPEC §8, design D13): portrait stacks the up-next slot under the video;
+   landscape has its own two layouts after .next-preview below. */
 .player-screen .bar h1 {
   flex: 1;
   min-width: 0;
@@ -759,14 +759,6 @@ button:active:not([aria-disabled='true']) {
   background: rgba(255, 255, 255, 0.9);
   color: var(--ink);
   z-index: 4;
-}
-
-@media (orientation: landscape) and (min-height: 380px) {
-  .player-screen .video-wrap {
-    width: min(100%, calc((100dvh - 120px) * 16 / 9));
-    margin: 0 auto;
-  }
-
 }
 
 /* That's all for today (design D9) */
@@ -1424,18 +1416,41 @@ details.paste summary::-webkit-details-marker {
 
 /* Phone landscape: problem on the left, keypad on the right (DR26) */
 @media (max-height: 559px) and (orientation: landscape) {
+  .gate.screen {
+    padding-bottom: var(--s1);
+  }
+
+  .gate .bar {
+    margin-bottom: var(--s1);
+  }
+
+  /* Why and the problem on the left, the whole keypad on the right: the keys must fit without scrolling. */
   .gate-body {
     grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'why keypad'
+      'ask keypad';
     align-items: center;
+    align-content: center;
+    gap: var(--s1) var(--s3);
+  }
+
+  .gate-why {
+    grid-area: why;
+  }
+
+  .gate-ask {
+    grid-area: ask;
   }
 
   .keypad {
+    grid-area: keypad;
     grid-template-columns: repeat(3, 64px);
   }
 
   .key {
     width: 64px;
-    height: 64px;
+    height: min(64px, calc((100dvh - 120px) / 4));
   }
 }
 
@@ -1975,6 +1990,159 @@ details.paste summary::-webkit-details-marker {
 
 .player-screen.big .next-preview {
   display: none;
+}
+
+/* Landscape with room (tablets, computers): the picture, then one row of caption, buttons and what's next,
+   all on the first screen; a child does not scroll to find them (critique 2026-11-06).
+   232px = screen padding, the ◀ bar and that row. */
+@media (orientation: landscape) and (min-height: 560px) {
+  .player-screen {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-content: start;
+    column-gap: var(--s2);
+  }
+
+  .player-screen .video-wrap {
+    width: min(100%, calc((100dvh - 232px) * 16 / 9));
+    margin: 0 auto;
+  }
+
+  .player-screen .bar,
+  .player-screen .stage,
+  .player-screen .detect-off {
+    grid-column: 1 / -1;
+  }
+
+  .player-screen .player-info,
+  .player-screen .controls,
+  .player-screen .next-slot {
+    grid-row: 3;
+    align-self: center;
+    margin-top: var(--s2);
+  }
+
+  .player-screen .player-info {
+    grid-column: 1;
+  }
+
+  .player-info .episode-title {
+    font-size: 22px;
+  }
+
+  .player-screen .controls {
+    grid-column: 2;
+    margin-inline: 0;
+  }
+
+  .player-screen .control {
+    flex: none;
+    width: 96px;
+    height: 64px;
+  }
+
+  .player-screen .next-slot {
+    grid-column: 3;
+  }
+
+  .player-screen .next-preview,
+  .player-screen .last-today {
+    margin: 0 0 0 auto;
+  }
+}
+
+/* Landscape phones: the video takes the height and everything else moves to the rails beside it. There is no
+   room for words there, so the moon alone says this is the last one; the sentence stays for screen readers. */
+@media (orientation: landscape) and (max-height: 559px) {
+  .player-screen {
+    display: grid;
+    grid-template-columns: var(--target) minmax(0, 1fr) var(--target);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    column-gap: var(--s2);
+    height: 100dvh;
+    min-height: 0;
+    padding-bottom: max(var(--s2), env(safe-area-inset-bottom));
+  }
+
+  .player-screen .bar,
+  .player-screen .controls {
+    display: contents;
+  }
+
+  .player-screen .back {
+    grid-area: 1 / 1;
+  }
+
+  .player-screen .bar .big-toggle {
+    grid-area: 1 / 3;
+    margin-left: 0;
+  }
+
+  .player-screen .stage {
+    grid-area: 1 / 2 / 4 / 3;
+    align-self: center;
+  }
+
+  .player-screen .video-wrap {
+    width: min(100%, calc((100dvh - 32px) * 16 / 9));
+    margin: 0 auto;
+  }
+
+  .player-screen .control {
+    flex: none;
+    width: var(--target);
+    height: var(--target);
+    background: var(--surface);
+  }
+
+  .player-screen .control.go-prev {
+    grid-area: 3 / 1;
+  }
+
+  .player-screen .control.go-next {
+    grid-area: 3 / 3;
+  }
+
+  .player-screen .control.fill {
+    grid-area: 2 / 1;
+    align-self: center;
+    background: var(--accent-ink);
+  }
+
+  .player-screen .next-slot {
+    grid-area: 2 / 3;
+    align-self: center;
+    justify-self: center;
+  }
+
+  .player-screen .next-preview {
+    display: none;
+  }
+
+  .player-screen .last-today {
+    width: auto;
+    margin: 0;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  .player-screen .last-today .art-moon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .player-screen .player-info,
+  .player-screen .last-today span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 }
 
 /* Phones: two pictures per row on the home page, as in the direction A mockup. */
@@ -2836,10 +3004,6 @@ details.paste summary::-webkit-details-marker {
   line-height: 1.6;
   color: var(--ink-2);
   word-break: keep-all;
-}
-
-.home-trust b {
-  color: var(--ink);
 }
 
 /* Tablets: the closing page fills the night instead of floating small in it. */

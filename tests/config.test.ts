@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import {
   accentProblems,
@@ -80,6 +80,25 @@ describe('validateCollection', () => {
         expect.stringContaining('titleFixes'),
       ]),
     );
+  });
+
+  it('checks a tab colour against its white text, and the icon name', () => {
+    const tab = (over: object) => ({ ...collection(), groups: [{ id: 'lv1', label: '1단계', videos: ['a'], ...over }] });
+    expect(validateCollection(tab({ color: '#d63b32', icon: '#1' })).ok).toBe(true);
+    expect(validateCollection(tab({ icon: 't-rex' })).ok).toBe(true);
+    expect(errorsOf(validateCollection(tab({ color: '#f2b705' })))).toEqual([expect.stringContaining('too light')]);
+    expect(errorsOf(validateCollection(tab({ color: 'red' })))).toEqual([expect.stringContaining('#RRGGBB')]);
+    expect(errorsOf(validateCollection(tab({ icon: '../x' })))).toEqual([expect.stringContaining('tabicons')]);
+  });
+
+  it('every checked-in tab has its picture on disk, and no tab is green like the 여기부터 card', () => {
+    for (const file of readdirSync('config/collections')) {
+      const c = JSON.parse(readFileSync(`config/collections/${file}`, 'utf8')) as { groups: { icon?: string; color?: string }[] };
+      for (const g of c.groups) {
+        if (g.icon && !g.icon.startsWith('#')) expect(existsSync(`public/tabicons/${g.icon}.svg`), `${file} ${g.icon}`).toBe(true);
+        expect(g.color, file).not.toBe('#2e8b57');
+      }
+    }
   });
 
   it('accepts a group defined by video IDs (made-for-kids videos cannot be saved to playlists)', () => {

@@ -31,6 +31,10 @@ export interface CollectionGroup {
   uploads?: UploadsSource;
   /** Leave out videos longer than this (s), e.g. a long compilation the channel put first in its episode playlist. */
   maxSec?: number;
+  /** #RRGGBB the tab fills with when chosen. Carries white text, so it must reach 3:1 with white. */
+  color?: string;
+  /** A file name in public/tabicons without .svg, or "#3" for a drawn number. The tab's position when missing. */
+  icon?: string;
 }
 
 export function groupKind(g: Pick<CollectionGroup, 'kind'>): 'series' | 'free' {
@@ -179,6 +183,15 @@ export function validateCollection(raw: unknown, fileId?: string, categoryIds?: 
       if (g.maxSec !== undefined && !(typeof g.maxSec === 'number' && Number.isInteger(g.maxSec) && g.maxSec > 0)) {
         errors.push(`groups[${i}].maxSec must be a positive integer (seconds)`);
       }
+      if (g.color !== undefined) {
+        if (typeof g.color !== 'string' || !COLOR_RE.test(g.color)) errors.push(`groups[${i}].color must be #RRGGBB`);
+        else if (contrastRatio(g.color, SURFACE) < TAB_TEXT_CONTRAST) {
+          errors.push(`groups[${i}].color ${g.color} is too light for the tab's white text (needs ${TAB_TEXT_CONTRAST}:1)`);
+        }
+      }
+      if (g.icon !== undefined && (typeof g.icon !== 'string' || !TAB_ICON_RE.test(g.icon))) {
+        errors.push(`groups[${i}].icon must be a file name in public/tabicons or a number like "#3"`);
+      }
       const sources = ['playlistId', 'videos', 'uploads'].filter((k) => k in g);
       if (sources.length !== 1) {
         errors.push(`groups[${i}] needs exactly one of playlistId, videos or uploads`);
@@ -294,6 +307,9 @@ export function accentProblems(color: string): string[] {
   if (contrastRatio(color, INK) < 4.5) out.push(`${color} is too dark for --ink text on it (needs 4.5:1)`);
   return out;
 }
+/** White 19px bold on a chosen tab is large text (WCAG 1.4.3). */
+const TAB_TEXT_CONTRAST = 3;
+const TAB_ICON_RE = /^(#\d{1,2}|[a-z0-9-]+)$/;
 /** Non-text contrast for an icon stroke (WCAG 1.4.11). */
 export const ICON_CONTRAST = 3;
 

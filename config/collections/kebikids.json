@@ -12,28 +12,38 @@
     {
       "id": "dino-rescue",
       "label": "공룡구조대",
+      "color": "#d63b32",
+      "icon": "t-rex",
       "playlistId": "PLsci4vyN8amcOVoVgH1Yv4sOQ0o7G_XgM"
     },
     {
       "id": "safety",
       "label": "생활안전",
+      "color": "#e0600a",
+      "icon": "rescue-workers-helmet",
       "playlistId": "PLsci4vyN8amdlvdy1cgIY51luKbw7SOJ_"
     },
     {
       "id": "folk",
       "label": "전래동화",
+      "color": "#b83a5e",
+      "icon": "tiger-face",
       "kind": "free",
       "playlistId": "PLsci4vyN8amd4rVB5_EAkZvRZu2kSVoc4"
     },
     {
       "id": "classic",
       "label": "명작동화",
+      "color": "#7a4fc9",
+      "icon": "open-book",
       "kind": "free",
       "playlistId": "PLsci4vyN8amfQbz1ObrnoB2RDiMgPgBSL"
     },
     {
       "id": "science",
       "label": "과학실험",
+      "color": "#2f6fd6",
+      "icon": "test-tube",
       "kind": "free",
       "playlistId": "PLsci4vyN8ame_LuNgKwKqA64WH5U2xonX"
     }

@@ -331,43 +331,82 @@ button:active:not([aria-disabled='true']) {
   color: var(--surface);
 }
 
-/* Group tabs: first-episode thumbnail + big number, text label for parents */
+/* Group tabs (시안 Q, 2026-11-07): paper stickers with a picture for those who cannot read yet. The chosen one fills
+   with its own colour and lifts; it never uses the green of the 여기부터 card below it. */
 .tabs {
   display: flex;
-  gap: var(--s2);
+  gap: 12px;
   overflow-x: auto;
-  padding: 4px 4px var(--s2);
-  margin: 0 -4px var(--s1);
+  padding: 10px var(--s2) var(--s2);
+  margin: 0 calc(-1 * var(--s2)) 4px;
   scrollbar-width: thin;
 }
 
 .tab {
+  --tab: var(--accent-ink);
   flex: none;
-  width: 132px;
-  display: grid;
-  gap: 4px;
-  padding: var(--s1);
-  border-radius: var(--radius);
+  width: 116px;
+  overflow: hidden;
+  border-radius: 16px;
   background: var(--surface);
-  border: 4px solid transparent;
+  box-shadow: 0 6px 0 var(--line);
+  transition: transform var(--rise) cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.tab[aria-selected='true'] {
-  border-color: var(--accent);
+.tab-icon {
+  display: grid;
+  place-items: center;
+  height: 54px;
+  padding: 8px 0 2px;
+  font-size: 36px;
 }
 
-.tab .thumb .badge.num {
-  inset: 0;
-  margin: auto;
-  width: 48px;
-  height: 48px;
-  font-size: 32px;
+.tab-icon img {
+  display: block;
+  width: 42px;
+  height: 42px;
+}
+
+.tab-icon b {
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--tab);
 }
 
 .tab .label {
-  font-size: 14px;
-  color: var(--ink-2);
+  display: block;
+  padding-bottom: 7px;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--ink);
   text-align: center;
+  white-space: nowrap;
+}
+
+.tab[aria-selected='true'] {
+  transform: translateY(-3px) rotate(-1deg);
+  background: var(--tab);
+  box-shadow: 0 7px 0 color-mix(in srgb, var(--tab) 74%, var(--ink));
+}
+
+.tab[aria-selected='true'] .tab-icon {
+  width: 52px;
+  height: 46px;
+  margin: 6px auto 2px;
+  padding: 3px;
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.tab[aria-selected='true'] .tab-icon img {
+  width: 38px;
+  height: 38px;
+}
+
+.tab[aria-selected='true'] .label {
+  font-size: 19px;
+  color: #fff;
 }
 
 /* Episode grid: 2 / 3 / 4 columns (SPEC §9) */
@@ -471,7 +510,7 @@ button:active:not([aria-disabled='true']) {
   }
 
   .tab {
-    width: 112px;
+    width: 104px;
   }
 }
 

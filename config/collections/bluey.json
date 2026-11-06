@@ -12,12 +12,16 @@
     {
       "id": "ep",
       "label": "본편",
+      "color": "#2f6fd6",
+      "icon": "dog-face",
       "playlistId": "PLPrhyopf_mxvdhY9clr2smOS81fMUNdnP",
       "maxSec": 900
     },
     {
       "id": "long",
       "label": "모음집",
+      "color": "#e0600a",
+      "icon": "clapper-board",
       "kind": "free",
       "uploads": {
         "minSec": 1800
@@ -26,6 +30,8 @@
     {
       "id": "best",
       "label": "명장면",
+      "color": "#7a4fc9",
+      "icon": "star",
       "kind": "free",
       "playlistId": "PLPrhyopf_mxvE0uPDR4KsqN26Ucltb9b-"
     }

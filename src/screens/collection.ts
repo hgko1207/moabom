@@ -71,6 +71,14 @@ function heroHtml(view: CollectionView, first: VideoRecord | undefined, config: 
   </button>`;
 }
 
+/** A tab's picture: a drawn number ("#3") or a file from public/tabicons, for those who cannot read yet. */
+function tabIcon(icon: string): string {
+  const art = icon.startsWith('#')
+    ? `<b>${esc(icon.slice(1))}</b>`
+    : `<img src="/tabicons/${esc(icon)}.svg" alt="" width="42" height="42" decoding="async">`;
+  return `<span class="tab-icon" aria-hidden="true">${art}</span>`;
+}
+
 function cardHtml(v: VideoRecord, view: CollectionView, config: CollectionConfig): string {
   const label = episodeLabel(config, v);
   const watched = v.id in view.progress.watched;
@@ -125,9 +133,10 @@ export function renderCollection(profile: Profile, c: Collection, groupParam: st
       .map((g, i) => {
         const on = g.id === selected;
         const label = groupLabels.get(g.id) ?? g.id;
+        const group = c.config.groups.find((x) => x.id === g.id);
         return `<button class="tab" role="tab" id="tab-${esc(g.id)}" aria-controls="grid" aria-selected="${on}" tabindex="${on ? 0 : -1}"
-          data-group="${esc(g.id)}" aria-label="${esc(label)}">
-          ${thumb(g.videos[0]!.id, String(i + 1), `<span class="badge num" aria-hidden="true">${i + 1}</span>`)}
+          data-group="${esc(g.id)}" aria-label="${esc(label)}"${group?.color ? ` style="--tab:${esc(group.color)}"` : ''}>
+          ${tabIcon(group?.icon ?? `#${i + 1}`)}
           <span class="label" aria-hidden="true">${esc(label)}</span></button>`;
       })
       .join('')}</div>

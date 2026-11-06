@@ -12,6 +12,8 @@
     {
       "id": "lv1",
       "label": "1단계",
+      "color": "#d63b32",
+      "icon": "#1",
       "videos": [
         "pAFkRHIz-og",
         "bE6MIsQ4hgE",
@@ -33,6 +35,8 @@
     {
       "id": "lv2",
       "label": "2단계",
+      "color": "#e0600a",
+      "icon": "#2",
       "videos": [
         "rB8oDH93u7g",
         "GDk8GeKCRAg",
@@ -54,6 +58,8 @@
     {
       "id": "lv3",
       "label": "3단계",
+      "color": "#c93a8b",
+      "icon": "#3",
       "videos": [
         "1kRatsxxqR0",
         "tc4RwqnprKY",
@@ -90,6 +96,8 @@
     {
       "id": "lv4",
       "label": "4단계",
+      "color": "#12808a",
+      "icon": "#4",
       "videos": [
         "Q4OVAUb4MZE",
         "JylFPFQ-OBU",
@@ -126,6 +134,8 @@
     {
       "id": "lv5",
       "label": "5단계",
+      "color": "#2f6fd6",
+      "icon": "#5",
       "videos": [
         "NvzZw9jbsR8",
         "DNkmrlsHVNI",
@@ -162,6 +172,8 @@
     {
       "id": "mix",
       "label": "모음집",
+      "color": "#7a4fc9",
+      "icon": "star",
       "kind": "free",
       "uploads": {
         "minSec": 901,

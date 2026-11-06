@@ -12,6 +12,8 @@
     {
       "id": "season-1",
       "label": "기초 낱말",
+      "color": "#2f6fd6",
+      "icon": "memo",
       "videos": [
         "sjxbhMNV97M",
         "labPzGmG0jw",
@@ -106,6 +108,8 @@
     {
       "id": "promise",
       "label": "생활 약속",
+      "color": "#12808a",
+      "icon": "handshake",
       "videos": [
         "cHdsWDb0g-0",
         "uuxQcjMJV04",
@@ -136,6 +140,8 @@
     {
       "id": "words",
       "label": "낱말 놀이",
+      "color": "#e0600a",
+      "icon": "puzzle-piece",
       "videos": [
         "t9KXbRpzzc8",
         "_wV1otQmsA4",
@@ -320,6 +326,8 @@
     {
       "id": "new-season",
       "label": "새 이야기",
+      "color": "#7a4fc9",
+      "icon": "open-book",
       "videos": [
         "JCGhUgSgV_U",
         "u44wEiuuWT4",
@@ -389,6 +397,8 @@
     {
       "id": "hangul-yaho",
       "label": "한글이 야호",
+      "color": "#c93a8b",
+      "icon": "musical-note",
       "kind": "free",
       "playlistId": "PLKDPDirFfxZS_iXEMoYr2fUZZ_hbtF8UH",
       "maxSec": 900

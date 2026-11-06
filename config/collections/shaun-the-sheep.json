@@ -12,21 +12,29 @@
     {
       "id": "season-1",
       "label": "시즌1",
+      "color": "#e0600a",
+      "icon": "ewe",
       "playlistId": "PLp3AWpJx4Ym9R3DSAK11YSDM-BRbKNd5r"
     },
     {
       "id": "season-2",
       "label": "시즌2",
+      "color": "#12808a",
+      "icon": "dog",
       "playlistId": "PLp3AWpJx4Ym9eJNP5vtRIWpKzCes_4S3B"
     },
     {
       "id": "season-3",
       "label": "시즌3",
+      "color": "#2f6fd6",
+      "icon": "tractor",
       "playlistId": "PLp3AWpJx4Ym_qeyACWGUrxhcUCzJyK7he"
     },
     {
       "id": "season-4",
       "label": "시즌4",
+      "color": "#d63b32",
+      "icon": "house-with-garden",
       "videos": [
         "eafod-SlzeY",
         "65vsgDoHcEg",

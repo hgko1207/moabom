@@ -12,16 +12,22 @@
     {
       "id": "s1",
       "label": "시즌1",
+      "color": "#d63b32",
+      "icon": "artist-palette",
       "playlistId": "PLNlJG0d7KqJvg1Lxjm33FsYBpZHRS5o2H"
     },
     {
       "id": "s2",
       "label": "시즌2",
+      "color": "#2f6fd6",
+      "icon": "paintbrush",
       "playlistId": "PLNlJG0d7KqJtAQCRPYDhiPexEYH0Nc5uH"
     },
     {
       "id": "mix",
       "label": "모음집",
+      "color": "#7a4fc9",
+      "icon": "rainbow",
       "kind": "free",
       "uploads": {
         "minSec": 901,

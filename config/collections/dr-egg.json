@@ -12,28 +12,38 @@
     {
       "id": "theater",
       "label": "생물극장",
+      "color": "#7a4fc9",
+      "icon": "owl",
       "playlistId": "PLc2Uz2pQnE_TxuN4m2-0v_RmNf0E0Tvrd"
     },
     {
       "id": "fairy-tales",
       "label": "곤충동화",
+      "color": "#e0600a",
+      "icon": "lady-beetle",
       "playlistId": "PLc2Uz2pQnE_T4ShYP3VtTAVVFBc0KQAbF"
     },
     {
       "id": "collecting",
       "label": "곤충채집",
+      "color": "#12808a",
+      "icon": "butterfly",
       "kind": "free",
       "playlistId": "PLc2Uz2pQnE_SoQsA0KKGC7PMgN4fNZc7e"
     },
     {
       "id": "sea",
       "label": "바다생물",
+      "color": "#2f6fd6",
+      "icon": "tropical-fish",
       "kind": "free",
       "playlistId": "PLc2Uz2pQnE_ToCTZ3leSagLaTwm3hTOFW"
     },
     {
       "id": "latest",
       "label": "새 영상",
+      "color": "#d63b32",
+      "icon": "sparkles",
       "kind": "free",
       "uploads": {
         "minSec": 181,

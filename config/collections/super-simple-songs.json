@@ -13,16 +13,22 @@
     {
       "id": "nursery",
       "label": "동요",
+      "color": "#e0600a",
+      "icon": "musical-note",
       "playlistId": "PLdkj6XH8GYPSMCsoD5Z55LxK-VLTwAgOA"
     },
     {
       "id": "abc",
       "label": "알파벳",
+      "color": "#2f6fd6",
+      "icon": "input-latin-uppercase",
       "playlistId": "PLA97C586F2A087980"
     },
     {
       "id": "long",
       "label": "모음집",
+      "color": "#7a4fc9",
+      "icon": "musical-notes",
       "kind": "free",
       "uploads": {
         "minSec": 1800,

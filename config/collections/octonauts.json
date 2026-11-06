@@ -12,21 +12,29 @@
     {
       "id": "s1",
       "label": "시즌1",
+      "color": "#2f6fd6",
+      "icon": "octopus",
       "playlistId": "PL0exdpL1RDQpBQdHHzOFMpBqfqDZ0tqcG"
     },
     {
       "id": "s2",
       "label": "시즌2",
+      "color": "#12808a",
+      "icon": "penguin",
       "playlistId": "PL0exdpL1RDQo-ImviMMHShLVtxEKRE4tH"
     },
     {
       "id": "s3",
       "label": "시즌3",
+      "color": "#27508f",
+      "icon": "shark",
       "playlistId": "PL0exdpL1RDQriZnrBAsIjOLgB9b-JdCah"
     },
     {
       "id": "mix",
       "label": "모음집",
+      "color": "#e0600a",
+      "icon": "water-wave",
       "kind": "free",
       "uploads": {
         "minSec": 1800,

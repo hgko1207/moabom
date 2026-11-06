@@ -40,6 +40,9 @@ How to design tabs:
 - If there is no usable episode playlist but titles are numbered, use `npm run draft-groups -- --collection <id> --ranges 1-15,16-30` after writing the config with `channels` (it writes `data/collections/<id>/draft-groups.json`, gitignored) and copy the approved `videos` lists in.
 - Skip Shorts playlists, trailers, song-only or non-show playlists unless the user asks. `excludeShorts` treats anything **≤ 180 s** as a Short, so set it to `false` when the chosen playlists are curated episodes that often run about 3 minutes (e.g. 깨비키즈); keep `true` for `uploads` rules over a channel full of Shorts.
 - If an episode playlist mixes in long compilations, give that group `"maxSec": 900` so only real episodes stay (the compilations belong in a free tab).
+- Give every group a `color` and an `icon`; each tab is a sticker that fills with its colour when chosen.
+  - `color`: the official colour if there is one, else the tab's topic, else something from the show's world. It carries white text, so use bright colours that reach 3:1 with white: red `#d63b32`, orange `#e0600a`, pink `#c93a8b`, rose `#b83a5e`, teal `#12808a`, blue `#2f6fd6`, navy `#27508f`, purple `#7a4fc9`. Never yellow, lime, brown or olive, and never green (the 여기부터 card under the tabs is green). Neighbouring tabs differ.
+  - `icon`: `"#1"` for numbered stages, otherwise a picture that says the topic to a child who cannot read. Names come from Fluent Emoji Flat (https://icon-sets.iconify.design/fluent-emoji-flat/); reuse a file in `public/tabicons/` or fetch one with `npm run tab-icon -- <name>`, and commit it.
 - Labels are short Korean words a parent recognises: 본편, 시즌1, 모음집, 긴 모음집, 노래. No 가운뎃점 (·) in labels; series tabs get "N화" added, so avoid words that repeat it (에피소드 3화).
 
 ### 4. Write config

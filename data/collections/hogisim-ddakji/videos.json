@@ -1,0 +1,1623 @@
+{
+  "collectionId": "hogisim-ddakji",
+  "fetchedAt": "2026-11-06T16:35:55.542Z",
+  "groups": [
+    {
+      "id": "new-stories",
+      "videos": [
+        {
+          "id": "sbjW84awkY4",
+          "title": "최고다! 호기심 딱지 - 알자! 아토피피부염",
+          "displayTitle": "알자! 아토피피부염",
+          "durationSec": 864,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 1
+        },
+        {
+          "id": "I-tpUefI1hQ",
+          "title": "최고다! 호기심 딱지 - 알자! 식품알레르기",
+          "displayTitle": "알자! 식품알레르기",
+          "durationSec": 906,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 2
+        },
+        {
+          "id": "6HpXJbycTjk",
+          "title": "최고다! 호기심 딱지 - 세포를 지켜라! 면역 삼총사",
+          "displayTitle": "세포를 지켜라! 면역 삼총사",
+          "durationSec": 872,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 3
+        },
+        {
+          "id": "cbEShqFc2Ao",
+          "title": "최고다! 호기심 딱지 - 최강무기, 면역 특공대",
+          "displayTitle": "최강무기, 면역 특공대",
+          "durationSec": 756,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 4
+        },
+        {
+          "id": "mp89Z3zb-IY",
+          "title": "최고다! 호기심 딱지 - 너 밖에 없어 🩸혈소판",
+          "displayTitle": "너 밖에 없어 혈소판",
+          "durationSec": 857,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 5
+        },
+        {
+          "id": "e3KOBkRPxxE",
+          "title": "💩똥이 마렵지만 놀고싶어 똥을 참은 호빵이, 최고다! 호기심 딱지 - 💩참지 마! 똥!",
+          "displayTitle": "참지 마! 똥!",
+          "durationSec": 837,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 6
+        },
+        {
+          "id": "ZS7U0Sy7bPk",
+          "title": "최고다! 호기심 딱지 - 호딱 야! 너도 수두 이길 수 있어",
+          "displayTitle": "호딱 야! 너도 수두 이길 수 있어",
+          "durationSec": 807,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 7
+        },
+        {
+          "id": "nYVmzP4lJFY",
+          "title": "🌞🌷봄이다!! 엣취~ 왜 봄에 🌸꽃가루가 날리면 이렇게 재채기를 하게 될까? 몸 속으로 들어가 🏥알레르기가 왜 생길까? 몸 속 탐구로 알아보자! 최고다! 호기심 딱지 - 꽃가루전쟁",
+          "displayTitle": "꽃가루전쟁",
+          "durationSec": 821,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 8
+        },
+        {
+          "id": "V_q1svNZdd4",
+          "title": "밤에 잠을 안 자면 어떡해! 호빵아!🌙🌝 최고다! 호기심 딱지 - 밤이면 밤마다 성장호르몬",
+          "displayTitle": "밤이면 밤마다 성장호르몬",
+          "durationSec": 787,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 9
+        },
+        {
+          "id": "yESJc-2bFDU",
+          "title": "최고다! 호기심 딱지 - 절대 안 돼! 알코올",
+          "displayTitle": "절대 안 돼! 알코올",
+          "durationSec": 769,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 10
+        },
+        {
+          "id": "SlWqwhLAU8A",
+          "title": "누가 호떡이 엉덩이에 똥을?!💩 최고다! 호기심 딱지 - 누가 엉덩이에 똥 쌌어",
+          "displayTitle": "누가 엉덩이에 똥 쌌어",
+          "durationSec": 891,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 11
+        },
+        {
+          "id": "QMbREwNqyxI",
+          "title": "바이러스 아지트로 들어가자! 바이러스의 비밀은?🦠 최고다! 호기심 딱지 - 바이러스 전투복의 비밀",
+          "displayTitle": "바이러스 전투복의 비밀",
+          "durationSec": 790,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 12
+        },
+        {
+          "id": "8j79OkYNcy8",
+          "title": "비타민 D 버스를 기다리는 호빵이..🚐 최고다! 호기심 딱지 - 칼슘과 비타민 D 버스",
+          "displayTitle": "칼슘과 비타민 D 버스",
+          "durationSec": 833,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 13
+        },
+        {
+          "id": "K55QzImGhj8",
+          "title": "호빵이의 피부를 구할 방법은?🌞😎 최고다! 호기심 딱지 - 자외선 차단 작전",
+          "displayTitle": "자외선 차단 작전",
+          "durationSec": 765,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 14
+        },
+        {
+          "id": "esbmgCULJik",
+          "title": "음료수를 잔뜩 마신 호떡이의 몸이 이상해졌다!🧃 최고다! 호기심 딱지 - 꽈당꽈당 액상과당",
+          "displayTitle": "꽈당꽈당 액상과당",
+          "durationSec": 832,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 15
+        },
+        {
+          "id": "emg_oA59oMs",
+          "title": "호빵이와 함께 꿈꾸는 뇌에 대해 알아보자!🧠 최고다! 호기심 딱지 - 꿈꾸는 뇌",
+          "displayTitle": "꿈꾸는 뇌",
+          "durationSec": 830,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 16
+        },
+        {
+          "id": "rFxcImMpz1U",
+          "title": "최고다! 호기심 딱지 - NK 세포의 비밀",
+          "displayTitle": "NK 세포의 비밀",
+          "durationSec": 855,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 17
+        },
+        {
+          "id": "RHXj2htD7GY",
+          "title": "살모넬라균이 몸속으로 들어온 호떡이🦠 최고다! 호기심 딱지 - 비상! 식중독이다",
+          "displayTitle": "비상! 식중독이다",
+          "durationSec": 784,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 18
+        },
+        {
+          "id": "nWoII0D9iPY",
+          "title": "호빵이 몸속의 신경세포들이 모여서 회의를 시작한다!🧠 최고다! 호기심 딱지 - 신경세포 합동작전",
+          "displayTitle": "신경세포 합동작전",
+          "durationSec": 798,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 19
+        },
+        {
+          "id": "Tn598NlxCTQ",
+          "title": "호떡이 몸속에서 유익균과 유해균의 대결이 시작된다!🩻 최고다! 호기심 딱지 - 힘내라! 유익균",
+          "displayTitle": "힘내라! 유익균",
+          "durationSec": 898,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 20
+        },
+        {
+          "id": "jsF0m_hyiLI",
+          "title": "🧠뇌는 신경 세포들이 모여 사는 집🏠 최고다! 호기심 딱지 - 뇌는 공사 중",
+          "displayTitle": "뇌는 공사 중",
+          "durationSec": 847,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 21
+        },
+        {
+          "id": "2Ps2l4vWl_E",
+          "title": "부러진 뼈는 어떻게 해야 다시 붙을까?🦴 최고다! 호기심 딱지 - 긴급 출동! 뼈 구조대",
+          "displayTitle": "긴급 출동! 뼈 구조대",
+          "durationSec": 696,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 22
+        },
+        {
+          "id": "M2hopa8XdpI",
+          "title": "🏋🏻언제나 열심히 운동하는 근육맨!💪 최고다! 호기심 딱지 - 근육맨! 쥐 대소동",
+          "displayTitle": "근육맨! 쥐 대소동",
+          "durationSec": 766,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 23
+        },
+        {
+          "id": "lPK3vtarcWA",
+          "title": "뮤탄스가 싸는 똥의 위력은 어마어마하다..!💩 최고다! 호기심 딱지 - 똥 싸기 대장! 충치균",
+          "displayTitle": "똥 싸기 대장! 충치균",
+          "durationSec": 778,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 24
+        },
+        {
+          "id": "CpIB8SpZ0CM",
+          "title": "호떡이의 계속된 손가락 공격에 단단히 화가 난 구멍들! ㅣ최고다! 호기심 딱지 ㅣ 손가락 전쟁",
+          "displayTitle": "손가락 전쟁",
+          "durationSec": 795,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 25
+        },
+        {
+          "id": "zJHscRx2RPo",
+          "title": "이상한 냄새를 타고 하나둘 나오는 악당들!ㅣ최고다! 호기심 딱지ㅣ환경유해인자 악당들",
+          "displayTitle": "환경유해인자 악당들",
+          "durationSec": 849,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 26
+        },
+        {
+          "id": "X0GgjbgrBBU",
+          "title": "적절한 영양, 시간, 최고의 똥은 그냥 만들어지지 않아!ㅣ최고다! 호기심 딱지ㅣ최고의 똥",
+          "displayTitle": "최고의 똥",
+          "durationSec": 746,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 27
+        },
+        {
+          "id": "vj5pBtGeaJc",
+          "title": "엄마 아빠만큼 키가 커지려면 어떻게 해야 하는 걸까?ㅣ최고다! 호기심 딱지ㅣ키 크기 대작전",
+          "displayTitle": "키 크기 대작전",
+          "durationSec": 736,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 28
+        },
+        {
+          "id": "qdQixDwUhx0",
+          "title": "호로록~ 호로록~ 라면을 잘 씹지도 않고 삼켜버린 호떡이!ㅣ최고다! 호기심 딱지ㅣ호로록 말고 꼭꼭꼭",
+          "displayTitle": "호로록 말고 꼭꼭꼭",
+          "durationSec": 708,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 29
+        },
+        {
+          "id": "0zVwX_9t8ac",
+          "title": "변기 손잡이에서 호떡이 손으로, 호떡이 손에서 호떡이 입속으로 들어온 강력한 세균!ㅣ최고다! 호기심 딱지ㅣ위험한 헬리코박터 파일로리",
+          "displayTitle": "위험한 헬리코박터 파일로리",
+          "durationSec": 852,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 30
+        },
+        {
+          "id": "HX5VYEqaH10",
+          "title": "돌멩이를 먹은 적이 없어도, 몸속에 돌이 생긴다?!ㅣ최고다! 호기심 딱지ㅣ돌멩이 원정대: 돌멩이를 찾아서",
+          "displayTitle": "돌멩이 원정대: 돌멩이를 찾아서",
+          "durationSec": 804,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 31
+        },
+        {
+          "id": "oTglYBSXGDk",
+          "title": "염증을 일으키는 나쁜 돌을 제거하기 위해, 돌멩이 원정대가 된 호빵이와 호떡이!ㅣ최고다! 호기심 딱지ㅣ돌멩이 원정대: 칼슘의 역습",
+          "displayTitle": "돌멩이 원정대: 칼슘의 역습",
+          "durationSec": 787,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 32
+        },
+        {
+          "id": "LTVgOKcHoH4",
+          "title": "말라리아에 걸린 엄마를 구하기 위해, 호빵이가 출동한다!ㅣ최고다! 호기심 딱지ㅣ말라리아 습격 사건",
+          "displayTitle": "말라리아 습격 사건",
+          "durationSec": 793,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 33
+        },
+        {
+          "id": "TO-dpgEfjkc",
+          "title": "축축하고 더러운 곳을 좋아하는 무좀균이 호떡이 발로 이사를 왔다!ㅣ최고다! 호기심 딱지ㅣ옮겨옮겨 무좀균",
+          "displayTitle": "옮겨옮겨 무좀균",
+          "durationSec": 774,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 34
+        },
+        {
+          "id": "X4LgRxbnWI8",
+          "title": "\"피는 왜 빨개? 적혈구는 왜 빨개?\"ㅣ최고다! 호기심 딱지ㅣ적혈구가 빨간 이유",
+          "displayTitle": "적혈구가 빨간 이유",
+          "durationSec": 821,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 35
+        },
+        {
+          "id": "zqjApzI0KBM",
+          "title": "원대한 꿈을 꾸는 파상풍균, 호떡이 몸속 침투 작전을 계획한다. ㅣ최고다! 호기심 딱지ㅣ독소 대장 파상풍균",
+          "displayTitle": "독소 대장 파상풍균",
+          "durationSec": 748,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 36
+        },
+        {
+          "id": "qnT8AOUEwe8",
+          "title": "감기에 걸려 열이 펄펄 나는 호떡이!ㅣ최고다! 호기심 딱지ㅣ열 잡으러 왔다! 해열제",
+          "displayTitle": "열 잡으러 왔다! 해열제",
+          "durationSec": 785,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 37
+        },
+        {
+          "id": "vka3Sry8rOQ",
+          "title": "아아악! 캠핑장에서 신나게 뛰놀던 호떡이가 뱀에 물렸다?!ㅣ최고다! 호기심 딱지ㅣ뱀에 물리면",
+          "displayTitle": "뱀에 물리면",
+          "durationSec": 856,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 38
+        },
+        {
+          "id": "lleUHBSwaiQ",
+          "title": "호빵이가 속상한 호떡이를 안아주자, 호떡이의 기분이 마법처럼 좋아졌다?!ㅣ최고다! 호기심 딱지ㅣ안으면 행복해",
+          "displayTitle": "안으면 행복해",
+          "durationSec": 810,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 39
+        },
+        {
+          "id": "8YgFfyZAr1o",
+          "title": "여러 껌을 씹던 호떡이는 꿀꺽꿀꺽 껌을 삼킨다!ㅣ최고다! 호기심 딱지ㅣ껌 삼키면 안 돼",
+          "displayTitle": "껌 삼키면 안 돼",
+          "durationSec": 851,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 40
+        },
+        {
+          "id": "8Fgi-5d298U",
+          "title": "\"당근 싫어! 안 먹어!\" 호떡이가 당근을 먹지 않아서, 비타민 A가 부족해졌다!ㅣ최고다! 호기심 딱지ㅣ비타민 A 특공대",
+          "displayTitle": "비타민 A 특공대",
+          "durationSec": 893,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 41
+        },
+        {
+          "id": "NqCEgUmNpvI",
+          "title": "사탕을 던져서 입으로 받아먹다가 목에 탁! 걸렸다!ㅣ최고다! 호기심 딱지ㅣ하임리히법으로 위기탈출!",
+          "displayTitle": "하임리히법으로 위기탈출!",
+          "durationSec": 697,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 42
+        },
+        {
+          "id": "tzx0yM_INXQ",
+          "title": "\"으읏, 추워!\" 날씨는 너무 춥고, 오줌은 자꾸 마렵고...!ㅣ최고다! 호기심 딱지ㅣ추우면 오줌이 마려워",
+          "displayTitle": "추우면 오줌이 마려워",
+          "durationSec": 793,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 43
+        },
+        {
+          "id": "IQMhs3AI8Lk",
+          "title": "호떡이 수호대가 되기 위해 여행을 떠나는 이산화탄소!ㅣ최고다! 호기심 딱지ㅣ이산화탄소의 변신",
+          "displayTitle": "이산화탄소의 변신",
+          "durationSec": 848,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 44
+        },
+        {
+          "id": "shiv00n6ZLE",
+          "title": "우리 몸속을 지키는 영웅들의 파티, 최고 딱지 상!ㅣ최고다! 호기심 딱지ㅣ최고의 영웅은 누구?",
+          "displayTitle": "최고의 영웅은 누구?",
+          "durationSec": 797,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 45
+        },
+        {
+          "id": "-E6XD6A7vwg",
+          "title": "스마트 왕자의 짝꿍으로 어울릴만한 최고의 악당은 누구일까?ㅣ최고다! 호기심 딱지ㅣ최고의 악당은 누구?",
+          "displayTitle": "최고의 악당은 누구?",
+          "durationSec": 782,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 46
+        },
+        {
+          "id": "0KVQan7IwQk",
+          "title": "머리카락을 당기면 아픈데, 자르면 아프지 않은 이유는 뭘까? ㅣ최고다! 호기심 딱지ㅣ머리카락을 자르면 왜 안 아플까?",
+          "displayTitle": "머리카락을 자르면 왜 안 아플까?",
+          "durationSec": 797,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 47
+        },
+        {
+          "id": "2W8Xv8cWcAM",
+          "title": "인슐린 대감과 글루카곤 대감. 둘은 포도당을 두고 싸움을 벌이는데..ㅣ최고다! 호기심 딱지ㅣ아침밥을 안 먹으면 위험해",
+          "displayTitle": "아침밥을 안 먹으면 위험해",
+          "durationSec": 817,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 48
+        },
+        {
+          "id": "f-AZWKlFamU",
+          "title": "세균과 바이러스는 어떻게 다를까?ㅣ최고다! 호기심 딱지ㅣ세균 감옥",
+          "displayTitle": "세균 감옥",
+          "durationSec": 744,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 49
+        },
+        {
+          "id": "tmNOlpM_W8U",
+          "title": "수많은 바이러스는 우리 몸을 어떻게 괴롭힐까?ㅣ최고다! 호기심 딱지ㅣ바이러스 감옥",
+          "displayTitle": "바이러스 감옥",
+          "durationSec": 844,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 50
+        },
+        {
+          "id": "Senlnz_iPbY",
+          "title": "친구에게 거짓말을 한 호떡이. 침이 바짝바짝 마르고, 두근두근 가슴도 뛰고, 땀도 많이 나고...ㅣ최고다! 호기심 딱지ㅣ거짓말 폭탄",
+          "displayTitle": "거짓말 폭탄",
+          "durationSec": 750,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 51
+        },
+        {
+          "id": "kkKR_xQlrUI",
+          "title": "몸속에서 열리는 '' 최고다 호기심 빵빵 퀴즈쇼''!ㅣ최고다! 호기심 딱지ㅣ호기심 빵빵 퀴즈쇼",
+          "displayTitle": "호기심 빵빵 퀴즈쇼",
+          "durationSec": 809,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 52
+        },
+        {
+          "id": "gyvRXsSv5e4",
+          "title": "몸속 세포들의 고민을 해결해 주러 나선 호빵이와 호떡이!ㅣ최고다! 호기심 딱지ㅣ고민상담소 호~빵",
+          "displayTitle": "고민상담소 호~빵",
+          "durationSec": 695,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 53
+        },
+        {
+          "id": "KV60gwD4xuc",
+          "title": "노로 바이러스 때문에, 생일 파티를 못할 수도 있다고?!ㅣ최고다! 호기심 딱지ㅣ비상! 노로바이러스",
+          "displayTitle": "비상! 노로바이러스",
+          "durationSec": 819,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 54
+        },
+        {
+          "id": "fuA6uxCNXws",
+          "title": "호빵이 vs 노로 바이러스, 최후의 결전이 시작된다!ㅣ최고다! 호기심 딱지ㅣ노로바이러스를 물리치는 방법",
+          "displayTitle": "노로바이러스를 물리치는 방법",
+          "durationSec": 741,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 55
+        },
+        {
+          "id": "nsKJZ15FMR0",
+          "title": "아이스크림으로 좁아진 핏줄, 얼어붙은 신경까지 몸속은 긴급 상황 발생!ㅣ최고다! 호기심 딱지ㅣ아이스크림을 먹었더니 머리가 띵",
+          "displayTitle": "아이스크림을 먹었더니 머리가 띵",
+          "durationSec": 725,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 56
+        },
+        {
+          "id": "c0jcRu6xiic",
+          "title": "얼음 괴물, 아이스크림이 위와 소장을 꽁꽁 얼려버렸다!ㅣ최고다! 호기심 딱지ㅣ아이스크림을 많이 먹으면 배가 아픈 이유",
+          "displayTitle": "아이스크림을 많이 먹으면 배가 아픈 이유",
+          "durationSec": 736,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 57
+        },
+        {
+          "id": "9nf1_j-h_hU",
+          "title": "앞니를 공격한 정체불명의 손톱 조각과 세균들!ㅣ최고다! 호기심 딱지ㅣ손톱 물어뜯기 대장의 최후",
+          "displayTitle": "손톱 물어뜯기 대장의 최후",
+          "durationSec": 747,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 58
+        },
+        {
+          "id": "11sfQsk-eFo",
+          "title": "호떡이 치킨을 먹으려다 갑자기 기절?!ㅣ최고다! 호기심 딱지ㅣ코 세포 기절사건",
+          "displayTitle": "코 세포 기절사건",
+          "durationSec": 751,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 59
+        },
+        {
+          "id": "Aud4qRZy5b8",
+          "title": "오줌을 참고 또 참던 또참아도령, 방광 속에서 무슨 일이?ㅣ최고다! 호기심 딱지ㅣ오줌 참으면 오줌싸개 된다",
+          "displayTitle": "오줌 참으면 오줌싸개 된다",
+          "durationSec": 757,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 60
+        },
+        {
+          "id": "OB2Zrkv57II",
+          "title": "세균이 호딱이의 코를 통해 뇌를 정복하려고 한다!ㅣ최고다! 호기심 딱지ㅣ코딱지 파면 뇌가 위험해",
+          "displayTitle": "코딱지 파면 뇌가 위험해",
+          "durationSec": 765,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 61
+        },
+        {
+          "id": "HeI1KsipIvk",
+          "title": "천연두와 우두 바이러스, 그리고 백신의 탄생 이야기 속으로!ㅣ최고다! 호기심 딱지ㅣ 잡았다! 천연두",
+          "displayTitle": "잡았다! 천연두",
+          "durationSec": 747,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 62
+        },
+        {
+          "id": "RFMjFbwXaDw",
+          "title": "호떡이 손과 입에 생긴 정체불명의 물집… 과연 그 원인은?ㅣ최고다! 호기심 딱지ㅣ수족구 바이러스의 야망",
+          "displayTitle": "수족구 바이러스의 야망",
+          "durationSec": 777,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 63
+        },
+        {
+          "id": "wWLHFoUNxsg",
+          "title": "계속 나오는 방귀 때문에 친구들에게 놀림받은 호떡이는 방귀를 참기로 결심하는데! ㅣ최고다! 호기심 딱지ㅣ방귀대장 호떡이",
+          "displayTitle": "방귀대장 호떡이",
+          "durationSec": 729,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 64
+        },
+        {
+          "id": "suITISUrOFc",
+          "title": "매운 떡볶이를 먹고 입에서 불이 날 정도로 고통을 느끼는 호떡이!ㅣ최고다! 호기심 딱지ㅣ통증의 신, 매운 맛",
+          "displayTitle": "통증의 신, 매운 맛",
+          "durationSec": 757,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 65
+        },
+        {
+          "id": "LUdkvwMFOqw",
+          "title": "호떡이가 우유를 마신 뒤 폭풍설사를 하게 된 이유는?ㅣ최고다! 호기심 딱지ㅣ밀크맨의 폭풍설사사건",
+          "displayTitle": "밀크맨의 폭풍설사사건",
+          "durationSec": 778,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 66
+        },
+        {
+          "id": "UqbCNxLtLdY",
+          "title": "가려움 유발 1등 악당 ‘요충’을 막기 위해 호빵이가 출동한다!ㅣ최고다! 호기심 딱지ㅣ간질간질 요충",
+          "displayTitle": "간질간질 요충",
+          "durationSec": 772,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 67
+        },
+        {
+          "id": "rW6r3wQMfpY",
+          "title": "“눈이 너무 뻑뻑해! 왜 눈이 말라가는 거야?!”ㅣ최고다! 호기심 딱지ㅣ촉촉맨! 눈의 여왕을 지켜라!",
+          "displayTitle": "촉촉맨! 눈의 여왕을 지켜라!",
+          "durationSec": 760,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 68
+        },
+        {
+          "id": "6JGUdw_00Os",
+          "title": "매일 눈물만 뚝뚝 흘리는 울보 왕자, 대체 왜 우는 걸까?!ㅣ최고다! 호기심 딱지ㅣ울보 왕자의 비밀",
+          "displayTitle": "울보 왕자의 비밀",
+          "durationSec": 776,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 69
+        },
+        {
+          "id": "63h30r4_9pk",
+          "title": "하품을 했을 뿐인데, 눈물이 또르르?!ㅣ최고다! 호기심 딱지ㅣ하품을 하면 왜 눈물이 날까?",
+          "displayTitle": "하품을 하면 왜 눈물이 날까?",
+          "durationSec": 730,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 70
+        },
+        {
+          "id": "NX4i-m9FuA8",
+          "title": "눈썹이 쓸모없다며 한쪽 눈썹을 밀어버렸다고?!ㅣ최고다! 호기심 딱지ㅣ눈썹 기사단",
+          "displayTitle": "눈썹 기사단",
+          "durationSec": 692,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 71
+        },
+        {
+          "id": "hECp5fZgvqM",
+          "title": "헤드폰으로 게임 소리를 ‘왕크게’ 듣던 호떡이, 귀 딱지가 깜빡이기 시작하는데?!ㅣ최고다! 호기심 딱지ㅣ큰소리 습격사건",
+          "displayTitle": "큰소리 습격사건",
+          "durationSec": 710,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 72
+        },
+        {
+          "id": "Uzyz1sXLSDA",
+          "title": "고래고래 소리를 지르던 호떡이, 목소리가 사라졌다고?!ㅣ최고다! 호기심 딱지ㅣ목소리 호텔",
+          "displayTitle": "목소리 호텔",
+          "durationSec": 774,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 73
+        },
+        {
+          "id": "F5BEGciZH4M",
+          "title": "코가 막힌 건 오른쪽인데, 왜 왼쪽까지 답답할까?ㅣ최고다! 호기심 딱지ㅣ코 막힘 뚫어 뻥",
+          "displayTitle": "코 막힘 뚫어 뻥",
+          "durationSec": 792,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 74
+        },
+        {
+          "id": "9_TDDgtOrrU",
+          "title": "호떡이가 물놀이하다 입술이 파래졌다고?!ㅣ최고다! 호기심 딱지ㅣ물놀이 오래하면 체온이 뚝",
+          "displayTitle": "물놀이 오래하면 체온이 뚝",
+          "durationSec": 774,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 75
+        },
+        {
+          "id": "L7-v1JAQNjQ",
+          "title": "더운 여름, 수분, 나트륨, 노폐물로 구성된 ‘땀’팀은 데뷔 준비 중!ㅣ최고다! 호기심 딱지ㅣ엉망진창 땀쇼",
+          "displayTitle": "엉망진창 땀쇼",
+          "durationSec": 803,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 76
+        },
+        {
+          "id": "W-ft_OeDs6Q",
+          "title": "배 속에서 울려 퍼지는 의문의 소리, 꼬르륵!ㅣ최고다! 호기심 딱지ㅣ꼬르륵 합창단",
+          "displayTitle": "꼬르륵 합창단",
+          "durationSec": 760,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 77
+        },
+        {
+          "id": "WnfpcVdB2Yw",
+          "title": "상한 햄버거 속에서 식중독균들이 모여 끝판왕 선발전을 벌이고 있는데...ㅣ최고다! 호기심 딱지ㅣ식중독 끝판왕",
+          "displayTitle": "식중독 끝판왕",
+          "durationSec": 828,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 78
+        },
+        {
+          "id": "jl8r4chV1PE",
+          "title": "절대 힘을 가진 전설의 칭찬 딱지, 과연 누구에게 돌아갈까?!ㅣ최고다! 호기심 딱지ㅣ칭찬 딱지 주인공은 나야 나!",
+          "displayTitle": "칭찬 딱지 주인공은 나야 나!",
+          "durationSec": 790,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 79
+        },
+        {
+          "id": "bOkHFXMAS24",
+          "title": "호떡이가 매운 라면을 먹는 순간! 매운맛 괴물 캡사이신이 다시 나타났다!ㅣ최고다! 호기심 딱지ㅣ칭찬 딱지 파워",
+          "displayTitle": "칭찬 딱지 파워",
+          "durationSec": 780,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 80
+        },
+        {
+          "id": "apNhlPLWzFM",
+          "title": "호빵 요리사가 준비한 짠 음식 만찬! 신나게 먹던 호떡이가 갑자기 목이 마른 이유는?ㅣ최고다! 호기심 딱지ㅣ수분 사냥꾼 나트륨",
+          "displayTitle": "수분 사냥꾼 나트륨",
+          "durationSec": 812,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 81
+        },
+        {
+          "id": "ibX_7aoMUPg",
+          "title": "배달 음식 속에서 튀어나온 가짜 호르몬, 진짜 호르몬을 흉내 내며 교란 작전을 펼친다!ㅣ최고다! 호기심 딱지ㅣ가짜 호르몬 교란 작전",
+          "displayTitle": "가짜 호르몬 교란 작전",
+          "durationSec": 862,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 82
+        },
+        {
+          "id": "NkvMKpXwznI",
+          "title": "토마토를 뜨겁게 요리해서 먹을수록 강해지는 토마토! 최강 용사! 리코펜!ㅣ최고다! 호기심 딱지ㅣ토마토 최강 용사 리코펜",
+          "displayTitle": "토마토 최강 용사 리코펜",
+          "durationSec": 827,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 83
+        },
+        {
+          "id": "Bzp86MhCdpA",
+          "title": "스트레스받으면 왜 단 게 당길까? ㅣ최고다! 호기심 딱지ㅣ스트레스 받으면 왜 단 게 당겨",
+          "displayTitle": "스트레스 받으면 왜 단 게 당겨",
+          "durationSec": 806,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 84
+        },
+        {
+          "id": "iSa5_7ohwFw",
+          "title": "멈출 수 없는 단짠단짠의 유혹!ㅣ최고다! 호기심 딱지ㅣ단짠단짠 전쟁",
+          "displayTitle": "단짠단짠 전쟁",
+          "durationSec": 812,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 85
+        },
+        {
+          "id": "x4XnuKZ33HA",
+          "title": "호떡이는 탄산백작의 위협으로부터 아몬드 공주와 적혈구를 구할 수 있을까?ㅣ최고다! 호기심 딱지ㅣ아몬드 공주와 비타민C 원정대",
+          "displayTitle": "아몬드 공주와 비타민C 원정대",
+          "durationSec": 824,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 86
+        },
+        {
+          "id": "PMjhLWhw7v0",
+          "title": "호떡아, 물을 꿀꺽꿀꺽 쭉~ 마시고 캬~ 소리도 내줘!ㅣ최고다! 호기심 딱지ㅣ꿀꺽이와 캬의 소원",
+          "displayTitle": "꿀꺽이와 캬의 소원",
+          "durationSec": 835,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 87
+        },
+        {
+          "id": "YmSIIf7HGDo",
+          "title": "영양분 배달부 혈장이 흔적도 없이 사라졌다!?ㅣ최고다! 호기심 딱지ㅣ혈장 실종 사건",
+          "displayTitle": "혈장 실종 사건",
+          "durationSec": 828,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 88
+        },
+        {
+          "id": "NrL3rZsgLFQ",
+          "title": "호떡이가 물을 안 마시는 바람에 딱딱해진 똥들이 못 나가고 있어요!,ㅣ최고다! 호기심 딱지ㅣ안 나와 똥",
+          "displayTitle": "안 나와 똥",
+          "durationSec": 828,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 89
+        },
+        {
+          "id": "iXOAqCmoEFU",
+          "title": "밤이 되어도 스마트폰 불빛 때문에 멜라토닌 요정이 집 밖으로 나오지 못한다!ㅣ최고다! 호기심 딱지ㅣ바쁘다 바빠 멜라토닌",
+          "displayTitle": "바쁘다 바빠 멜라토닌",
+          "durationSec": 811,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 90
+        },
+        {
+          "id": "CL-FQi1aglg",
+          "title": "뇌 집무실에 쌓인 쓰레기를 치워 깨끗하게 만드는 멜라토닌!ㅣ최고다! 호기심 딱지ㅣ뇌 청소부 멜라토닌",
+          "displayTitle": "뇌 청소부 멜라토닌",
+          "durationSec": 761,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 91
+        },
+        {
+          "id": "e_EpiP6lWKA",
+          "title": "익은 김치는 왜 신맛이 날까?ㅣ최고다! 호기심 딱지ㅣ김치 맛의 비밀",
+          "displayTitle": "김치 맛의 비밀",
+          "durationSec": 815,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 92
+        },
+        {
+          "id": "9WmDUGmBwBk",
+          "title": "비상! 김치를 싫어하는 호떡이 때문에 소장에 전쟁 발생!ㅣ최고다! 호기심 딱지ㅣ김치전",
+          "displayTitle": "김치전",
+          "durationSec": 808,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 93
+        },
+        {
+          "id": "HDAYQ7PMiFI",
+          "title": "화난 고기왕에게서 나온 나쁜 콜레스테롤이 핏줄을 끈적끈적하게 막는데...ㅣ최고다! 호기심 딱지ㅣ콩 파워",
+          "displayTitle": "콩 파워",
+          "durationSec": 827,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 94
+        },
+        {
+          "id": "SiY1wlfzUNM",
+          "title": "편식 대장 호떡이도 좋아하는 콩, 이번에는 뼈 마을과 대장마을로 출동한다!ㅣ최고다! 호기심 딱지ㅣ슈퍼 히어로 콩",
+          "displayTitle": "슈퍼 히어로 콩",
+          "durationSec": 814,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 95
+        },
+        {
+          "id": "6-jdX4CBFck",
+          "title": "청국장찌개에서 시작되는 고초균 할아버지 옛날이야기!ㅣ최고다! 호기심 딱지ㅣ천하무적 고초균",
+          "displayTitle": "천하무적 고초균",
+          "durationSec": 808,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 96
+        },
+        {
+          "id": "NTBptP0HPss",
+          "title": "산타할아버지도 피곤해! 배달할 선물은 많은데 루돌프는 아파서 쉬고, 이번 크리스마스는 더 바쁘다 바빠!ㅣ최고다! 호기심 딱지ㅣ산타할아버지가 피곤한 이유",
+          "displayTitle": "산타할아버지가 피곤한 이유",
+          "durationSec": 786,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 97
+        },
+        {
+          "id": "5xGKbXopRkQ",
+          "title": "비타민C 원정대는 어떻게 탄생했을까?ㅣ최고다! 호기심 딱지ㅣ비타민C 원정대의 탄생",
+          "displayTitle": "비타민C 원정대의 탄생",
+          "durationSec": 821,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 98
+        },
+        {
+          "id": "jljmvip3Hns",
+          "title": "호빵을 많이 먹으면 왜 잠이 쏟아지는 걸까?ㅣ최고다! 호기심 딱지ㅣ호빵의 비밀",
+          "displayTitle": "호빵의 비밀",
+          "durationSec": 798,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 99
+        },
+        {
+          "id": "6F_xwmSJHr8",
+          "title": "신경세포를 똑똑하게 만들고, 눈도 좋아지게 하는 '블루베리 파워'!ㅣ최고다! 호기심 딱지ㅣ보라보라 블루베리 파워",
+          "displayTitle": "보라보라 블루베리 파워",
+          "durationSec": 801,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 100
+        },
+        {
+          "id": "P49mGPgrupg",
+          "title": "옛날 옛적에 한겨울에도 샌들을 신을 수밖에 없는 샌데렐라가 살았어요!ㅣ최고다! 호기심 딱지ㅣ동상에 걸린 샌데렐라",
+          "displayTitle": "동상에 걸린 샌데렐라",
+          "durationSec": 822,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 101
+        },
+        {
+          "id": "vON0xOuvWdY",
+          "title": "왜 상처가 나면 소독도 하고, 촉촉 밴드도 붙여야 할까?ㅣ최고다! 호기심 딱지ㅣ상처엔 촉촉 밴드",
+          "displayTitle": "상처엔 촉촉 밴드",
+          "durationSec": 811,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 102
+        },
+        {
+          "id": "427_otTFLdc",
+          "title": "밥을 물에 말아 먹으면?ㅣ최고다! 호기심 딱지ㅣ밥을 물에 말아 먹으면 생기는 일",
+          "displayTitle": "밥을 물에 말아 먹으면 생기는 일",
+          "durationSec": 443,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 103
+        },
+        {
+          "id": "AkWo643DRfQ",
+          "title": "집 곳곳에 숨어있는 집먼지진드기🪳ㅣ최고다! 호기심 딱지ㅣ집먼지진드기의 최후의 만찬",
+          "displayTitle": "집먼지진드기의 최후의 만찬",
+          "durationSec": 549,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 104
+        },
+        {
+          "id": "DwsUpvbTWEc",
+          "title": "오이 공주 신랑감을 찾습니다🥒ㅣ최고다! 호기심 딱지ㅣ오이 공주 신랑감 찾기 대소동",
+          "displayTitle": "오이 공주 신랑감 찾기 대소동",
+          "durationSec": 611,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 105
+        },
+        {
+          "id": "zk4s4_lzAK0",
+          "title": "다크서클이 생기는 이유😵‍💫ㅣ최고다! 호기심 딱지ㅣ귀신 아파트 괴물 아파트",
+          "displayTitle": "귀신 아파트 괴물 아파트",
+          "durationSec": 515,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 106
+        },
+        {
+          "id": "RyEGAwz5STA",
+          "title": "층간소음은 왜 생기는 걸까?💥ㅣ최고다! 호기심 딱지ㅣ층간소음의 비밀",
+          "displayTitle": "층간소음의 비밀",
+          "durationSec": 609,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 107
+        },
+        {
+          "id": "RV30A2nhaOg",
+          "title": "사춘기 전 황금시간을 지켜라!ㅣ최고다! 호기심 딱지ㅣ시간 도둑과 황금시간 딱지",
+          "displayTitle": "시간 도둑과 황금시간 딱지",
+          "durationSec": 505,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 108
+        },
+        {
+          "id": "M82jvTfqKzE",
+          "title": "키가 쑥쑥 크려면? ㅣ최고다! 호기심 딱지ㅣ키를 위한 황금시간",
+          "displayTitle": "키를 위한 황금시간",
+          "durationSec": 382,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 109
+        },
+        {
+          "id": "GEvamn7TBfg",
+          "title": "모기에 물리면 왜 가려울까?!ㅣ최고다! 호기심 딱지ㅣ엄마 모기의 사냥법🦟",
+          "displayTitle": "엄마 모기의 사냥법",
+          "durationSec": 789,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 110
+        },
+        {
+          "id": "yRphIkkUC_U",
+          "title": "모기에게 물린 호빵이는 결국 가려움을 참지 못하고 마구 긁는데...ㅣ최고다! 호기심 딱지ㅣ모기 박사 호떡이",
+          "displayTitle": "모기 박사 호떡이",
+          "durationSec": 814,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 111
+        },
+        {
+          "id": "WyiMp-i6pH0",
+          "title": "녹은 아이스크림을 다시 얼려 먹으면 식중독에 걸릴 수 있다고?ㅣ최고다! 호기심 딱지ㅣ아이스크림 식중독",
+          "displayTitle": "아이스크림 식중독",
+          "durationSec": 821,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 112
+        },
+        {
+          "id": "Szn30ZlGItw",
+          "title": "자외선 차단제, 왜 발라야 할까?ㅣ최고다! 호기심 딱지ㅣ자외선 전쟁",
+          "displayTitle": "자외선 전쟁",
+          "durationSec": 825,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 113
+        },
+        {
+          "id": "0Tf7Upupcww",
+          "title": "선크림과 선블록은 어떻게 다를까?ㅣ최고다! 호기심 딱지ㅣ선크림 공주와 선블록 왕자☀️",
+          "displayTitle": "선크림 공주와 선블록 왕자",
+          "durationSec": 574,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 114
+        },
+        {
+          "id": "kqzy9WJ1Hm0",
+          "title": "수영장에 다녀온 후 호떡이에게 눈병이 생겼다!ㅣ최고다! 호기심 딱지ㅣ눈병 났네! 눈병 났어!",
+          "displayTitle": "눈병 났네! 눈병 났어!",
+          "durationSec": 551,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 115
+        },
+        {
+          "id": "BpzCaO-cl70",
+          "title": "폭염주의보가 내린 날 밖에서 놀고 온 호떡이가 열사병에 걸렸다!🔥ㅣ최고다! 호기심 딱지ㅣ비상! 열사병을 조심해!",
+          "displayTitle": "비상! 열사병을 조심해!",
+          "durationSec": 791,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 116
+        },
+        {
+          "id": "uj__LkpRODQ",
+          "title": "냉방병이 뭘까?ㅣ최고다! 호기심 딱지ㅣ냉방병에 걸린 호떡이",
+          "displayTitle": "냉방병에 걸린 호떡이",
+          "durationSec": 778,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 117
+        },
+        {
+          "id": "sKHtwdvQTEw",
+          "title": "한여름에는 탈수로 쓰러진 놀보까지 살리는, 박수받아 마땅한 수박이 최고다 최고!🍉ㅣ최고다! 호기심 딱지ㅣ여름엔 수박이 최고",
+          "displayTitle": "여름엔 수박이 최고",
+          "durationSec": 828,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 118
+        },
+        {
+          "id": "I89GdJLnTwE",
+          "title": "파리가 앉았던 음식을 먹으면 왜 배탈이 날까?ㅣ최고다! 호기심 딱지ㅣ파리와 식중독",
+          "displayTitle": "파리와 식중독",
+          "durationSec": 787,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 119
+        },
+        {
+          "id": "rlhRyTTHRaw",
+          "title": "물놀이를 오래 한 호떡이 손가락만 쪼글쪼글해진 이유는?!ㅣ최고다! 호기심 딱지ㅣ손가락 쪼글쪼글 대사건",
+          "displayTitle": "손가락 쪼글쪼글 대사건",
+          "durationSec": 777,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 120
+        },
+        {
+          "id": "yStDUhko_Lw",
+          "title": "물에 오래 있으면 왜 손가락만 쪼글쪼글해질까?ㅣ최고다! 호기심 딱지ㅣ교감 장군과 부교감 장군",
+          "displayTitle": "교감 장군과 부교감 장군",
+          "durationSec": 759,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 121
+        },
+        {
+          "id": "tL87qLsGwyU",
+          "title": "고기반찬을 잔뜩 먹은 호떡에게서 지독한 냄새의 방귀가 나왔다?! ㅣ최고다! 호기심 딱지ㅣ고약한 방귀 냄새의 정체",
+          "displayTitle": "고약한 방귀 냄새의 정체",
+          "durationSec": 791,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 122
+        },
+        {
+          "id": "HUQVEz3kzTA",
+          "title": "고약한 방귀를 없애고 다시 생기지 않게 만드는 방귀 제거 작전을 알아보자!ㅣ최고다! 호기심 딱지ㅣ방귀 제거 작전",
+          "displayTitle": "방귀 제거 작전",
+          "durationSec": 852,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 123
+        },
+        {
+          "id": "MrIM1YdGPQ8",
+          "title": "백설공주가 먹다 남긴 사과가 갈색으로 변했다?!ㅣ최고다! 호기심 딱지ㅣ사과가 갈색으로 변하는 이유",
+          "displayTitle": "사과가 갈색으로 변하는 이유",
+          "durationSec": 721,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 124
+        },
+        {
+          "id": "qc5uqyBGtgM",
+          "title": "사과를 먹으면 변비 탈출에 도움이 된다고?ㅣ최고다! 호기심 딱지ㅣ사과 하세요",
+          "displayTitle": "사과 하세요",
+          "durationSec": 825,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 125
+        },
+        {
+          "id": "iftzcd3F6Zs",
+          "title": "키위를 먹은 호떡의 몸속에 전설의 가위맨이 나타났다?! ㅣ최고다! 호기심 딱지ㅣ전설의 가위맨 키위",
+          "displayTitle": "전설의 가위맨 키위",
+          "durationSec": 801,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 126
+        },
+        {
+          "id": "aFpNB5OW6eI",
+          "title": "파인애플의 놀라운 능력을 알아보자!🍍ㅣ최고다! 호기심 딱지ㅣ파인애플의 비밀",
+          "displayTitle": "파인애플의 비밀",
+          "durationSec": 804,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 127
+        },
+        {
+          "id": "CAlNjlOlYZ4",
+          "title": "🐔꼬꼬닭 왕국의 왕이 될 최고의 달걀은 누구일까?!ㅣ최고다! 호기심 딱지ㅣ최고의 달걀",
+          "displayTitle": "최고의 달걀",
+          "durationSec": 800,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 128
+        },
+        {
+          "id": "VatQn7BJcnQ",
+          "title": "달걀도 좋은 친구를 만나면 몸을 더 건강하게 만들 수 있다는데?🥚🍅ㅣ최고다! 호기심 딱지ㅣ달걀의 좋은 친구들",
+          "displayTitle": "달걀의 좋은 친구들",
+          "durationSec": 778,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 129
+        },
+        {
+          "id": "0s5bqA0siRo",
+          "title": "우유 속에는 어떤 친구들이 살고 있을까?ㅣ최고다! 호기심 딱지ㅣ우유 단백질의 특별한 변신",
+          "displayTitle": "우유 단백질의 특별한 변신",
+          "durationSec": 830,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "new-stories",
+          "order": 130
+        }
+      ]
+    },
+    {
+      "id": "science",
+      "videos": [
+        {
+          "id": "9NhKCCpoxmY",
+          "title": "Why - 최고다! 호기심딱지 제1화 - 아주 아주 차가운 얼음",
+          "displayTitle": "아주 아주 차가운 얼음",
+          "durationSec": 818,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "science",
+          "order": 1
+        },
+        {
+          "id": "O4rHW_cvphI",
+          "title": "Why - 최고다! 호기심딱지 제3화 - 비누의 비밀",
+          "displayTitle": "비누의 비밀",
+          "durationSec": 880,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "science",
+          "order": 2
+        },
+        {
+          "id": "X3tlsNmQxgA",
+          "title": "Why - 최고다! 호기심딱지 - 콜라가 화났어!",
+          "displayTitle": "콜라가 화났어!",
+          "durationSec": 871,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "science",
+          "order": 3
+        },
+        {
+          "id": "UMXpRLQxR1I",
+          "title": "Why - 최고다! 호기심딱지 - 자석이 된 풍선",
+          "displayTitle": "자석이 된 풍선",
+          "durationSec": 814,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "science",
+          "order": 4
+        },
+        {
+          "id": "R-fX2oVcXhQ",
+          "title": "Why - 최고다! 호기심딱지 - 뻥! 뻥! 공기 대포",
+          "displayTitle": "뻥! 뻥! 공기 대포",
+          "durationSec": 800,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "science",
+          "order": 5
+        },
+        {
+          "id": "_yGeglQtqtY",
+          "title": "Why - 최고다! 호기심딱지 - 댤걀로 만든 탱탱볼",
+          "displayTitle": "달걀로 만든 탱탱볼",
+          "durationSec": 893,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "science",
+          "order": 6
+        },
+        {
+          "id": "E-FNhXAtHsU",
+          "title": "Why - 최고다! 호기심딱지 - 물먹기 대장을 찾아라!",
+          "displayTitle": "물먹기 대장을 찾아라!",
+          "durationSec": 871,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "science",
+          "order": 7
+        },
+        {
+          "id": "BX-geXiZ910",
+          "title": "Why - 최고다! 호기심딱지 - 달걀이 병 속에 쏘옥!",
+          "displayTitle": "달걀이 병 속에 쏘옥!",
+          "durationSec": 922,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "science",
+          "order": 8
+        },
+        {
+          "id": "EJWEUpxwM5o",
+          "title": "Why - 최고다! 호기심딱지 - 화산이 부글부글",
+          "displayTitle": "화산이 부글부글",
+          "durationSec": 836,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "science",
+          "order": 9
+        },
+        {
+          "id": "fh6hFI4Cg9w",
+          "title": "Why - 최고다! 호기심딱지 - 달걀의 비밀",
+          "displayTitle": "달걀의 비밀",
+          "durationSec": 857,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "science",
+          "order": 10
+        },
+        {
+          "id": "hWJuycBweFw",
+          "title": "Why - 최고다! 호기심딱지 - 꿀꺽꿀꺽 물 먹는 수건",
+          "displayTitle": "꿀꺽꿀꺽 물 먹는 수건",
+          "durationSec": 810,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "science",
+          "order": 11
+        },
+        {
+          "id": "Ll5S72MPG1s",
+          "title": "Why - 최고다! 호기심딱지 - 손 안 대고 척척",
+          "displayTitle": "손 안 대고 척척",
+          "durationSec": 814,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "science",
+          "order": 12
+        },
+        {
+          "id": "HL6BBBOoYdw",
+          "title": "Why - 최고다! 호기심딱지 - 쏟아지지 않는 물",
+          "displayTitle": "쏟아지지 않는 물",
+          "durationSec": 763,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "science",
+          "order": 13
+        },
+        {
+          "id": "9zyfVPmWEd0",
+          "title": "Why - 최고다! 호기심딱지 - 멈추지 않아!",
+          "displayTitle": "멈추지 않아!",
+          "durationSec": 783,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "science",
+          "order": 14
+        },
+        {
+          "id": "VwTKtb3vBNM",
+          "title": "Why - 최고다! 호기심딱지 - 달걀 잠수함",
+          "displayTitle": "달걀 잠수함",
+          "durationSec": 798,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "science",
+          "order": 15
+        },
+        {
+          "id": "5YbR2OsTdfQ",
+          "title": "Why - 최고다! 호기심딱지 - 동전이 사라졌어",
+          "displayTitle": "동전이 사라졌어",
+          "durationSec": 814,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "science",
+          "order": 16
+        },
+        {
+          "id": "sy2Iu0Dr7pc",
+          "title": "Why - 최고다! 호기심딱지 - 콜라의 비밀",
+          "displayTitle": "콜라의 비밀",
+          "durationSec": 800,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "science",
+          "order": 17
+        },
+        {
+          "id": "BXaq9IHyTj0",
+          "title": "Why - 최고다! 호기심딱지 - 콜라의 저주",
+          "displayTitle": "콜라의 저주",
+          "durationSec": 861,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "science",
+          "order": 18
+        }
+      ]
+    },
+    {
+      "id": "collections",
+      "videos": [
+        {
+          "id": "5NBRtjOSBD8",
+          "title": "우리가 잘 때 뇌 속에서 벌어지는 은밀한(?) 일🧠｜ 꿈은 왜 꾸는 걸까?｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "우리가 잘 때 뇌 속에서 벌어지는 은밀한(?) 일. 꿈은 왜 꾸는 걸까?",
+          "durationSec": 1462,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 1
+        },
+        {
+          "id": "1AAAo6fPJcw",
+          "title": "뼈가 부러지면 몸속에선 무슨 일이 생길까?🦴｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "뼈가 부러지면 몸속에선 무슨 일이 생길까?",
+          "durationSec": 1324,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 2
+        },
+        {
+          "id": "MKfoq6ONny8",
+          "title": "과일은 괜찮은데 음료수는 왜 안 돼?! 액상과당의 무서운 진실!｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "과일은 괜찮은데 음료수는 왜 안 돼?! 액상과당의 무서운 진실!",
+          "durationSec": 1496,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 3
+        },
+        {
+          "id": "8puFUJvCZ3w",
+          "title": "피는 왜 빨간색일까? 적혈구 몸속에 숨겨진 비밀!｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "피는 왜 빨간색일까? 적혈구 몸속에 숨겨진 비밀!",
+          "durationSec": 1598,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 4
+        },
+        {
+          "id": "yC2-3cmir88",
+          "title": "화나고 속상할 때 무조건 '안아줘야' 하는 진짜 이유｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "화나고 속상할 때 무조건 '안아줘야' 하는 진짜 이유",
+          "durationSec": 1586,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 5
+        },
+        {
+          "id": "0QuCvV-WfHM",
+          "title": "김치를 매일 먹어야 감기 바이러스와 똥독을 이긴다고?! 🥬｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "김치를 매일 먹어야 감기 바이러스와 똥독을 이긴다고?!",
+          "durationSec": 1573,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 6
+        },
+        {
+          "id": "LHo41QWM8tI",
+          "title": "우리가 '파상풍 예방접종'을 꼭 맞아야 하는 이유｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "우리가 '파상풍 예방접종'을 꼭 맞아야 하는 이유",
+          "durationSec": 1432,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 7
+        },
+        {
+          "id": "tUAFXm0gdYM",
+          "title": "\"콩 안 먹고 고기만 먹을래!\" 고기만 먹는 편식쟁이들 주목! 몸속 핏줄에 콜레스테롤 폭탄이 터졌다?!｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "\"콩 안 먹고 고기만 먹을래!\" 고기만 먹는 편식쟁이들 주목! 몸속 핏줄에 콜레스테롤 폭탄이 터졌다?!",
+          "durationSec": 1538,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 8
+        },
+        {
+          "id": "kxaSWx2iQhE",
+          "title": "소리 고래고래 지르면 목이 쉬는 진짜 이유｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "소리 고래고래 지르면 목이 쉬는 진짜 이유",
+          "durationSec": 1449,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 9
+        },
+        {
+          "id": "fy2P0QgK3GE",
+          "title": "졸릴 때마다 '하아암~' 하품이 터져 나오는 숨겨진 과학적 이유｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "졸릴 때마다 '하아암~' 하품이 터져 나오는 숨겨진 과학적 이유",
+          "durationSec": 1429,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 10
+        },
+        {
+          "id": "lehObIsLgNQ",
+          "title": "눈썹이 그냥 털인 줄 알았어? 눈썹을 밀어버린 호떡이는 과연?!｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "눈썹이 그냥 털인 줄 알았어? 눈썹을 밀어버린 호떡이는 과연?!",
+          "durationSec": 1461,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 11
+        },
+        {
+          "id": "pCnOqh9EXgo",
+          "title": "☀️햇빛을 못 보면 생기는 일.. 충격적인 몸속 비밀 😱｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "햇빛을 못 보면 생기는 일.. 충격적인 몸속 비밀",
+          "durationSec": 1519,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 12
+        },
+        {
+          "id": "Dgr2_z2AcnU",
+          "title": "호떡아 제발 발 좀 씻어!! 호떡이를 한 방에 쓰러뜨린 초강력 발냄새 펀치｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "호떡아 제발 발 좀 씻어!! 호떡이를 한 방에 쓰러뜨린 초강력 발냄새 펀치",
+          "durationSec": 1408,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 13
+        },
+        {
+          "id": "yfwjXOB4SbI",
+          "title": "🦠무좀균:  \"제발 발 좀 씻지 마라... 살 수가 없잖아!\"｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "무좀균: \"제발 발 좀 씻지 마라... 살 수가 없잖아!\"",
+          "durationSec": 1487,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 14
+        },
+        {
+          "id": "iE8xk-0lHto",
+          "title": "\"키 크려면 지금 당장 폰 꺼!\" 밤에 스마트폰을 끄고 자야 하는 이유!｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "\"키 크려면 지금 당장 폰 꺼!\" 밤에 스마트폰을 끄고 자야 하는 이유!",
+          "durationSec": 1466,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 15
+        },
+        {
+          "id": "sDowbcif9-g",
+          "title": "손톱 물어뜯는 아이, 몸속에서는 지금 이런 끔찍한 일이 일어납니다!｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "손톱 물어뜯는 아이, 몸속에서는 지금 이런 끔찍한 일이 일어납니다!",
+          "durationSec": 1471,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 16
+        },
+        {
+          "id": "tYtiuV5MOkA",
+          "title": "호떡이 몸에 빨간 물집이?! 수두 바이러스는 어떻게 사라질까?｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "호떡이 몸에 빨간 물집이?! 수두 바이러스는 어떻게 사라질까?",
+          "durationSec": 1433,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 17
+        },
+        {
+          "id": "xkl5x2W3cKA",
+          "title": "\"누나, 나 배가 너무 아파...\" 아이스크림 욕심내다 호떡이 몸속이 터지기 직전?! 💥｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "\"누나, 나 배가 너무 아파...\" 아이스크림 욕심내다 호떡이 몸속이 터지기 직전?!",
+          "durationSec": 1342,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 18
+        },
+        {
+          "id": "S1HhY-rVvMU",
+          "title": "아이 목에 사탕이 걸렸을 때! 1초가 급한 하임리히법 순서｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "아이 목에 사탕이 걸렸을 때! 1초가 급한 하임리히법 순서",
+          "durationSec": 1345,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 19
+        },
+        {
+          "id": "gQeWhjhKSU0",
+          "title": "엄마 말이 다 맞았어... 아침밥 꼭 먹어야 하는 이유 🍚｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "엄마 말이 다 맞았어... 아침밥 꼭 먹어야 하는 이유",
+          "durationSec": 1485,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 20
+        },
+        {
+          "id": "wgnj3pcQWCI",
+          "title": "한 번 망가지면 절대 재생 안 됨❌ 소리 크게 들으면 귀속에서 일어나는 일｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "한 번 망가지면 절대 재생 안 됨. 소리 크게 들으면 귀속에서 일어나는 일",
+          "durationSec": 1307,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 21
+        },
+        {
+          "id": "zq2EDZQZRfs",
+          "title": "앗! 또 쌀 것 같아! 우유 마신 호떡이에게 찾아온 대위기🥛｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "앗! 또 쌀 것 같아! 우유 마신 호떡이에게 찾아온 대위기",
+          "durationSec": 1313,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 22
+        },
+        {
+          "id": "jBF8XVu657A",
+          "title": "밀가루 음식을 많이 먹으면 뇌가 졸린 이유! (feat. 소화의 비밀) 🧠｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "밀가루 음식을 많이 먹으면 뇌가 졸린 이유! (feat. 소화의 비밀)",
+          "durationSec": 1577,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 23
+        },
+        {
+          "id": "f-tf_t-JXYA",
+          "title": "🚨 충격! 매운맛은 '맛'이 아니라 'OO'이었다?!｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "충격! 매운맛은 '맛'이 아니라 'OO'이었다?!",
+          "durationSec": 1403,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 24
+        },
+        {
+          "id": "VbaTFrKCKPA",
+          "title": "엉덩이가 가렵다면 주목!🍑 손톱 밑에 기생충 알이?!｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "엉덩이가 가렵다면 주목! 손톱 밑에 기생충 알이?!",
+          "durationSec": 1176,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 25
+        },
+        {
+          "id": "khRbGSOwFB0",
+          "title": "단짠단짠이 멈추지 않던 진짜 소름 돋는 이유 🧠｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "단짠단짠이 멈추지 않던 진짜 소름 돋는 이유",
+          "durationSec": 1364,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 26
+        },
+        {
+          "id": "9fdx_eG9-rQ",
+          "title": "귀찮아서 안 씻은 호떡이의 최후?! 땀띠와 흉터 안 생기게 하는 법｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "귀찮아서 안 씻은 호떡이의 최후?! 땀띠와 흉터 안 생기게 하는 법",
+          "durationSec": 1366,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 27
+        },
+        {
+          "id": "Wv6IqbbRRdg",
+          "title": "키가 쑥쑥 크고 싶은 친구들 모여라! 호빵이의 키 크기 비법 전격 공개!｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "키가 쑥쑥 크고 싶은 친구들 모여라! 호빵이의 키 크기 비법 전격 공개!",
+          "durationSec": 1364,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 28
+        },
+        {
+          "id": "bJjK0ivImR8",
+          "title": "\"내가 범인이다!\" 여름철 상한 햄버거 속 식중독균들의 목숨 건 끝판왕 선발전｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "\"내가 범인이다!\" 여름철 상한 햄버거 속 식중독균들의 목숨 건 끝판왕 선발전",
+          "durationSec": 1452,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 29
+        },
+        {
+          "id": "CbiTHEksvxY",
+          "title": "여름철 필수 시청! 물놀이하다 갑자기 배가 아픈 이유｜최고다! 호기심 딱지｜[EBS놀이터]",
+          "displayTitle": "여름철 필수 시청! 물놀이하다 갑자기 배가 아픈 이유",
+          "durationSec": 1438,
+          "channelId": "UCx_dzPI6efSohgtOkAG43-A",
+          "group": "collections",
+          "order": 30
+        }
+      ]
+    }
+  ]
+}

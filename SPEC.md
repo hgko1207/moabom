@@ -9,6 +9,7 @@
 ## 1. 이름 규칙
 - 표시명 **모아봄**, 저장소·패키지 `moabom`, 배포 https://moabom.hgko.dev (GitHub Pages 사용자 지정 도메인, 2026-10-13부터. 예전 주소 hgko1207.github.io/moabom 은 GitHub가 새 주소로 넘겨 줌)
 - **홍보 주소 확정 (2026-10-19, 1단계 시작 조건 R10)**: https://moabom.hgko.dev 로 홍보한다. 링크 미리보기(og 태그)와 첫 홍보 글 뒤에는 바꾸지 않는다(카카오톡이 미리보기를 주소별로 오래 기억함). 홍보 링크에는 경로 표시를 붙인다: `?ref=insta`, `?ref=naver`, `?ref=kakao`, `?ref=band`, `?ref=blog`.
+- 검색 등록(2026-11-06): `public/robots.txt`, `public/sitemap.xml`(첫 화면과 `privacy.html`만, 앱 안 화면은 `#/` 주소라 색인 대상 아님), index.html `canonical`(홍보 링크 `?ref=`를 첫 화면 하나로 묶음).
 - 묶음 단위는 **컬렉션(collection)**. "시리즈" 금지.
 - 저장소는 **공개**. `profiles.json`의 이름은 **별칭만**(실명 금지).
 

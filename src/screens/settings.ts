@@ -611,7 +611,7 @@ function playedTime(sec: number): string {
 
 /** The Google Form for character and video requests (respondent link, no login needed); the row hides when empty. */
 const REQUEST_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScKS_JOU0xznBZ_NMsMN2g9RXixgC1y7jwo13bkfUUpAhCJmQ/viewform';
-const ABOUT_EDITED = '2026-11-06';
+const ABOUT_EDITED = '2026-11-07';
 
 function linkRow(url: string, label: string): string {
   return `<a class="link-row" href="${esc(url)}" target="_blank" rel="noopener"><span>${esc(label)}</span>${icon('external-link', 24)}</a>`;
@@ -648,7 +648,7 @@ export function renderAbout(profile: Profile): void {
     </section>
     <section class="panel" aria-labelledby="about-maker">
       <h2 id="about-maker">만든 사람</h2>
-      <p>제작사가 만든 앱이 아니라, 아이 둘을 키우는 부모가 만든 무료 앱이에요.</p>
+      <p>제작사가 만든 앱이 아니라, 부모가 만든 무료 앱이에요.</p>
       ${linkRow('/privacy.html', '이 안내를 따로 보기')}
     </section>
     ${

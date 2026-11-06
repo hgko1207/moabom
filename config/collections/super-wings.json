@@ -1,0 +1,141 @@
+{
+  "id": "super-wings",
+  "displayName": "슈퍼윙스",
+  "category": "stories",
+  "enabled": true,
+  "channels": [
+    "UC9qnkYDt9CO915isf30jINg"
+  ],
+  "coverVideoId": null,
+  "groupLabel": "모음",
+  "groups": [
+    {
+      "id": "season-1",
+      "label": "시즌1",
+      "color": "#d63b32",
+      "icon": "#1",
+      "playlistId": "PLWi6nzVYwR340WH-l0EQUUFIpjZBa-YII"
+    },
+    {
+      "id": "season-2",
+      "label": "시즌2",
+      "color": "#2f6fd6",
+      "icon": "#2",
+      "playlistId": "PLWi6nzVYwR36wninEn3axxRKCJylmTYna"
+    },
+    {
+      "id": "season-3",
+      "label": "시즌3",
+      "color": "#e0600a",
+      "icon": "#3",
+      "videos": [
+        "p63aj4F3JRg",
+        "YxD3VIvOl8I",
+        "n7l7r7WPy6U",
+        "D9mDKrJ2UAo",
+        "boio5vMpILY",
+        "HN9SHVdcZY4",
+        "ysp56iMZpT8",
+        "0DILZzsMop0",
+        "f2y6yIjRo_Q",
+        "jy20usEVxlE",
+        "NQWuETpYoGs",
+        "MpCdHxxNoMo",
+        "zJDwdNj-ybs",
+        "gZY8-3o4AMA",
+        "0YGlErGPFXs",
+        "Ambd5wGp2u4",
+        "jFnlM7gzhDw",
+        "LRz57PGd1Mg",
+        "jZfmMR5nISk",
+        "6HoS58yLfLU",
+        "yb2I_HvzGjw",
+        "3GQnvcbvP8o",
+        "IOmAw2JCPLc",
+        "wJg_-qsVhHs",
+        "0xE9gI3XDp0"
+      ]
+    },
+    {
+      "id": "season-4",
+      "label": "시즌4",
+      "color": "#12808a",
+      "icon": "#4",
+      "playlistId": "PLWi6nzVYwR37fqdsYGXTqBj9axEfNO3Wj"
+    },
+    {
+      "id": "season-5",
+      "label": "시즌5",
+      "color": "#7a4fc9",
+      "icon": "#5",
+      "playlistId": "PLWi6nzVYwR35dr82d9jZnjJlsqh2zzmVu"
+    },
+    {
+      "id": "season-6",
+      "label": "시즌6",
+      "color": "#c93a8b",
+      "icon": "#6",
+      "playlistId": "PLWi6nzVYwR34FSoB-DI1maEA_eiiR6MmJ"
+    },
+    {
+      "id": "season-7",
+      "label": "시즌7",
+      "color": "#27508f",
+      "icon": "#7",
+      "playlistId": "PLWi6nzVYwR37qzJvYtMRMe2NIm6fQMLs5"
+    },
+    {
+      "id": "season-8",
+      "label": "시즌8",
+      "color": "#b83a5e",
+      "icon": "#8",
+      "playlistId": "PLWi6nzVYwR35pK1_IlSEFwiHX_o6-CMmw"
+    },
+    {
+      "id": "season-9",
+      "label": "시즌9",
+      "color": "#d63b32",
+      "icon": "#9",
+      "videos": [
+        "ifZEdArdYIA",
+        "2NaBvm6gbaA",
+        "lCcl95rnZCU",
+        "emMe-dZMJb0",
+        "pjAs0W_wisU",
+        "2xLBdgeli1A",
+        "dz-S-XhgJ_c",
+        "o6pnX_le8BY",
+        "hmyac8tbbsM",
+        "ZHIolHKc5ek",
+        "U7aXSvXaaOU",
+        "Qca5KNffizU",
+        "fphWrvhaGvQ",
+        "XCRqZ2nxtaE",
+        "HsOu-EpQtDM",
+        "Yvxui7safHU",
+        "ifXiCCqOlvo",
+        "twCC6Y1Hrdc",
+        "hI4X-v8WH4Q",
+        "O4Pi4YRCF_s",
+        "vu_cdLhDFtI",
+        "VfuObinEMMg",
+        "sIKy8Bn1o7c",
+        "5vvv_JbKG9g",
+        "d8F8jrX4X7Q",
+        "vO0Ys_tNWAA",
+        "exFQiIspqHU",
+        "jvF_9M9cdXs",
+        "Oropcl-Uv00"
+      ]
+    }
+  ],
+  "excludeShorts": true,
+  "titleExcludePatterns": [],
+  "titleStripPatterns": [
+    "^슈퍼윙스\\s*\\|\\s*S\\d+\\s*\\|\\s*",
+    "^\\[[^\\]]*\\]\\s*",
+    "^(시즌\\s*\\d+\\s*)?제\\s*\\d+\\s*화\\s*-?\\s*",
+    "\\s*\\|.*$",
+    "\\s*시즌\\s*\\d+\\s*제\\s*\\d+\\s*화\\s*$"
+  ]
+}

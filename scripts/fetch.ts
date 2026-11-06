@@ -27,13 +27,15 @@ const DATA_DIR = join(ROOT, 'data', 'collections');
 export const SHORTS_MAX_SEC = 180;
 /** A group shrinking by more than this fraction needs --force. */
 export const MAX_DROP = 0.5;
+/** Emoji in channel titles, with what joins or colours them; a title made only of these stays as it was. */
+const EMOJI = /[\p{Extended_Pictographic}\p{Regional_Indicator}\u{FE0F}\u{200D}\u{20E3}\u{1F3FB}-\u{1F3FF}]/gu;
 
 type Log = (msg: string) => void;
 
 export function buildDisplayTitle(title: string, stripPatterns: string[], fixes: TitleFix[] = []): string {
   let out = title;
   for (const p of stripPatterns) out = out.replace(new RegExp(p, 'u'), '');
-  out = out.trim() || title.trim();
+  out = out.replace(EMOJI, '').replace(/\s{2,}/g, ' ').trim() || title.trim();
   for (const f of fixes) out = out.split(f.find).join(f.to);
   return out;
 }

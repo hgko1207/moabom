@@ -344,10 +344,16 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
       }
       const u = upNext(scope, video, today, limits, 0);
       const skip = o.advance && u.kind === 'next' && canStart(today, limits, u.video.id);
-      const card = (u.kind === 'next' && canStart(today, limits, u.video.id)) || u.kind === 'limit' ? upNextCardHtml(u, c) : '';
+      // On a phone the overlay is only as tall as the video, so no big card beside the words.
+      const way =
+        u.kind === 'next' && canStart(today, limits, u.video.id)
+          ? `<button class="overlay-small" data-next="${esc(u.video.id)}" aria-label="다음 편">${icon('skip-forward', 32)}</button>`
+          : u.kind === 'limit'
+            ? upNextCardHtml(u, c)
+            : listButton;
       showOverlay(`<div class="overlay-icon" aria-hidden="true">${icon('unplug', 64)}</div>
-        <span class="visually-hidden">이 영상은 지금 볼 수 없어요${skip ? '. 곧 다음 편으로 넘어가요' : ''}</span>
-        ${card || listButton}`);
+        <p class="overlay-text" role="status">이 영상은 지금 볼 수 없어요${skip ? '. 곧 다음 편으로 넘어가요' : ''}</p>
+        ${skip ? '' : way}`);
       if (skip) skipTimer = window.setTimeout(() => goTo(u.video), SKIP_AFTER_MS);
     },
     onForeignVideo(resumeAt) {
@@ -376,7 +382,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     })
     .catch(() => {
       showOverlay(`<div class="overlay-icon" aria-hidden="true">${icon('offline', 64)}</div>
-        <span class="visually-hidden">플레이어를 불러오지 못했어요</span>
+        <p class="overlay-text" role="status">영상을 불러오지 못했어요</p>
         <button class="overlay-small" data-action="reload" aria-label="다시 시도">${icon('again', 32)}</button>${listButton}`);
       overlay.querySelector('[data-action="reload"]')?.addEventListener('click', () => location.reload());
     });

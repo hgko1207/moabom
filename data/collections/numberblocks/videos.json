@@ -1,6 +1,6 @@
 {
   "collectionId": "numberblocks",
-  "fetchedAt": "2026-11-03T00:08:55.150Z",
+  "fetchedAt": "2026-11-06T14:59:10.298Z",
   "groups": [
     {
       "id": "lv1",
@@ -838,7 +838,7 @@
         {
           "id": "NvzZw9jbsR8",
           "title": "차이점 🎭 | S5 E01 | 세는 법을 배우다 | 넘버블록스",
-          "displayTitle": "차이점 🎭",
+          "displayTitle": "차이점",
           "durationSec": 285,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "lv5",
@@ -1111,13 +1111,22 @@
       "id": "mix",
       "videos": [
         {
+          "id": "LsoG0G_w0QU",
+          "title": "크리스마스 특집 모음집 🎄 | 숫자 세기 배우기 | 넘버블록스",
+          "displayTitle": "크리스마스 특집 모음집",
+          "durationSec": 4559,
+          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
+          "group": "mix",
+          "order": 1
+        },
+        {
           "id": "COjHHp9nDVA",
           "title": "가을의 숫자와 패턴 | 숫자 만화 | 넘버블록스",
           "displayTitle": "가을의 숫자와 패턴",
           "durationSec": 3761,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 1
+          "order": 2
         },
         {
           "id": "Lk7BYXS3eow",
@@ -1126,7 +1135,7 @@
           "durationSec": 3772,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 2
+          "order": 3
         },
         {
           "id": "s58VSz-ugPE",
@@ -1135,7 +1144,7 @@
           "durationSec": 4851,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 3
+          "order": 4
         },
         {
           "id": "P9IsjrhvxJs",
@@ -1144,7 +1153,7 @@
           "durationSec": 5106,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 4
+          "order": 5
         },
         {
           "id": "X4GOj1z_LWE",
@@ -1153,7 +1162,7 @@
           "durationSec": 4551,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 5
+          "order": 6
         },
         {
           "id": "3YVgzmJkCAQ",
@@ -1162,16 +1171,16 @@
           "durationSec": 3767,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 6
+          "order": 7
         },
         {
           "id": "9BjJoNebRFI",
           "title": "넘버 원 👻 – 으스스한 숫자 세기 모험! | 넘버블록스 만화",
-          "displayTitle": "넘버 원 👻 – 으스스한 숫자 세기 모험!",
+          "displayTitle": "넘버 원 – 으스스한 숫자 세기 모험!",
           "durationSec": 3998,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 7
+          "order": 8
         },
         {
           "id": "0nYfWaJKSf4",
@@ -1180,7 +1189,7 @@
           "durationSec": 4565,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 8
+          "order": 9
         },
         {
           "id": "IcAsZCa-g7Y",
@@ -1189,7 +1198,7 @@
           "durationSec": 4566,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 9
+          "order": 10
         },
         {
           "id": "y0nu-xLRxS8",
@@ -1198,16 +1207,16 @@
           "durationSec": 5112,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 10
+          "order": 11
         },
         {
           "id": "ab6aPi_rhdc",
           "title": "|어린이를 위한 기본 도형 배우기 🟦🔶 🟥🟢🟨  세는 법을 배우다 | 넘버블록스",
-          "displayTitle": "어린이를 위한 기본 도형 배우기 🟦🔶 🟥🟢🟨  세는 법을 배우다",
+          "displayTitle": "어린이를 위한 기본 도형 배우기 세는 법을 배우다",
           "durationSec": 3772,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 11
+          "order": 12
         },
         {
           "id": "W7c1bYLrvuo",
@@ -1216,7 +1225,7 @@
           "durationSec": 3219,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 12
+          "order": 13
         },
         {
           "id": "uWHvc0vUrNk",
@@ -1225,16 +1234,16 @@
           "durationSec": 4303,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 13
+          "order": 14
         },
         {
           "id": "NTCdopieWEk",
           "title": "넘버블록 7과 함께하는 무지개 숫자 세기 🌈 | 세는 법을 배우다 | 넘버블록스",
-          "displayTitle": "넘버블록 7과 함께하는 무지개 숫자 세기 🌈",
+          "displayTitle": "넘버블록 7과 함께하는 무지개 숫자 세기",
           "durationSec": 3430,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 14
+          "order": 15
         },
         {
           "id": "Nw_9R_KJWQU",
@@ -1243,7 +1252,7 @@
           "durationSec": 4047,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 15
+          "order": 16
         },
         {
           "id": "Mf-04vZwMpY",
@@ -1252,16 +1261,16 @@
           "durationSec": 3781,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 16
+          "order": 17
         },
         {
           "id": "AU4EpTakxCQ",
           "title": "어린이를 위한 쉬운 덧셈과 뺄셈 ➕➖ | 세는 법을 배우다 | 넘버블록스",
-          "displayTitle": "어린이를 위한 쉬운 덧셈과 뺄셈 ➕➖",
+          "displayTitle": "어린이를 위한 쉬운 덧셈과 뺄셈",
           "durationSec": 4039,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 17
+          "order": 18
         },
         {
           "id": "1uJYWfogCwY",
@@ -1270,7 +1279,7 @@
           "durationSec": 1244,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 18
+          "order": 19
         },
         {
           "id": "J_iW5LlKCJw",
@@ -1279,7 +1288,7 @@
           "durationSec": 2426,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 19
+          "order": 20
         },
         {
           "id": "SV1VRkpyC-M",
@@ -1288,7 +1297,7 @@
           "durationSec": 2971,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 20
+          "order": 21
         },
         {
           "id": "dZ1OotK9kIg",
@@ -1297,7 +1306,7 @@
           "durationSec": 3757,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 21
+          "order": 22
         },
         {
           "id": "2z3yJX1B7lM",
@@ -1306,7 +1315,7 @@
           "durationSec": 3217,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 22
+          "order": 23
         },
         {
           "id": "R_tLJgI9_58",
@@ -1315,7 +1324,7 @@
           "durationSec": 3484,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 23
+          "order": 24
         },
         {
           "id": "Ed3vPG8kLHI",
@@ -1324,7 +1333,7 @@
           "durationSec": 6172,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 24
+          "order": 25
         },
         {
           "id": "jDMN6O7qsM0",
@@ -1333,7 +1342,7 @@
           "durationSec": 1299,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 25
+          "order": 26
         },
         {
           "id": "vGkO3RwPF2c",
@@ -1342,7 +1351,7 @@
           "durationSec": 3746,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 26
+          "order": 27
         },
         {
           "id": "gRzJ4siPRrw",
@@ -1351,31 +1360,22 @@
           "durationSec": 4028,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
-          "order": 27
+          "order": 28
         },
         {
           "id": "hyzvMs2hY1c",
           "title": "여름방학 숫자 세기! ☀️어린이 숫자 배우기 모음집 | 세는 법을 배우다 | 넘버블록스",
-          "displayTitle": "여름방학 숫자 세기! ☀️어린이 숫자 배우기 모음집",
+          "displayTitle": "여름방학 숫자 세기! 어린이 숫자 배우기 모음집",
           "durationSec": 3759,
-          "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
-          "group": "mix",
-          "order": 28
-        },
-        {
-          "id": "EHIHEblOXcI",
-          "title": "🍽️ 일요일 점심 이야기 | 어린이를 위한 숫자 배우기 | 교육용 애니메이션 | 넘버블록스",
-          "displayTitle": "🍽️ 일요일 점심 이야기",
-          "durationSec": 4041,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
           "order": 29
         },
         {
-          "id": "WluV0IyCq9U",
-          "title": "📺 토요일 만화 시간 | 숫자 배우기 애니메이션 | 어린이 교육 영상  | 넘버블록스",
-          "displayTitle": "📺 토요일 만화 시간",
-          "durationSec": 3772,
+          "id": "EHIHEblOXcI",
+          "title": "🍽️ 일요일 점심 이야기 | 어린이를 위한 숫자 배우기 | 교육용 애니메이션 | 넘버블록스",
+          "displayTitle": "일요일 점심 이야기",
+          "durationSec": 4041,
           "channelId": "UCR9zv3dquE6GURdKGJkVz-g",
           "group": "mix",
           "order": 30

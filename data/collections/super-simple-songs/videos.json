@@ -1,6 +1,6 @@
 {
   "collectionId": "super-simple-songs",
-  "fetchedAt": "2026-11-03T00:08:55.150Z",
+  "fetchedAt": "2026-11-06T14:59:19.864Z",
   "groups": [
     {
       "id": "nursery",
@@ -17,7 +17,7 @@
         {
           "id": "wceMsYSyNUQ",
           "title": "The Rainbow Song 🌈 | Kids Songs | Super Simple Songs",
-          "displayTitle": "The Rainbow Song 🌈",
+          "displayTitle": "The Rainbow Song",
           "durationSec": 160,
           "channelId": "UCLsooMJoIpl_7ux2jvdPB-Q",
           "group": "nursery",
@@ -251,7 +251,7 @@
         {
           "id": "f8PoDBzz4I8",
           "title": "Pink Purple Orange Brown 🩷💜🧡🤎 | Kids Colors Song | featuring The Bumble Nums | Super Simple Songs",
-          "displayTitle": "Pink Purple Orange Brown 🩷💜🧡🤎",
+          "displayTitle": "Pink Purple Orange Brown",
           "durationSec": 118,
           "channelId": "UCLsooMJoIpl_7ux2jvdPB-Q",
           "group": "nursery",
@@ -746,7 +746,7 @@
         {
           "id": "Vu0-98fgnRo",
           "title": "🍪 Who Took The Cookie? (Farm Animals Version) | Kids Songs | Super Simple Songs",
-          "displayTitle": "🍪 Who Took The Cookie? (Farm Animals Version)",
+          "displayTitle": "Who Took The Cookie? (Farm Animals Version)",
           "durationSec": 136,
           "channelId": "UCLsooMJoIpl_7ux2jvdPB-Q",
           "group": "nursery",
@@ -1142,7 +1142,7 @@
         {
           "id": "hlzvrEfyL2Y",
           "title": "Mr. Golden Sun ☀️ | Kids Songs | Super Simple Songs",
-          "displayTitle": "Mr. Golden Sun ☀️",
+          "displayTitle": "Mr. Golden Sun",
           "durationSec": 151,
           "channelId": "UCLsooMJoIpl_7ux2jvdPB-Q",
           "group": "nursery",
@@ -1538,7 +1538,7 @@
         {
           "id": "x8b4f5fhYuw",
           "title": "Can You Make A Happy Face? featuring @NoodleAndPals  Kids Halloween Song | Super Simple Songs",
-          "displayTitle": "Can You Make A Happy Face? featuring @NoodleAndPals  Kids Halloween Song",
+          "displayTitle": "Can You Make A Happy Face? featuring @NoodleAndPals Kids Halloween Song",
           "durationSec": 121,
           "channelId": "UCLsooMJoIpl_7ux2jvdPB-Q",
           "group": "nursery",
@@ -2772,7 +2772,7 @@
         {
           "id": "KKNHyhl6aXU",
           "title": "Top 20 Halloween Songs 🎃 🍬| Kids Songs | Super Simple Songs",
-          "displayTitle": "Top 20 Halloween Songs 🎃 🍬",
+          "displayTitle": "Top 20 Halloween Songs",
           "durationSec": 3110,
           "channelId": "UCLsooMJoIpl_7ux2jvdPB-Q",
           "group": "long",
@@ -2781,7 +2781,7 @@
         {
           "id": "GzIObE7uR8Q",
           "title": "Top 20 Anniversary Hit Songs 🎶 | \"20 Years of Super Simple\" now on Vinyl!",
-          "displayTitle": "Top 20 Anniversary Hit Songs 🎶",
+          "displayTitle": "Top 20 Anniversary Hit Songs",
           "durationSec": 2871,
           "channelId": "UCLsooMJoIpl_7ux2jvdPB-Q",
           "group": "long",
@@ -2790,7 +2790,7 @@
         {
           "id": "2QtoaV22rpY",
           "title": "Top 20 Circle Time Songs ⭕️ | Kids Classroom Favorites | Super Simple's 20th Anniversary!",
-          "displayTitle": "Top 20 Circle Time Songs ⭕️",
+          "displayTitle": "Top 20 Circle Time Songs",
           "durationSec": 2817,
           "channelId": "UCLsooMJoIpl_7ux2jvdPB-Q",
           "group": "long",
@@ -2817,7 +2817,7 @@
         {
           "id": "jZnBNf0GJyU",
           "title": "Top 20 Book Songs 📚 | Super Simple’s 20th Anniversary! | Let's Read!",
-          "displayTitle": "Top 20 Book Songs 📚",
+          "displayTitle": "Top 20 Book Songs",
           "durationSec": 3417,
           "channelId": "UCLsooMJoIpl_7ux2jvdPB-Q",
           "group": "long",
@@ -2826,7 +2826,7 @@
         {
           "id": "q1DinydBRNE",
           "title": "Top 20 Summer Songs 🌞 | Best of Super Simple Hits of 2026!",
-          "displayTitle": "Top 20 Summer Songs 🌞",
+          "displayTitle": "Top 20 Summer Songs",
           "durationSec": 3047,
           "channelId": "UCLsooMJoIpl_7ux2jvdPB-Q",
           "group": "long",
@@ -2844,7 +2844,7 @@
         {
           "id": "L1C9NJpQMRk",
           "title": "Top 20 Food Songs 🍕| Celebrating 20 Years of Kids Music With Super Simple Songs!",
-          "displayTitle": "Top 20 Food Songs 🍕",
+          "displayTitle": "Top 20 Food Songs",
           "durationSec": 2667,
           "channelId": "UCLsooMJoIpl_7ux2jvdPB-Q",
           "group": "long",
@@ -2853,7 +2853,7 @@
         {
           "id": "_nfCulGTBvM",
           "title": "Top 20 Healthy Kids Routines Songs 🧼🪥 | Super Simple’s 20th Anniversary! | Super Simple Songs",
-          "displayTitle": "Top 20 Healthy Kids Routines Songs 🧼🪥",
+          "displayTitle": "Top 20 Healthy Kids Routines Songs",
           "durationSec": 2687,
           "channelId": "UCLsooMJoIpl_7ux2jvdPB-Q",
           "group": "long",
@@ -2871,7 +2871,7 @@
         {
           "id": "MC7yXLjtmiU",
           "title": "Top 20 Underwater Songs 🌊 | Super Simple’s 20th Anniversary! | Splash Around!",
-          "displayTitle": "Top 20 Underwater Songs 🌊",
+          "displayTitle": "Top 20 Underwater Songs",
           "durationSec": 3056,
           "channelId": "UCLsooMJoIpl_7ux2jvdPB-Q",
           "group": "long",
@@ -2907,7 +2907,7 @@
         {
           "id": "ecVQvgnKDug",
           "title": "Top 20 Animal Songs 🐻 | Quack along to Super Simple Songs 20th Anniversary 🎉",
-          "displayTitle": "Top 20 Animal Songs 🐻",
+          "displayTitle": "Top 20 Animal Songs",
           "durationSec": 3065,
           "channelId": "UCLsooMJoIpl_7ux2jvdPB-Q",
           "group": "long",
@@ -2943,7 +2943,7 @@
         {
           "id": "KuMdgPu4HEI",
           "title": "Best of 2025! ⭐️ | Wrapped Fan Favorite Songs of the Year! | Super Simple Songs",
-          "displayTitle": "Best of 2025! ⭐️",
+          "displayTitle": "Best of 2025!",
           "durationSec": 2902,
           "channelId": "UCLsooMJoIpl_7ux2jvdPB-Q",
           "group": "long",

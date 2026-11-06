@@ -153,6 +153,17 @@ export function renderCollection(profile: Profile, c: Collection, groupParam: st
     }),
   );
   setupGridKeys();
+  centerSelectedTab();
+}
+
+/** The row scrolls sideways and starts over on each render, so the open tab can sit past its edge. */
+function centerSelectedTab(): void {
+  const row = app.querySelector<HTMLElement>('.tabs');
+  const tab = row?.querySelector<HTMLElement>('[aria-selected="true"]');
+  if (!row || !tab) return;
+  const r = row.getBoundingClientRect();
+  const t = tab.getBoundingClientRect();
+  row.scrollLeft += t.left - r.left - (r.width - t.width) / 2;
 }
 
 /** Roving tabindex: one card is tabbable, arrow keys move between cards (groundwork for TV remotes). */

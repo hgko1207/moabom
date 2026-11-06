@@ -61,10 +61,21 @@ describe('buildDisplayTitle', () => {
   });
 
   it.each([
+    ['화상 채팅 😮 💜', '화상 채팅'],
+    ['⛄🌠 Festive Compilation', 'Festive Compilation'],
+    ['여름방학 숫자 세기! ☀️어린이 숫자 배우기', '여름방학 숫자 세기! 어린이 숫자 배우기'],
+    ['Plusman ➕', 'Plusman'],
+    ['1️⃣ 시즌 2', '1 시즌 2'],
+    ['🎁', '🎁'],
+  ])('removes emoji from titles: %s', (title, expected) => {
+    expect(buildDisplayTitle(title, [])).toBe(expected);
+  });
+
+  it.each([
     ['1 일 | 넘버블록스 - 한국 - 공식 채널', '일'],
     ['36. 이제 우린 육에서 십이에요 | 세는 법을 배우다 | 넘버블록스', '이제 우린 육에서 십이에요'],
     ['지구를 떠나는 100가지 방법 | S5 E30 | 세는 법을 배우다 | 넘버블록스', '지구를 떠나는 100가지 방법'],
-    ['|어린이를 위한 기본 도형 배우기 🟦  세는 법을 배우다 | 넘버블록스', '어린이를 위한 기본 도형 배우기 🟦  세는 법을 배우다'],
+    ['|어린이를 위한 기본 도형 배우기 🟦  세는 법을 배우다 | 넘버블록스', '어린이를 위한 기본 도형 배우기 세는 법을 배우다'],
     ['넘버블록 9에 대한 모든 것 #shorts', '넘버블록 9에 대한 모든 것'],
   ])('checked-in numberblocks patterns clean real channel titles: %s', (title, expected) => {
     const nb = JSON.parse(readFileSync('config/collections/numberblocks.json', 'utf8'));

@@ -1,6 +1,6 @@
 {
   "collectionId": "hangul-heroes",
-  "fetchedAt": "2026-11-03T00:08:55.150Z",
+  "fetchedAt": "2026-11-06T14:59:03.798Z",
   "groups": [
     {
       "id": "season-1",
@@ -832,7 +832,7 @@
         {
           "id": "MbRoXpHUqmc",
           "title": "훈민 정음이 🌏모험을 떠나고, 한글을 찾아 나선 [한글용사 아이야] - 약속편 4화 🗣소곤소곤 말해요",
-          "displayTitle": "🗣소곤소곤 말해요",
+          "displayTitle": "소곤소곤 말해요",
           "durationSec": 816,
           "channelId": "UCx_dzPI6efSohgtOkAG43-A",
           "group": "promise",
@@ -886,7 +886,7 @@
         {
           "id": "BtISZFs5ciE",
           "title": "한글용사 아이야 - 약속 편 10화 차례대로 줄을 서요👫🏻",
-          "displayTitle": "차례대로 줄을 서요👫🏻",
+          "displayTitle": "차례대로 줄을 서요",
           "durationSec": 733,
           "channelId": "UCx_dzPI6efSohgtOkAG43-A",
           "group": "promise",
@@ -940,7 +940,7 @@
         {
           "id": "ZLHG9igycRI",
           "title": "한글용사 아이야 - 약속 편 18화 나무를 소중하게 여겨요🌳",
-          "displayTitle": "나무를 소중하게 여겨요🌳",
+          "displayTitle": "나무를 소중하게 여겨요",
           "durationSec": 745,
           "channelId": "UCx_dzPI6efSohgtOkAG43-A",
           "group": "promise",
@@ -949,7 +949,7 @@
         {
           "id": "AOWs7ZlXo-4",
           "title": "한글용사 아이야 - 약속 편 19화 초록불에 건너요🚦",
-          "displayTitle": "초록불에 건너요🚦",
+          "displayTitle": "초록불에 건너요",
           "durationSec": 763,
           "channelId": "UCx_dzPI6efSohgtOkAG43-A",
           "group": "promise",
@@ -958,7 +958,7 @@
         {
           "id": "NxB2dlwhgfY",
           "title": "한글용사 아이야 - 약속 편 20화 골고루 먹어요🥦🍠🥩",
-          "displayTitle": "골고루 먹어요🥦🍠🥩",
+          "displayTitle": "골고루 먹어요",
           "durationSec": 800,
           "channelId": "UCx_dzPI6efSohgtOkAG43-A",
           "group": "promise",

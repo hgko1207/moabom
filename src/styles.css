@@ -547,12 +547,13 @@ button:active:not([aria-disabled='true']) {
   place-items: center;
 }
 
-/* Player (SPEC §8, design D13): portrait stacks the up-next slot under the video;
-   landscape has its own two layouts after .next-preview below. */
-.player-screen .bar h1 {
+/* Player (SPEC §8): the bar names the character; the row under the title is in the redesign section below. */
+.player-screen .bar .show {
   flex: 1;
   min-width: 0;
-  font-size: 22px;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -684,7 +685,7 @@ button:active:not([aria-disabled='true']) {
 }
 
 /* While the overlay is up it is the whole choice: no second "next" under the video. */
-.player-screen:has(.overlay:not([hidden])) :is(.controls, .next-slot) {
+.player-screen:has(.overlay:not([hidden])) .nrow {
   display: none;
 }
 
@@ -1655,46 +1656,7 @@ details.paste summary::-webkit-details-marker {
   letter-spacing: 0.01em;
 }
 
-/* Player buttons (P2-1): 64px targets in one row */
-.controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: var(--s3);
-  justify-content: stretch;
-  max-width: 440px;
-  margin: var(--s3) auto 0;
-  padding: 10px;
-  border-radius: 22px;
-  background: var(--surface);
-  box-shadow: 0 6px 0 var(--line);
-}
-
-.control {
-  width: auto;
-  height: 76px;
-  display: grid;
-  place-items: center;
-  border-radius: 16px;
-  background: var(--bg);
-  border: 0;
-  color: var(--ink);
-  border-width: 2px;
-  transition: transform var(--press) ease-out;
-  flex: 1;
-}
-
-.control[aria-pressed='true'] {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 14%, var(--surface));
-}
-
-.control[hidden] {
-  display: none;
-}
-
-.player-screen.big .player-info,
-.player-screen.big .controls {
+.player-screen.big :is(.player-info, .nrow) {
   display: none;
 }
 
@@ -1816,10 +1778,6 @@ details.paste summary::-webkit-details-marker {
   overflow-wrap: anywhere;
 }
 
-.control:active {
-  transform: scale(0.94);
-}
-
 /* One gentle entrance per screen: pictures rise in, a few at a time (none with reduced motion). */
 @keyframes rise-in {
   from {
@@ -1871,8 +1829,12 @@ details.paste summary::-webkit-details-marker {
     animation: none;
   }
 
-  .control {
+  :is(.n-prev, .n-next, .end-pick) {
     transition: none;
+  }
+
+  .n-next.grown .thumb {
+    animation: none;
   }
 }
 
@@ -1935,106 +1897,366 @@ details.paste summary::-webkit-details-marker {
   color: var(--accent-ink);
 }
 
-/* Player: the buttons sit together on one paper panel; 한 번 더 in the middle is the filled one. */
-
-/* Filled controls and chips carry words or icons, so they use the deep accent with paper text (5.99:1);
-   the bright accent stays for outlines, rings and bars (2026-10-21, button colour B). */
-.control.fill {
-  background: var(--accent-ink);
-  color: var(--surface);
-}
-
-/* What plays next, under the buttons. */
-/* 다음에 볼 편: a card of its own under the buttons, so it reads as "tap here for the next one" (2026-10-21).
-   When today's limit ends with this episode the same place says so, with the moon. */
-.last-today {
+/* Player (redesign 2026-11-08): quiet while an episode plays. Under the title, one row: 이전 편 as an icon-only square
+   and the next episode as its picture, with the words under it so nothing covers the official artwork. In the last
+   30 s the picture grows across the row; after the end the choice takes the row's place. No pause button: the
+   video takes taps (with 버튼 막기, the layer over it does). */
+.nrow {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+  align-items: flex-start;
   gap: 12px;
-  width: 100%;
-  max-width: 440px;
-  margin: var(--s3) auto 0;
-  padding: 14px 16px;
-  border-radius: 18px;
-  background: var(--surface);
-  box-shadow: 0 4px 0 var(--line);
-  font-size: 17px;
-  font-weight: 700;
-  word-break: keep-all;
+  margin-top: var(--s2);
 }
 
-.last-today .art-moon {
-  flex: none;
-}
-
-.player-screen.big .last-today {
+.nrow:empty {
   display: none;
 }
 
-.next-preview {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  max-width: 440px;
-  margin: var(--s3) auto 0;
-  padding: 10px 12px 10px 10px;
-  border-radius: 18px;
-  background: var(--surface);
-  box-shadow: 0 4px 0 var(--line);
-  text-align: left;
-}
-
-.next-preview .thumb {
+.n-prev {
   flex: none;
-  width: 120px;
-  border-radius: 12px;
-}
-
-.next-preview .next-text {
-  flex: 1;
-  min-width: 0;
-}
-
-.next-preview small {
-  display: block;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--accent-ink);
-}
-
-.next-preview .next-go {
-  flex: none;
-  width: 44px;
-  height: 44px;
+  width: 72px;
+  height: 72px;
   display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 6px 16px rgb(24 60 110 / 0.12);
+  transition: transform var(--press) ease-out;
+}
+
+.n-next {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 152px;
+  margin-left: auto;
+  padding: 0;
+  background: none;
+  color: var(--ink);
+  text-align: left;
+  transition: transform var(--press) ease-out;
+}
+
+:is(.n-prev, .n-next, .end-pick):active {
+  transform: scale(0.96);
+}
+
+.n-next .thumb {
+  border-radius: 14px;
+  box-shadow: 0 6px 16px rgb(24 60 110 / 0.16);
+}
+
+.n-go {
+  display: none;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 48px;
+  height: 48px;
   place-items: center;
   border-radius: 50%;
   background: var(--accent-ink);
   color: var(--surface);
 }
 
-.next-preview b {
+.n-label {
+  min-width: 0;
+}
+
+.n-label small {
   display: block;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--accent-ink);
+}
+
+.n-label b {
+  display: none;
+}
+
+/* the last 30 seconds: the same picture fills the row and says what comes next */
+.n-next.grown {
+  flex: 1;
+  min-width: 0;
+  width: auto;
+}
+
+.n-next.grown .thumb {
+  animation: rise-in 360ms cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+.n-next.grown .n-go {
+  display: grid;
+}
+
+.n-next.grown .n-label small {
+  font-size: 15px;
+}
+
+.n-next.grown .n-label b,
+.end-pick .n-label b {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
   margin-top: 2px;
   font-size: 17px;
   font-weight: 800;
   word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 
-.player-screen.big .next-preview {
+/* today's last episode: the moon takes the row, and nothing beside the video can end the day by accident */
+.n-last {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  word-break: keep-all;
+}
+
+.n-moon {
+  flex: none;
+  width: 128px;
+  aspect-ratio: 16 / 9;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: var(--night);
+}
+
+.player-info .episode-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+/* the end screen: the next episode big, a few more from its tab under it */
+.end-more {
+  width: 100%;
+  max-width: 480px;
+}
+
+.end-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s1);
+  margin: 0 4px 4px;
+}
+
+.end-head h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.end-head .text-button {
+  min-height: 44px;
+  padding: 0;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--accent-ink);
+}
+
+.end-pick {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  padding: 6px 0;
+  background: none;
+  color: var(--ink);
+  text-align: left;
+  transition: transform var(--press) ease-out;
+}
+
+.end-pick .thumb {
+  border-radius: 12px;
+}
+
+.end-pick .n-label small {
+  color: var(--ink-2);
+}
+
+.end-pick .n-label b {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* lying down the choice stays on the picture: the next episode on the left, the others beside it */
+.overlay .overlay-body:has(.end-more) {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  gap: 0 var(--s3);
+  align-items: start;
+  width: 100%;
+}
+
+.overlay .overlay-body:has(.end-more) .upnext {
+  grid-row: 1 / span 2;
+  width: 100%;
+  max-width: none;
+}
+
+.overlay .end-more {
+  max-width: none;
+}
+
+.overlay .end-pick {
+  grid-template-columns: 96px minmax(0, 1fr);
+  padding: 4px 0;
+}
+
+.overlay .end-pick .n-label b {
+  font-size: 14px;
+}
+
+.overlay .overlay-body:has(.end-more) .overlay-small {
+  grid-column: 2;
+}
+
+@container (max-width: 760px) {
+  .overlay .end-pick:nth-of-type(3) {
+    display: none;
+  }
+}
+
+/* 크게 보기: the same two buttons sit in the black band, never over the picture; a long phone keeps them in a
+   column beside it */
+.big-bar {
   display: none;
 }
 
-/* Landscape with room (tablets, computers): the picture, then one row of caption, buttons and what's next,
-   all on the first screen; a child does not scroll to find them (critique 2026-11-06).
-   232px = screen padding, the ◀ bar and that row. */
+.player-screen.big .big-bar:not(:empty) {
+  display: flex;
+  position: absolute;
+  top: 12px;
+  right: 88px;
+  gap: 10px;
+  z-index: 4;
+}
+
+.player-screen.big .big-exit {
+  top: 12px;
+  right: 12px;
+}
+
+.player-screen.big .stage:has(.big-bar:not(:empty)) {
+  padding-top: 88px;
+  box-sizing: border-box;
+}
+
+.player-screen.big .stage:has(.big-bar:not(:empty)) .video-wrap {
+  width: min(100vw, calc((100dvh - 88px) * 16 / 9));
+}
+
+.player-screen:has(.overlay:not([hidden])) .big-bar {
+  visibility: hidden;
+}
+
+.b-prev {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: rgb(255 255 255 / 0.92);
+  color: var(--ink);
+}
+
+.b-next {
+  position: relative;
+  width: 114px;
+  height: 64px;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #000;
+}
+
+.b-next .thumb {
+  height: 100%;
+  border-radius: 0;
+}
+
+.b-tag {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 14px 8px 4px;
+  background: linear-gradient(transparent, rgb(0 0 0 / 0.75));
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  text-align: left;
+}
+
+@media (min-aspect-ratio: 2 / 1) {
+  .player-screen.big .stage:has(.big-bar:not(:empty)) {
+    padding-top: 0;
+    padding-right: 140px;
+  }
+
+  .player-screen.big .stage:has(.big-bar:not(:empty)) .video-wrap {
+    width: min(calc(100vw - 140px), calc(100dvh * 16 / 9));
+  }
+
+  .player-screen.big .big-bar:not(:empty) {
+    flex-direction: column;
+    top: auto;
+    bottom: 12px;
+    right: 12px;
+    width: 116px;
+  }
+
+  .b-prev,
+  .b-next {
+    width: 116px;
+  }
+}
+
+/* Tablets upright: the same row, larger */
+@media (orientation: portrait) and (min-width: 700px) {
+  .n-prev {
+    width: 88px;
+    height: 88px;
+  }
+
+  .n-next {
+    width: 200px;
+  }
+
+  .n-next.grown .n-label b {
+    font-size: 20px;
+  }
+
+  .end-pick {
+    grid-template-columns: 180px minmax(0, 1fr);
+  }
+
+  .end-pick .n-label b {
+    font-size: 18px;
+  }
+}
+
+/* Landscape with room (tablets, foldables, computers): the picture, then the caption with the row beside it, all
+   on the first screen. 232px = screen padding, the bar and that row. The next picture carries its words beside it
+   on one paper card, and grows sideways so the video never changes size. */
 @media (orientation: landscape) and (min-height: 560px) {
   .player-screen {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) auto;
     align-content: start;
-    column-gap: var(--s2);
+    column-gap: var(--s3);
   }
 
   .player-screen .video-wrap {
@@ -2042,55 +2264,82 @@ details.paste summary::-webkit-details-marker {
     margin: 0 auto;
   }
 
-  .player-screen .bar,
-  .player-screen .stage,
-  .player-screen .detect-off {
+  .player-screen :is(.bar, .stage, .after, .detect-off) {
     grid-column: 1 / -1;
-  }
-
-  .player-screen .player-info,
-  .player-screen .controls,
-  .player-screen .next-slot {
-    grid-row: 3;
-    align-self: center;
-    margin-top: var(--s2);
   }
 
   .player-screen .player-info {
     grid-column: 1;
+    grid-row: 3;
+    align-self: center;
+    margin-top: var(--s2);
   }
 
   .player-info .episode-title {
     font-size: 22px;
   }
 
-  .player-screen .controls {
+  .player-screen .nrow {
     grid-column: 2;
-    margin-inline: 0;
+    grid-row: 3;
+    align-self: center;
+    align-items: center;
   }
 
-  .player-screen .control {
+  .n-next {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    width: auto;
+    padding: 0 16px 0 0;
+    border-radius: 16px;
+    background: var(--surface);
+    box-shadow: 0 6px 16px rgb(24 60 110 / 0.12);
+  }
+
+  .n-next .thumb {
     flex: none;
-    width: 96px;
-    height: 64px;
+    width: 128px;
+    border-radius: 16px 0 0 16px;
+    box-shadow: none;
   }
 
-  .player-screen .next-slot {
-    grid-column: 3;
+  .n-next.grown {
+    flex: none;
+    width: 400px;
   }
 
-  .player-screen .next-preview,
-  .player-screen .last-today {
-    margin: 0 0 0 auto;
+  .n-next.grown .n-go {
+    width: 32px;
+    height: 32px;
+    right: 6px;
+    bottom: 6px;
+  }
+
+  .n-next.grown .n-go .icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .n-next.grown .n-label small {
+    font-size: 13px;
+  }
+
+  .n-next.grown .n-label b {
+    font-size: 15px;
+  }
+
+  .n-moon {
+    width: 112px;
   }
 }
 
-/* Landscape phones: the video takes the height and everything else moves to the rails beside it. There is no
-   room for words there, so the moon alone says this is the last one; the sentence stays for screen readers. */
+/* Landscape phones: the video takes the height and the buttons move to the rails beside it. There is no room for
+   words there, so the moon alone says this is the last one; the sentence stays for screen readers. */
 @media (orientation: landscape) and (max-height: 559px) {
   .player-screen {
     display: grid;
-    grid-template-columns: var(--target) minmax(0, 1fr) var(--target);
+    grid-template-columns: var(--target) minmax(0, 1fr) 120px;
     grid-template-rows: auto minmax(0, 1fr) auto;
     column-gap: var(--s2);
     height: 100dvh;
@@ -2099,8 +2348,12 @@ details.paste summary::-webkit-details-marker {
   }
 
   .player-screen .bar,
-  .player-screen .controls {
+  .player-screen .nrow {
     display: contents;
+  }
+
+  .player-screen .bar .show {
+    display: none;
   }
 
   .player-screen .back {
@@ -2109,6 +2362,7 @@ details.paste summary::-webkit-details-marker {
 
   .player-screen .bar .big-toggle {
     grid-area: 1 / 3;
+    justify-self: end;
     margin-left: 0;
   }
 
@@ -2122,52 +2376,34 @@ details.paste summary::-webkit-details-marker {
     margin: 0 auto;
   }
 
-  .player-screen .control {
-    flex: none;
+  .player-screen .n-prev {
+    grid-area: 3 / 1;
     width: var(--target);
     height: var(--target);
-    background: var(--surface);
   }
 
-  .player-screen .control.go-prev {
-    grid-area: 3 / 1;
-  }
-
-  .player-screen .control.go-next {
+  .player-screen .n-next,
+  .player-screen .n-next.grown {
     grid-area: 3 / 3;
+    width: 120px;
+    margin: 0;
   }
 
-  .player-screen .control.fill {
-    grid-area: 2 / 1;
-    align-self: center;
-    background: var(--accent-ink);
-  }
-
-  .player-screen .next-slot {
-    grid-area: 2 / 3;
-    align-self: center;
-    justify-self: center;
-  }
-
-  .player-screen .next-preview {
+  .player-screen .n-next.grown .n-go,
+  .player-screen .n-next.grown .n-label b {
     display: none;
   }
 
-  .player-screen .last-today {
-    width: auto;
-    margin: 0;
-    padding: 0;
-    background: none;
-    box-shadow: none;
+  .player-screen .n-last {
+    grid-area: 3 / 3;
   }
 
-  .player-screen .last-today .art-moon {
-    width: 48px;
-    height: 48px;
+  .player-screen .n-moon {
+    width: 120px;
   }
 
   .player-screen .player-info,
-  .player-screen .last-today span {
+  .player-screen .n-last > span:last-child {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -2515,7 +2751,8 @@ details.paste summary::-webkit-details-marker {
 }
 
 .mini-control {
-  flex: 1;
+  flex: none;
+  width: 48px;
   height: 48px;
   display: grid;
   place-items: center;
@@ -2527,6 +2764,13 @@ details.paste summary::-webkit-details-marker {
 .mini-control.accent {
   background: var(--accent-ink);
   color: var(--surface);
+}
+
+.mini-player .mini-next {
+  margin-left: auto;
+  width: 86px;
+  height: 48px;
+  border-radius: 10px;
 }
 
 .mini-none {
@@ -2885,8 +3129,36 @@ details.paste summary::-webkit-details-marker {
   position: absolute;
   inset: 0;
   z-index: 1;
+  padding: 0;
+  border: 0;
+  background: none;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* paused under 버튼 막기: a big ▶ over the picture says "tap to go on"; taps pass through to the layer */
+.paused-mark {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  place-items: center;
+  background: rgb(10 20 40 / 0.18);
+  color: #fff;
+  pointer-events: none;
+}
+
+.video-wrap.paused .paused-mark {
+  display: grid;
+}
+
+.paused-mark svg {
+  width: 96px;
+  height: 96px;
+  padding: 26px 22px 26px 30px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background: rgb(10 20 40 / 0.6);
 }
 
 /* First visit (critique 2026-10-20): one quiet line under the title, not a card at the bottom. */
@@ -3192,7 +3464,7 @@ body.sky .screen:not(.settings) {
   --ink-2: #2f3d47;
 }
 
-body:is(.sky, .rest) :is(.bar h1, .home-bar .logo, .bar .gear) {
+body:is(.sky, .rest) :is(.bar h1, .bar .show, .home-bar .logo, .bar .gear) {
   color: #fff;
 }
 
@@ -3349,24 +3621,6 @@ body.rest :is(.tile, .card) .thumb {
   box-shadow: 0 10px 28px rgb(24 60 110 / 0.18);
 }
 
-.player-screen .controls {
-  padding: 0;
-  background: none;
-  box-shadow: none;
-}
-
-.player-screen .control {
-  box-shadow: 0 6px 16px rgb(24 60 110 / 0.1);
-}
-
-.player-screen .control:not(.fill) {
-  background: var(--surface);
-}
-
-.player-screen .next-preview {
-  box-shadow: 0 6px 16px rgb(24 60 110 / 0.08);
-}
-
 /* repairs */
 .thumb img {
   transform: scale(1.015); /* hides the 1px dark edge YouTube's 4:3 thumbnails carry */
@@ -3388,49 +3642,13 @@ body.rest :is(.tile, .card) .thumb {
   }
 }
 
-/* upright screens: wide buttons with what's next right under them */
+/* upright, the choice under the video is the whole page: no caption of the episode that just ended */
 @media (orientation: portrait) {
   .player-screen:not(.big) {
     display: flex;
     flex-direction: column;
   }
 
-  .player-screen:not(.big) > .controls {
-    width: 100%;
-    max-width: none;
-    margin-top: var(--s2);
-  }
-
-  .player-screen:not(.big) .control {
-    height: 88px;
-  }
-
-  .player-screen:not(.big) > .next-slot {
-    padding-top: var(--s2);
-  }
-
-  .player-screen:not(.big) .next-preview {
-    max-width: none;
-    width: 100%;
-    margin-top: 0;
-  }
-
-  /* the picture of what plays next is the one next control */
-  .player-screen:not(.big):has(.next-preview) .go-next {
-    display: none;
-  }
-
-  .player-screen:not(.big):has(.next-preview) .controls:not(:has(.go-prev, .fill)) {
-    display: none;
-  }
-
-  /* what stays is small and to the side: going back should not be the biggest thing on the page */
-  .player-screen:not(.big):has(.next-preview) .control {
-    flex: 0 0 96px;
-    height: var(--target);
-  }
-
-  /* the choice under the video is the whole page: no caption of the episode that just ended */
   .player-screen:not(.big):has(.overlay:not([hidden])) .player-info {
     display: none;
   }
@@ -3535,12 +3753,6 @@ body.rest :is(.tile, .card) .thumb {
     height: 22px;
     margin-left: 2px;
   }
-}
-
-/* Today's last episode: nothing beside the video can end the day by accident. */
-.player-screen.ending :is(.go-prev, .go-next),
-.player-screen.ending .controls:not(:has(.fill)) {
-  display: none;
 }
 
 /* small words on mid-sky need full ink */

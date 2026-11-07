@@ -401,12 +401,11 @@ function buttonsBody(available: Collection[], current: DeviceSettings): string {
   const buttons = current.player ?? {};
   const first = visibleOf(available, current)[0];
   const shield = playerShieldOn(buttons);
-  const mini = (name: IconName, accent = false) => `<span class="mini-control${accent ? ' accent' : ''}">${icon(name, 24)}</span>`;
-  // Same row as the player while a video plays: 이전 편, (일시정지 with 버튼 막기), 다음 편. 한 번 더 is on the end screen.
+  // Same row as the player while a video plays: 이전 편 as a square, the next episode as its picture. 한 번 더 is on
+  // the end screen; with 버튼 막기 the video itself pauses, so no button stands for it.
   const controls = [
-    playerButtonOn(buttons, 'prev') ? mini('skip-back') : '',
-    shield ? mini('pause', true) : '',
-    playerButtonOn(buttons, 'next') ? mini('skip-forward') : '',
+    playerButtonOn(buttons, 'prev') ? `<span class="mini-control">${icon('skip-back', 24)}</span>` : '',
+    playerButtonOn(buttons, 'next') && first ? `<img class="mini-next" src="${coverOf(first)}" alt="" width="96" height="54">` : '',
   ].join('');
   return `${preview(
     '재생 화면 미리 보기',

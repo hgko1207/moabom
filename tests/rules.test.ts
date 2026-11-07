@@ -46,6 +46,8 @@ import {
   errorStep,
   NO_ERRORS,
   prevInOrder,
+  moreAfter,
+  nextGrows,
   shouldAutoResume,
   playerButtonOn,
   playerShieldOn,
@@ -609,6 +611,27 @@ describe('player buttons (P2-1)', () => {
     expect(prevInOrder(data, 'b')?.id).toBe('a');
     expect(prevInOrder(data, 'a')).toBeNull();
     expect(prevInOrder(data, 'missing')).toBeNull();
+  });
+
+  it('the next picture grows in the last 30 seconds', () => {
+    expect(nextGrows(31)).toBe(false);
+    expect(nextGrows(30)).toBe(true);
+    expect(nextGrows(0)).toBe(true);
+  });
+
+  it('the end screen offers more from the next episode tab only, after it', () => {
+    const three: CollectionData = {
+      ...data,
+      groups: [
+        { id: 'lv1', videos: ['a', 'b', 'c', 'd', 'e'].map((id, i) => vid(id, 'lv1', i)) },
+        { id: 'lv2', videos: ['f', 'g'].map((id, i) => vid(id, 'lv2', i)) },
+      ],
+    };
+    expect(moreAfter(three, 'b', 3).map((v) => v.id)).toEqual(['c', 'd', 'e']);
+    expect(moreAfter(three, 'd', 3).map((v) => v.id)).toEqual(['e']);
+    expect(moreAfter(three, 'e', 3)).toEqual([]);
+    expect(moreAfter(three, 'f', 3).map((v) => v.id)).toEqual(['g']);
+    expect(moreAfter(three, 'missing', 3)).toEqual([]);
   });
 });
 

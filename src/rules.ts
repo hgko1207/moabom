@@ -475,6 +475,25 @@ export function upNext(
   return afterCurrent(data, current);
 }
 
+/** P3 (2026-11-08): the next episode's picture under the video grows this long before the end. */
+export const GROW_BEFORE_END_SEC = 30;
+
+export function nextGrows(remainingSec: number): boolean {
+  return remainingSec <= GROW_BEFORE_END_SEC;
+}
+
+/**
+ * P3 (2026-11-08): the end screen offers a few more episodes from the next one's tab, the ones after it, so a child
+ * can pick another without going back to the list.
+ */
+export function moreAfter(data: CollectionData, nextId: string, count: number): VideoRecord[] {
+  const all = viewingOrder(data);
+  const i = all.findIndex((v) => v.id === nextId);
+  if (i < 0) return [];
+  const group = all[i]!.group;
+  return all.slice(i + 1).filter((v) => v.group === group).slice(0, count);
+}
+
 /** P4: a video that failed never counts, so only the limit as it stands now can stop the next episode. */
 export function upNextAfterError(data: CollectionData, current: VideoRecord, today: TodayState, limits: Limits): UpNext {
   return limitReached(today, limits) ? { kind: 'limit' } : afterCurrent(data, current);

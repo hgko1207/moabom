@@ -13,6 +13,8 @@ import {
   isRewatch,
   limitReached,
   localDate,
+  moreAfter,
+  nextGrows,
   nextInOrder,
   playerButtonOn,
   playerShieldOn,
@@ -102,45 +104,57 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   const buttons = store.settings()?.player ?? {};
   const prev = playerButtonOn(buttons, 'prev') ? prevInOrder(scope, video.id) : null;
   const next = playerButtonOn(buttons, 'next') ? nextInOrder(scope, video.id) : null;
-  // YouTube 버튼 막기: YouTube's controls are gone, so the app carries play/pause (and the tap layer below).
+  // YouTube 버튼 막기: YouTube's controls are gone and a clear layer over the video takes every tap (play/pause).
   const shield = playerShieldOn(buttons);
-  const controls = [
-    prev ? `<button class="control go-prev" data-go="${esc(prev.id)}" aria-label="이전 편">${icon('skip-back', 32)}</button>` : '',
-    // The one filled control is play/pause, and only with 버튼 막기. 한 번 더 waits for the end of the video
-    // (critique 2026-10-21): in the row it was the biggest target and reset the episode with one tap.
-    shield ? `<button class="control fill" data-action="toggle-play" aria-label="일시정지">${icon('pause', 32)}</button>` : '',
-    next ? `<button class="control go-next" data-go="${esc(next.id)}" aria-label="다음 편">${icon('skip-forward', 32)}</button>` : '',
-  ].join('');
-  // Under the buttons (2026-10-21): what plays next, the same episode, setting and daily limit as the 다음 편
-  // button; or, when today's limit ends with this episode, the moon, so the child knows well before the end.
-  // This replaced the up-next card that popped up over or under the video 20 s before the end.
+  // Under the title (redesign 2026-11-08): one quiet row, 이전 편 as an icon-only square and the next episode as its
+  // picture, which grows in the last 30 s. No pause button: the video itself takes taps. When today's limit ends
+  // with this episode the moon takes the row, and 이전 편 goes too: pressed mid-episode it would end the day.
   const isLastToday = (remainingSec: number): boolean =>
     upNext(scope, video, today, limits, remainingSec, rewatchLeft !== null).kind === 'limit';
-  const nextSlotHtml = (remainingSec: number): string => {
-    if (isLastToday(remainingSec)) return `<p class="last-today">${moon(32)}<span>오늘은 이 편이 마지막이에요</span></p>`;
-    return next && canStart(today, limits, next.id)
-      ? `<button class="next-preview" data-go="${esc(next.id)}" aria-label="다음 편: ${esc(episodeLabel(c.config, next))} ${esc(next.displayTitle)}">
-      ${thumb(next.id, String(next.order))}<span class="next-text"><small>다음 편</small><b>${esc(episodeLabel(c.config, next))} ${esc(next.displayTitle)}</b></span><span class="next-go" aria-hidden="true">${icon('play', 22)}</span></button>`
-      : '';
+  const nextLabel = next ? `${episodeLabel(c.config, next)} ${next.displayTitle}` : '';
+  const nextOpen = (): boolean => !!next && canStart(today, limits, next.id);
+  const rowHtml = (remainingSec: number): string => {
+    if (isLastToday(remainingSec)) {
+      return `<p class="n-last" role="status"><span class="n-moon" aria-hidden="true">${moon(40)}</span><span>오늘은 이 편이 마지막이에요</span></p>`;
+    }
+    const back = prev ? `<button class="n-prev" data-go="${esc(prev.id)}" aria-label="이전 편">${icon('skip-back', 32)}</button>` : '';
+    if (!next || !nextOpen()) return back;
+    const grown = nextGrows(remainingSec);
+    return `${back}<button class="n-next${grown ? ' grown' : ''}" data-go="${esc(next.id)}" aria-label="다음 편: ${esc(nextLabel)}">
+      ${thumb(next.id, String(next.order), `<span class="n-go" aria-hidden="true">${icon('play', 24)}</span>`)}
+      <span class="n-label"><small>${grown ? '곧 다음 편' : '다음 편'}</small><b>${esc(nextLabel)}</b></span></button>`;
+  };
+  // 크게 보기 keeps the same two buttons, in the black band beside the picture, never over it.
+  const bigBarHtml = (remainingSec: number): string => {
+    if (isLastToday(remainingSec)) return '';
+    const back = prev ? `<button class="b-prev" data-go="${esc(prev.id)}" aria-label="이전 편">${icon('skip-back', 28)}</button>` : '';
+    const ahead =
+      next && nextOpen()
+        ? `<button class="b-next" data-go="${esc(next.id)}" aria-label="다음 편: ${esc(nextLabel)}">${thumb(next.id, String(next.order), '<span class="b-tag" aria-hidden="true">다음 편</span>')}</button>`
+        : '';
+    return back + ahead;
   };
   const remainingAtStart = Math.max(0, video.durationSec - start);
-  let nextSlot = nextSlotHtml(remainingAtStart);
+  let row = rowHtml(remainingAtStart);
 
   setBack(() => backTo(listRoute));
-  // On today's last episode 이전 편 and 다음 편 go away: pressed mid-episode they would end the day (critique 2026-11-07).
-  app.innerHTML = `<main class="screen player-screen${isLastToday(remainingAtStart) ? ' ending' : ''}">
-    <div class="bar">${backButton()}
+  app.innerHTML = `<main class="screen player-screen">
+    <div class="bar">${backButton()}<p class="show">${esc(c.config.displayName)}</p>
       <button class="big-toggle" data-action="big" aria-label="크게 보기" aria-pressed="false">${icon('maximize', 32)}</button></div>
     <div class="stage">
-      <div class="video-wrap"><div id="yt"></div>${shield ? '<div class="shield" data-action="toggle-play" aria-hidden="true"></div>' : ''}<div class="overlay" hidden></div></div>
+      <div class="video-wrap"><div id="yt"></div>${
+        shield
+          ? `<button class="shield" data-action="toggle-play" aria-label="일시정지"></button><span class="paused-mark" aria-hidden="true">${icon('play', 44)}</span>`
+          : ''
+      }<div class="overlay" hidden></div></div>
+      <div class="big-bar" role="group" aria-label="재생 버튼">${bigBarHtml(remainingAtStart)}</div>
       <button class="big-exit" data-action="big" aria-label="작게 보기">${icon('maximize', 28)}</button>
     </div>
     <div class="player-info">
       <p class="episode-label">${esc(episodeLabel(c.config, video))}</p>
       <h1 class="episode-title">${esc(video.displayTitle)}</h1>
     </div>
-    ${controls ? `<div class="controls" role="group" aria-label="재생 버튼">${controls}</div>` : ''}
-    <div class="next-slot" aria-live="polite">${nextSlot}</div>
+    <div class="nrow" role="group" aria-label="재생 버튼" aria-live="polite">${row}</div>
     <div class="after"></div>
     <p class="detect-off" hidden>이 기기에서는 다른 영상으로 넘어가도 막지 못해요</p>
   </main>`;
@@ -212,14 +226,17 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   );
 
   // Player buttons (P2-1).
-  app.querySelectorAll<HTMLButtonElement>('[data-go]').forEach((b) => b.addEventListener('click', () => goTo(b.dataset.go!)));
-  // Play/pause for 버튼 막기: the tap layer over the video and the button do the same thing.
+  const bindGo = (root: ParentNode) =>
+    root.querySelectorAll<HTMLButtonElement>('[data-go]').forEach((b) => b.addEventListener('click', () => goTo(b.dataset.go!)));
+  bindGo(app);
+  // Play/pause for 버튼 막기: the layer over the video takes the tap; while paused a big ▶ says "tap to go on".
   const playButton = app.querySelector<HTMLButtonElement>('button[data-action="toggle-play"]');
+  const wrap = app.querySelector<HTMLElement>('.video-wrap')!;
   const showPlaying = (playing: boolean) => {
     if (!playButton || playButton.dataset.playing === String(playing)) return;
     playButton.dataset.playing = String(playing);
     playButton.setAttribute('aria-label', playing ? '일시정지' : '재생');
-    playButton.innerHTML = icon(playing ? 'pause' : 'play', 32);
+    wrap.classList.toggle('paused', !playing);
   };
   app.querySelectorAll('[data-action="toggle-play"]').forEach((el) =>
     el.addEventListener('click', () => {
@@ -254,6 +271,27 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     root.querySelector('[data-action="today"]')?.addEventListener('click', openToday);
     root.querySelector('[data-action="replay"]')?.addEventListener('click', replay);
     root.querySelector('[data-action="list"]')?.addEventListener('click', () => backTo(listRoute));
+    root.querySelectorAll<HTMLButtonElement>('[data-pick]').forEach((b) => b.addEventListener('click', () => goTo(b.dataset.pick!)));
+  };
+
+  /**
+   * The end screen (P3, 2026-11-08): the next episode big, then a few more from its tab so a child can pick another
+   * without going back to the list, and 한 번 더 when a parent left it on.
+   */
+  const endChoiceHtml = (u: UpNext): string => {
+    if (u.kind !== 'next') return `${upNextCardHtml(u, c)}${replayButton()}`;
+    const more = moreAfter(scope, u.video.id, 3).filter((v) => canStart(today, limits, v.id));
+    const group = c.config.groups.find((g) => g.id === u.video.group)?.label ?? '';
+    const pick = (v: VideoRecord) => {
+      const label = episodeLabel(c.config, v);
+      return `<button class="end-pick" data-pick="${esc(v.id)}" aria-label="${esc(label)} ${esc(v.displayTitle)}">
+        ${thumb(v.id, String(v.order))}<span class="n-label"><small>${esc(label)}</small><b>${esc(v.displayTitle)}</b></span></button>`;
+    };
+    const list = more.length
+      ? `<section class="end-more" aria-labelledby="end-more-title"><div class="end-head"><h2 id="end-more-title">${esc(group ? `${group}에서 고르기` : '더 고르기')}</h2>
+          <button class="text-button" data-action="list">${esc(group ? `${group} 전체 보기` : '전체 보기')}</button></div>${more.map(pick).join('')}</section>`
+      : '';
+    return `${upNextCardHtml(u, c)}${list}${replayButton()}`;
   };
 
   const hideOverlay = () => {
@@ -348,17 +386,20 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
         return openToday();
       }
       save();
-      // The episode can become today's last while it plays (counted after 10 s, or the minutes run low).
+      // The next picture grows near the end, and the episode can become today's last while it plays (counted after
+      // 10 s, or the minutes run low).
       const remaining = total > 0 ? total - current : Math.max(0, video.durationSec - current);
-      const html = nextSlotHtml(remaining);
-      if (html !== nextSlot) {
-        nextSlot = html;
-        main.classList.toggle('ending', isLastToday(remaining));
-        const box = app.querySelector<HTMLElement>('.next-slot');
-        if (box) {
-          box.innerHTML = html;
-          box.querySelector<HTMLButtonElement>('[data-go]')?.addEventListener('click', (e) => goTo((e.currentTarget as HTMLButtonElement).dataset.go!));
-        }
+      const html = rowHtml(remaining);
+      if (html !== row) {
+        row = html;
+        const focused = (document.activeElement as HTMLElement | null)?.dataset?.go;
+        const box = app.querySelector<HTMLElement>('.nrow')!;
+        const bar = app.querySelector<HTMLElement>('.big-bar')!;
+        box.innerHTML = html;
+        bar.innerHTML = bigBarHtml(remaining);
+        bindGo(box);
+        bindGo(bar);
+        if (focused) (main.classList.contains('big') ? bar : box).querySelector<HTMLElement>(`[data-go="${CSS.escape(focused)}"]`)?.focus();
       }
     },
     onEnded() {
@@ -368,8 +409,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
       save();
       const u = upNext(scope, video, today, limits, 0, rewatchLeft !== null);
       if (u.kind === 'limit') return openToday();
-      // The card and 한 번 더 are the whole choice: the ◀ above the video already goes back to the list.
-      showOverlay(`${upNextCardHtml(u, c)}${replayButton()}`);
+      showOverlay(endChoiceHtml(u));
     },
     onError(code) {
       // Never counted, never marked watched (P4). Removed or blocked videos are marked now; others wait (P2-5).

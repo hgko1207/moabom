@@ -38,6 +38,8 @@ import {
   recordProgress,
   resumableAfterLimit,
   upNext,
+  upNextAfterError,
+  todaysPictures,
   addExtra,
   canReplay,
   episodeLabel,
@@ -151,6 +153,13 @@ describe('rewatching a finished episode (L1a)', () => {
     expect(recordPlay(t, 'a', 60).started).toEqual(['a', 'a']);
   });
 
+  it('continues a rewatch from where it stopped after the limit, not from the start', () => {
+    const v = { id: 'a', durationSec: 300 };
+    const p = recordPosition(progress(['a']), 'a', 200);
+    expect(startPosition(p, v)).toBe(0);
+    expect(startPosition(p, v, true)).toBe(200);
+  });
+
   it('counts no second episode for the last tenth of a first watch', () => {
     expect(recordPlay(watchedOnce, 'a', 30).started).toEqual(['a']);
   });
@@ -212,6 +221,14 @@ describe('recordProgress (O1)', () => {
   });
 });
 
+describe('the moon screen pictures', () => {
+  it('shows the last episodes of the day, each once, oldest first', () => {
+    expect(todaysPictures(day({ started: ['a', 'b', 'c', 'd'] }), 3)).toEqual(['b', 'c', 'd']);
+    expect(todaysPictures(day({ started: ['a', 'b', 'a'] }), 3)).toEqual(['b', 'a']);
+    expect(todaysPictures(day(), 3)).toEqual([]);
+  });
+});
+
 describe('upNext (P3)', () => {
   const a = data.groups[0]!.videos[0]!;
   const b = data.groups[0]!.videos[1]!;
@@ -237,6 +254,14 @@ describe('upNext (P3)', () => {
     const limits = { dailyEpisodes: null, dailyMinutes: 10 };
     expect(upNext(data, a, day({ seconds: 590 }), limits, 20)).toEqual({ kind: 'limit' });
     expect(upNext(data, a, day({ seconds: 500 }), limits, 20)).toMatchObject({ kind: 'next' });
+  });
+
+  it('does not count a failed video against the last slot of the day (P4)', () => {
+    const t = day({ started: ['x', 'y'] });
+    expect(upNext(data, a, t, eps(3), 0)).toEqual({ kind: 'limit' });
+    expect(upNextAfterError(data, a, t, eps(3))).toEqual({ kind: 'next', video: b, newGroup: false });
+    expect(upNextAfterError(data, a, day({ started: ['x', 'y', 'z'] }), eps(3))).toEqual({ kind: 'limit' });
+    expect(upNextAfterError(data, d, t, eps(3))).toEqual({ kind: 'done' });
   });
 
   it('ends with done after the last episode', () => {

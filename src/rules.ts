@@ -334,6 +334,11 @@ export function canStart(today: TodayState, limits: Limits, videoId: string): bo
   return resumableAfterLimit(today) === videoId;
 }
 
+/** The moon screen's pictures: the last episodes started today, each once, oldest first. */
+export function todaysPictures(today: TodayState, count: number): string[] {
+  return [...new Set([...today.started].reverse())].slice(0, count).reverse();
+}
+
 /** L1/L2: add real playing time. A video counts as started once it reaches 10 s today. */
 export function recordPlay(today: TodayState, videoId: string, sec: number): TodayState {
   const played = (today.playedToday[videoId] ?? 0) + sec;
@@ -391,9 +396,12 @@ export function recordPosition(p: CollectionProgress, videoId: string, sec: numb
   return { ...p, position: sec === null ? rest : { ...rest, [videoId]: sec } };
 }
 
-/** Where to start: the saved position, unless it is at the very start or end, or the video is a rewatch. */
-export function startPosition(p: CollectionProgress, video: Pick<VideoRecord, 'id' | 'durationSec'>): number {
-  if (video.id in p.watched) return 0;
+/**
+ * Where to start: the saved position, unless it is at the very start or end, or the video is a rewatch. After the
+ * limit (L3a) a rewatch also continues where it stopped, or 마저 보기 would replay the whole episode.
+ */
+export function startPosition(p: CollectionProgress, video: Pick<VideoRecord, 'id' | 'durationSec'>, afterLimit = false): number {
+  if (video.id in p.watched && !afterLimit) return 0;
   const pos = p.position[video.id] ?? 0;
   return pos > 5 && pos < video.durationSec - 15 ? Math.floor(pos) : 0;
 }
@@ -463,6 +471,15 @@ export function upNext(
   const started = today.started.includes(current.id) && !rewatching ? today.started : [...today.started, current.id];
   const projected = { ...today, started, seconds: today.seconds + Math.max(0, remainingSec) };
   if (limitReached(projected, limits)) return { kind: 'limit' };
+  return afterCurrent(data, current);
+}
+
+/** P4: a video that failed never counts, so only the limit as it stands now can stop the next episode. */
+export function upNextAfterError(data: CollectionData, current: VideoRecord, today: TodayState, limits: Limits): UpNext {
+  return limitReached(today, limits) ? { kind: 'limit' } : afterCurrent(data, current);
+}
+
+function afterCurrent(data: CollectionData, current: VideoRecord): UpNext {
   const next = nextInOrder(data, current.id);
   if (!next) return { kind: 'done' };
   return { kind: 'next', video: next, newGroup: next.group !== current.group };

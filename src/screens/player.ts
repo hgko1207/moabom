@@ -11,6 +11,7 @@ import {
   episodeLabel,
   errorStep,
   isRewatch,
+  limitReached,
   localDate,
   nextInOrder,
   playerButtonOn,
@@ -30,6 +31,7 @@ import {
   shouldCutAtLimit,
   startPosition,
   upNext,
+  upNextAfterError,
   upNextScope,
   viewingOrder,
   withToday,
@@ -53,6 +55,7 @@ import {
   setBack,
   store,
   thumb,
+  thumbUrl,
   type Route,
 } from '../ui.ts';
 
@@ -90,7 +93,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   let history = withToday(store.history(profile.id), today, collectionOfVideo);
   // Free groups (compilations, clips) play on inside their own tab; series groups walk the episodes.
   const scope = upNextScope(c.data, c.config, video);
-  const start = startPosition(progress, video);
+  const start = startPosition(progress, video, limitReached(today, limits));
   // Seconds until this rewatch counts as one more episode (L1a); null when there is nothing left to count.
   let rewatchLeft = isRewatch(today, video.id, start) ? COUNT_AFTER_SEC : null;
   if (c.config.color) setAccent(c.config.color);
@@ -136,12 +139,23 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     </div>
     ${controls ? `<div class="controls" role="group" aria-label="재생 버튼">${controls}</div>` : ''}
     <div class="next-slot" aria-live="polite">${nextSlot}</div>
+    <div class="after"></div>
     <p class="detect-off" hidden>이 기기에서는 다른 영상으로 넘어가도 막지 못해요</p>
   </main>`;
   bindBack();
 
   const main = app.querySelector<HTMLElement>('.player-screen')!;
   const overlay = app.querySelector<HTMLElement>('.overlay')!;
+  const after = app.querySelector<HTMLElement>('.after')!;
+  // Upright, the page under the video is free, so the choice sits there at full size and the overlay only covers
+  // the video. On its side, or in big mode, the video fills the screen and the choice stays on it.
+  const upright = window.matchMedia('(orientation: portrait)');
+  const seatChoice = () => {
+    const body = main.querySelector('.overlay-body');
+    if (body) (upright.matches && !main.classList.contains('big') ? after : overlay).append(body);
+  };
+  upright.addEventListener('change', seatChoice);
+  onLeave(() => upright.removeEventListener('change', seatChoice));
   let counted = false;
   let player: PlayerHandle | null = null;
 
@@ -171,6 +185,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   const setBig = (on: boolean) => {
     main.classList.toggle('big', on);
     app.querySelector('.big-toggle')?.setAttribute('aria-pressed', String(on));
+    seatChoice();
   };
   const enterBig = async () => {
     setBig(true);
@@ -219,8 +234,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   const replay = () => {
     // A same-day rewatch: one more episode after 10 s (L1a), and the minutes count as always (L2).
     rewatchLeft = isRewatch(today, video.id, 0) ? COUNT_AFTER_SEC : null;
-    overlay.hidden = true;
-    overlay.innerHTML = '';
+    hideOverlay();
     progress = recordPosition(progress, video.id, null);
     save();
     player?.restart();
@@ -240,11 +254,24 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     root.querySelector('[data-action="list"]')?.addEventListener('click', () => backTo(listRoute));
   };
 
-  const showOverlay = (inner: string) => {
-    overlay.innerHTML = `<div class="overlay-body">${inner}</div>`;
+  const hideOverlay = () => {
+    overlay.hidden = true;
+    overlay.replaceChildren();
+    after.replaceChildren();
+  };
+
+  const showOverlay = (inner: string): HTMLElement => {
+    hideOverlay();
+    const body = document.createElement('div');
+    body.className = 'overlay-body';
+    body.innerHTML = inner;
+    overlay.append(body);
+    overlay.style.setProperty('--finished', `url("${thumbUrl(video.id)}")`);
     overlay.hidden = false;
-    bindOverlayActions(overlay);
-    overlay.querySelector<HTMLButtonElement>('button')?.focus();
+    seatChoice();
+    bindOverlayActions(body);
+    body.querySelector<HTMLButtonElement>('button')?.focus();
+    return body;
   };
 
   const listButton = `<button class="overlay-small" data-action="list" aria-label="목록으로">${icon('back', 32)}</button>`;
@@ -268,11 +295,10 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     window.clearTimeout(resumeCheck);
     resumeCheck = window.setTimeout(() => {
       if (player?.isPlaying() || !overlay.hidden) return;
-      showOverlay(`<button class="upnext resume" data-action="resume" aria-label="이어 보기">
+      const body = showOverlay(`<button class="upnext resume" data-action="resume" aria-label="이어 보기">
           ${thumb(video.id, String(video.order), `<span class="play" aria-hidden="true">${icon('play', 32)}</span>`, true)}</button>${listButton}`);
-      overlay.querySelector('[data-action="resume"]')?.addEventListener('click', () => {
-        overlay.hidden = true;
-        overlay.innerHTML = '';
+      body.querySelector('[data-action="resume"]')?.addEventListener('click', () => {
+        hideOverlay();
         player?.play();
       });
     }, 1000);
@@ -351,13 +377,12 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
       if (o.notice) {
         showOverlay(`<div class="overlay-icon" aria-hidden="true">${icon('offline', 64)}</div>
           <p class="overlay-text" role="status">인터넷 연결을 확인해 주세요</p>
-          <button class="overlay-small" data-action="reload" aria-label="다시 시도">${icon('again', 32)}</button>${listButton}`);
-        overlay.querySelector('[data-action="reload"]')?.addEventListener('click', () => location.reload());
+          <button class="overlay-small" data-action="reload" aria-label="다시 시도">${icon('again', 32)}</button>${listButton}`)
+          .querySelector('[data-action="reload"]')?.addEventListener('click', () => location.reload());
         return;
       }
-      const u = upNext(scope, video, today, limits, 0);
+      const u = upNextAfterError(scope, video, today, limits);
       const skip = o.advance && u.kind === 'next' && canStart(today, limits, u.video.id);
-      // On a phone the overlay is only as tall as the video, so no big card beside the words.
       const way =
         u.kind === 'next' && canStart(today, limits, u.video.id)
           ? `<button class="overlay-small" data-next="${esc(u.video.id)}" aria-label="다음 편">${icon('skip-forward', 32)}</button>`
@@ -371,11 +396,10 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     },
     onForeignVideo(resumeAt) {
       // P2 + design D8: offer to continue the episode the child was watching.
-      showOverlay(`<button class="upnext resume" data-action="resume" aria-label="이어 보기: ${esc(video.displayTitle)}">
+      const body = showOverlay(`<button class="upnext resume" data-action="resume" aria-label="이어 보기: ${esc(video.displayTitle)}">
           ${thumb(video.id, String(video.order), `<span class="play" aria-hidden="true">${icon('play', 32)}</span>`, true)}</button>${listButton}`);
-      overlay.querySelector('[data-action="resume"]')?.addEventListener('click', () => {
-        overlay.hidden = true;
-        overlay.innerHTML = '';
+      body.querySelector('[data-action="resume"]')?.addEventListener('click', () => {
+        hideOverlay();
         player?.load(video.id, Math.max(0, resumeAt - 2));
       });
     },
@@ -396,7 +420,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     .catch(() => {
       showOverlay(`<div class="overlay-icon" aria-hidden="true">${icon('offline', 64)}</div>
         <p class="overlay-text" role="status">영상을 불러오지 못했어요</p>
-        <button class="overlay-small" data-action="reload" aria-label="다시 시도">${icon('again', 32)}</button>${listButton}`);
-      overlay.querySelector('[data-action="reload"]')?.addEventListener('click', () => location.reload());
+        <button class="overlay-small" data-action="reload" aria-label="다시 시도">${icon('again', 32)}</button>${listButton}`)
+        .querySelector('[data-action="reload"]')?.addEventListener('click', () => location.reload());
     });
 }

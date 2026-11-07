@@ -64,7 +64,7 @@ export function renderCollections(profile: Profile, collections: Collection[], s
       const cover = c.config.coverVideoId ?? c.data.groups[0]?.videos[0]?.id ?? '';
       // A character with a video in progress shows how far it got, like the cards inside.
       const view = views.get(c.config.id)!;
-      const bar = view.resume && view.highlight ? progressBar(startPosition(view.progress, view.highlight), view.highlight.durationSec) : '';
+      const bar = view.resume && view.highlight ? progressBar(startPosition(view.progress, view.highlight, view.limited), view.highlight.durationSec) : '';
       // After the limit the night sky says it; the tiles only dim, so no picture is covered (D9, 2026-11-07).
       return `<button class="tile${resting ? ' locked' : ''}" data-collection="${esc(c.config.id)}" aria-label="${esc(c.config.displayName)}${resting ? ', 오늘은 여기까지' : ''}">
           ${thumb(cover, c.config.displayName.slice(0, 1), bar, true)}<span class="label">${esc(c.config.displayName)}</span></button>`;

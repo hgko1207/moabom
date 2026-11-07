@@ -47,6 +47,15 @@ window.addEventListener('offline', () => {
   if (!activePlayer()) render();
 });
 
+// A moon left open overnight: the new day starts when the app comes back, not at the next tap.
+let shownDate = localDate(new Date());
+document.addEventListener('visibilitychange', () => {
+  const date = localDate(new Date());
+  if (document.visibilityState !== 'visible' || date === shownDate) return;
+  shownDate = date;
+  if (!activePlayer()) render();
+});
+
 // After a deploy, an app left open (a home screen app often is, for days) keeps running the old code until it is
 // restarted, so new features and fixes seem missing. When the app comes back to the foreground, compare our build
 // with the published one and reload if it changed; never during playback. No-op in dev (no hashed bundle).

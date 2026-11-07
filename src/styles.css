@@ -671,7 +671,9 @@ button:active:not([aria-disabled='true']) {
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: rgba(27, 34, 48, 0.92);
+  /* Light, because dark means the day is over. Opaque, so YouTube's own end screen stays covered: the picture that
+     just played rests under a wash of sky. */
+  background: linear-gradient(rgb(226 238 251 / 0.86) 0 0), var(--finished, none) center / cover, #e2eefb;
   display: grid;
   place-items: center;
   padding: var(--s1) var(--s2);
@@ -692,7 +694,29 @@ button:active:not([aria-disabled='true']) {
   justify-content: center;
   gap: var(--s1) var(--s2);
   flex-wrap: wrap;
-  color: var(--surface);
+  color: var(--ink);
+}
+
+/* Upright: the choice sits under the video at full size, not squeezed into the video's box. */
+.after:empty {
+  display: none;
+}
+
+.after .overlay-body {
+  flex-direction: column;
+  gap: var(--s2);
+  margin-top: var(--s3);
+}
+
+.after .upnext {
+  max-width: 480px;
+}
+
+.after .overlay-small {
+  width: 100%;
+  max-width: 480px;
+  height: 88px;
+  box-shadow: 0 8px 22px rgb(20 40 80 / 0.12);
 }
 
 /* Sized from the video, not the screen: the overlay clips, so the card and 한 번 더 must fit its 16:9 box on one row. */
@@ -713,12 +737,12 @@ button:active:not([aria-disabled='true']) {
 }
 
 .overlay-icon {
-  color: var(--surface);
+  color: var(--ink-2);
 }
 
-/* The overlay clips at the video's height: on a phone the words carry it without the picture. */
+/* The overlay clips at the video's height: in a small box the words carry it without the picture. */
 @container (max-width: 420px) {
-  .overlay-icon {
+  .overlay .overlay-icon {
     display: none;
   }
 }
@@ -808,7 +832,7 @@ body.night {
 }
 
 .night-sub {
-  margin: 4px 0 var(--s4);
+  margin: 4px 0 var(--s3);
   font-size: 18px;
   color: var(--night-ink);
 }
@@ -821,21 +845,35 @@ body.night {
   animation: moon-settle 700ms cubic-bezier(0.25, 1, 0.5, 1) both;
 }
 
+/* The day in one small row: up to three pictures, so 내일 and 오늘만 더 stay on the same page. */
 .today-row {
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: var(--s2);
+  gap: var(--s1);
+  width: 100%;
 }
 
 .today-row .thumb {
-  width: 180px;
+  flex: 0 1 112px;
+  min-width: 0;
+}
+
+.today-row .badge.state {
+  top: 4px;
+  right: 4px;
+  width: 28px;
+  height: 28px;
+}
+
+.today-row .badge.state .icon {
+  width: 18px;
+  height: 18px;
 }
 
 .tomorrow {
   display: grid;
   justify-items: center;
-  margin-top: var(--s4);
+  margin-top: var(--s3);
 }
 
 /* Tomorrow is smaller than today and asleep: the picture fades, the moon badge stays bright. */
@@ -1669,7 +1707,7 @@ details.paste summary::-webkit-details-marker {
   margin: 0;
   font-size: 18px;
   font-weight: 700;
-  color: #fff;
+  color: var(--ink);
   text-align: center;
   word-break: keep-all;
 }
@@ -3007,8 +3045,9 @@ details.paste summary::-webkit-details-marker {
   word-break: keep-all;
 }
 
-/* Tablets: the closing page fills the night instead of floating small in it. */
-@media (min-width: 700px) {
+/* Tablets: the closing page fills the night instead of floating small in it. Only when it is tall enough too:
+   a wide, low screen keeps the phone sizes. */
+@media (min-width: 700px) and (min-height: 720px) {
   .night-screen .moon .art-moon {
     width: 200px;
     height: 200px;
@@ -3023,11 +3062,53 @@ details.paste summary::-webkit-details-marker {
   }
 
   .today-row .thumb {
-    width: 260px;
+    flex-basis: 200px;
   }
 
   .tomorrow .thumb {
     width: 180px;
+  }
+}
+
+/* A low screen on its side: the moon and its words on the left, tomorrow on the right, nothing to scroll. */
+@media (orientation: landscape) and (max-height: 640px) {
+  .night-page {
+    grid-template-columns: auto auto;
+    justify-content: center;
+    align-items: center;
+    column-gap: var(--s4);
+    padding-bottom: 0;
+  }
+
+  .night-page > * {
+    grid-column: 1;
+  }
+
+  .night-page > :is(.tomorrow, .resume-note) {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    margin: 0;
+  }
+
+  .night-screen .moon {
+    margin-bottom: var(--s1);
+  }
+
+  .night-screen .moon .art-moon {
+    width: 72px;
+    height: 72px;
+  }
+
+  .night-title {
+    font-size: 26px;
+  }
+
+  .night-sub {
+    margin-bottom: 0;
+  }
+
+  .today-row {
+    display: none;
   }
 }
 
@@ -3050,8 +3131,11 @@ details.paste summary::-webkit-details-marker {
    the moon screen's night (body.rest). Dark means the day is over, so nothing else is dark. */
 body.sky,
 body.rest {
-  position: relative;
   overflow-x: clip;
+}
+
+#app {
+  position: relative;
 }
 
 body:is(.sky, .rest) .screen {
@@ -3060,19 +3144,26 @@ body:is(.sky, .rest) .screen {
   color: var(--ink);
 }
 
-body.sky::before {
+/* Inside #app so it starts under the in-app bar and never makes a short page scroll. The top stays deep enough for
+   white words (3:1 down to 104px, past a wrapped title), then melts. */
+body.sky #app::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 620px;
-  background: linear-gradient(var(--sky) 0, #7fb2ec 96px, #cfe2f7 280px, var(--bg) 620px);
+  height: min(620px, 100%);
+  background: linear-gradient(var(--sky) 64px, #4f97e6 104px, #cfe2f7 300px, var(--bg) 620px);
+}
+
+/* the green ring melts into the sky; ink holds on both sky and paper */
+body.sky :focus-visible {
+  outline-color: var(--ink);
 }
 
 /* mid-sky needs a darker second line than plain paper */
 body.sky .screen:not(.settings) {
-  --ink-2: #3b4a55;
+  --ink-2: #35434d;
 }
 
 body:is(.sky, .rest) :is(.bar h1, .home-bar .logo, .bar .gear) {
@@ -3183,11 +3274,20 @@ body.rest .card .ep {
 }
 
 /* paper things keep paper colours under the night */
-body.rest :is(.tab, .intro, .install-hint, .panel, .badge, .thumb, .back) {
+body.rest :is(.tab, .intro, .install-hint, .panel, .thumb, .back) {
   --ink: #18221e;
   --ink-2: #5b6b62;
   --line: #dfe6d6;
   color: var(--ink);
+}
+
+/* badges colour their own words; they only need the paper ink behind them */
+body.rest .badge {
+  --ink: #18221e;
+}
+
+body.rest .hidden-line .text-button {
+  color: var(--night-ink);
 }
 
 /* a resting picture dims into the night, not into paper */
@@ -3285,6 +3385,11 @@ body.rest :is(.tile, .card) .thumb {
     width: 100%;
     margin-top: 0;
   }
+
+  /* the choice under the video is the whole page: no caption of the episode that just ended */
+  .player-screen:not(.big):has(.overlay:not([hidden])) .player-info {
+    display: none;
+  }
 }
 
 @media (max-width: 700px) {
@@ -3362,6 +3467,6 @@ body.rest :is(.tile, .card) .thumb {
 }
 
 /* small words on mid-sky need full ink */
-body.sky .gate-why {
+body.sky :is(.gate-why, .settings .menu-group, .settings > .hint) {
   color: var(--ink);
 }

@@ -12,6 +12,7 @@ import {
   resumableAfterLimit,
   seriesOnly,
   startPosition,
+  todaysPictures,
   viewingOrder,
 } from '../rules.ts';
 import {
@@ -23,6 +24,7 @@ import {
   bindGear,
   bindHold,
   bindInstallHint,
+  collectionOfVideo,
   collectionView,
   duration,
   esc,
@@ -41,6 +43,7 @@ import {
   staleNote,
   store,
   thumb,
+  videoById,
   type CollectionView,
   type Route,
 } from '../ui.ts';
@@ -49,7 +52,7 @@ function heroHtml(view: CollectionView, first: VideoRecord | undefined, config: 
   const next = view.highlight;
   if (next) {
     const label = episodeLabel(config, next);
-    const at = view.resume ? startPosition(view.progress, next) : 0;
+    const at = view.resume ? startPosition(view.progress, next, view.limited) : 0;
     const what = view.resume ? '이어 보기' : '다음 편';
     const when = view.resume ? `${duration(at)}부터` : duration(next.durationSec);
     return `<button class="hero" data-video="${esc(next.id)}" aria-label="${what}: ${esc(label)} ${esc(next.displayTitle)}">
@@ -106,7 +109,7 @@ function cardHtml(v: VideoRecord, view: CollectionView, config: CollectionConfig
   const here = isNext && !locked ? `<span class="badge here" aria-hidden="true">${view.resume ? '이어 보기' : '여기부터'}</span>` : '';
   const cls = ['card', isNext ? 'next' : '', failed ? 'failed' : '', locked ? 'locked' : ''].filter(Boolean).join(' ');
   return `<button class="${cls}" data-video="${esc(v.id)}" tabindex="-1" aria-label="${esc(label)} ${esc(v.displayTitle)}${status}">
-    ${thumb(v.id, String(v.order), `<span class="badge len" aria-hidden="true">${duration(v.durationSec)}</span>${state}${here}${locked ? '' : progressBar(startPosition(view.progress, v), v.durationSec)}`)}
+    ${thumb(v.id, String(v.order), locked ? '' : `<span class="badge len" aria-hidden="true">${duration(v.durationSec)}</span>${state}${here}${progressBar(startPosition(view.progress, v, view.limited), v.durationSec)}`)}
     <span class="ep" aria-hidden="true">${esc(label)}</span><span class="title" aria-hidden="true">${esc(v.displayTitle)}</span></button>`;
 }
 
@@ -163,8 +166,27 @@ export function renderCollection(profile: Profile, c: Collection, groupParam: st
       app.querySelector<HTMLButtonElement>(`.tab[data-group="${CSS.escape(b.dataset.group!)}"]`)?.focus();
     }),
   );
+  setupTabKeys();
   setupGridKeys();
   centerSelectedTab();
+}
+
+/** One tab is in the Tab order; arrow keys, Home and End walk the row, and Enter or Space opens the tab. */
+function setupTabKeys(): void {
+  const row = app.querySelector<HTMLElement>('.tabs');
+  if (!row) return;
+  const tabs = [...row.querySelectorAll<HTMLButtonElement>('.tab')];
+  row.addEventListener('keydown', (e) => {
+    const i = tabs.indexOf(document.activeElement as HTMLButtonElement);
+    if (i < 0) return;
+    const to = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+    if (to === undefined) return;
+    const target = tabs[(to + tabs.length) % tabs.length]!;
+    e.preventDefault();
+    tabs[i]!.tabIndex = -1;
+    target.tabIndex = 0;
+    target.focus();
+  });
 }
 
 /** The row scrolls sideways and starts over on each render, so the open tab can sit past its edge. */
@@ -202,19 +224,26 @@ function setupGridKeys(): void {
 
 // ---------- that's all for today (design D9) ----------
 
+const TODAY_PICTURES = 3;
+
 export function renderTodayDone(profile: Profile, c: Collection, listRoute: Route): void {
   const today = store.today(profile.id, localDate(new Date()));
   const limits = limitsFor(profile);
   if (!limitReached(today, limits)) return replace(listRoute);
   analytics.limitReached(limits.dailyMinutes !== null && today.seconds >= limits.dailyMinutes * 60 ? 'minutes' : 'episodes');
   const all = viewingOrder(c.data);
-  // A rewatch is in `started` twice (L1a); today's pictures show each episode once.
-  const seen = [...new Set(today.started)].flatMap((id) => all.find((v) => v.id === id) ?? []);
+  // The last few episodes of the day, whichever character they were, so the page stays one page.
+  const seen = todaysPictures(today, TODAY_PICTURES).flatMap((id) => videoById(id) ?? []);
   const progress = store.progress(profile.id, c.config.id);
+  // A rewatch that stopped early is unfinished today (L1a), but the episode was still seen to its end.
+  const seenToEnd = (id: string) =>
+    today.finished.includes(id) || id in store.progress(profile.id, collectionOfVideo(id) ?? c.config.id).watched;
   // A compilation cut off by the limit is what continues tomorrow; otherwise the next episode.
   const cut = [...today.stopped].reverse().flatMap((id) => all.find((v) => v.id === id) ?? [])[0];
   const tomorrow = cut ?? heroPick(c.data, c.config, progress, profile.startGroup?.[c.config.id])?.video ?? null;
+  // The episode to finish can belong to another character; 마저 보기 goes to it there.
   const resumable = resumableAfterLimit(today);
+  const resumeIn = resumable && (all.some((v) => v.id === resumable) ? c.config.id : collectionOfVideo(resumable));
 
   setGround('night');
   setBack(() => backTo(listRoute));
@@ -227,10 +256,10 @@ export function renderTodayDone(profile: Profile, c: Collection, listRoute: Rout
       <h1 class="night-title">오늘은 여기까지</h1>
       <p class="night-sub">내일 또 만나요</p>
       <section aria-label="오늘 본 영상" class="today-row">${seen
-        .map((v) => thumb(v.id, String(v.order), today.finished.includes(v.id) ? `<span class="badge state done" aria-hidden="true">${icon('check', 24)}</span>` : '', true))
+        .map((v) => thumb(v.id, String(v.order), seenToEnd(v.id) ? `<span class="badge state done" aria-hidden="true">${icon('check', 24)}</span>` : '', true))
         .join('')}</section>
       ${
-        resumable
+        resumable && resumeIn
           ? `<p class="resume-note"><button class="hero-mini" data-video="${esc(resumable)}">${icon('play', 28)}<span>보던 영상 마저 보기</span></button></p>`
           : tomorrow
             ? `<section aria-label="내일 볼 영상" class="tomorrow">${thumb(tomorrow.id, String(tomorrow.order), `<span class="badge state locked" aria-hidden="true">${moon(24)}</span>`, true)}<p>내일</p></section>`
@@ -244,6 +273,6 @@ export function renderTodayDone(profile: Profile, c: Collection, listRoute: Rout
   const more = app.querySelector<HTMLButtonElement>('[data-action="more-today"]');
   if (more) bindHold(more, () => go({ profile: profile.id, settings: true }));
   app.querySelector<HTMLButtonElement>('[data-video]')?.addEventListener('click', (e) =>
-    replace({ ...listRoute, video: (e.currentTarget as HTMLButtonElement).dataset.video! }),
+    replace({ ...listRoute, collection: resumeIn || c.config.id, video: (e.currentTarget as HTMLButtonElement).dataset.video! }),
   );
 }

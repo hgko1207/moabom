@@ -270,7 +270,7 @@ export function collectionView(profile: Profile, c: Collection): CollectionView 
   const resumable = resumableAfterLimit(today);
   if (limited) {
     const highlight = all.find((v) => v.id === resumable) ?? null;
-    return { progress, today, limited, highlight, resume: highlight !== null && startPosition(progress, highlight) > 0 };
+    return { progress, today, limited, highlight, resume: highlight !== null && startPosition(progress, highlight, true) > 0 };
   }
   const pick = heroPick(c.data, c.config, progress, profile.startGroup?.[c.config.id]);
   return { progress, today, limited, highlight: pick?.video ?? null, resume: pick?.resume ?? false };
@@ -284,6 +284,12 @@ export function collectionOfVideo(videoId: string): string | null {
     [...appData.collections.values()].flatMap((c) => viewingOrder(c.data).map((v) => [v.id, c.config.id] as const)),
   );
   return videoCollections.get(videoId) ?? null;
+}
+
+/** A video from any collection, for the screens that span them. */
+export function videoById(videoId: string): VideoRecord | null {
+  const c = appData.collections.get(collectionOfVideo(videoId) ?? '');
+  return (c && viewingOrder(c.data).find((v) => v.id === videoId)) ?? null;
 }
 
 // ---------- settings links from another device ----------

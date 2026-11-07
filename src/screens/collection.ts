@@ -14,6 +14,7 @@ import {
   startPosition,
   todaysPictures,
   viewingOrder,
+  visibleCollectionIds,
 } from '../rules.ts';
 import {
   analytics,
@@ -232,18 +233,22 @@ export function renderTodayDone(profile: Profile, c: Collection, listRoute: Rout
   if (!limitReached(today, limits)) return replace(listRoute);
   analytics.limitReached(limits.dailyMinutes !== null && today.seconds >= limits.dailyMinutes * 60 ? 'minutes' : 'episodes');
   const all = viewingOrder(c.data);
+  const shown = new Set(visibleCollectionIds(profile.collections, store.settings()));
+  const isShown = (id: string) => shown.has(collectionOfVideo(id) ?? '');
+  // The episode to finish, on any character the children can still open; 마저 보기 goes to it there.
+  const last = resumableAfterLimit(today);
+  const resumable = last && isShown(last) ? videoById(last) : null;
+  const resumeIn = resumable && (all.some((v) => v.id === resumable.id) ? c.config.id : collectionOfVideo(resumable.id));
   // The last few episodes of the day, whichever character they were, so the page stays one page.
-  const seen = todaysPictures(today, TODAY_PICTURES).flatMap((id) => videoById(id) ?? []);
+  const started = today.started.filter((id) => id !== resumable?.id && isShown(id));
+  const seen = todaysPictures(started, TODAY_PICTURES).flatMap((id) => videoById(id) ?? []);
   const progress = store.progress(profile.id, c.config.id);
-  // A rewatch that stopped early is unfinished today (L1a), but the episode was still seen to its end.
+  // A rewatch that stopped early is unfinished today (L1a), but the episode was still seen to its end once.
   const seenToEnd = (id: string) =>
     today.finished.includes(id) || id in store.progress(profile.id, collectionOfVideo(id) ?? c.config.id).watched;
   // A compilation cut off by the limit is what continues tomorrow; otherwise the next episode.
   const cut = [...today.stopped].reverse().flatMap((id) => all.find((v) => v.id === id) ?? [])[0];
   const tomorrow = cut ?? heroPick(c.data, c.config, progress, profile.startGroup?.[c.config.id])?.video ?? null;
-  // The episode to finish can belong to another character; 마저 보기 goes to it there.
-  const resumable = resumableAfterLimit(today);
-  const resumeIn = resumable && (all.some((v) => v.id === resumable) ? c.config.id : collectionOfVideo(resumable));
 
   setGround('night');
   setBack(() => backTo(listRoute));
@@ -259,8 +264,8 @@ export function renderTodayDone(profile: Profile, c: Collection, listRoute: Rout
         .map((v) => thumb(v.id, String(v.order), seenToEnd(v.id) ? `<span class="badge state done" aria-hidden="true">${icon('check', 24)}</span>` : '', true))
         .join('')}</section>
       ${
-        resumable && resumeIn
-          ? `<p class="resume-note"><button class="hero-mini" data-video="${esc(resumable)}">${icon('play', 28)}<span>보던 영상 마저 보기</span></button></p>`
+        resumable
+          ? `<section aria-label="마저 볼 영상" class="tomorrow resume"><button data-video="${esc(resumable.id)}" aria-label="보던 영상 마저 보기: ${esc(resumable.displayTitle)}">${thumb(resumable.id, String(resumable.order), `<span class="badge state play" aria-hidden="true">${icon('play', 28)}</span>`, true)}</button><p>마저 보기</p></section>`
           : tomorrow
             ? `<section aria-label="내일 볼 영상" class="tomorrow">${thumb(tomorrow.id, String(tomorrow.order), `<span class="badge state locked" aria-hidden="true">${moon(24)}</span>`, true)}<p>내일</p></section>`
             : ''

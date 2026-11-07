@@ -892,23 +892,18 @@ body.night {
   color: var(--night-ink);
 }
 
-.resume-note {
-  display: grid;
-  justify-items: center;
-  margin-top: var(--s3);
+/* The episode to finish takes tomorrow's place, awake: its picture and a play mark, for those who cannot read. */
+.tomorrow.resume .thumb img {
+  opacity: 1;
 }
 
-.hero-mini {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  min-height: var(--target);
-  padding: 0 var(--s3);
-  border-radius: 16px;
+.tomorrow.resume .badge.play {
+  inset: 0;
+  margin: auto;
+  width: 48px;
+  height: 48px;
   background: var(--accent-ink);
   color: var(--surface);
-  font-size: 18px;
-  font-weight: 700;
 }
 
 /* Shown only inside KakaoTalk's in-app browser if the hand-off to Chrome/Safari did not happen */
@@ -3046,8 +3041,8 @@ details.paste summary::-webkit-details-marker {
 }
 
 /* Tablets: the closing page fills the night instead of floating small in it. Only when it is tall enough too:
-   a wide, low screen keeps the phone sizes. */
-@media (min-width: 700px) and (min-height: 720px) {
+   the big sizes need about 800px, so an iPad on its side keeps the phone sizes. */
+@media (min-width: 700px) and (min-height: 800px) {
   .night-screen .moon .art-moon {
     width: 200px;
     height: 200px;
@@ -3070,8 +3065,28 @@ details.paste summary::-webkit-details-marker {
   }
 }
 
-/* A low screen on its side: the moon and its words on the left, tomorrow on the right, nothing to scroll. */
-@media (orientation: landscape) and (max-height: 640px) {
+/* A small upright phone: the same page, a size down. */
+@media (max-height: 640px) and (max-width: 479px) {
+  .night-screen .moon .art-moon {
+    width: 88px;
+    height: 88px;
+  }
+
+  .night-sub {
+    margin-bottom: var(--s2);
+  }
+
+  .tomorrow {
+    margin-top: var(--s2);
+  }
+
+  .tomorrow .thumb {
+    width: 112px;
+  }
+}
+
+/* A low, wide screen: the moon and its words on the left, tomorrow on the right, nothing to scroll. */
+@media (max-height: 640px) and (min-width: 480px) {
   .night-page {
     grid-template-columns: auto auto;
     justify-content: center;
@@ -3084,9 +3099,9 @@ details.paste summary::-webkit-details-marker {
     grid-column: 1;
   }
 
-  .night-page > :is(.tomorrow, .resume-note) {
+  .night-page > .tomorrow {
     grid-column: 2;
-    grid-row: 1 / span 3;
+    grid-row: 1 / span 4;
     margin: 0;
   }
 
@@ -3103,6 +3118,17 @@ details.paste summary::-webkit-details-marker {
     font-size: 26px;
   }
 
+  .night-sub {
+    margin-bottom: var(--s2);
+  }
+
+  .today-row {
+    width: min(352px, 50vw);
+  }
+}
+
+/* A phone on its side has no height for today's pictures. */
+@media (max-height: 480px) {
   .night-sub {
     margin-bottom: 0;
   }
@@ -3163,7 +3189,7 @@ body.sky :focus-visible {
 
 /* mid-sky needs a darker second line than plain paper */
 body.sky .screen:not(.settings) {
-  --ink-2: #35434d;
+  --ink-2: #2f3d47;
 }
 
 body:is(.sky, .rest) :is(.bar h1, .home-bar .logo, .bar .gear) {
@@ -3274,7 +3300,7 @@ body.rest .card .ep {
 }
 
 /* paper things keep paper colours under the night */
-body.rest :is(.tab, .intro, .install-hint, .panel, .thumb, .back) {
+body.rest :is(.tab, .intro, .install-hint, .panel, .thumb, .back, .bar .hold-hint) {
   --ink: #18221e;
   --ink-2: #5b6b62;
   --line: #dfe6d6;
@@ -3330,8 +3356,11 @@ body.rest :is(.tile, .card) .thumb {
 }
 
 .player-screen .control {
-  background: var(--surface);
   box-shadow: 0 6px 16px rgb(24 60 110 / 0.1);
+}
+
+.player-screen .control:not(.fill) {
+  background: var(--surface);
 }
 
 .player-screen .next-preview {
@@ -3384,6 +3413,21 @@ body.rest :is(.tile, .card) .thumb {
     max-width: none;
     width: 100%;
     margin-top: 0;
+  }
+
+  /* the picture of what plays next is the one next control */
+  .player-screen:not(.big):has(.next-preview) .go-next {
+    display: none;
+  }
+
+  .player-screen:not(.big):has(.next-preview) .controls:not(:has(.go-prev, .fill)) {
+    display: none;
+  }
+
+  /* what stays is small and to the side: going back should not be the biggest thing on the page */
+  .player-screen:not(.big):has(.next-preview) .control {
+    flex: 0 0 96px;
+    height: var(--target);
   }
 
   /* the choice under the video is the whole page: no caption of the episode that just ended */
@@ -3445,6 +3489,33 @@ body.rest :is(.tile, .card) .thumb {
   }
 }
 
+/* a tablet: a smaller title and a wider column, so a long title stays beside its picture */
+@media (min-width: 701px) and (max-width: 1023px) {
+  .hero:not(.night) {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: var(--s3);
+  }
+
+  .hero:not(.night) .title {
+    font-size: 30px;
+  }
+}
+
+/* Titles run long, about one in five past 20 letters: whole words, and three lines at most so the picture stays first. */
+.hero:not(.night, .done) .title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.hero .title,
+.card .title,
+.episode-title {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
 /* a phone on its side: a small first picture, so the characters show too */
 @media (orientation: landscape) and (max-height: 520px) {
   .hero:not(.night) {
@@ -3464,6 +3535,12 @@ body.rest :is(.tile, .card) .thumb {
     height: 22px;
     margin-left: 2px;
   }
+}
+
+/* Today's last episode: nothing beside the video can end the day by accident. */
+.player-screen.ending :is(.go-prev, .go-next),
+.player-screen.ending .controls:not(:has(.fill)) {
+  display: none;
 }
 
 /* small words on mid-sky need full ink */

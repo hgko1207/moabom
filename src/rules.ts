@@ -335,8 +335,8 @@ export function canStart(today: TodayState, limits: Limits, videoId: string): bo
 }
 
 /** The moon screen's pictures: the last episodes started today, each once, oldest first. */
-export function todaysPictures(today: TodayState, count: number): string[] {
-  return [...new Set([...today.started].reverse())].slice(0, count).reverse();
+export function todaysPictures(started: string[], count: number): string[] {
+  return [...new Set([...started].reverse())].slice(0, count).reverse();
 }
 
 /** L1/L2: add real playing time. A video counts as started once it reaches 10 s today. */
@@ -398,11 +398,12 @@ export function recordPosition(p: CollectionProgress, videoId: string, sec: numb
 
 /**
  * Where to start: the saved position, unless it is at the very start or end, or the video is a rewatch. After the
- * limit (L3a) a rewatch also continues where it stopped, or 마저 보기 would replay the whole episode.
+ * limit (L3a) the episode always continues where it stopped, even near its end, or 마저 보기 would replay all of it.
  */
 export function startPosition(p: CollectionProgress, video: Pick<VideoRecord, 'id' | 'durationSec'>, afterLimit = false): number {
-  if (video.id in p.watched && !afterLimit) return 0;
   const pos = p.position[video.id] ?? 0;
+  if (afterLimit) return pos > 5 ? Math.floor(Math.min(pos, video.durationSec - 1)) : 0;
+  if (video.id in p.watched) return 0;
   return pos > 5 && pos < video.durationSec - 15 ? Math.floor(pos) : 0;
 }
 

@@ -160,6 +160,14 @@ describe('rewatching a finished episode (L1a)', () => {
     expect(startPosition(p, v, true)).toBe(200);
   });
 
+  it('does not start over after the limit when it stopped near the end', () => {
+    const v = { id: 'a', durationSec: 300 };
+    expect(startPosition(recordPosition(progress(['a']), 'a', 295), v, true)).toBe(295);
+    expect(startPosition(recordPosition(progress(), 'a', 295), v, true)).toBe(295);
+    expect(startPosition(recordPosition(progress(['a']), 'a', 400), v, true)).toBe(299);
+    expect(startPosition(recordPosition(progress(['a']), 'a', 3), v, true)).toBe(0);
+  });
+
   it('counts no second episode for the last tenth of a first watch', () => {
     expect(recordPlay(watchedOnce, 'a', 30).started).toEqual(['a']);
   });
@@ -223,9 +231,9 @@ describe('recordProgress (O1)', () => {
 
 describe('the moon screen pictures', () => {
   it('shows the last episodes of the day, each once, oldest first', () => {
-    expect(todaysPictures(day({ started: ['a', 'b', 'c', 'd'] }), 3)).toEqual(['b', 'c', 'd']);
-    expect(todaysPictures(day({ started: ['a', 'b', 'a'] }), 3)).toEqual(['b', 'a']);
-    expect(todaysPictures(day(), 3)).toEqual([]);
+    expect(todaysPictures(['a', 'b', 'c', 'd'], 3)).toEqual(['b', 'c', 'd']);
+    expect(todaysPictures(['a', 'b', 'a'], 3)).toEqual(['b', 'a']);
+    expect(todaysPictures([], 3)).toEqual([]);
   });
 });
 

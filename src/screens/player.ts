@@ -114,19 +114,21 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   // Under the buttons (2026-10-21): what plays next, the same episode, setting and daily limit as the 다음 편
   // button; or, when today's limit ends with this episode, the moon, so the child knows well before the end.
   // This replaced the up-next card that popped up over or under the video 20 s before the end.
+  const isLastToday = (remainingSec: number): boolean =>
+    upNext(scope, video, today, limits, remainingSec, rewatchLeft !== null).kind === 'limit';
   const nextSlotHtml = (remainingSec: number): string => {
-    if (upNext(scope, video, today, limits, remainingSec, rewatchLeft !== null).kind === 'limit') {
-      return `<p class="last-today">${moon(32)}<span>오늘은 이 편이 마지막이에요</span></p>`;
-    }
+    if (isLastToday(remainingSec)) return `<p class="last-today">${moon(32)}<span>오늘은 이 편이 마지막이에요</span></p>`;
     return next && canStart(today, limits, next.id)
       ? `<button class="next-preview" data-go="${esc(next.id)}" aria-label="다음 편: ${esc(episodeLabel(c.config, next))} ${esc(next.displayTitle)}">
       ${thumb(next.id, String(next.order))}<span class="next-text"><small>다음 편</small><b>${esc(episodeLabel(c.config, next))} ${esc(next.displayTitle)}</b></span><span class="next-go" aria-hidden="true">${icon('play', 22)}</span></button>`
       : '';
   };
-  let nextSlot = nextSlotHtml(Math.max(0, video.durationSec - start));
+  const remainingAtStart = Math.max(0, video.durationSec - start);
+  let nextSlot = nextSlotHtml(remainingAtStart);
 
   setBack(() => backTo(listRoute));
-  app.innerHTML = `<main class="screen player-screen">
+  // On today's last episode 이전 편 and 다음 편 go away: pressed mid-episode they would end the day (critique 2026-11-07).
+  app.innerHTML = `<main class="screen player-screen${isLastToday(remainingAtStart) ? ' ending' : ''}">
     <div class="bar">${backButton()}
       <button class="big-toggle" data-action="big" aria-label="크게 보기" aria-pressed="false">${icon('maximize', 32)}</button></div>
     <div class="stage">
@@ -347,9 +349,11 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
       }
       save();
       // The episode can become today's last while it plays (counted after 10 s, or the minutes run low).
-      const html = nextSlotHtml(total > 0 ? total - current : Math.max(0, video.durationSec - current));
+      const remaining = total > 0 ? total - current : Math.max(0, video.durationSec - current);
+      const html = nextSlotHtml(remaining);
       if (html !== nextSlot) {
         nextSlot = html;
+        main.classList.toggle('ending', isLastToday(remaining));
         const box = app.querySelector<HTMLElement>('.next-slot');
         if (box) {
           box.innerHTML = html;

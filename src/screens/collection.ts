@@ -132,7 +132,7 @@ export function renderCollection(profile: Profile, c: Collection, groupParam: st
   if (c.config.color) setAccent(c.config.color);
   const firstEpisode = seriesOnly(c.data, c.config).groups[0]?.videos[0];
   if (view.limited) setGround('rest');
-  app.innerHTML = `<main class="screen collection"><div class="bar">${parent ? backButton() : ''}<h1>${esc(c.config.displayName)}</h1>${parent ? '' : gearButton()}</div>
+  app.innerHTML = `<main class="screen collection"><div class="bar">${parent ? backButton() : ''}<h1>${esc(c.config.displayName)}</h1>${gearButton()}</div>
     ${offlineNotice()}
     ${heroHtml(view, firstEpisode, c.config)}
     <div class="tabs" role="tablist" aria-label="${esc(c.config.groupLabel)}">${groups
@@ -151,10 +151,9 @@ export function renderCollection(profile: Profile, c: Collection, groupParam: st
       .join('')}</section>${parent ? '' : installHint()}${staleNote()}</main>`;
 
   bindBack();
-  if (!parent) {
-    bindGear(profile.id);
-    bindInstallHint(profile.id);
-  }
+  // The gear sits on every list (2026-11-08), so a parent can reach settings without going back home first.
+  bindGear(profile.id);
+  if (!parent) bindInstallHint(profile.id);
   app.querySelectorAll<HTMLButtonElement>('[data-video]').forEach((b) =>
     b.addEventListener('click', () => go({ ...base, video: b.dataset.video! })),
   );

@@ -157,6 +157,34 @@ export function heroPick(
   return next ? { video: next, resume: startPosition(p, next) > 0 } : null;
 }
 
+/**
+ * The moon screen's 내일 (critique 2026-11-08): what comes after the episodes that ended today, the same order the
+ * player offered. An episode that ended today counts as seen here even when it was not watched long enough to be
+ * marked (skipped to the end), so tomorrow does not jump back to the series' first unwatched episode.
+ */
+export function tomorrowPick(
+  data: CollectionData,
+  config: Pick<CollectionConfig, 'groups'>,
+  p: CollectionProgress,
+  finishedToday: string[],
+  startGroup?: string,
+): VideoRecord | null {
+  const ids = new Set(viewingOrder(data).map((v) => v.id));
+  const ended = finishedToday.filter((id) => ids.has(id));
+  if (ended.length === 0) return heroPick(data, config, p, startGroup)?.video ?? null;
+  const seen = { ...p, watched: { ...p.watched, ...Object.fromEntries(ended.map((id) => [id, 1])) } };
+  const last = p.last && ended.includes(p.last) ? p.last : ended[ended.length - 1]!;
+  return heroPick(data, config, { ...seen, last }, startGroup)?.video ?? null;
+}
+
+/**
+ * Titles break between words (keep-all); a closing "(… 편)" stays on one line, so a title never ends a line on
+ * "(중국" and starts the next on "편)" (critique 2026-11-08).
+ */
+export function keepTail(title: string): string {
+  return title.replace(/\(([^()]{1,16})\)\s*$/, (m) => m.replace(/ /g, ' '));
+}
+
 /** O3a: the tab to open first. */
 export function initialGroup(data: CollectionData, p: CollectionProgress, startGroup?: string): string | null {
   const next = nextToWatch(data, p, startGroup);

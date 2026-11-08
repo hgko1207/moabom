@@ -4,7 +4,7 @@ import type { Collection } from '../data.ts';
 import { icon, isIconName } from '../icons.ts';
 import { moon, sun } from '../art.ts';
 import { logo } from '../logo.ts';
-import { episodeLabel, groupByCategory, homeTitle, mostRecentCollection, progressRecency, startPosition } from '../rules.ts';
+import { episodeLabel, groupByCategory, homeTitle, keepTail, mostRecentCollection, progressRecency, startPosition } from '../rules.ts';
 import {
   analytics,
   app,
@@ -171,7 +171,7 @@ function homeContinueHtml(collections: Collection[], views: Map<string, Collecti
   return `<button class="hero home-continue" data-continue="${esc(c.config.id)}" data-video="${esc(v.id)}"
       aria-label="${what}: ${esc(c.config.displayName)} ${esc(label)} ${esc(v.displayTitle)}">
     ${thumb(v.id, String(v.order), `<span class="play" aria-hidden="true">${icon('play', 48)}</span>${progressBar(at, v.durationSec)}`, true)}
-    <div><div class="chip">${icon(view.resume ? 'again' : 'play', 20)}${what}</div><div class="title">${esc(v.displayTitle)}</div>
+    <div><div class="chip">${icon(view.resume ? 'again' : 'play', 20)}${what}</div><div class="title">${esc(keepTail(v.displayTitle))}</div>
       <div class="sub">${esc(c.config.displayName)} ${esc(label)} (${when})</div></div>
   </button>`;
 }

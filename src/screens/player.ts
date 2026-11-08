@@ -11,6 +11,7 @@ import {
   episodeLabel,
   errorStep,
   isRewatch,
+  keepTail,
   limitReached,
   localDate,
   moreAfter,
@@ -81,7 +82,7 @@ function upNextCardHtml(u: UpNext, c: Collection): string {
   const label = u.newGroup ? c.config.groups.find((g) => g.id === v.group)?.label ?? '' : '';
   return `<button class="upnext" data-next="${esc(v.id)}" aria-label="다음 편: ${esc(episodeLabel(c.config, v))} ${esc(v.displayTitle)}">
     ${thumb(v.id, String(v.order), `<span class="play" aria-hidden="true">${icon('play', 32)}</span>${label ? `<span class="badge group" aria-hidden="true">${esc(label)}</span>` : ''}`, true)}
-    <span class="title" aria-hidden="true">${v.order}. ${esc(v.displayTitle)}</span></button>`;
+    <span class="n-label" aria-hidden="true"><small>다음 편</small><b>${esc(episodeLabel(c.config, v))} ${esc(keepTail(v.displayTitle))}</b></span></button>`;
 }
 
 export function renderPlayer(profile: Profile, c: Collection, videoId: string, listRoute: Route): void {
@@ -111,7 +112,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   // with this episode the moon takes the row, and 이전 편 goes too: pressed mid-episode it would end the day.
   const isLastToday = (remainingSec: number): boolean =>
     upNext(scope, video, today, limits, remainingSec, rewatchLeft !== null).kind === 'limit';
-  const nextLabel = next ? `${episodeLabel(c.config, next)} ${next.displayTitle}` : '';
+  const nextLabel = next ? `${episodeLabel(c.config, next)} ${keepTail(next.displayTitle)}` : '';
   const nextOpen = (): boolean => !!next && canStart(today, limits, next.id);
   const rowHtml = (remainingSec: number): string => {
     if (isLastToday(remainingSec)) {
@@ -148,11 +149,11 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
           : ''
       }<div class="overlay" hidden></div></div>
       <div class="big-bar" role="group" aria-label="재생 버튼">${bigBarHtml(remainingAtStart)}</div>
-      <button class="big-exit" data-action="big" aria-label="작게 보기">${icon('maximize', 28)}</button>
+      <button class="big-exit" data-action="big" aria-label="작게 보기">${icon('minimize', 28)}</button>
     </div>
     <div class="player-info">
       <p class="episode-label">${esc(episodeLabel(c.config, video))}</p>
-      <h1 class="episode-title">${esc(video.displayTitle)}</h1>
+      <h1 class="episode-title">${esc(keepTail(video.displayTitle))}</h1>
     </div>
     <div class="nrow" role="group" aria-label="재생 버튼" aria-live="polite">${row}</div>
     <div class="after"></div>
@@ -285,13 +286,13 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     const pick = (v: VideoRecord) => {
       const label = episodeLabel(c.config, v);
       return `<button class="end-pick" data-pick="${esc(v.id)}" aria-label="${esc(label)} ${esc(v.displayTitle)}">
-        ${thumb(v.id, String(v.order))}<span class="n-label"><small>${esc(label)}</small><b>${esc(v.displayTitle)}</b></span></button>`;
+        ${thumb(v.id, String(v.order))}<span class="n-label"><small>${esc(label)}</small><b>${esc(keepTail(v.displayTitle))}</b></span></button>`;
     };
     const list = more.length
       ? `<section class="end-more" aria-labelledby="end-more-title"><div class="end-head"><h2 id="end-more-title">${esc(group ? `${group}에서 고르기` : '더 고르기')}</h2>
           <button class="text-button" data-action="list">${esc(group ? `${group} 전체 보기` : '전체 보기')}</button></div>${more.map(pick).join('')}</section>`
       : '';
-    return `${upNextCardHtml(u, c)}${list}${replayButton()}`;
+    return `${upNextCardHtml(u, c)}${replayButton()}${list}`;
   };
 
   const hideOverlay = () => {

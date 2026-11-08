@@ -5,14 +5,15 @@ import { icon } from '../icons.ts';
 import { moon } from '../art.ts';
 import {
   episodeLabel,
-  heroPick,
   initialGroup,
+  keepTail,
   limitReached,
   localDate,
   resumableAfterLimit,
   seriesOnly,
   startPosition,
   todaysPictures,
+  tomorrowPick,
   viewingOrder,
   visibleCollectionIds,
 } from '../rules.ts';
@@ -51,6 +52,20 @@ import {
 
 function heroHtml(view: CollectionView, first: VideoRecord | undefined, config: CollectionConfig): string {
   const next = view.highlight;
+  if (view.limited) {
+    // Daily limit reached: the hero becomes the moon and leads to the "that's all for today" screen (D9). An episode
+    // left unfinished today sits under it as 마저 보기, the moon screen's word (critique 2026-11-08), never as a
+    // bright next episode on a night page.
+    const resume = next
+      ? `<button class="night-resume" data-video="${esc(next.id)}" aria-label="보던 영상 마저 보기: ${esc(episodeLabel(config, next))} ${esc(next.displayTitle)}">
+        ${thumb(next.id, String(next.order), `<span class="n-go" aria-hidden="true">${icon('play', 22)}</span>`, true)}
+        <span class="n-label"><small>마저 보기</small><b>${esc(keepTail(next.displayTitle))}</b></span></button>`
+      : '';
+    return `<button class="hero night" data-action="today" aria-label="오늘은 여기까지">
+      <div class="moon-wrap" aria-hidden="true">${moon(96)}</div>
+      <div><div class="title">오늘은 여기까지</div><div class="sub">내일 또 만나요</div></div>
+    </button>${resume}`;
+  }
   if (next) {
     const label = episodeLabel(config, next);
     const at = view.resume ? startPosition(view.progress, next, view.limited) : 0;
@@ -58,14 +73,7 @@ function heroHtml(view: CollectionView, first: VideoRecord | undefined, config: 
     const when = view.resume ? `${duration(at)}부터` : duration(next.durationSec);
     return `<button class="hero" data-video="${esc(next.id)}" aria-label="${what}: ${esc(label)} ${esc(next.displayTitle)}">
       ${thumb(next.id, String(next.order), `<span class="play" aria-hidden="true">${icon('play', 48)}</span>${progressBar(at, next.durationSec)}`, true)}
-      <div>${view.resume ? `<div class="chip">${icon('again', 20)}이어 보기</div>` : ''}<div class="title">${esc(next.displayTitle)}</div><div class="sub">${esc(label)} (${when})</div></div>
-    </button>`;
-  }
-  if (view.limited) {
-    // Daily limit reached: the hero becomes the moon and leads to the "that's all for today" screen (D9).
-    return `<button class="hero night" data-action="today" aria-label="오늘은 여기까지">
-      <div class="moon-wrap" aria-hidden="true">${moon(96)}</div>
-      <div><div class="title">오늘은 여기까지</div><div class="sub">내일 또 만나요</div></div>
+      <div>${view.resume ? `<div class="chip">${icon('again', 20)}이어 보기</div>` : ''}<div class="title">${esc(keepTail(next.displayTitle))}</div><div class="sub">${esc(label)} (${when})</div></div>
     </button>`;
   }
   if (!first) return '';
@@ -90,7 +98,8 @@ function cardHtml(v: VideoRecord, view: CollectionView, config: CollectionConfig
   const failed = v.id in view.progress.failed;
   const isNext = view.highlight?.id === v.id;
   const locked = view.limited && !isNext;
-  const state = locked
+  const resumeTonight = view.limited && isNext;
+  const state = locked || resumeTonight
     ? ''
     : watched
       ? `<span class="badge state done" aria-hidden="true">${icon('check', 24)}</span>`
@@ -99,19 +108,19 @@ function cardHtml(v: VideoRecord, view: CollectionView, config: CollectionConfig
         : '';
   const status = locked
     ? ', 오늘은 여기까지'
-    : watched
+    : watched && !resumeTonight
       ? ', 봤어요'
       : failed
         ? ', 지금은 볼 수 없어요'
         : isNext
-          ? (view.resume ? ', 이어 볼 영상' : ', 다음 편')
+          ? (resumeTonight ? ', 마저 볼 영상' : view.resume ? ', 이어 볼 영상' : ', 다음 편')
           : '';
   // Where watching continues, spelled out on the card itself (the border alone was easy to miss in a long list).
-  const here = isNext && !locked ? `<span class="badge here" aria-hidden="true">${view.resume ? '이어 보기' : '여기부터'}</span>` : '';
+  const here = isNext && !locked ? `<span class="badge here" aria-hidden="true">${resumeTonight ? '마저 보기' : view.resume ? '이어 보기' : '여기부터'}</span>` : '';
   const cls = ['card', isNext ? 'next' : '', failed ? 'failed' : '', locked ? 'locked' : ''].filter(Boolean).join(' ');
   return `<button class="${cls}" data-video="${esc(v.id)}" tabindex="-1" aria-label="${esc(label)} ${esc(v.displayTitle)}${status}">
     ${thumb(v.id, String(v.order), locked ? '' : `<span class="badge len" aria-hidden="true">${duration(v.durationSec)}</span>${state}${here}${progressBar(startPosition(view.progress, v, view.limited), v.durationSec)}`)}
-    <span class="ep" aria-hidden="true">${esc(label)}</span><span class="title" aria-hidden="true">${esc(v.displayTitle)}</span></button>`;
+    <span class="ep" aria-hidden="true">${esc(label)}</span><span class="title" aria-hidden="true">${esc(keepTail(v.displayTitle))}</span></button>`;
 }
 
 export function renderCollection(profile: Profile, c: Collection, groupParam: string | undefined, parent: Route | null): void {
@@ -247,7 +256,7 @@ export function renderTodayDone(profile: Profile, c: Collection, listRoute: Rout
     today.finished.includes(id) || id in store.progress(profile.id, collectionOfVideo(id) ?? c.config.id).watched;
   // A compilation cut off by the limit is what continues tomorrow; otherwise the next episode.
   const cut = [...today.stopped].reverse().flatMap((id) => all.find((v) => v.id === id) ?? [])[0];
-  const tomorrow = cut ?? heroPick(c.data, c.config, progress, profile.startGroup?.[c.config.id])?.video ?? null;
+  const tomorrow = cut ?? tomorrowPick(c.data, c.config, progress, today.finished, profile.startGroup?.[c.config.id]);
 
   setGround('night');
   setBack(() => backTo(listRoute));

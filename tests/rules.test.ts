@@ -11,6 +11,8 @@ import {
   shiftDate,
   mostRecentCollection,
   heroPick,
+  keepTail,
+  tomorrowPick,
   canMoveCollection,
   groupByCategory,
   moveCollection,
@@ -473,6 +475,22 @@ describe('heroPick (O3b)', () => {
 
   it('returns null when every series episode is watched and nothing is in progress', () => {
     expect(heroPick(data, cfg, progress(['a', 'b'], [], 'b'))).toBeNull();
+  });
+
+  it('내일 follows the episode that ended today, even one not marked watched (critique 2026-11-08)', () => {
+    const series = { groups: [{ id: 'lv1', label: '1' }, { id: 'lv2', label: '2' }] };
+    // c ended today but was skipped to the end, so it is not marked watched: tomorrow is d, not a.
+    expect(tomorrowPick(data, series, progress([], [], 'c'), ['c'])?.id).toBe('d');
+    // Nothing of this character ended today: the list's usual pick.
+    expect(tomorrowPick(data, series, progress(), ['other'])?.id).toBe('a');
+    // The last episode that ended today leads when progress points elsewhere.
+    expect(tomorrowPick(data, series, progress([], [], 'a'), ['a', 'b'])?.id).toBe('c');
+  });
+
+  it('titles keep a closing (… 편) on one line', () => {
+    expect(keepTail('베이징 만두소동(중국 편)')).toBe('베이징 만두소동(중국 편)');
+    expect(keepTail('세상에서 가장 긴 파스타 (이탈리아 편)')).toBe('세상에서 가장 긴 파스타 (이탈리아 편)');
+    expect(keepTail('일, 이, 삼!')).toBe('일, 이, 삼!');
   });
 });
 

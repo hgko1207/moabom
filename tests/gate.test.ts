@@ -25,20 +25,25 @@ describe('koreanNumber', () => {
     [1, '일'],
     [10, '십'],
     [25, '이십오'],
+    [1000, '천'],
+    [1001, '천일'],
+    [4058, '사천오십팔'],
+    [2700, '이천칠백'],
+    [9999, '구천구백구십구'],
   ])('%i → %s', (n, words) => {
     expect(koreanNumber(n)).toBe(words);
   });
 
-  it('rejects numbers outside 1..999', () => {
+  it('rejects numbers outside 1..9999', () => {
     expect(() => koreanNumber(0)).toThrow();
-    expect(() => koreanNumber(1000)).toThrow();
+    expect(() => koreanNumber(10000)).toThrow();
   });
 });
 
 describe('newProblem', () => {
-  it('always asks a three-digit number', () => {
-    expect(newProblem(() => 0)).toEqual({ text: '백', answer: '100' });
-    expect(newProblem(() => 0.9999)).toEqual({ text: '구백구십구', answer: '999' });
+  it('always asks a four-digit number', () => {
+    expect(newProblem(() => 0)).toEqual({ text: '천', answer: '1000' });
+    expect(newProblem(() => 0.99999)).toEqual({ text: '구천구백구십구', answer: '9999' });
   });
 });
 

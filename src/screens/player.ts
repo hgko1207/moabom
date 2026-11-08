@@ -125,13 +125,15 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
       ${thumb(next.id, String(next.order), `<span class="n-go" aria-hidden="true">${icon('play', 24)}</span>`)}
       <span class="n-label"><small>${grown ? '곧 다음 편' : '다음 편'}</small><b>${esc(nextLabel)}</b></span></button>`;
   };
-  // 크게 보기 keeps the same two buttons, in the black band beside the picture, never over it.
+  // 크게 보기 keeps the same two buttons, in the black band beside the picture, never over it. The next picture is
+  // the bigger one and carries the play mark; in the last 30 s it lights up and says 곧 다음 편, as on the page.
   const bigBarHtml = (remainingSec: number): string => {
     if (isLastToday(remainingSec)) return '';
     const back = prev ? `<button class="b-prev" data-go="${esc(prev.id)}" aria-label="이전 편">${icon('skip-back', 28)}</button>` : '';
+    const grown = nextGrows(remainingSec);
     const ahead =
       next && nextOpen()
-        ? `<button class="b-next" data-go="${esc(next.id)}" aria-label="다음 편: ${esc(nextLabel)}">${thumb(next.id, String(next.order), '<span class="b-tag" aria-hidden="true">다음 편</span>')}</button>`
+        ? `<button class="b-next${grown ? ' grown' : ''}" data-go="${esc(next.id)}" aria-label="다음 편: ${esc(nextLabel)}">${thumb(next.id, String(next.order), `<span class="n-go" aria-hidden="true">${icon('play', 16)}</span><span class="b-tag" aria-hidden="true">${grown ? '곧 다음 편' : '다음 편'}</span>`)}</button>`
         : '';
     return back + ahead;
   };

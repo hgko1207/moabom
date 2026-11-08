@@ -362,8 +362,9 @@ export function bindGear(profileId: string): void {
 }
 
 /**
- * Runs `action` only after a 2 s press (pointer or Enter/Space). A shorter press shows "2초 동안 누르세요" next to
- * the button for 2 s. Used by the settings gear and the moon screen's 오늘만 더 (R21).
+ * Runs `action` only after a 2 s press (pointer or Enter/Space). A shorter press answers with the ring alone: it
+ * starts, stops and fades, with no words a reading child could follow (critique 2026-11-08); screen readers hear
+ * "2초 동안 누르세요". Used by the settings gear and the moon screen's 오늘만 더 (R21).
  */
 export function bindHold(button: HTMLElement, action: () => void): void {
   let timer = 0;
@@ -376,6 +377,7 @@ export function bindHold(button: HTMLElement, action: () => void): void {
   const start = () => {
     window.clearTimeout(timer);
     pressed = true;
+    button.classList.remove('hinting');
     button.classList.add('holding');
     timer = window.setTimeout(() => {
       pressed = false;
@@ -389,9 +391,15 @@ export function bindHold(button: HTMLElement, action: () => void): void {
     if (!pressed) return;
     pressed = false;
     button.parentElement?.querySelector('.hold-hint')?.remove();
-    button.insertAdjacentHTML('afterend', '<p class="hold-hint" role="status">2초 동안 누르세요</p>');
+    button.insertAdjacentHTML('afterend', '<p class="hold-hint visually-hidden" role="status">2초 동안 누르세요</p>');
+    button.classList.remove('hinting');
+    void button.offsetWidth; // restart the ring when pressed again quickly
+    button.classList.add('hinting');
     window.clearTimeout(hintTimer);
-    hintTimer = window.setTimeout(() => button.parentElement?.querySelector('.hold-hint')?.remove(), HOLD_MS);
+    hintTimer = window.setTimeout(() => {
+      button.classList.remove('hinting');
+      button.parentElement?.querySelector('.hold-hint')?.remove();
+    }, HOLD_MS);
   };
   button.addEventListener('pointerdown', start);
   for (const ev of ['pointerup', 'pointerleave', 'pointercancel', 'blur']) button.addEventListener(ev, cancel);

@@ -363,8 +363,8 @@ body.rest .tab:not([aria-selected='true']) :is(.label, .tab-icon b) {
   display: flex;
   align-items: center;
   gap: 6px;
-  height: 64px;
-  padding: 0 18px 0 14px;
+  height: 52px;
+  padding: 0 16px 0 12px;
   border-radius: 14px;
   background: var(--surface);
   box-shadow: 0 4px 0 var(--line);
@@ -962,6 +962,30 @@ body.night {
 @keyframes hold {
   to {
     --p: 100%;
+  }
+}
+
+/* a short press: the ring starts, stops and fades, a hint for the hand without words for a reading child
+   (critique 2026-11-08) */
+.gear.hinting .hold,
+.holdable.hinting .hold {
+  animation: hold-hint 900ms ease-out forwards;
+}
+
+@keyframes hold-hint {
+  0% {
+    --p: 0%;
+    opacity: 1;
+  }
+
+  45% {
+    --p: 28%;
+    opacity: 1;
+  }
+
+  100% {
+    --p: 28%;
+    opacity: 0;
   }
 }
 
@@ -1961,17 +1985,25 @@ details.paste summary::-webkit-details-marker {
   box-shadow: 0 6px 16px rgb(24 60 110 / 0.16);
 }
 
+/* the next picture always carries a small play mark, so a child who cannot read sees a button, not a decoration
+   (critique 2026-11-08); in the last 30 s it grows with the picture */
 .n-go {
-  display: none;
+  display: grid;
   position: absolute;
-  right: 10px;
-  bottom: 10px;
-  width: 48px;
-  height: 48px;
+  right: 8px;
+  bottom: 8px;
+  width: 36px;
+  height: 36px;
   place-items: center;
   border-radius: 50%;
   background: var(--accent-ink);
   color: var(--surface);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.25);
+}
+
+.n-go .icon {
+  width: 18px;
+  height: 18px;
 }
 
 .n-label {
@@ -2001,7 +2033,15 @@ details.paste summary::-webkit-details-marker {
 }
 
 .n-next.grown .n-go {
-  display: grid;
+  right: 10px;
+  bottom: 10px;
+  width: 48px;
+  height: 48px;
+}
+
+.n-next.grown .n-go .icon {
+  width: 24px;
+  height: 24px;
 }
 
 .n-next.grown .n-label small {
@@ -2264,6 +2304,24 @@ details.paste summary::-webkit-details-marker {
   border-radius: 0;
 }
 
+.b-next .n-go {
+  top: 6px;
+  right: 6px;
+  bottom: auto;
+  width: 32px;
+  height: 32px;
+}
+
+.b-next .n-go .icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* the last 30 s: the next picture lights up with the accent and says 곧 다음 편, as it grows on the page */
+.b-next.grown {
+  box-shadow: 0 0 0 3px var(--accent);
+}
+
 .b-tag {
   position: absolute;
   left: 0;
@@ -2277,27 +2335,34 @@ details.paste summary::-webkit-details-marker {
   text-align: left;
 }
 
+/* a long phone on its side: a column beside the picture, the next picture large at the bottom (in thumb reach) and
+   이전 편 a small square above it, so going on is the biggest thing there (critique 2026-11-08) */
 @media (min-aspect-ratio: 2 / 1) {
   .player-screen.big .stage:has(.big-bar:not(:empty)) {
     padding-top: 0;
-    padding-right: 140px;
+    padding-right: 184px;
   }
 
   .player-screen.big .stage:has(.big-bar:not(:empty)) .video-wrap {
-    width: min(calc(100vw - 140px), calc(100dvh * 16 / 9));
+    width: min(calc(100vw - 184px), calc(100dvh * 16 / 9));
   }
 
   .player-screen.big .big-bar:not(:empty) {
     flex-direction: column;
+    align-items: flex-end;
     top: auto;
     bottom: 12px;
     right: 12px;
-    width: 116px;
+    width: 160px;
   }
 
-  .b-prev,
   .b-next {
-    width: 116px;
+    width: 160px;
+    height: 90px;
+  }
+
+  .b-tag {
+    font-size: 14px;
   }
 }
 
@@ -2386,6 +2451,7 @@ details.paste summary::-webkit-details-marker {
     width: 400px;
   }
 
+  .n-next .n-go,
   .n-next.grown .n-go {
     width: 32px;
     height: 32px;
@@ -2393,6 +2459,7 @@ details.paste summary::-webkit-details-marker {
     bottom: 6px;
   }
 
+  .n-next .n-go .icon,
   .n-next.grown .n-go .icon {
     width: 16px;
     height: 16px;
@@ -2466,9 +2533,20 @@ details.paste summary::-webkit-details-marker {
     margin: 0;
   }
 
-  .player-screen .n-next.grown .n-go,
   .player-screen .n-next.grown .n-label b {
     display: none;
+  }
+
+  .player-screen :is(.n-next, .n-next.grown) .n-go {
+    width: 32px;
+    height: 32px;
+    right: 6px;
+    bottom: 6px;
+  }
+
+  .player-screen :is(.n-next, .n-next.grown) .n-go .icon {
+    width: 16px;
+    height: 16px;
   }
 
   .player-screen .n-last {
@@ -3434,56 +3512,81 @@ details.paste summary::-webkit-details-marker {
   }
 }
 
-/* A low, wide screen: the moon and its words on the left, tomorrow on the right, nothing to scroll. */
+/* A low, wide screen (a Fold opened, a phone on its side): a big moon on the left and the day told on the right,
+   today's pictures then tomorrow on one line, nothing to scroll. The moon here is never smaller than the night
+   list's (critique 2026-11-08). */
 @media (max-height: 640px) and (min-width: 480px) {
   .night-page {
-    grid-template-columns: auto auto;
+    grid-template-columns: auto auto auto;
+    grid-template-areas:
+      'moon title title'
+      'moon sub sub'
+      'moon today next';
     justify-content: center;
-    align-items: center;
-    column-gap: var(--s4);
+    justify-items: start;
+    align-items: start;
+    column-gap: var(--s3);
+    text-align: left;
     padding-bottom: 0;
   }
 
-  .night-page > * {
-    grid-column: 1;
-  }
-
-  .night-page > .tomorrow {
-    grid-column: 2;
-    grid-row: 1 / span 4;
-    margin: 0;
-  }
-
   .night-screen .moon {
-    margin-bottom: var(--s1);
+    grid-area: moon;
+    align-self: center;
+    margin: 0 var(--s2) 0 0;
   }
 
   .night-screen .moon .art-moon {
-    width: 72px;
-    height: 72px;
+    width: min(160px, 30vh);
+    height: min(160px, 30vh);
   }
 
   .night-title {
-    font-size: 26px;
+    grid-area: title;
+    font-size: 34px;
   }
 
   .night-sub {
+    grid-area: sub;
     margin-bottom: var(--s2);
   }
 
   .today-row {
-    width: min(352px, 50vw);
+    grid-area: today;
+    width: auto;
+    justify-content: flex-start;
+  }
+
+  .today-row .thumb {
+    flex: 0 0 112px;
+  }
+
+  .night-page > .tomorrow {
+    grid-area: next;
+    margin: 0;
+  }
+
+  .tomorrow .thumb {
+    width: 136px;
   }
 }
 
-/* A phone on its side has no height for today's pictures. */
-@media (max-height: 480px) {
-  .night-sub {
-    margin-bottom: 0;
+/* A phone on its side: the same page, a size down, today's pictures still there. */
+@media (max-height: 480px) and (min-width: 480px) {
+  .night-title {
+    font-size: 28px;
   }
 
-  .today-row {
-    display: none;
+  .night-sub {
+    margin: 2px 0 var(--s1);
+  }
+
+  .today-row .thumb {
+    flex-basis: 96px;
+  }
+
+  .tomorrow .thumb {
+    width: 112px;
   }
 }
 

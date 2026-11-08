@@ -1,4 +1,4 @@
-// The parent gate (엄마 문, design P1-4): a three-digit number written in Korean words that the parent types
+// The parent gate (엄마 문, design P1-4): a four-digit number written in Korean words that the parent types
 // as digits. Pure rules only, no DOM: the screen lives in screens/gate.ts and render() asks
 // parentRouteDecision() before drawing a parent screen.
 //
@@ -13,28 +13,31 @@
 
 const DIGITS = ['', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구'];
 
-/** Sino-Korean words for 1..999 as written on a cheque: 100 → 백, 110 → 백십, 327 → 삼백이십칠. */
+/** Sino-Korean words for 1..9999 as written on a cheque: 100 → 백, 327 → 삼백이십칠, 4058 → 사천오십팔. */
 export function koreanNumber(n: number): string {
-  if (!Number.isInteger(n) || n < 1 || n > 999) throw new RangeError(`koreanNumber: ${n}`);
-  const h = Math.floor(n / 100);
+  if (!Number.isInteger(n) || n < 1 || n > 9999) throw new RangeError(`koreanNumber: ${n}`);
+  const th = Math.floor(n / 1000);
+  const h = Math.floor((n % 1000) / 100);
   const t = Math.floor((n % 100) / 10);
   const o = n % 10;
   const place = (d: number, unit: string) => (d === 0 ? '' : `${d === 1 ? '' : DIGITS[d]}${unit}`);
-  return `${place(h, '백')}${place(t, '십')}${DIGITS[o]}`;
+  return `${place(th, '천')}${place(h, '백')}${place(t, '십')}${DIGITS[o]}`;
 }
 
 export interface Problem {
-  /** what the screen shows, e.g. 삼백이십칠 */
+  /** what the screen shows, e.g. 사천오십팔 */
   text: string;
-  /** the digits to type, e.g. 327 */
+  /** the digits to type, e.g. 4058 */
   answer: string;
 }
 
-export const ANSWER_DIGITS = 3;
+// Four digits (critique 2026-11-08): a six-year-old who reads Korean could solve 사백오십팔; thousands, and the
+// empty places they bring (사천오십팔 is 4058), are a parent's sum.
+export const ANSWER_DIGITS = 4;
 
-/** A new three-digit problem (100..999). */
+/** A new four-digit problem (1000..9999). */
 export function newProblem(random: () => number = Math.random): Problem {
-  const n = 100 + Math.floor(random() * 900);
+  const n = 1000 + Math.floor(random() * 9000);
   return { text: koreanNumber(n), answer: String(n) };
 }
 

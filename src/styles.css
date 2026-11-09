@@ -947,6 +947,13 @@ body.night {
   opacity: 0;
 }
 
+/* the gear sits on the blue sky, where a green ring vanished (2026-11-09): the ring takes the gear colour (white on
+   the sky) over a dark track, and is thicker */
+.gear .hold {
+  background: conic-gradient(currentColor var(--p, 0%), rgb(0 0 0 / 0.28) 0);
+  mask: radial-gradient(circle, transparent 52%, #000 54%);
+}
+
 .gear.holding .hold,
 .holdable.holding .hold {
   opacity: 1;

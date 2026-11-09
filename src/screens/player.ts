@@ -114,11 +114,16 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     upNext(scope, video, today, limits, remainingSec, rewatchLeft !== null).kind === 'limit';
   const nextLabel = next ? `${episodeLabel(c.config, next)} ${keepTail(next.displayTitle)}` : '';
   const nextOpen = (): boolean => !!next && canStart(today, limits, next.id);
+  // 이전 편 is the previous episode's picture with a back mark (critique 2026-11-08), smaller than the next one.
+  const prevButton = (cls: string): string =>
+    prev
+      ? `<button class="${cls}" data-go="${esc(prev.id)}" aria-label="이전 편: ${esc(`${episodeLabel(c.config, prev)} ${prev.displayTitle}`)}">${thumb(prev.id, String(prev.order), `<span class="p-go" aria-hidden="true">${icon('skip-back', 20)}</span>`)}</button>`
+      : '';
   const rowHtml = (remainingSec: number): string => {
     if (isLastToday(remainingSec)) {
       return `<p class="n-last" role="status"><span class="n-moon" aria-hidden="true">${moon(40)}</span><span>오늘은 이 편이 마지막이에요</span></p>`;
     }
-    const back = prev ? `<button class="n-prev" data-go="${esc(prev.id)}" aria-label="이전 편">${icon('skip-back', 32)}</button>` : '';
+    const back = prev ? prevButton('n-prev') : '';
     if (!next || !nextOpen()) return back;
     const grown = nextGrows(remainingSec);
     return `${back}<button class="n-next${grown ? ' grown' : ''}" data-go="${esc(next.id)}" aria-label="다음 편: ${esc(nextLabel)}">
@@ -129,7 +134,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   // the bigger one and carries the play mark; in the last 30 s it lights up and says 곧 다음 편, as on the page.
   const bigBarHtml = (remainingSec: number): string => {
     if (isLastToday(remainingSec)) return '';
-    const back = prev ? `<button class="b-prev" data-go="${esc(prev.id)}" aria-label="이전 편">${icon('skip-back', 28)}</button>` : '';
+    const back = prev ? prevButton('b-prev') : '';
     const grown = nextGrows(remainingSec);
     const ahead =
       next && nextOpen()

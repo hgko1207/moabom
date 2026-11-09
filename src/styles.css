@@ -1526,6 +1526,35 @@ details.paste summary::-webkit-details-marker {
   }
 }
 
+/* A Fold opened or a tablet on its side (560 to 760px tall): the same side by side, keys full size (critique
+   2026-11-08: at 900x620 the 0 and erase keys fell below the screen) */
+@media (min-height: 560px) and (max-height: 760px) and (orientation: landscape) {
+  .gate-body {
+    grid-template-columns: auto auto;
+    grid-template-areas:
+      'why keypad'
+      'ask keypad';
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    gap: var(--s2) 48px;
+  }
+
+  .gate-why {
+    grid-area: why;
+    align-self: end;
+  }
+
+  .gate-ask {
+    grid-area: ask;
+    align-self: start;
+  }
+
+  .keypad {
+    grid-area: keypad;
+  }
+}
+
 /* Gear: a short press says how to open settings (DR17) */
 
 .bar .hold-hint {
@@ -1894,30 +1923,6 @@ details.paste summary::-webkit-details-marker {
   background: var(--line);
 }
 
-/* Today's video (home 이어 보기 and the collection hero): a big rounded picture with a caption under it. */
-.hero:not(.night) {
-  padding: 0;
-  border: 0;
-  background: transparent;
-  gap: 12px;
-}
-
-.hero:not(.night) .thumb {
-  border-radius: 22px;
-  box-shadow: 0 6px 0 var(--line);
-}
-
-.hero:not(.night) .play {
-  background: var(--surface);
-  color: var(--accent);
-  box-shadow: 0 4px 0 rgba(24, 34, 30, 0.12);
-}
-
-.hero:not(.night) .title {
-  font-size: 22px;
-  font-weight: 800;
-}
-
 /* Episode cards: pictures too; the next one to watch gets the accent ring. */
 
 .card .thumb {
@@ -1950,17 +1955,40 @@ details.paste summary::-webkit-details-marker {
   display: none;
 }
 
+/* 이전 편 is the previous episode's own picture with a back mark, smaller than the next one: a white square with a
+   left arrow was a twin of the header's back button, and a 4-year-old could not tell leaving from one episode back
+   (critique 2026-11-08) */
 .n-prev {
   flex: none;
-  width: 72px;
-  height: 72px;
+  position: relative;
+  width: 112px;
+  padding: 0;
+  background: none;
+  border-radius: 14px;
+  transition: transform var(--press) ease-out;
+}
+
+.n-prev .thumb {
+  border-radius: 14px;
+  box-shadow: 0 6px 16px rgb(24 60 110 / 0.16);
+}
+
+.p-go {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 40px;
+  height: 40px;
   display: grid;
   place-items: center;
-  border-radius: 16px;
-  background: var(--surface);
-  color: var(--ink);
-  box-shadow: 0 6px 16px rgb(24 60 110 / 0.12);
-  transition: transform var(--press) ease-out;
+  border-radius: 50%;
+  background: rgb(24 34 30 / 0.72);
+  color: #fff;
+}
+
+.p-go .icon {
+  width: 20px;
+  height: 20px;
 }
 
 .n-next {
@@ -2280,13 +2308,28 @@ details.paste summary::-webkit-details-marker {
 }
 
 .b-prev {
-  width: 64px;
+  position: relative;
+  width: 86px;
   height: 64px;
-  display: grid;
-  place-items: center;
+  padding: 0;
+  overflow: hidden;
   border-radius: 16px;
-  background: rgb(255 255 255 / 0.92);
-  color: var(--ink);
+  background: #000;
+}
+
+.b-prev .thumb {
+  height: 100%;
+  border-radius: 0;
+}
+
+.b-prev .p-go {
+  width: 32px;
+  height: 32px;
+}
+
+.b-prev .p-go .icon {
+  width: 16px;
+  height: 16px;
 }
 
 .b-next {
@@ -2328,7 +2371,8 @@ details.paste summary::-webkit-details-marker {
   right: 0;
   bottom: 0;
   padding: 14px 8px 4px;
-  background: linear-gradient(transparent, rgb(0 0 0 / 0.75));
+  background: linear-gradient(rgb(0 0 0 / 0), rgb(0 0 0 / 0.7) 45%, rgb(0 0 0 / 0.88));
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.6);
   color: #fff;
   font-size: 12px;
   font-weight: 800;
@@ -2361,6 +2405,11 @@ details.paste summary::-webkit-details-marker {
     height: 90px;
   }
 
+  .b-prev {
+    width: 112px;
+    height: 63px;
+  }
+
   .b-tag {
     font-size: 14px;
   }
@@ -2369,8 +2418,7 @@ details.paste summary::-webkit-details-marker {
 /* Tablets upright: the same row, larger */
 @media (orientation: portrait) and (min-width: 700px) {
   .n-prev {
-    width: 88px;
-    height: 88px;
+    width: 144px;
   }
 
   .n-next {
@@ -2483,7 +2531,7 @@ details.paste summary::-webkit-details-marker {
 @media (orientation: landscape) and (max-height: 559px) {
   .player-screen {
     display: grid;
-    grid-template-columns: var(--target) minmax(0, 1fr) 120px;
+    grid-template-columns: 112px minmax(0, 1fr) 120px;
     grid-template-rows: auto minmax(0, 1fr) auto;
     column-gap: var(--s2);
     height: 100dvh;
@@ -2522,8 +2570,7 @@ details.paste summary::-webkit-details-marker {
 
   .player-screen .n-prev {
     grid-area: 3 / 1;
-    width: var(--target);
-    height: var(--target);
+    width: 112px;
   }
 
   .player-screen .n-next,
@@ -3661,19 +3708,27 @@ body:is(.sky, .rest) :is(.bar h1, .bar .show, .home-bar .logo, .bar .gear) {
   margin-left: 0;
 }
 
-/* the first picture: straight on the ground */
+/* Today's video (home 이어 보기 and the collection hero), one set of rules for both: a big rounded picture straight
+   on the ground, the words beside it or under it. Inside a character it is as big as on home, always bigger than an
+   episode card, so the next step is the one obvious thing (critique 2026-11-08: on an iPad it was smaller than the
+   cards under it). */
 .hero:not(.night) {
   grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
   gap: var(--s4);
   margin-bottom: var(--s4);
+  padding: 0;
+  border: 0;
+  background: transparent;
 }
 
 .hero:not(.night) .thumb {
+  border-radius: 22px;
   box-shadow: 0 10px 26px rgb(20 40 80 / 0.18);
 }
 
 .hero:not(.night) .title {
   font-size: 38px;
+  font-weight: 800;
   line-height: 1.2;
 }
 
@@ -3691,6 +3746,9 @@ body:is(.sky, .rest) :is(.bar h1, .bar .show, .home-bar .logo, .bar .gear) {
   margin: 0;
   width: 72px;
   height: 72px;
+  background: var(--surface);
+  color: var(--accent);
+  box-shadow: 0 4px 0 rgba(24, 34, 30, 0.12);
 }
 
 .hero:not(.night) .play .icon {
@@ -3700,13 +3758,7 @@ body:is(.sky, .rest) :is(.bar h1, .bar .show, .home-bar .logo, .bar .gear) {
 }
 
 .collection > .hero:not(.night) {
-  grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
-  gap: var(--s3);
-  margin-bottom: var(--s2);
-}
-
-.collection > .hero:not(.night) .title {
-  font-size: 30px;
+  margin-bottom: var(--s3);
 }
 
 .screen > .intro {
@@ -3858,39 +3910,16 @@ body.rest :is(.tile, .card) .thumb {
     height: 38px;
   }
 
-  /* inside a character the first picture steps back so the episodes come up */
-  .collection > .hero:not(.night) {
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-    gap: 12px;
-    align-items: center;
-  }
-
   .collection > .hero:not(.night) .title {
-    font-size: 21px;
-  }
-
-  .collection > .hero:not(.night) .sub {
-    font-size: 15px;
-  }
-
-  .collection > .hero:not(.night) .play {
-    right: 8px;
-    bottom: 14px;
-    width: 44px;
-    height: 44px;
-  }
-
-  .collection > .hero:not(.night) .play .icon {
-    width: 22px;
-    height: 22px;
-    margin-left: 2px;
+    font-size: 24px;
   }
 }
 
-/* a tablet: a smaller title and a wider column, so a long title stays beside its picture */
+/* a tablet: a smaller title and a wider column, so a long title stays beside its picture; the picture still takes
+   well over half, bigger than a card */
 @media (min-width: 701px) and (max-width: 1023px) {
   .hero:not(.night) {
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
     gap: var(--s3);
   }
 

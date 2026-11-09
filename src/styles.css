@@ -557,7 +557,7 @@ body.rest .tab:not([aria-selected='true']) :is(.label, .tab-icon b) {
   flex: 1;
   min-width: 0;
   margin: 0;
-  font-size: 20px;
+  font-size: 28px;
   font-weight: 800;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1975,7 +1975,15 @@ details.paste summary::-webkit-details-marker {
   transition: transform var(--press) ease-out;
 }
 
+/* as tall as the next picture beside it (2026-11-10: it was shorter and looked misaligned); narrower, so the next
+   one stays the bigger button. --nt is the next picture's width on each screen. */
+.player-screen {
+  --nt: 152px;
+}
+
 .n-prev .thumb {
+  aspect-ratio: auto;
+  height: calc(var(--nt) * 9 / 16);
   border-radius: 14px;
   box-shadow: 0 6px 16px rgb(24 60 110 / 0.16);
 }
@@ -2424,6 +2432,10 @@ details.paste summary::-webkit-details-marker {
 
 /* Tablets upright: the same row, larger */
 @media (orientation: portrait) and (min-width: 700px) {
+  .player-screen {
+    --nt: 200px;
+  }
+
   .n-prev {
     width: 144px;
   }
@@ -2450,6 +2462,7 @@ details.paste summary::-webkit-details-marker {
    on one paper card, and grows sideways so the video never changes size. */
 @media (orientation: landscape) and (min-height: 560px) {
   .player-screen {
+    --nt: 128px;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-content: start;
@@ -2537,6 +2550,7 @@ details.paste summary::-webkit-details-marker {
    words there, so the moon alone says this is the last one; the sentence stays for screen readers. */
 @media (orientation: landscape) and (max-height: 559px) {
   .player-screen {
+    --nt: 120px;
     display: grid;
     grid-template-columns: 112px minmax(0, 1fr) 120px;
     grid-template-rows: auto minmax(0, 1fr) auto;
@@ -2577,6 +2591,7 @@ details.paste summary::-webkit-details-marker {
 
   .player-screen .n-prev {
     grid-area: 3 / 1;
+    align-self: start;
     width: 112px;
   }
 
@@ -3863,6 +3878,18 @@ body.rest :is(.tile, .card) .thumb {
 /* repairs */
 .thumb img {
   transform: scale(1.015); /* hides the 1px dark edge YouTube's 4:3 thumbnails carry */
+}
+
+/* boxes taller than 16:9 (이전 편 beside a taller next picture, the 크게 보기 square) show the black bands baked into the
+   480x360 picture: scale it so the 16:9 artwork fills the height and crop the sides */
+:is(.n-prev, .b-prev) .thumb img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: auto;
+  max-width: none;
+  height: 134%;
+  transform: translate(-50%, -50%);
 }
 
 .copy-url {

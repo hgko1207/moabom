@@ -13,7 +13,7 @@ import {
 import { renderCollections, renderProfiles } from './screens/home.ts';
 import { renderCollection, renderTodayDone } from './screens/collection.ts';
 import { renderGate } from './screens/gate.ts';
-import { renderPlayer } from './screens/player.ts';
+import { carriesBig, renderPlayer } from './screens/player.ts';
 import { renderAbout, renderHistory, renderInstall, renderSettings } from './screens/settings.ts';
 import {
   activePlayer,
@@ -119,7 +119,8 @@ function render(): void {
   activePlayer()?.destroy();
   setActivePlayer(null);
   document.onfullscreenchange = null;
-  if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+  // 크게 보기 going on to the next episode keeps fullscreen; any other move leaves it
+  if (document.fullscreenElement && !carriesBig()) document.exitFullscreen().catch(() => {});
   setGround('sky');
   if (appData.errors.length) return renderErrors();
 

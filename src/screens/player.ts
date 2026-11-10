@@ -71,6 +71,13 @@ const SKIP_AFTER_MS = 3000;
  */
 let errors: ErrorState = NO_ERRORS;
 
+/**
+ * 크게 보기 carries over when the player opens another episode (2026-11-10: it fell back to the small page after
+ * every 다음 편). Set just before that move and read once by the next player; main.ts keeps fullscreen meanwhile.
+ */
+let carryBig = false;
+export const carriesBig = (): boolean => carryBig;
+
 function upNextCardHtml(u: UpNext, c: Collection): string {
   if (u.kind === 'limit') {
     return `<button class="upnext night" data-action="today" aria-label="오늘은 여기까지">${moon(56)}</button>`;
@@ -87,6 +94,8 @@ function upNextCardHtml(u: UpNext, c: Collection): string {
 
 export function renderPlayer(profile: Profile, c: Collection, videoId: string, listRoute: Route): void {
   const video = viewingOrder(c.data).find((v) => v.id === videoId);
+  const startBig = carryBig;
+  carryBig = false;
   if (!video) return replace(listRoute);
   const date = localDate(new Date());
   let today = store.today(profile.id, date);
@@ -114,11 +123,17 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     upNext(scope, video, today, limits, remainingSec, rewatchLeft !== null).kind === 'limit';
   const nextLabel = next ? `${episodeLabel(c.config, next)} ${keepTail(next.displayTitle)}` : '';
   const nextOpen = (): boolean => !!next && canStart(today, limits, next.id);
-  // 이전 편 is the previous episode's picture with a back mark (critique 2026-11-08), smaller than the next one.
-  const prevButton = (cls: string): string =>
-    prev
-      ? `<button class="${cls}" data-go="${esc(prev.id)}" aria-label="이전 편: ${esc(`${episodeLabel(c.config, prev)} ${prev.displayTitle}`)}">${thumb(prev.id, String(prev.order), `<span class="p-go" aria-hidden="true">${icon('skip-back', 20)}</span>`)}</button>`
-      : '';
+  // 이전 편 is the previous episode's picture with a back mark (critique 2026-11-08), and says 이전 편 like the next
+  // one says 다음 편 (2026-11-10): under the picture on the page, on it in 크게 보기.
+  const prevButton = (cls: 'n-prev' | 'b-prev'): string => {
+    if (!prev) return '';
+    const mark = `<span class="p-go" aria-hidden="true">${icon('skip-back', 20)}</span>`;
+    const inner =
+      cls === 'n-prev'
+        ? `${thumb(prev.id, String(prev.order), mark)}<span class="n-label" aria-hidden="true"><small>이전 편</small></span>`
+        : thumb(prev.id, String(prev.order), `${mark}<span class="b-tag" aria-hidden="true">이전 편</span>`);
+    return `<button class="${cls}" data-go="${esc(prev.id)}" aria-label="이전 편: ${esc(`${episodeLabel(c.config, prev)} ${prev.displayTitle}`)}">${inner}</button>`;
+  };
   const rowHtml = (remainingSec: number): string => {
     if (isLastToday(remainingSec)) {
       return `<p class="n-last" role="status"><span class="n-moon" aria-hidden="true">${moon(40)}</span><span>오늘은 이 편이 마지막이에요</span></p>`;
@@ -148,7 +163,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   setBack(() => backTo(listRoute));
   app.innerHTML = `<main class="screen player-screen">
     <div class="bar">${backButton()}<p class="show">${esc(c.config.displayName)}</p>
-      <button class="big-toggle" data-action="big" aria-label="크게 보기" aria-pressed="false">${icon('maximize', 32)}</button></div>
+      <button class="big-toggle" data-action="big" aria-label="크게 보기" aria-pressed="false">${icon('maximize', 28)}<span>크게</span></button></div>
     <div class="stage">
       <div class="video-wrap"><div id="yt"></div>${
         shield
@@ -156,7 +171,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
           : ''
       }<div class="overlay" hidden></div></div>
       <div class="big-bar" role="group" aria-label="재생 버튼">${bigBarHtml(remainingAtStart)}</div>
-      <button class="big-exit" data-action="big" aria-label="작게 보기">${icon('minimize', 28)}</button>
+      <button class="big-exit" data-action="big" aria-label="작게 보기">${icon('minimize', 24)}<span>작게</span></button>
     </div>
     <div class="player-info">
       <p class="episode-label">${esc(episodeLabel(c.config, video))}</p>
@@ -188,7 +203,10 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     store.saveProgress(profile.id, c.config.id, progress);
     store.saveHistory(profile.id, history);
   };
-  const openNext = (id: string) => replace({ ...listRoute, video: id });
+  const openNext = (id: string) => {
+    carryBig = main.classList.contains('big');
+    replace({ ...listRoute, video: id });
+  };
   const openToday = () => replace({ ...listRoute, today: true });
   /** Next/previous episode and the error skip all go through the daily limit (L3). */
   const goTo = (target: VideoRecord | string) => {
@@ -201,10 +219,9 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     if (!/\/v\//.test(location.hash)) errors = NO_ERRORS;
   });
 
-  // "크게 보기": real fullscreen on our own stage (so the up-next card and overlays stay visible) plus a
-  // landscape lock, which Android only allows while fullscreen. iPhone has no element fullscreen and keeps
-  // the CSS-only big mode.
-  const stage = app.querySelector<HTMLElement>('.stage')!;
+  // "크게 보기": real fullscreen on the whole page (the stage covers it, so the up-next card and overlays stay visible;
+  // the page outlives a move to the next episode, the stage does not) plus a landscape lock, which Android only allows
+  // while fullscreen. iPhone has no element fullscreen and keeps the CSS-only big mode, turned sideways when upright.
   const orientation = screen.orientation as ScreenOrientation & { lock?: (o: string) => Promise<void> };
   const setBig = (on: boolean) => {
     main.classList.toggle('big', on);
@@ -213,9 +230,10 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   };
   const enterBig = async () => {
     setBig(true);
-    if (!stage.requestFullscreen) return;
+    const page = document.documentElement;
+    if (!page.requestFullscreen || document.fullscreenElement) return;
     try {
-      await stage.requestFullscreen({ navigationUI: 'hide' });
+      await page.requestFullscreen({ navigationUI: 'hide' });
       await orientation.lock?.('landscape');
     } catch {
       // fullscreen or the lock was refused: the CSS big mode still applies
@@ -232,6 +250,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
   app.querySelectorAll<HTMLButtonElement>('[data-action="big"]').forEach((b) =>
     b.addEventListener('click', () => (main.classList.contains('big') ? exitBig() : void enterBig())),
   );
+  if (startBig) setBig(true);
 
   // Player buttons (P2-1).
   const bindGo = (root: ParentNode) =>

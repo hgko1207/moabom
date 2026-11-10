@@ -557,20 +557,27 @@ body.rest .tab:not([aria-selected='true']) :is(.label, .tab-icon b) {
   flex: 1;
   min-width: 0;
   margin: 0;
-  font-size: 28px;
+  font-size: clamp(22px, 6.2vw, 28px);
   font-weight: 800;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+/* 크게 says its word beside the corners icon (2026-11-10: the icon alone was small and unclear to parents) */
 .big-toggle {
-  width: var(--target);
   height: var(--target);
+  min-width: var(--target);
+  padding: 0 18px 0 14px;
   border-radius: var(--radius);
   background: var(--surface);
-  display: grid;
-  place-items: center;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 18px;
+  font-weight: 800;
   flex: none;
 }
 
@@ -773,9 +780,12 @@ body.rest .tab:not([aria-selected='true']) :is(.label, .tab-icon b) {
 
 /* "크게 보기": CSS fullscreen that keeps the app overlays visible (fs=0, design P1) */
 .player-screen.big .stage {
+  --bw: 100vw;
+  --bh: 100dvh;
   position: fixed;
   inset: 0;
   z-index: 10;
+  box-sizing: border-box;
   background: #000;
   display: grid;
   place-items: center;
@@ -783,20 +793,24 @@ body.rest .tab:not([aria-selected='true']) :is(.label, .tab-icon b) {
 
 .player-screen.big .video-wrap {
   border-radius: 0;
-  width: min(100vw, calc(100dvh * 16 / 9));
+  width: min(var(--bw), calc(var(--bh) * 16 / 9));
 }
 
 .player-screen.big .big-exit {
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   position: absolute;
   top: var(--s2);
   right: var(--s2);
-  width: var(--target);
-  height: var(--target);
-  border-radius: var(--radius);
+  width: 104px;
+  height: 48px;
+  border-radius: 14px;
   background: rgba(255, 255, 255, 0.9);
   color: var(--ink);
+  font-size: 17px;
+  font-weight: 800;
   z-index: 4;
 }
 
@@ -1968,9 +1982,14 @@ details.paste summary::-webkit-details-marker {
 .n-prev {
   flex: none;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   width: 112px;
   padding: 0;
   background: none;
+  color: var(--ink);
+  text-align: left;
   border-radius: 14px;
   transition: transform var(--press) ease-out;
 }
@@ -2299,7 +2318,7 @@ details.paste summary::-webkit-details-marker {
   display: flex;
   position: absolute;
   top: 12px;
-  right: 88px;
+  right: 126px;
   gap: 10px;
   z-index: 4;
 }
@@ -2309,13 +2328,13 @@ details.paste summary::-webkit-details-marker {
   right: 12px;
 }
 
+/* small buttons, a thin band (2026-11-10: the band took a quarter of the picture on short phones) */
 .player-screen.big .stage:has(.big-bar:not(:empty)) {
-  padding-top: 88px;
-  box-sizing: border-box;
+  padding-top: 76px;
 }
 
 .player-screen.big .stage:has(.big-bar:not(:empty)) .video-wrap {
-  width: min(100vw, calc((100dvh - 88px) * 16 / 9));
+  width: min(var(--bw), calc((var(--bh) - 76px) * 16 / 9));
 }
 
 .player-screen:has(.overlay:not([hidden])) .big-bar {
@@ -2324,11 +2343,11 @@ details.paste summary::-webkit-details-marker {
 
 .b-prev {
   position: relative;
-  width: 86px;
-  height: 64px;
+  width: 84px;
+  height: 56px;
   padding: 0;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 14px;
   background: #000;
 }
 
@@ -2338,22 +2357,23 @@ details.paste summary::-webkit-details-marker {
 }
 
 .b-prev .p-go {
-  width: 32px;
-  height: 32px;
+  inset: 0 0 16px;
+  width: 28px;
+  height: 28px;
 }
 
 .b-prev .p-go .icon {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
 }
 
 .b-next {
   position: relative;
-  width: 114px;
-  height: 64px;
+  width: 100px;
+  height: 56px;
   padding: 0;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 14px;
   background: #000;
 }
 
@@ -2363,16 +2383,16 @@ details.paste summary::-webkit-details-marker {
 }
 
 .b-next .n-go {
-  top: 6px;
-  right: 6px;
+  top: 5px;
+  right: 5px;
   bottom: auto;
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
 }
 
 .b-next .n-go .icon {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
 }
 
 /* the last 30 s: the next picture lights up with the accent and says 곧 다음 편, as it grows on the page */
@@ -2385,7 +2405,7 @@ details.paste summary::-webkit-details-marker {
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 14px 8px 4px;
+  padding: 12px 6px 3px;
   background: linear-gradient(rgb(0 0 0 / 0), rgb(0 0 0 / 0.7) 45%, rgb(0 0 0 / 0.88));
   text-shadow: 0 1px 2px rgb(0 0 0 / 0.6);
   color: #fff;
@@ -2394,16 +2414,17 @@ details.paste summary::-webkit-details-marker {
   text-align: left;
 }
 
-/* a long phone on its side: a column beside the picture, the next picture large at the bottom (in thumb reach) and
-   이전 편 a small square above it, so going on is the biggest thing there (critique 2026-11-08) */
-@media (min-aspect-ratio: 2 / 1) {
+/* a long phone on its side (or upright, turned sideways below): a column beside the picture, the next picture at the
+   bottom (in thumb reach) and 이전 편 smaller above it (critique 2026-11-08). 148px fits the black band a long phone
+   leaves beside a full-height picture, so the buttons cost the video nothing (2026-11-10). */
+@media (min-aspect-ratio: 2 / 1), (orientation: portrait) and (max-width: 600px) {
   .player-screen.big .stage:has(.big-bar:not(:empty)) {
     padding-top: 0;
-    padding-right: 184px;
+    padding-right: 148px;
   }
 
   .player-screen.big .stage:has(.big-bar:not(:empty)) .video-wrap {
-    width: min(calc(100vw - 184px), calc(100dvh * 16 / 9));
+    width: min(calc(var(--bw) - 148px), calc(var(--bh) * 16 / 9));
   }
 
   .player-screen.big .big-bar:not(:empty) {
@@ -2412,21 +2433,40 @@ details.paste summary::-webkit-details-marker {
     top: auto;
     bottom: 12px;
     right: 12px;
-    width: 160px;
+    width: 124px;
+  }
+
+  .player-screen.big .big-exit {
+    width: 124px;
   }
 
   .b-next {
-    width: 160px;
-    height: 90px;
+    width: 124px;
+    height: 70px;
   }
 
   .b-prev {
-    width: 112px;
-    height: 63px;
+    width: 100px;
+    height: 56px;
   }
 
   .b-tag {
-    font-size: 14px;
+    font-size: 13px;
+  }
+}
+
+/* a phone held upright: 크게 보기 turns the picture on its side to fill the length of the phone, as the YouTube app
+   does, and the child turns the phone. A web page cannot turn an iPhone screen itself (2026-11-10: upright, the
+   picture only grew from 358 to 390px). Turning the phone for real makes this a plain landscape screen. */
+@media (orientation: portrait) and (max-width: 600px) {
+  .player-screen.big .stage {
+    --bw: 100dvh;
+    --bh: 100vw;
+    inset: 0 auto auto 0;
+    width: 100dvh;
+    height: 100vw;
+    transform-origin: top left;
+    transform: translateX(100vw) rotate(90deg);
   }
 }
 
@@ -2510,6 +2550,24 @@ details.paste summary::-webkit-details-marker {
   .n-next .thumb {
     flex: none;
     width: 128px;
+    border-radius: 16px 0 0 16px;
+    box-shadow: none;
+  }
+
+  .n-prev {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    width: auto;
+    padding: 0 16px 0 0;
+    border-radius: 16px;
+    background: var(--surface);
+    box-shadow: 0 6px 16px rgb(24 60 110 / 0.12);
+  }
+
+  .n-prev .thumb {
+    flex: none;
+    width: 96px;
     border-radius: 16px 0 0 16px;
     box-shadow: none;
   }

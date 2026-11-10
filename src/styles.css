@@ -1999,7 +1999,7 @@ details.paste summary::-webkit-details-marker {
    video takes taps (with 버튼 막기, the layer over it does). */
 .nrow {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-start;
   gap: 12px;
   margin-top: var(--s2);
@@ -2032,10 +2032,6 @@ details.paste summary::-webkit-details-marker {
   text-align: left;
   border-radius: 14px;
   transition: transform var(--press) ease-out;
-}
-
-.n-next {
-  margin-left: auto;
 }
 
 :is(.n-prev, .n-next, .end-pick):active {
@@ -2094,10 +2090,12 @@ details.paste summary::-webkit-details-marker {
   flex: 1;
   min-width: 0;
   width: auto;
+  max-width: calc(var(--nt) * 1.8);
 }
 
 .n-next.grown .thumb {
   animation: rise-in 360ms cubic-bezier(0.25, 1, 0.5, 1) both;
+  box-shadow: 0 0 0 4px var(--accent), 0 6px 16px rgb(24 60 110 / 0.16);
 }
 
 .n-next.grown .n-go {
@@ -2403,21 +2401,20 @@ details.paste summary::-webkit-details-marker {
 }
 
 /* a long phone on its side (or upright, turned sideways below): a column beside the picture, 작게 at the top and the
-   two pictures at the bottom (in thumb reach), all 124px wide. 148px fits the black band a long phone leaves beside
-   a full-height picture, so the buttons cost the video nothing (2026-11-10). */
+   two pictures at the bottom (in thumb reach), the same 100x56 buttons as everywhere (2026-11-10: 124x70 made 작게
+   tall on phones). The column fits the black band a long phone leaves beside a full-height picture, so the buttons
+   cost the video nothing. */
 @media (min-aspect-ratio: 2 / 1), (orientation: portrait) and (max-width: 600px) {
-  .player-screen.big {
-    --bbw: 124px;
-    --bbh: 70px;
-  }
-
+  /* the picture sits against the left edge, so all the spare black is one band, under the buttons */
   .player-screen.big .stage:has(.big-bar:not(:empty)) {
     padding-top: 0;
-    padding-right: 148px;
+    padding-right: calc(24px + var(--bbw));
+    justify-items: start;
   }
 
   .player-screen.big .stage:has(.big-bar:not(:empty)) .video-wrap {
-    width: min(calc(var(--bw) - 148px), calc(var(--bh) * 16 / 9));
+    width: min(calc(var(--bw) - 24px - var(--bbw)), calc(var(--bh) * 16 / 9));
+    margin: 0;
   }
 
   .player-screen.big .big-bar:not(:empty) {
@@ -2445,7 +2442,7 @@ details.paste summary::-webkit-details-marker {
 }
 
 /* Tablets upright: the same row, larger */
-@media (orientation: portrait) and (min-width: 700px) {
+@media (orientation: portrait) and (min-width: 600px) {
   .player-screen {
     --nt: 200px;
   }
@@ -2470,9 +2467,37 @@ details.paste summary::-webkit-details-marker {
   .player-screen {
     --nt: 128px;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(220px, 1fr) auto;
     align-content: start;
     column-gap: var(--s3);
+  }
+
+  /* the caption starts at the picture's left edge and the row ends at its right edge (review 2026-11-10: they sat on
+     the screen's edges, 47px outside the picture). Not in 크게 보기: a container would hold its fixed stage. */
+  .player-screen:not(.big) {
+    container-type: inline-size;
+    --edge: max(0px, calc((100cqi - (100dvh - 232px) * 16 / 9) / 2));
+  }
+
+  .player-screen:not(.big) .player-info {
+    margin-left: var(--edge);
+  }
+
+  .player-screen:not(.big) .nrow {
+    margin-right: var(--edge);
+  }
+
+  /* with no row beside it (the end screen, no next episode) the caption stops at the picture edge too */
+  .player-screen:not(.big):is(:has(.overlay:not([hidden])), :has(.nrow:empty)) .player-info {
+    margin-right: var(--edge);
+  }
+
+  .n-next.grown {
+    box-shadow: 0 0 0 4px var(--accent), 0 6px 16px rgb(24 60 110 / 0.12);
+  }
+
+  .n-next.grown .thumb {
+    box-shadow: none;
   }
 
   .player-screen .video-wrap {
@@ -2520,9 +2545,11 @@ details.paste summary::-webkit-details-marker {
     box-shadow: none;
   }
 
+  /* grows to 400px, but leaves the caption 220px: the width left after the caption, the gap and 이전 편 */
   .n-next.grown {
     flex: none;
-    width: 400px;
+    max-width: none;
+    width: min(400px, calc(100cqi - 2 * var(--edge) - 220px - var(--s3) - var(--nt) - 80px));
   }
 
   :is(.n-prev, .n-next) .n-go {
@@ -2778,6 +2805,10 @@ details.paste summary::-webkit-details-marker {
 
 .settings .reorder + .hint {
   text-align: center;
+}
+
+.panel.today {
+  padding: var(--s3) var(--s2);
 }
 
 .panel.today h2 {
@@ -3510,6 +3541,7 @@ details.paste summary::-webkit-details-marker {
 .intro-body {
   flex: 1;
   min-width: 0;
+  text-wrap: pretty;
 }
 
 .hidden-line {
@@ -3560,6 +3592,11 @@ details.paste summary::-webkit-details-marker {
 
   .tomorrow .thumb {
     width: 180px;
+  }
+
+  /* awake and tappable, it stays the biggest picture, as on phones (review 2026-11-10: 180 beside today's 200) */
+  .tomorrow.resume .thumb {
+    width: 240px;
   }
 }
 
@@ -3932,10 +3969,6 @@ body.rest :is(.tile, .card) .thumb {
   .home-bar .art-sun {
     width: 38px;
     height: 38px;
-  }
-
-  .collection > .hero:not(.night) .title {
-    font-size: 24px;
   }
 }
 

@@ -6,3 +6,5 @@ dist/
 .gstack/
 *.log
 data/collections/*/draft-groups*.json
+.impeccable/
+.vscode/

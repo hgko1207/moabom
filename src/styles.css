@@ -2319,7 +2319,8 @@ details.paste summary::-webkit-details-marker {
 
 /* 작게, 이전 편 and 다음 편 are three buttons of one size in a row (2026-11-10: 작게 was lower and 다음 편 wider) */
 .player-screen.big {
-  --bbw: 100px;
+  /* 100px, or a third of a narrow screen so the three always fit across it (2026-11-10: at 320px upright 이전 편 ran off) */
+  --bbw: min(100px, calc((100vw - 44px) / 3));
   --bbh: 56px;
 }
 
@@ -2404,7 +2405,7 @@ details.paste summary::-webkit-details-marker {
    two pictures at the bottom (in thumb reach), the same 100x56 buttons as everywhere (2026-11-10: 124x70 made 작게
    tall on phones). The column fits the black band a long phone leaves beside a full-height picture, so the buttons
    cost the video nothing. */
-@media (min-aspect-ratio: 2 / 1), (orientation: portrait) and (max-width: 600px) {
+@media (min-aspect-ratio: 2 / 1) {
   /* the picture sits against the left edge, so all the spare black is one band, under the buttons */
   .player-screen.big .stage:has(.big-bar:not(:empty)) {
     padding-top: 0;
@@ -2426,11 +2427,33 @@ details.paste summary::-webkit-details-marker {
   }
 }
 
-/* a phone held upright: 크게 보기 turns the picture on its side to fill the length of the phone, as the YouTube app
-   does, and the child turns the phone. A web page cannot turn an iPhone screen itself (2026-11-10: upright, the
-   picture only grew from 358 to 390px). Turning the phone for real makes this a plain landscape screen. */
+/* a phone held upright that cannot turn its own screen (iPhone, or Android refusing the lock): 크게 보기 turns the
+   picture on its side to fill the length of the phone, as the YouTube app does, and the child turns the phone
+   (2026-11-10: upright, the picture only grew from 358 to 390px). Android turns the screen itself with the landscape
+   lock instead; doing both turned the picture twice and cut it off on a Galaxy Fold cover screen (2026-11-10), so
+   the page turns only with .turn, which the player sets when no lock took. */
 @media (orientation: portrait) and (max-width: 600px) {
-  .player-screen.big .stage {
+  /* the picture sits against the left edge, so all the spare black is one band, under the buttons */
+  .player-screen.big.turn .stage:has(.big-bar:not(:empty)) {
+    padding-top: 0;
+    padding-right: calc(24px + var(--bbw));
+    justify-items: start;
+  }
+
+  .player-screen.big.turn .stage:has(.big-bar:not(:empty)) .video-wrap {
+    width: min(calc(var(--bw) - 24px - var(--bbw)), calc(var(--bh) * 16 / 9));
+    margin: 0;
+  }
+
+  .player-screen.big.turn .big-bar:not(:empty) {
+    flex-direction: column;
+    align-items: flex-end;
+    top: auto;
+    bottom: 12px;
+    right: 12px;
+  }
+
+  .player-screen.big.turn .stage {
     --bw: 100dvh;
     --bh: 100vw;
     inset: 0 auto auto 0;

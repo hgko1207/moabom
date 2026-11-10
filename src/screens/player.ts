@@ -77,6 +77,8 @@ let errors: ErrorState = NO_ERRORS;
  */
 let carryBig = false;
 export const carriesBig = (): boolean => carryBig;
+/** The landscape lock took (Android in fullscreen), so the screen itself is turned and the page must not turn too. */
+let screenLocked = false;
 
 function upNextCardHtml(u: UpNext, c: Collection): string {
   if (u.kind === 'limit') {
@@ -221,31 +223,46 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
 
   // "크게 보기": real fullscreen on the whole page (the stage covers it, so the up-next card and overlays stay visible;
   // the page outlives a move to the next episode, the stage does not) plus a landscape lock, which Android only allows
-  // while fullscreen. iPhone has no element fullscreen and keeps the CSS-only big mode, turned sideways when upright.
+  // while fullscreen. Only when no lock took (iPhone has no element fullscreen) does the page turn the picture
+  // sideways itself (.turn); doing both turned it twice and cut it off on a Galaxy Fold (2026-11-10).
   const orientation = screen.orientation as ScreenOrientation & { lock?: (o: string) => Promise<void> };
-  const setBig = (on: boolean) => {
+  const setBig = (on: boolean, turn = on && !screenLocked) => {
     main.classList.toggle('big', on);
+    main.classList.toggle('turn', turn);
     app.querySelector('.big-toggle')?.setAttribute('aria-pressed', String(on));
     seatChoice();
   };
   const enterBig = async () => {
-    setBig(true);
+    // big at once, but not turned until it is known whether the screen itself turns
+    setBig(true, false);
     const page = document.documentElement;
-    if (!page.requestFullscreen || document.fullscreenElement) return;
-    try {
-      await page.requestFullscreen({ navigationUI: 'hide' });
-      await orientation.lock?.('landscape');
-    } catch {
-      // fullscreen or the lock was refused: the CSS big mode still applies
+    if (page.requestFullscreen && !document.fullscreenElement) {
+      screenLocked = false; // main.ts may have left fullscreen without telling this flag
+      try {
+        await page.requestFullscreen({ navigationUI: 'hide' });
+      } catch {
+        // refused: the CSS big mode still applies
+      }
+      if (document.fullscreenElement && orientation.lock) {
+        try {
+          await orientation.lock('landscape');
+          screenLocked = true;
+        } catch {
+          // no lock (iPad, desktop, a refusing phone): the page turns the picture itself where it is upright
+        }
+      }
     }
+    if (main.classList.contains('big')) setBig(true);
   };
   const exitBig = () => {
     setBig(false);
     if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
   };
-  // Leaving fullscreen with the system back gesture also leaves big mode.
+  // Leaving fullscreen (also with the system back gesture) frees the screen and leaves big mode.
   document.onfullscreenchange = () => {
-    if (!document.fullscreenElement && main.classList.contains('big')) setBig(false);
+    if (document.fullscreenElement) return;
+    screenLocked = false;
+    if (main.classList.contains('big')) setBig(false);
   };
   app.querySelectorAll<HTMLButtonElement>('[data-action="big"]').forEach((b) =>
     b.addEventListener('click', () => (main.classList.contains('big') ? exitBig() : void enterBig())),

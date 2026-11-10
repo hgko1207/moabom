@@ -557,7 +557,7 @@ body.rest .tab:not([aria-selected='true']) :is(.label, .tab-icon b) {
   flex: 1;
   min-width: 0;
   margin: 0;
-  font-size: clamp(22px, 6.2vw, 28px);
+  font-size: clamp(20px, 6.2vw, 28px);
   font-weight: 800;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -939,6 +939,7 @@ body.night {
 /* Parent settings: gear opens only after a 2 s press */
 .gear {
   position: relative;
+  flex: none; /* never squeezed by a long title (audit 2026-11-10: 48px wide at 280px) */
   margin-left: auto;
   width: var(--target);
   height: var(--target);
@@ -1487,6 +1488,25 @@ details.paste summary::-webkit-details-marker {
   font-weight: 700;
 }
 
+/* the smallest screens (a folded phone's cover screen): the four cells and the keys shrink to fit (audit
+   2026-11-10: at 280px the last cell and key column ran off the screen) */
+@media (max-width: 339px) {
+  .cell {
+    width: 52px;
+    height: 52px;
+    font-size: 28px;
+  }
+
+  .keypad {
+    grid-template-columns: repeat(3, 72px);
+  }
+
+  .key {
+    width: 72px;
+    height: 72px;
+  }
+}
+
 .gate-locked {
   display: grid;
   justify-items: center;
@@ -1856,6 +1876,19 @@ details.paste summary::-webkit-details-marker {
   margin-left: auto;
 }
 
+/* the smallest screens (a folded phone's cover screen): 크게 keeps only its icon, a square like ◀, so the character's
+   name still shows (audit 2026-11-10: at 280px it read 넘...) */
+@media (max-width: 339px) {
+  .player-screen .bar .big-toggle {
+    width: var(--target);
+    padding: 0;
+  }
+
+  .player-screen .bar .big-toggle span {
+    display: none;
+  }
+}
+
 .player-info .episode-title {
   margin: 4px 0 0;
   font-size: clamp(22px, 5.6vw, 28px);
@@ -1980,9 +2013,10 @@ details.paste summary::-webkit-details-marker {
    does the same job must look the same). Each is the episode's own picture with a round mark in its outer corner,
    skip back on the left and skip forward on the right, and its words under it. Only the last 30 s set the next one
    apart, when it grows. A white square with a left arrow was a twin of the header's back button (critique
-   2026-11-08), so the picture stays. --nt is the picture width on each screen. */
+   2026-11-08), so the picture stays. --nt is the picture width on each screen; on phones narrower than 360px both
+   shrink to half the row (audit 2026-11-10: at 320px the pair ran off the screen). The % resolves against the row. */
 .player-screen {
-  --nt: 152px;
+  --nt: min(152px, calc((100% - 12px) / 2));
 }
 
 :is(.n-prev, .n-next) {

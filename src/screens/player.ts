@@ -123,11 +123,11 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     upNext(scope, video, today, limits, remainingSec, rewatchLeft !== null).kind === 'limit';
   const nextLabel = next ? `${episodeLabel(c.config, next)} ${keepTail(next.displayTitle)}` : '';
   const nextOpen = (): boolean => !!next && canStart(today, limits, next.id);
-  // 이전 편 is the previous episode's picture with a back mark (critique 2026-11-08), and says 이전 편 like the next
-  // one says 다음 편 (2026-11-10): under the picture on the page, on it in 크게 보기.
+  // 이전 편 and 다음 편 are one button twice (2026-11-10): the episode's picture, a round mark in the outer corner
+  // (skip back, skip forward) and its words, under the picture on the page and on it in 크게 보기.
   const prevButton = (cls: 'n-prev' | 'b-prev'): string => {
     if (!prev) return '';
-    const mark = `<span class="p-go" aria-hidden="true">${icon('skip-back', 20)}</span>`;
+    const mark = `<span class="n-go back" aria-hidden="true">${icon('skip-back', 24)}</span>`;
     const inner =
       cls === 'n-prev'
         ? `${thumb(prev.id, String(prev.order), mark)}<span class="n-label" aria-hidden="true"><small>이전 편</small></span>`
@@ -142,7 +142,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     if (!next || !nextOpen()) return back;
     const grown = nextGrows(remainingSec);
     return `${back}<button class="n-next${grown ? ' grown' : ''}" data-go="${esc(next.id)}" aria-label="다음 편: ${esc(nextLabel)}">
-      ${thumb(next.id, String(next.order), `<span class="n-go" aria-hidden="true">${icon('play', 24)}</span>`)}
+      ${thumb(next.id, String(next.order), `<span class="n-go" aria-hidden="true">${icon('skip-forward', 24)}</span>`)}
       <span class="n-label"><small>${grown ? '곧 다음 편' : '다음 편'}</small><b>${esc(nextLabel)}</b></span></button>`;
   };
   // 크게 보기 keeps the same two buttons, in the black band beside the picture, never over it. The next picture is
@@ -153,7 +153,7 @@ export function renderPlayer(profile: Profile, c: Collection, videoId: string, l
     const grown = nextGrows(remainingSec);
     const ahead =
       next && nextOpen()
-        ? `<button class="b-next${grown ? ' grown' : ''}" data-go="${esc(next.id)}" aria-label="다음 편: ${esc(nextLabel)}">${thumb(next.id, String(next.order), `<span class="n-go" aria-hidden="true">${icon('play', 16)}</span><span class="b-tag" aria-hidden="true">${grown ? '곧 다음 편' : '다음 편'}</span>`)}</button>`
+        ? `<button class="b-next${grown ? ' grown' : ''}" data-go="${esc(next.id)}" aria-label="다음 편: ${esc(nextLabel)}">${thumb(next.id, String(next.order), `<span class="n-go" aria-hidden="true">${icon('skip-forward', 24)}</span><span class="b-tag" aria-hidden="true">${grown ? '곧 다음 편' : '다음 편'}</span>`)}</button>`
         : '';
     return back + ahead;
   };

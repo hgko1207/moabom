@@ -1976,84 +1976,51 @@ details.paste summary::-webkit-details-marker {
   display: none;
 }
 
-/* 이전 편 is the previous episode's own picture with a back mark, smaller than the next one: a white square with a
-   left arrow was a twin of the header's back button, and a 4-year-old could not tell leaving from one episode back
-   (critique 2026-11-08) */
-.n-prev {
+/* 이전 편 and 다음 편 are one button twice (2026-11-10: they differed in size, mark and colour, and a pair that
+   does the same job must look the same). Each is the episode's own picture with a round mark in its outer corner,
+   skip back on the left and skip forward on the right, and its words under it. Only the last 30 s set the next one
+   apart, when it grows. A white square with a left arrow was a twin of the header's back button (critique
+   2026-11-08), so the picture stays. --nt is the picture width on each screen. */
+.player-screen {
+  --nt: 152px;
+}
+
+:is(.n-prev, .n-next) {
   flex: none;
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 6px;
-  width: 112px;
+  width: var(--nt);
   padding: 0;
   background: none;
   color: var(--ink);
   text-align: left;
   border-radius: 14px;
   transition: transform var(--press) ease-out;
-}
-
-/* as tall as the next picture beside it (2026-11-10: it was shorter and looked misaligned); narrower, so the next
-   one stays the bigger button. --nt is the next picture's width on each screen. */
-.player-screen {
-  --nt: 152px;
-}
-
-.n-prev .thumb {
-  aspect-ratio: auto;
-  height: calc(var(--nt) * 9 / 16);
-  border-radius: 14px;
-  box-shadow: 0 6px 16px rgb(24 60 110 / 0.16);
-}
-
-.p-go {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: 40px;
-  height: 40px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: rgb(24 34 30 / 0.72);
-  color: #fff;
-}
-
-.p-go .icon {
-  width: 20px;
-  height: 20px;
 }
 
 .n-next {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  width: 152px;
   margin-left: auto;
-  padding: 0;
-  background: none;
-  color: var(--ink);
-  text-align: left;
-  transition: transform var(--press) ease-out;
 }
 
 :is(.n-prev, .n-next, .end-pick):active {
   transform: scale(0.96);
 }
 
-.n-next .thumb {
+:is(.n-prev, .n-next) .thumb {
   border-radius: 14px;
   box-shadow: 0 6px 16px rgb(24 60 110 / 0.16);
 }
 
-/* the next picture always carries a small play mark, so a child who cannot read sees a button, not a decoration
-   (critique 2026-11-08); in the last 30 s it grows with the picture */
+/* the round mark makes each picture read as a button to a child who cannot read (critique 2026-11-08); --go-in
+   places it in the outer corner, left for 이전 편 */
 .n-go {
+  --go-in: 8px;
   display: grid;
   position: absolute;
-  right: 8px;
-  bottom: 8px;
+  right: var(--go-in);
+  bottom: var(--go-in);
   width: 36px;
   height: 36px;
   place-items: center;
@@ -2066,6 +2033,11 @@ details.paste summary::-webkit-details-marker {
 .n-go .icon {
   width: 18px;
   height: 18px;
+}
+
+.n-go.back {
+  right: auto;
+  left: var(--go-in);
 }
 
 .n-label {
@@ -2095,8 +2067,7 @@ details.paste summary::-webkit-details-marker {
 }
 
 .n-next.grown .n-go {
-  right: 10px;
-  bottom: 10px;
+  --go-in: 10px;
   width: 48px;
   height: 48px;
 }
@@ -2314,11 +2285,17 @@ details.paste summary::-webkit-details-marker {
   display: none;
 }
 
+/* 작게, 이전 편 and 다음 편 are three buttons of one size in a row (2026-11-10: 작게 was lower and 다음 편 wider) */
+.player-screen.big {
+  --bbw: 100px;
+  --bbh: 56px;
+}
+
 .player-screen.big .big-bar:not(:empty) {
   display: flex;
   position: absolute;
   top: 12px;
-  right: 126px;
+  right: calc(22px + var(--bbw));
   gap: 10px;
   z-index: 4;
 }
@@ -2326,6 +2303,9 @@ details.paste summary::-webkit-details-marker {
 .player-screen.big .big-exit {
   top: 12px;
   right: 12px;
+  width: var(--bbw);
+  height: var(--bbh);
+  font-size: 15px;
 }
 
 /* small buttons, a thin band (2026-11-10: the band took a quarter of the picture on short phones) */
@@ -2341,56 +2321,30 @@ details.paste summary::-webkit-details-marker {
   visibility: hidden;
 }
 
-.b-prev {
+:is(.b-prev, .b-next) {
   position: relative;
-  width: 84px;
-  height: 56px;
+  width: var(--bbw);
+  height: var(--bbh);
   padding: 0;
   overflow: hidden;
   border-radius: 14px;
   background: #000;
 }
 
-.b-prev .thumb {
+:is(.b-prev, .b-next) .thumb {
   height: 100%;
   border-radius: 0;
 }
 
-.b-prev .p-go {
-  inset: 0 0 16px;
-  width: 28px;
-  height: 28px;
-}
-
-.b-prev .p-go .icon {
-  width: 14px;
-  height: 14px;
-}
-
-.b-next {
-  position: relative;
-  width: 100px;
-  height: 56px;
-  padding: 0;
-  overflow: hidden;
-  border-radius: 14px;
-  background: #000;
-}
-
-.b-next .thumb {
-  height: 100%;
-  border-radius: 0;
-}
-
-.b-next .n-go {
+:is(.b-prev, .b-next) .n-go {
+  --go-in: 5px;
   top: 5px;
-  right: 5px;
   bottom: auto;
   width: 26px;
   height: 26px;
 }
 
-.b-next .n-go .icon {
+:is(.b-prev, .b-next) .n-go .icon {
   width: 14px;
   height: 14px;
 }
@@ -2409,15 +2363,20 @@ details.paste summary::-webkit-details-marker {
   background: linear-gradient(rgb(0 0 0 / 0), rgb(0 0 0 / 0.7) 45%, rgb(0 0 0 / 0.88));
   text-shadow: 0 1px 2px rgb(0 0 0 / 0.6);
   color: #fff;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 800;
   text-align: left;
 }
 
-/* a long phone on its side (or upright, turned sideways below): a column beside the picture, the next picture at the
-   bottom (in thumb reach) and 이전 편 smaller above it (critique 2026-11-08). 148px fits the black band a long phone
-   leaves beside a full-height picture, so the buttons cost the video nothing (2026-11-10). */
+/* a long phone on its side (or upright, turned sideways below): a column beside the picture, 작게 at the top and the
+   two pictures at the bottom (in thumb reach), all 124px wide. 148px fits the black band a long phone leaves beside
+   a full-height picture, so the buttons cost the video nothing (2026-11-10). */
 @media (min-aspect-ratio: 2 / 1), (orientation: portrait) and (max-width: 600px) {
+  .player-screen.big {
+    --bbw: 124px;
+    --bbh: 70px;
+  }
+
   .player-screen.big .stage:has(.big-bar:not(:empty)) {
     padding-top: 0;
     padding-right: 148px;
@@ -2433,25 +2392,6 @@ details.paste summary::-webkit-details-marker {
     top: auto;
     bottom: 12px;
     right: 12px;
-    width: 124px;
-  }
-
-  .player-screen.big .big-exit {
-    width: 124px;
-  }
-
-  .b-next {
-    width: 124px;
-    height: 70px;
-  }
-
-  .b-prev {
-    width: 100px;
-    height: 56px;
-  }
-
-  .b-tag {
-    font-size: 13px;
   }
 }
 
@@ -2474,14 +2414,6 @@ details.paste summary::-webkit-details-marker {
 @media (orientation: portrait) and (min-width: 700px) {
   .player-screen {
     --nt: 200px;
-  }
-
-  .n-prev {
-    width: 144px;
-  }
-
-  .n-next {
-    width: 200px;
   }
 
   .n-next.grown .n-label b {
@@ -2536,7 +2468,7 @@ details.paste summary::-webkit-details-marker {
     align-items: center;
   }
 
-  .n-next {
+  :is(.n-prev, .n-next) {
     flex-direction: row;
     align-items: center;
     gap: 12px;
@@ -2547,27 +2479,9 @@ details.paste summary::-webkit-details-marker {
     box-shadow: 0 6px 16px rgb(24 60 110 / 0.12);
   }
 
-  .n-next .thumb {
+  :is(.n-prev, .n-next) .thumb {
     flex: none;
-    width: 128px;
-    border-radius: 16px 0 0 16px;
-    box-shadow: none;
-  }
-
-  .n-prev {
-    flex-direction: row;
-    align-items: center;
-    gap: 12px;
-    width: auto;
-    padding: 0 16px 0 0;
-    border-radius: 16px;
-    background: var(--surface);
-    box-shadow: 0 6px 16px rgb(24 60 110 / 0.12);
-  }
-
-  .n-prev .thumb {
-    flex: none;
-    width: 96px;
+    width: var(--nt);
     border-radius: 16px 0 0 16px;
     box-shadow: none;
   }
@@ -2577,16 +2491,13 @@ details.paste summary::-webkit-details-marker {
     width: 400px;
   }
 
-  .n-next .n-go,
-  .n-next.grown .n-go {
+  :is(.n-prev, .n-next) .n-go {
+    --go-in: 6px;
     width: 32px;
     height: 32px;
-    right: 6px;
-    bottom: 6px;
   }
 
-  .n-next .n-go .icon,
-  .n-next.grown .n-go .icon {
+  :is(.n-prev, .n-next) .n-go .icon {
     width: 16px;
     height: 16px;
   }
@@ -2610,7 +2521,7 @@ details.paste summary::-webkit-details-marker {
   .player-screen {
     --nt: 120px;
     display: grid;
-    grid-template-columns: 112px minmax(0, 1fr) 120px;
+    grid-template-columns: 120px minmax(0, 1fr) 120px;
     grid-template-rows: auto minmax(0, 1fr) auto;
     column-gap: var(--s2);
     height: 100dvh;
@@ -2650,13 +2561,13 @@ details.paste summary::-webkit-details-marker {
   .player-screen .n-prev {
     grid-area: 3 / 1;
     align-self: start;
-    width: 112px;
   }
 
   .player-screen .n-next,
   .player-screen .n-next.grown {
     grid-area: 3 / 3;
-    width: 120px;
+    align-self: start;
+    width: var(--nt);
     margin: 0;
   }
 
@@ -2664,14 +2575,13 @@ details.paste summary::-webkit-details-marker {
     display: none;
   }
 
-  .player-screen :is(.n-next, .n-next.grown) .n-go {
+  .player-screen :is(.n-prev, .n-next) .n-go {
+    --go-in: 6px;
     width: 32px;
     height: 32px;
-    right: 6px;
-    bottom: 6px;
   }
 
-  .player-screen :is(.n-next, .n-next.grown) .n-go .icon {
+  .player-screen :is(.n-prev, .n-next) .n-go .icon {
     width: 16px;
     height: 16px;
   }
@@ -3936,18 +3846,6 @@ body.rest :is(.tile, .card) .thumb {
 /* repairs */
 .thumb img {
   transform: scale(1.015); /* hides the 1px dark edge YouTube's 4:3 thumbnails carry */
-}
-
-/* boxes taller than 16:9 (이전 편 beside a taller next picture, the 크게 보기 square) show the black bands baked into the
-   480x360 picture: scale it so the 16:9 artwork fills the height and crop the sides */
-:is(.n-prev, .b-prev) .thumb img {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: auto;
-  max-width: none;
-  height: 134%;
-  transform: translate(-50%, -50%);
 }
 
 .copy-url {
